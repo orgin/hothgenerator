@@ -80,12 +80,6 @@ public class HothGeneratorPlugin extends JavaPlugin
 		
 		if(list!=null)
 		{
-			System.out.println("Hothworlds:");
-			for(int i=0;i<list.size();i++)
-			{
-				System.out.println(list.get(i));
-			}
-			
 			String current = world.getName();
 			
 			for(int i=0;i<list.size();i++)
@@ -95,10 +89,6 @@ public class HothGeneratorPlugin extends JavaPlugin
 					return true;
 				}
 			}
-		}
-		else
-		{
-			System.out.println("Config file was empty..");
 		}
 		
 		return false;

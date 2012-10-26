@@ -13,7 +13,7 @@ import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
 // @ToDo: replace this with schematics
 
 /**
- * A Populator that places underground gardens into the world.
+ * A generator that places underground gardens into the world.
  * @author orgin
  *
  */
@@ -26,7 +26,7 @@ public class GardenGenerator
 		
 		if(place==37)
 		{
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceGarden(plugin, world, random, chunkX, chunkZ),5);
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceGarden(plugin, world, random, chunkX, chunkZ));
 		}	
 	}
 
@@ -53,7 +53,7 @@ public class GardenGenerator
 
 			int x = random.nextInt(16) + this.chunkx * 16;
 			int z = random.nextInt(16) + this.chunkz * 16;
-			int y = 9 + random.nextInt(15) + 100;
+			int y = 9 + random.nextInt(15);
 			
 			int cnt = 1;
 			

@@ -11,7 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.generator.BlockPopulator;
 
 /**
- * Generated random frozen logs and sets biome
+ * Generates random frozen logs and sets biome
  * @author orgin
  *
  */
