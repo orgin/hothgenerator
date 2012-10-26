@@ -2,6 +2,7 @@ package biz.orgin.minecraft.hothgenerator;
 
 import java.util.Random;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
@@ -40,8 +41,33 @@ public class GardenPopulator extends BlockPopulator
 		
 		if(place==37)
 		{
-			int x = random.nextInt(16) + chunkX * 16;
-			int z = random.nextInt(16) + chunkZ * 16;
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceGarden(plugin, world, random, chunkX, chunkZ),5);
+		}	
+	}
+
+	static class PlaceGarden implements Runnable
+	{
+		private final Plugin plugin;
+		private final World world;
+		private final Random random;
+		private final int chunkx;
+		private final int chunkz;
+
+		public PlaceGarden(Plugin plugin, World world, Random random, int chunkx, int chunkz)
+		{
+			this.plugin = plugin;
+			this.world = world;
+			this.random = random;
+			this.chunkx = chunkx;
+			this.chunkz = chunkz;
+		}
+
+		@Override
+		public void run()
+		{
+
+			int x = random.nextInt(16) + this.chunkx * 16;
+			int z = random.nextInt(16) + this.chunkz * 16;
 			int y = 9 + random.nextInt(15) + 100;
 			
 			int cnt = 1;
@@ -65,6 +91,8 @@ public class GardenPopulator extends BlockPopulator
 			{
 				HothUtils.placeSchematic(plugin, world, garden, x, y, z);
 			}
+
+			System.out.println("Placing garden at " + x + "," + y + "," + z);
 		}
 	}
 
