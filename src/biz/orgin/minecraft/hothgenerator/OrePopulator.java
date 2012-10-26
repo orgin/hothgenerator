@@ -69,18 +69,7 @@ public class OrePopulator extends BlockPopulator
 		        z--;
 		        break;
 			}
-			
-			/*
-			int x = originX + random.nextInt(amount / 2) - amount / 4;
-			int y = originY + random.nextInt(amount / 4) - amount / 8;
-			int z = originZ + random.nextInt(amount / 2) - amount / 4;
-			x &= 0xf;
-			z &= 0xf;
-			if (y > 127 || y < 0) {
-				continue;
-			}
-			*/
-			
+
 			x &= 0xf;
 			z &= 0xf;
 			if (y > 127 || y < 0) {
