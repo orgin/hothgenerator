@@ -26,6 +26,11 @@ public class HothUtils
 
 	public static void placeSchematic(Plugin plugin, World world, Schematic schematic, int x, int y, int z, boolean isSpawner)
 	{
+		if(isSpawner)
+		{
+			System.out.println("Doign the bidding of a spawner at " + x + "," + y + "," + z);
+		}
+		
 		int height = schematic.getHeight();
 		int length = schematic.getLength();
 		int width = schematic.getWidth();
@@ -51,7 +56,7 @@ public class HothUtils
 					if(type>-1)
 					{
 						byte data = (byte)matrix[yy][zz][xx+width];
-						Block block = world.getBlockAt(x+xx, y-yy, z+zz);
+						Block block = world.getBlockAt(x+xx, y-yy+100, z+zz);
 						
 						if(type==52) // Spawner, Set some spawner data
 						{
