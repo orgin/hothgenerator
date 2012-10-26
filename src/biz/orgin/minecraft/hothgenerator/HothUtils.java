@@ -1,5 +1,6 @@
 package biz.orgin.minecraft.hothgenerator;
 
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -114,6 +115,52 @@ public class HothUtils
 			}
 		}
 	}
+	
+	public static void setPos(byte[][] chunk, int x, int y, int z, Material material)
+	{
+		int type = material.getId();
+		HothUtils.setPos(chunk, x, y, z, type);
+	}
+	
+	public static void setPos(byte[][] chunk, int x, int y, int z, int type)
+	{
+		
+		int sub = y/16;
+		int rely = y-(sub*16);
+		
+		if(chunk[sub]==null)
+		{
+			chunk[sub] = new byte[16*16*16];
+		}
+		
+		HothUtils.setBlock(chunk[sub], x,rely,z, (byte)type);
+
+	}
+	
+	public static void setBlock(byte[] subchunk, int x, int y, int z, byte blkid)
+	{
+		subchunk[((y) << 8) | (z << 4) | x] = blkid;
+	}
+
+	public static byte getPos(byte[][] chunk, int x, int y, int z)
+	{
+		int sub = y/16;
+		int rely = y-(sub*16);
+		
+		if(chunk[sub]==null)
+		{
+			chunk[sub] = new byte[16*16*16];
+		}
+		
+		return HothUtils.getBlock(chunk[sub], x,rely,z);
+
+	}
+
+	public static byte getBlock(byte[] subchunk, int x, int y, int z)
+	{
+		return subchunk[((y) << 8) | (z << 4) | x];
+	}
+
 	
 	
 }

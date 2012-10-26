@@ -114,24 +114,24 @@ public class HothGenerator extends ChunkGenerator
 				}
 				// BEDROCK Layer
 				int y = 0;
-				this.setPos(chunk, x,y,z,Material.BEDROCK);
-				this.setPos(chunk, x,y+1,z, getBedrockMaterial(localRand, (int)(256*0.9f))); // 90%
-				this.setPos(chunk, x,y+2,z, getBedrockMaterial(localRand, (int)(256*0.7f))); // 70%
-				this.setPos(chunk, x,y+3,z, getBedrockMaterial(localRand, (int)(256*0.5f))); // 50%
-				this.setPos(chunk, x,y+4,z, getBedrockMaterial(localRand, (int)(256*0.3f))); // 30%
-				this.setPos(chunk, x,y+5,z, getBedrockMaterial(localRand, (int)(256*0.2f))); // 20%
+				HothUtils.setPos(chunk, x,y,z,Material.BEDROCK);
+				HothUtils.setPos(chunk, x,y+1,z, getBedrockMaterial(localRand, (int)(256*0.9f))); // 90%
+				HothUtils.setPos(chunk, x,y+2,z, getBedrockMaterial(localRand, (int)(256*0.7f))); // 70%
+				HothUtils.setPos(chunk, x,y+3,z, getBedrockMaterial(localRand, (int)(256*0.5f))); // 50%
+				HothUtils.setPos(chunk, x,y+4,z, getBedrockMaterial(localRand, (int)(256*0.3f))); // 30%
+				HothUtils.setPos(chunk, x,y+5,z, getBedrockMaterial(localRand, (int)(256*0.2f))); // 20%
 				
 				// STONE Layer, solid (Use Populator for ores, lava and such?)
 				for(y=6	;y<27;y++)
 				{
-					this.setPos(chunk, x,y,z, Material.STONE);
+					HothUtils.setPos(chunk, x,y,z, Material.STONE);
 				}
 				
 				// STONE Layer
 				double stone = this.noiseGenerator.noise(rx, rz, 8, 16)*3;
 				for(int i=0;i<(int)(stone);i++)
 				{
-					this.setPos(chunk, x,y,z, Material.STONE);
+					HothUtils.setPos(chunk, x,y,z, Material.STONE);
 					y++;
 				}
 				
@@ -139,7 +139,7 @@ public class HothGenerator extends ChunkGenerator
 				double dirt = this.noiseGenerator.noise(rx, rz, 8, 11)*5;
 				for(int i=2;i< (int)(dirt);i++)
 				{
-					this.setPos(chunk, x,y,z, Material.DIRT);
+					HothUtils.setPos(chunk, x,y,z, Material.DIRT);
 					y++;
 				}
 
@@ -147,7 +147,7 @@ public class HothGenerator extends ChunkGenerator
 				double gravel = this.noiseGenerator.noise(rx, rz, 7, 16)*5;
 				for(int i=2;i< (int)(gravel);i++)
 				{
-					this.setPos(chunk, x,y,z, Material.GRAVEL);
+					HothUtils.setPos(chunk, x,y,z, Material.GRAVEL);
 					y++;
 				}
 
@@ -155,7 +155,7 @@ public class HothGenerator extends ChunkGenerator
 				double sandstone = this.noiseGenerator.noise(rx, rz, 8, 23)*4;
 				for(int i=1;i< (int)(sandstone);i++)
 				{
-					this.setPos(chunk, x,y,z, Material.SANDSTONE);
+					HothUtils.setPos(chunk, x,y,z, Material.SANDSTONE);
 					y++;
 				}
 
@@ -163,7 +163,7 @@ public class HothGenerator extends ChunkGenerator
 				double sand = 1+this.noiseGenerator.noise(rx, rz, 8, 43)*4;
 				for(int i=0;i< (int)(sand);i++)
 				{
-					this.setPos(chunk, x,y,z, Material.SAND);
+					HothUtils.setPos(chunk, x,y,z, Material.SAND);
 					y++;
 				}
 
@@ -171,7 +171,7 @@ public class HothGenerator extends ChunkGenerator
 				double clay = 1+this.noiseGenerator.noise(rx, rz, 3, 9)*5;
 				for(int i=3;i< (int)(clay);i++)
 				{
-					this.setPos(chunk, x,y,z, Material.CLAY);
+					HothUtils.setPos(chunk, x,y,z, Material.CLAY);
 					y++;
 				}
 				
@@ -180,14 +180,14 @@ public class HothGenerator extends ChunkGenerator
 				// ice Layer
 				while(y<34)
 				{
-					this.setPos(chunk, x,y,z, Material.ICE);
+					HothUtils.setPos(chunk, x,y,z, Material.ICE);
 					y++;
 				}
 				
 				double icel = this.noiseGenerator.noise(rx, rz, 3, 68)*8;
 				for(int i=3;i< (int)(icel);i++)
 				{
-					this.setPos(chunk, x,y,z, Material.ICE);
+					HothUtils.setPos(chunk, x,y,z, Material.ICE);
 					y++;
 				}
 				
@@ -200,12 +200,12 @@ public class HothGenerator extends ChunkGenerator
 				int icey = 64+(int)(ice);
 				for(;y<(icey-iceh);y++)
 				{
-					this.setPos(chunk, x,y,z, Material.SNOW_BLOCK);
+					HothUtils.setPos(chunk, x,y,z, Material.SNOW_BLOCK);
 				}
 
 				for(;y<(icey);y++)
 				{
-					this.setPos(chunk, x,y,z, Material.ICE);
+					HothUtils.setPos(chunk, x,y,z, Material.ICE);
 				}
 				
 				
@@ -227,7 +227,7 @@ public class HothGenerator extends ChunkGenerator
 					mountain = mountain + this.noiseGenerator.noise(rx, rz, 8, 3)*5; // Add a bit more noise
 					for(int i=0;i<(int)(mountain*mfactor);i++)
 					{
-						this.setPos(chunk, x,i+26,z, Material.STONE);
+						HothUtils.setPos(chunk, x,i+26,z, Material.STONE);
 						
 						if(i+26>y)
 						{
@@ -242,12 +242,12 @@ public class HothGenerator extends ChunkGenerator
 
 				for(int i = 0;i<(int)snowblocks; i++)
 				{
-					this.setPos(chunk, x,y,z, Material.SNOW_BLOCK);
+					HothUtils.setPos(chunk, x,y,z, Material.SNOW_BLOCK);
 					y++;
 				}				
 
 				// snow cover
-				this.setPos(chunk, x,y,z, Material.SNOW);
+				HothUtils.setPos(chunk, x,y,z, Material.SNOW);
 
 
 				
@@ -266,11 +266,11 @@ public class HothGenerator extends ChunkGenerator
 						{
 							if(start+i>6)
 							{
-								this.setPos(chunk, x,start+i,z, Material.AIR);
+								HothUtils.setPos(chunk, x,start+i,z, Material.AIR);
 							}
 							else
 							{
-								this.setPos(chunk, x,start+i,z, Material.LAVA);
+								HothUtils.setPos(chunk, x,start+i,z, Material.LAVA);
 							}
 						}
 					}
@@ -291,11 +291,11 @@ public class HothGenerator extends ChunkGenerator
 						{
 							if(start+i>21)
 							{
-								this.setPos(chunk, x,start+i,z, Material.AIR);
+								HothUtils.setPos(chunk, x,start+i,z, Material.AIR);
 							}
 							else
 							{
-								this.setPos(chunk, x,start+i,z, Material.WATER);
+								HothUtils.setPos(chunk, x,start+i,z, Material.WATER);
 							}
 							
 						}
@@ -307,7 +307,7 @@ public class HothGenerator extends ChunkGenerator
 		
 		GardenPopulator.generateGarden(this.plugin, world, random, chunkx, chunkz);
 		RoomPopulator.generateRooms(world, this.plugin, random, chunkx, chunkz);
-		OrePopulator.generateOres(world, random, chunkx, chunkz);
+		OrePopulator.generateOres(chunk, random);
 
 		return chunk;
 	}
@@ -347,30 +347,5 @@ public class HothGenerator extends ChunkGenerator
 		return new Location(world,8,y,8);
 	}
 	
-	private void setPos(byte[][] chunk, int x, int y, int z, Material material)
-	{
-		int type = material.getId();
-		
-		int sub = y/16;
-		int rely = y-(sub*16);
-		
-		if(chunk[sub]==null)
-		{
-			chunk[sub] = new byte[16*16*16];
-		}
-		
-		this.setBlock(chunk[sub], x,rely,z, (byte)type);
-
-	}
-	
-	void setBlock(byte[] subchunk, int x, int y, int z, byte blkid)
-	{
-		subchunk[((y) << 8) | (z << 4) | x] = blkid;
-	}
-
-	byte getBlock(byte[] subchunk, int x, int y, int z)
-	{
-		return subchunk[((y) << 8) | (z << 4) | x];
-	}
 
 }

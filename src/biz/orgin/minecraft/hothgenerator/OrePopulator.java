@@ -1,18 +1,15 @@
 package biz.orgin.minecraft.hothgenerator;
 
 import java.util.Random;
-import org.bukkit.Chunk;
+
 import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.generator.BlockPopulator;
 
 /**
- * A populator that replaces stone blocks into strands of ore blocks
+ * A generator that replaces stone blocks into strands of ore blocks
  * @author orgin
  *
  */
-public class OrePopulator extends BlockPopulator
+public class OrePopulator
 {
 	private static final int[] iterations = new int[] {10, 10, 20, 20, 2, 8, 1, 1, 1};
 	private static final int[] amount =     new int[] {32, 32, 16,  8, 8, 7, 7, 6, 6};
@@ -28,29 +25,24 @@ public class OrePopulator extends BlockPopulator
 		Material.EMERALD_ORE.getId()}; // 128
 	private static final int[] maxHeight = new int[] {60, 26, 128, 128, 26, 16, 16,	26, 128};
 	private static int REPLACE = Material.STONE.getId();
-
-	@Override
-	public void populate(World world, Random random, Chunk source)
-	{
-		OrePopulator.generateOres(world, random, source.getX(), source.getZ());
-	}
 	
-	public static void generateOres(World world, Random random, int chunkx, int chunkz)
+	public static void generateOres(byte[][] chunk, Random random)
 	{
 		for (int i = 0; i < type.length; i++)
 		{
 			for (int j = 0; j < iterations[i]; j++)
 			{
-				OrePopulator.vein(world, chunkx*16, chunkz*16, random, random.nextInt(16),
+				OrePopulator.vein(chunk, random, random.nextInt(16),
 						random.nextInt(maxHeight[i]), random.nextInt(16),
 						amount[i], type[i]);
 			}
 		}
 	}
 
-	private static void vein(World world, int x, int z, Random random, int originX,
+	private static void vein(byte[][] chunk, Random random, int originX,
 			int originY, int originZ, int amount, int type)
 	{
+
 		int dx = originX;
 		int dy = originY;
 		int dz = originZ;
@@ -79,15 +71,20 @@ public class OrePopulator extends BlockPopulator
 		        dz--;
 		        break;
 			}
+			
+			dx = dx & 0x0f;
+			dz = dz & 0x0f;
 
 			if (dy > 127 || dy < 0) {
 				continue;
 			}
 
-			Block block = world.getBlockAt(x+dx, dy, z+dz);
-			if (block.getTypeId() == REPLACE) {
-				block.setTypeId(type, false);
+			byte oldtype = HothUtils.getPos(chunk, dx, dy, dz);
+			if(oldtype == REPLACE)
+			{
+				HothUtils.setPos(chunk, dx, dy, dz, type);
 			}
+			
 		}
 	}
 }
