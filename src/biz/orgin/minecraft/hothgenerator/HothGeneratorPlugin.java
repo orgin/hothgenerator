@@ -36,20 +36,9 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.getServer().getPluginManager().registerEvents(this.toolUseManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockMeltManager, this);
     	
+		this.saveDefaultConfig();
     	this.config = this.getConfig();
-    	try
-    	{
-    		this.config.save("plugins/hothgenerator/config.yml");
-    	}
-    	catch(Exception e)
-    	{
-    		this.getLogger().warning("Failed to save configuration");
-    	}
-    	
     }
-    
-    
-    
  	
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id)
 	{

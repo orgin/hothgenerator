@@ -4,9 +4,8 @@
 # Example configuration:
 #
 # hothworlds:
-#   - myiceworld
 #   - hoth
+#   - myiceworld
 #
 hothworlds:
    - hoth
-   - banana
