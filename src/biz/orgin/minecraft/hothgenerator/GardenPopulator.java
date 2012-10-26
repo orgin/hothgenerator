@@ -7,6 +7,13 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.generator.BlockPopulator;
 
+// @ToDo: replace this with schematics
+
+/**
+ * A Populator that places underground gardens into the world.
+ * @author orgin
+ *
+ */
 public class GardenPopulator extends BlockPopulator
 {
 	public GardenPopulator()

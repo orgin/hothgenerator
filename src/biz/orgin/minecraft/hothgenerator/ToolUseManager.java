@@ -12,6 +12,13 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Listens to player interaction events, specifically using a
+ * water och lava bucket so that any placed water or lava can
+ * be frozen into ice or stone.
+ * @author orgin
+ *
+ */
 public class ToolUseManager implements Listener
 {
 	HothGeneratorPlugin plugin;

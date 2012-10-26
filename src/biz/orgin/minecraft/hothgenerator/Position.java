@@ -1,5 +1,11 @@
 package biz.orgin.minecraft.hothgenerator;
 
+/**
+ * Simple class for holding coordinates. Uses a custom hasCode for
+ * quick lookup in a set. Used mainly by the CavePopulator.
+ * @author orgin
+ *
+ */
 public class Position
 {
 	public int x,y,z;

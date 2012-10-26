@@ -2,26 +2,19 @@ package biz.orgin.minecraft.hothgenerator;
 
 import java.util.Random;
 
+/**
+ * Holds metadata for a maze room 
+ * @author orgin
+ *
+ */
 public class Room
 {
+	/**
+	 * Used to define which exit that points to the parent room. Exits must
+	 * always be rendered from the originating room. An exit with the DUMMY
+	 * room won't be rendered back to the parent room.
+	 */
 	public static Room DUMMY = new Room(0,0,0,0);
-	
-	public static int TYPE_NORMAL = 0;   // Normal plain room
-	public static int TYPE_CORRIDOR = 0; // Corridor room
-	
-	public static int FLOOR_NORMAL = 0;  // Normal plain floor
-	public static int FLOOR_LAVA = 1;    // Lava pool
-	public static int FLOOR_WATER = 2;   // Water pool
-	
-	public static int LIGHT_NORMAL = 0;  // Normal light
-	
-	public static int DECORATION_NORMAL = 0;    // Plain or no decoration 
-	public static int DECORATION_WATERFOUNTAIN = 1; // Water fountain
-	public static int DECORATION_LAVAFOUNTAIN = 2; // Lava fountain
-	public static int DECORATION_TREASURE_1 = 3; // Treasure chest 1
-	public static int DECORATION_TREASURE_2 = 4; // Treasure chest 2
-	public static int DECORATION_TREASURE_3 = 5; // Treasure chest 3
-	public static int DECORATION_TREASURE_4 = 6; // Treasure chest 4
 	
 	public Room[] children;
 	// 0 - up
@@ -74,6 +67,11 @@ public class Room
 		}
 	}
 	
+	/**
+	 * Generates metadata for room decoration. Do not call this method before
+	 * adding children to the room or else it will not be rendered properly.
+	 * @param random
+	 */
 	public void decorate(Random random)
 	{
 		// Decorate room here, with all special rules and what not. But after the children has been set.

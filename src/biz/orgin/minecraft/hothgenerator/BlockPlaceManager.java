@@ -9,6 +9,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
+/**
+ * Listens for BlockPlacEvents. Makes sure that water and lava is placed as ice and stone.
+ * @author orgin
+ *
+ */
 public class BlockPlaceManager implements Listener
 {
 	private HothGeneratorPlugin plugin;

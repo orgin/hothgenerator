@@ -7,6 +7,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
+/**
+ * Used to generate random loot for chests in underground mazes
+ * @author orgin
+ *
+ */
 public class Loot
 {
 	private static Loot[] loot = new Loot[]

@@ -11,6 +11,11 @@ import org.bukkit.block.Biome;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
+/**
+ * Generates the terrain
+ * @author orgin
+ *
+ */
 public class HothGenerator extends ChunkGenerator
 {
 	HothGeneratorPlugin plugin; 

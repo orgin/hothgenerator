@@ -17,9 +17,22 @@ import org.bukkit.plugin.Plugin;
 
 import biz.orgin.minecraft.hothgenerator.schematic.*;
 
+/**
+ * Main class for rendering the undergound mazes. It can be used
+ * both as a BlockPopulator and by a ChunkGenerator.
+ * 
+ * @author orgin
+ *
+ */
 public class RoomPopulator extends BlockPopulator
 {
+	/**
+	 * Maximum number of rooms in a cluster
+	 */
 	public static int MAXROOMS = 32;
+	/**
+	 * Minimum number of rooms in a cluster
+	 */
 	public static int MINROOMS = 8;
 	
 	private HothGeneratorPlugin plugin = null;
@@ -81,7 +94,13 @@ public class RoomPopulator extends BlockPopulator
 		populator.print(cluster);
 	}
 	
-	// If used as a populator
+	/**
+	 * Generate an underground maze. This method is intended to be used
+	 * as a Populator rather than from the terrain generator.
+	 * @param world The world to generate in
+	 * @param random A random instance
+	 * @param chunk The chunk to originate from
+	 */
 	@Override
 	public void populate(World world, Random random, Chunk chunk)
 	{
@@ -103,7 +122,15 @@ public class RoomPopulator extends BlockPopulator
 		}
 	}
 	
-	// If used by the generator
+	/**
+	 * Generate an underground maze. This method is intended to be called
+	 * from the terrain generator rather than from a Populator.
+	 * @param world The world to generate in
+	 * @param plugin The plugin used
+	 * @param random A random instance
+	 * @param chunkx The chunk x coordinate to originate from
+	 * @param chunkz The chunk x coordinate to originate from
+	 */
 	public static void generateRooms(World world, Plugin plugin, Random random, int chunkx, int chunkz)
 	{
 		int doit = random.nextInt(256);
@@ -412,6 +439,11 @@ public class RoomPopulator extends BlockPopulator
 		return room;
 	}
 	
+	/**
+	 * Recursively decorate a Room using the random instance from a cluster
+	 * @param cluster The cluster instance
+	 * @param room The start room
+	 */
 	public void decorateRoom(Cluster cluster, Room room)
 	{
 		room.decorate(cluster.random);
@@ -603,6 +635,8 @@ public class RoomPopulator extends BlockPopulator
 		public void run()
 		{
 			RoomPopulator.renderRoom(this.plugin, this.world, this.cluster.rooms);
+			// @ToDO: remove in a final release. (Or write into a log file so admins
+			// can find the structures?)
 			System.out.println("Placing cluster at " + this.cluster.rooms.x + "," + this.cluster.rooms.y + "," + this.cluster.rooms.z);
 		}
 	}

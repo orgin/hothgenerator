@@ -7,6 +7,11 @@ import org.bukkit.block.Block;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Main plugin class
+ * @author orgin
+ *
+ */
 public class HothGeneratorPlugin extends JavaPlugin
 {
 	private BlockPlaceManager blockPlaceManager;

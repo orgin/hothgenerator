@@ -8,6 +8,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFadeEvent;
 
+/**
+ * BlockFadeEvent listener. Makes sure that ice and snow does not melt.
+ * @author orgin
+ *
+ */
 public class BlockMeltManager implements Listener
 {
 	HothGeneratorPlugin plugin;

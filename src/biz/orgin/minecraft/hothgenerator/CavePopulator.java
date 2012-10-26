@@ -11,6 +11,11 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.generator.BlockPopulator;
 
+/**
+ * A general cave generator. Generates simple twisting strands of empty caves.
+ * @author orgin
+ *
+ */
 public class CavePopulator extends BlockPopulator
 {
 	private HothGeneratorPlugin plugin;

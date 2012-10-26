@@ -10,6 +10,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * BlockBreakEvent listener. Makes sure that ice and snow blocks breaks into blocks that the player can pick up. 
+ * @author orgin
+ *
+ */
 public class BlockBreakManager implements Listener
 {
 	private HothGeneratorPlugin plugin;

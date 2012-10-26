@@ -3,6 +3,11 @@ package biz.orgin.minecraft.hothgenerator;
 import org.bukkit.World;
 import org.bukkit.util.noise.PerlinNoiseGenerator;
 
+/**
+ * Used to generate perlin noise for the terrain generator
+ * @author orgin
+ *
+ */
 public class NoiseGenerator 
 {
 	private PerlinNoiseGenerator generator;

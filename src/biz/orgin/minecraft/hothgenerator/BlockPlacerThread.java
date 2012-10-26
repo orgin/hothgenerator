@@ -4,7 +4,11 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
-
+/**
+ * Places blocks into the world. Can verify that the block it is replacing is of the correct type.
+ * @author orgin
+ *
+ */
 public class BlockPlacerThread extends Thread
 {
 	private int x,y,z;

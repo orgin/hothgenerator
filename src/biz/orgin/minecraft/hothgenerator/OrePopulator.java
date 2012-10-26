@@ -7,6 +7,11 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.generator.BlockPopulator;
 
+/**
+ * A populator that replaces stone blocks into strands of ore blocks
+ * @author orgin
+ *
+ */
 public class OrePopulator extends BlockPopulator
 {
 	private static final int[] iterations = new int[] {10, 10, 20, 20, 2, 8, 1, 1, 1};
@@ -22,7 +27,7 @@ public class OrePopulator extends BlockPopulator
 		Material.LAPIS_ORE.getId(),    // 26
 		Material.EMERALD_ORE.getId()}; // 128
 	private static final int[] maxHeight = new int[] {60, 26, 128, 128, 26, 16, 16,	26, 128};
-	private static final int STONE = Material.STONE.getId();
+	private static int REPLACE = Material.STONE.getId();
 
 	@Override
 	public void populate(World world, Random random, Chunk source)
@@ -77,7 +82,7 @@ public class OrePopulator extends BlockPopulator
 			}
 
 			Block block = source.getBlock(x, y, z);
-			if (block.getTypeId() == STONE) {
+			if (block.getTypeId() == REPLACE) {
 				block.setTypeId(type, false);
 			}
 		}

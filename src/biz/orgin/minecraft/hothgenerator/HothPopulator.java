@@ -10,6 +10,11 @@ import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.generator.BlockPopulator;
 
+/**
+ * Generated random frozen logs and sets biome
+ * @author orgin
+ *
+ */
 public class HothPopulator extends BlockPopulator
 {
 	@SuppressWarnings("unused")

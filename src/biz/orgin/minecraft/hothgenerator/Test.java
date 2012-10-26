@@ -5,6 +5,11 @@ import java.util.Random;
 import biz.orgin.minecraft.hothgenerator.schematic.CorridorNS;
 import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
 
+/**
+ * Just a test class. Has no meaning for the world generator itself
+ * @author orgin
+ *
+ */
 public class Test
 {
 	public static boolean done(int[] buffer)
