@@ -305,7 +305,9 @@ public class HothGenerator extends ChunkGenerator
 			}
 		}
 		
+		GardenPopulator.generateGarden(this.plugin, world, random, chunkx, chunkz);
 		RoomPopulator.generateRooms(world, this.plugin, random, chunkx, chunkz);
+		OrePopulator.generateOres(world, random, chunkx, chunkz);
 
 		return chunk;
 	}
@@ -327,8 +329,8 @@ public class HothGenerator extends ChunkGenerator
 			list.add(new CavePopulator(this.plugin));
 			list.add(new HothPopulator(this.height));
 			//list.add(new RoomPopulator(this.plugin));
-			list.add(new GardenPopulator());
-			list.add(new OrePopulator());
+			//list.add(new GardenPopulator(this.plugin));
+			//list.add(new OrePopulator());
 			return list;
 	}
 

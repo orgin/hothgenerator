@@ -4,8 +4,12 @@ import java.util.Random;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.generator.BlockPopulator;
+import org.bukkit.plugin.Plugin;
+
+import biz.orgin.minecraft.hothgenerator.schematic.GreenGarden;
+import biz.orgin.minecraft.hothgenerator.schematic.GreyGarden;
+import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
 
 // @ToDo: replace this with schematics
 
@@ -16,186 +20,50 @@ import org.bukkit.generator.BlockPopulator;
  */
 public class GardenPopulator extends BlockPopulator
 {
-	public GardenPopulator()
-	{
+	private Plugin plugin;
 	
+	public GardenPopulator(Plugin plugin)
+	{
+		this.plugin = plugin;
 	}
 	
-	// -1 = ignore
-	
-	// 2 = grass
-	// 3 = dirt
-	// 8 = water
-	// 18 = leaves
-	// 31 = tall grass
-	// 37 = yellow flower
-	// 38 = red flowe
-	// 89 = glowstone
-	// 83 = sugarcane
-
-	int[][][] garden_green = new int[][][] {
-			{  // Floor 0
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1, 2, 2, 2,-1,-1,-1},
-				{-1,-1, 2, 2, 2, 2, 2,-1,-1},
-				{-1, 2, 2, 2, 2, 2, 2, 2,-1},
-				{-1, 2, 2, 2, 2, 2, 2, 8,-1},
-				{-1, 2, 2, 2, 2, 2, 2, 2,-1},
-				{-1,-1, 2, 2, 2, 2, 2,-1,-1},
-				{-1,-1,-1, 2, 2, 2,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1}
-			},
-			{  // Floor 1
-				{-1,-1,-1, 3, 3, 3,-1,-1,-1},
-				{-1,-1, 3,31, 0, 0, 3,-1,-1},
-				{-1, 3,31,31, 0,37, 0, 3,-1},
-				{ 3,31,31,31,31, 0, 0,37, 3},
-				{ 3,31,31,31,89,31,83, 0, 3},
-				{ 3,31,31, 0,31, 0,38, 0, 3},
-				{-1, 3, 0,17, 0, 0, 0, 3,-1},
-				{-1,-1, 3, 0,38, 0, 3,-1,-1},
-				{-1,-1,-1, 3, 3, 3,-1,-1,-1}
-			},
-			{  // Floor 2
-				{ 0, 0, 3, 3, 3, 3, 3, 0, 0},
-				{ 0, 3, 0, 0, 0, 0, 0, 3, 0},
-				{ 3, 0, 0, 0, 0, 0, 0, 0, 3},
-				{ 3, 0, 0, 0, 0, 0, 0, 0, 3},
-				{ 3, 0, 0, 0, 0, 0, 0, 0, 3},
-				{ 3, 0,18,18,18, 0, 0, 0, 3},
-				{ 3, 0,18,17,18, 0, 0, 0, 3},
-				{ 0, 3,18,18,18, 0, 0, 3, 0},
-				{ 0, 0, 3, 3, 3, 3, 3, 0, 0}
-			},
-			{  // Floor 3
-				{-1,-1,-1, 3, 3, 3,-1,-1,-1},
-				{-1,-1, 3, 0, 0, 0, 3,-1,-1},
-				{-1, 3, 0, 0, 0, 0, 0, 3,-1},
-				{ 3, 0, 0, 0, 0, 0, 0, 0, 3},
-				{ 3, 0, 0, 0, 3,106,0, 0, 3},
-				{ 3, 0, 0,18, 0, 0, 0, 0, 3},
-				{-1, 3,18,18,18, 0, 0, 3,-1},
-				{-1,-1, 3,18, 0, 0, 3,-1,-1},
-				{-1,-1,-1, 3, 3, 3,-1,-1,-1}
-			},
-			{  // Floor 4
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1, 3, 3, 3,-1,-1,-1},
-				{-1,-1, 3, 3, 3, 3, 3,-1,-1},
-				{-1, 3, 3, 3, 3, 3, 3, 3,-1},
-				{-1, 3, 3, 3, 3, 3, 3, 3,-1},
-				{-1, 3, 3, 3, 3, 3, 3, 3,-1},
-				{-1,-1, 3, 3, 3, 3, 3,-1,-1},
-				{-1,-1,-1, 3, 3, 3,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1}
-			}
-		};
-
-	int[][][] garden_grey = new int[][][] {
-			{  // Floor 0
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1,110,110,110,-1,-1,-1},
-				{-1,-1,110,110,110,110,110,-1,-1},
-				{-1,110,110,110,110,110,110,110,-1},
-				{-1,110,110,110,110,110,110,110,-1},
-				{-1,110,110,110,110,110,110,110,-1},
-				{-1,-1,110,110,110,110,110,-1,-1},
-				{-1,-1,-1,110,110,110,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1}
-			},
-			{  // Floor 1
-				{-1,-1,-1, 3, 3, 3,-1,-1,-1},
-				{-1,-1, 3, 0, 0,40, 3,-1,-1},
-				{-1, 3, 0,39, 0, 0, 0, 3,-1},
-				{ 3, 0, 0, 0, 0, 0,39, 0, 3},
-				{ 3,40, 0, 0, 0,40, 0, 0, 3},
-				{ 3, 0, 0,39, 0, 0, 0, 0, 3},
-				{-1, 3, 0, 0, 0, 0,39, 3,-1},
-				{-1,-1, 3,40, 0, 0, 3,-1,-1},
-				{-1,-1,-1, 3, 3, 3,-1,-1,-1}
-			},
-			{  // Floor 2
-				{ 0, 0, 3, 3, 3, 3, 3, 0, 0},
-				{ 0, 3, 0, 0, 0, 0, 0, 3, 0},
-				{ 3, 0, 0, 0, 0, 0, 0, 0, 3},
-				{ 3, 0, 0, 0, 0, 0, 0, 0, 3},
-				{ 3, 0, 0, 0, 0, 0, 0, 0, 3},
-				{ 3, 0, 0, 0, 0, 0, 0, 0, 3},
-				{ 3, 0, 0, 0, 0, 0, 0, 0, 3},
-				{ 0, 3, 0, 0, 0, 0, 0, 3, 0},
-				{ 0, 0, 3, 3, 3, 3, 3, 0, 0}
-			},
-			{  // Floor 3
-				{-1,-1,-1, 3, 3, 3,-1,-1,-1},
-				{-1,-1, 3, 0, 0, 0, 3,-1,-1},
-				{-1, 3, 0, 0, 0, 0, 0, 3,-1},
-				{ 3, 0, 0, 0, 0, 0, 0, 0, 3},
-				{ 3, 0, 0, 0, 0, 0, 0, 0, 3},
-				{ 3, 0, 0, 0, 0, 0, 0, 0, 3},
-				{-1, 3, 0, 0, 0, 0, 0, 3,-1},
-				{-1,-1, 3, 0, 0, 0, 3,-1,-1},
-				{-1,-1,-1, 3, 3, 3,-1,-1,-1}
-			},
-			{  // Floor 4
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1, 3, 3, 3,-1,-1,-1},
-				{-1,-1, 3, 3, 3, 3, 3,-1,-1},
-				{-1, 3, 3, 3, 3, 3, 3, 3,-1},
-				{-1, 3, 3, 3, 3, 3, 3, 3,-1},
-				{-1, 3, 3, 3, 3, 3, 3, 3,-1},
-				{-1,-1, 3, 3, 3, 3, 3,-1,-1},
-				{-1,-1,-1, 3, 3, 3,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1}
-			}
-		};
 
 	@Override
 	public void populate(World world, Random random, Chunk source)
+	{
+		GardenPopulator.generateGarden(this.plugin, world, random, source.getX(), source.getZ());
+	}
+	
+	public static void generateGarden(Plugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
 		int place = random.nextInt(100);
 		
 		if(place==37)
 		{
-			int x = random.nextInt(16) + source.getX() * 16;
-			int z = random.nextInt(16) + source.getZ() * 16;
-			int y = 9 + random.nextInt(15);
+			int x = random.nextInt(16) + chunkX * 16;
+			int z = random.nextInt(16) + chunkZ * 16;
+			int y = 9 + random.nextInt(15) + 100;
 			
-			int[][][] garden;
+			int cnt = 1;
+			
+			Schematic garden;
 			switch(random.nextInt(4))
 			{
 			case 0:
-				garden = this.garden_grey; // Mushroom garden
+				garden = GreyGarden.instance; // Mushroom garden
 				break;
 			case 1:
 			case 2:
 			case 3:
 			default:
-				garden = this.garden_green; // Green garden
+				garden = GreenGarden.instance; // Green garden
+				cnt = 2;  // To get the lights right.
 				break;
 			}
 			
-			for(int i=0;i<2;i++)
+			for(int i=0;i<cnt;i++)
 			{
-
-				for(int yy=0;yy<5;yy++)
-				{
-					for(int zz=0;zz<9;zz++)
-					{
-						for(int xx=0;xx<9;xx++)
-						{
-							int type = garden[yy][zz][xx];
-							if(type!=-1)
-							{
-								Block repl = world.getBlockAt(x+xx - 5, y + yy - 2, z + zz - 5);
-								repl.setTypeId(type);
-								if(type==31)
-								{
-									repl.setData((byte)1);
-								}
-							}
-						}
-					}
-				}
+				HothUtils.placeSchematic(plugin, world, garden, x, y, z);
 			}
 		}
 	}

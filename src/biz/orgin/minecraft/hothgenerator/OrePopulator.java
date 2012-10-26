@@ -32,23 +32,28 @@ public class OrePopulator extends BlockPopulator
 	@Override
 	public void populate(World world, Random random, Chunk source)
 	{
+		OrePopulator.generateOres(world, random, source.getX(), source.getZ());
+	}
+	
+	public static void generateOres(World world, Random random, int chunkx, int chunkz)
+	{
 		for (int i = 0; i < type.length; i++)
 		{
 			for (int j = 0; j < iterations[i]; j++)
 			{
-				internal(source, random, random.nextInt(16),
+				OrePopulator.vein(world, chunkx*16, chunkz*16, random, random.nextInt(16),
 						random.nextInt(maxHeight[i]), random.nextInt(16),
 						amount[i], type[i]);
 			}
 		}
 	}
 
-	private static void internal(Chunk source, Random random, int originX,
+	private static void vein(World world, int x, int z, Random random, int originX,
 			int originY, int originZ, int amount, int type)
 	{
-		int x = originX;
-		int y = originY;
-		int z = originZ;
+		int dx = originX;
+		int dy = originY;
+		int dz = originZ;
 		
 		for (int i = 0; i < amount; i++)
 		{
@@ -56,32 +61,30 @@ public class OrePopulator extends BlockPopulator
 			switch(dir)
 			{
 			case 0:
-			    x++;
+			    dx++;
 				break;
 			case 1:
-		        x--;
+		        dx--;
 		        break;
 			case 2:
-			    y++;
+			    dy++;
 				break;
 			case 3:
-		        y--;
+		        dy--;
 		        break;
 			case 4:
-			    z++;
+			    dz++;
 				break;
 			case 5:
-		        z--;
+		        dz--;
 		        break;
 			}
 
-			x &= 0xf;
-			z &= 0xf;
-			if (y > 127 || y < 0) {
+			if (dy > 127 || dy < 0) {
 				continue;
 			}
 
-			Block block = source.getBlock(x, y, z);
+			Block block = world.getBlockAt(x+dx, dy, z+dz);
 			if (block.getTypeId() == REPLACE) {
 				block.setTypeId(type, false);
 			}
