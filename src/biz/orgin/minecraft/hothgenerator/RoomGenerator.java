@@ -504,9 +504,8 @@ public class RoomGenerator
 		public void run()
 		{
 			RoomGenerator.renderRoom(this.plugin, this.world, this.cluster.rooms);
-			// @ToDO: remove in a final release. (Or write into a log file so admins
-			// can find the structures?)
-			System.out.println("Placing cluster at " + this.cluster.rooms.x + "," + this.cluster.rooms.y + "," + this.cluster.rooms.z);
+
+			this.plugin.getLogger().info("Placing maze at " + this.cluster.rooms.x + "," + this.cluster.rooms.y + "," + this.cluster.rooms.z);
 		}
 	}
 	
