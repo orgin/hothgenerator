@@ -1,9 +1,12 @@
 
 package biz.orgin.minecraft.hothgenerator;
 
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -19,6 +22,8 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private ToolUseManager toolUseManager;
 	private BlockMeltManager blockMeltManager;
 	
+	private FileConfiguration config;
+	
     public void onEnable()
     { 
     	this.blockPlaceManager = new BlockPlaceManager(this);
@@ -30,6 +35,8 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.getServer().getPluginManager().registerEvents(this.blockBreakManager, this);
     	this.getServer().getPluginManager().registerEvents(this.toolUseManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockMeltManager, this);
+    	
+    	this.config = this.getConfig();
     }
     
  	
@@ -69,16 +76,32 @@ public class HothGeneratorPlugin extends JavaPlugin
 	
 	public boolean isHothWorld(World world)
 	{
-		// @ToDo: Check this against a list that is read from disk
+		List<String> list = this.config.getStringList("hothworlds");
 		
-		if(world.getName().equals("hoth"))
+		if(list!=null)
 		{
-			return true;
+			System.out.println("Hothworlds:");
+			for(int i=0;i<list.size();i++)
+			{
+				System.out.println(list.get(i));
+			}
+			
+			String current = world.getName();
+			
+			for(int i=0;i<list.size();i++)
+			{
+				if(list.get(i).equals(current))
+				{
+					return true;
+				}
+			}
 		}
 		else
 		{
-			return false;
+			System.out.println("Config file was empty..");
 		}
+		
+		return false;
 	}
 	
 	public boolean blockIsHighest(World world, Block block)
