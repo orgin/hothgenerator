@@ -9,7 +9,7 @@ import org.bukkit.Material;
  * @author orgin
  *
  */
-public class OrePopulator
+public class OreGenerator
 {
 	private static final int[] iterations = new int[] {10, 10, 20, 20, 2, 8, 1, 1, 1};
 	private static final int[] amount =     new int[] {32, 32, 16,  8, 8, 7, 7, 6, 6};
@@ -32,7 +32,7 @@ public class OrePopulator
 		{
 			for (int j = 0; j < iterations[i]; j++)
 			{
-				OrePopulator.vein(chunk, random, random.nextInt(16),
+				OreGenerator.vein(chunk, random, random.nextInt(16),
 						random.nextInt(maxHeight[i]), random.nextInt(16),
 						amount[i], type[i]);
 			}

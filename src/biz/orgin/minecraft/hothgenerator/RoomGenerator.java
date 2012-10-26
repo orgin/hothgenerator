@@ -4,21 +4,18 @@ import java.util.Random;
 import java.util.Vector;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.World;
-import org.bukkit.generator.BlockPopulator;
 import org.bukkit.plugin.Plugin;
 
 import biz.orgin.minecraft.hothgenerator.schematic.*;
 
 /**
- * Main class for rendering the undergound mazes. It can be used
- * both as a BlockPopulator and by a ChunkGenerator.
+ * Main class for rendering the undergound mazes.
  * 
  * @author orgin
  *
  */
-public class RoomPopulator extends BlockPopulator
+public class RoomGenerator
 {
 	/**
 	 * Maximum number of rooms in a cluster
@@ -28,8 +25,6 @@ public class RoomPopulator extends BlockPopulator
 	 * Minimum number of rooms in a cluster
 	 */
 	public static int MINROOMS = 8;
-	
-	private HothGeneratorPlugin plugin = null;
 	
 	private static Position[] positions = new Position[]
 		{
@@ -71,7 +66,7 @@ public class RoomPopulator extends BlockPopulator
 	// For testing
 	public static void main(String [] args)
 	{
-		RoomPopulator populator = new RoomPopulator(null);
+		RoomGenerator populator = new RoomGenerator();
 		Cluster cluster = populator.getNewCluster(new Random(8));
 		
 		System.out.println("MaxRooms = " + cluster.maxRooms);
@@ -89,34 +84,6 @@ public class RoomPopulator extends BlockPopulator
 	}
 	
 	/**
-	 * Generate an underground maze. This method is intended to be used
-	 * as a Populator rather than from the terrain generator.
-	 * @param world The world to generate in
-	 * @param random A random instance
-	 * @param chunk The chunk to originate from
-	 */
-	@Override
-	public void populate(World world, Random random, Chunk chunk)
-	{
-		int doit = random.nextInt(256);
-		if(doit == 39)
-		{
-			int x = random.nextInt(16) + chunk.getX()*16;
-			int y = 11 + random.nextInt(16);
-			int z = random.nextInt(16) + chunk.getZ()*16;
-			
-			Cluster cluster = this.getNewCluster(random);
-			Room start = this.getEmptyRoom(cluster, null, x, y, z);
-			cluster.rooms = start;
-			this.populateRoom(cluster, start); // Populate start room and all children
-			this.decorateRoom(cluster, start); // Decorate start room and all children
-
-			// Place the cluster into the world
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, new PlaceCluster(this.plugin, world, cluster),5);
-		}
-	}
-	
-	/**
 	 * Generate an underground maze. This method is intended to be called
 	 * from the terrain generator rather than from a Populator.
 	 * @param world The world to generate in
@@ -130,7 +97,7 @@ public class RoomPopulator extends BlockPopulator
 		int doit = random.nextInt(256);
 		if(doit == 39)
 		{
-			RoomPopulator populator = new RoomPopulator((HothGeneratorPlugin)plugin);
+			RoomGenerator populator = new RoomGenerator();
 
 			
 			int x = random.nextInt(16) + chunkx*16;
@@ -151,15 +118,15 @@ public class RoomPopulator extends BlockPopulator
 	private static void renderRoom(Plugin plugin, World world, Room room)
 	{
 		// place room
-		RoomPopulator.placeBasicRoom(plugin, world, room);
+		RoomGenerator.placeBasicRoom(plugin, world, room);
 		// place floor
-		RoomPopulator.placeFloor(plugin, world, room);
+		RoomGenerator.placeFloor(plugin, world, room);
 		// place decor
-		RoomPopulator.placeDecor(plugin, world, room);
+		RoomGenerator.placeDecor(plugin, world, room);
 		// place corridors
-		RoomPopulator.placeRoomExits(plugin, world, room);
+		RoomGenerator.placeRoomExits(plugin, world, room);
 		// place doors
-		RoomPopulator.placeRoomDoors(plugin, world, room);
+		RoomGenerator.placeRoomDoors(plugin, world, room);
 		// place lights
 		
 		// Render children
@@ -168,7 +135,7 @@ public class RoomPopulator extends BlockPopulator
 			Room child = room.children[i];
 			if(child!=null && !child.equals(Room.DUMMY))
 			{
-				RoomPopulator.renderRoom(plugin, world, child);
+				RoomGenerator.renderRoom(plugin, world, child);
 			}
 		}
 	}
@@ -225,10 +192,10 @@ public class RoomPopulator extends BlockPopulator
 			Room child = room.children[i];
 			if(child!=null && (i<2 || !child.equals(Room.DUMMY)))
 			{
-				int x = RoomPopulator.exits[i].x + room.x;
-				int y = RoomPopulator.exits[i].y + room.y;
-				int z = RoomPopulator.exits[i].z + room.z;
-				Schematic schematic = RoomPopulator.exits[i].schematic;
+				int x = RoomGenerator.exits[i].x + room.x;
+				int y = RoomGenerator.exits[i].y + room.y;
+				int z = RoomGenerator.exits[i].z + room.z;
+				Schematic schematic = RoomGenerator.exits[i].schematic;
 				
 				if(schematic!=null)
 				{
@@ -245,10 +212,10 @@ public class RoomPopulator extends BlockPopulator
 			Room child = room.children[i];
 			if(child==null)
 			{
-				int x = RoomPopulator.doors[i].x + room.x;
-				int y = RoomPopulator.doors[i].y + room.y;
-				int z = RoomPopulator.doors[i].z + room.z;
-				Schematic schematic = RoomPopulator.doors[i].schematic;
+				int x = RoomGenerator.doors[i].x + room.x;
+				int y = RoomGenerator.doors[i].y + room.y;
+				int z = RoomGenerator.doors[i].z + room.z;
+				Schematic schematic = RoomGenerator.doors[i].schematic;
 				
 				if(schematic!=null && !(room.floor>0 && i==1))
 				{
@@ -259,9 +226,8 @@ public class RoomPopulator extends BlockPopulator
 	}
 	
 	
-	public RoomPopulator(HothGeneratorPlugin plugin)
+	public RoomGenerator()
 	{
-		this.plugin = plugin;
 	}
 	
 	private Room getEmptyRoom(Cluster cluster, Room parent, int x, int y, int z)
@@ -307,11 +273,11 @@ public class RoomPopulator extends BlockPopulator
 				
 				if(room.children[sub]==null)
 				{
-					Position delta = RoomPopulator.positions[sub];
+					Position delta = RoomGenerator.positions[sub];
 					if(cluster.isPositionFree(delta, x, y, z))
 					{
 						room.children[sub] = this.getEmptyRoom(cluster, room, x+delta.x, y+delta.y, z+delta.z);
-						room.children[sub].children[RoomPopulator.reverse[sub]] = Room.DUMMY;
+						room.children[sub].children[RoomGenerator.reverse[sub]] = Room.DUMMY;
 						added++;
 					}
 				}
@@ -458,7 +424,7 @@ public class RoomPopulator extends BlockPopulator
 			this.list = new Vector<Position>();
 			this.ctr = 0;
 			
-			this.maxRooms = RoomPopulator.MINROOMS + random.nextInt(RoomPopulator.MAXROOMS - RoomPopulator.MINROOMS);
+			this.maxRooms = RoomGenerator.MINROOMS + random.nextInt(RoomGenerator.MAXROOMS - RoomGenerator.MINROOMS);
 			this.ctr = 0;
 			this.stopper = 1;
 		}
@@ -505,8 +471,8 @@ public class RoomPopulator extends BlockPopulator
 			int ctr = 0;
 			for(int i=0;i<6;i++)
 			{
-				if(!this.isPositionUsed(RoomPopulator.positions[i], room.x, room.y, room.z)
-						&& this.isPositionValid(RoomPopulator.positions[i], room.x, room.y, room.z))
+				if(!this.isPositionUsed(RoomGenerator.positions[i], room.x, room.y, room.z)
+						&& this.isPositionValid(RoomGenerator.positions[i], room.x, room.y, room.z))
 				{
 					ctr++;
 				}
@@ -537,7 +503,7 @@ public class RoomPopulator extends BlockPopulator
 		@Override
 		public void run()
 		{
-			RoomPopulator.renderRoom(this.plugin, this.world, this.cluster.rooms);
+			RoomGenerator.renderRoom(this.plugin, this.world, this.cluster.rooms);
 			// @ToDO: remove in a final release. (Or write into a log file so admins
 			// can find the structures?)
 			System.out.println("Placing cluster at " + this.cluster.rooms.x + "," + this.cluster.rooms.y + "," + this.cluster.rooms.z);

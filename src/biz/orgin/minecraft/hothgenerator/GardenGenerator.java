@@ -3,9 +3,7 @@ package biz.orgin.minecraft.hothgenerator;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.World;
-import org.bukkit.generator.BlockPopulator;
 import org.bukkit.plugin.Plugin;
 
 import biz.orgin.minecraft.hothgenerator.schematic.GreenGarden;
@@ -19,21 +17,8 @@ import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
  * @author orgin
  *
  */
-public class GardenPopulator extends BlockPopulator
+public class GardenGenerator
 {
-	private Plugin plugin;
-	
-	public GardenPopulator(Plugin plugin)
-	{
-		this.plugin = plugin;
-	}
-	
-
-	@Override
-	public void populate(World world, Random random, Chunk source)
-	{
-		GardenPopulator.generateGarden(this.plugin, world, random, source.getX(), source.getZ());
-	}
 	
 	public static void generateGarden(Plugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
