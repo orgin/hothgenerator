@@ -39,7 +39,7 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.config = this.getConfig();
     	try
     	{
-    		this.config.save("config.yml");
+    		this.config.save("plugins/hothgenerator/config.yml");
     	}
     	catch(Exception e)
     	{
