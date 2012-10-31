@@ -91,8 +91,6 @@ public class DomeGenerator
 		
 		private void placeTop(int sx, int sy, int sz)
 		{
-			this.plugin.getLogger().info("Planting top at " + sx + "," + sy + "," + sz);
-
 			Position centerPos = new Position(sx, sy, sz);
 			
 			int radius = 1+this.random.nextInt(3);
@@ -197,56 +195,69 @@ public class DomeGenerator
 					}
 				}
 			}
-
+			
+			// Next grow some alien plants
 			int cnt = this.random.nextInt(20);
-			this.plugin.getLogger().info("Tryign to place " + cnt + " plants.");
-			for(int i=0;i<20+cnt;i++)
+			for(int i=0;i<30+cnt;i++)
 			{
-				int ix = sx+random.nextInt(36*2)-36;
+				int ix = sx+random.nextInt(40*2)-40;
 				int iy = 26;
-				int iz = sz+random.nextInt(36*2)-36;
+				int iz = sz+random.nextInt(40*2)-40;
 				
 				Position currPos = new Position(ix,iy,iz);
 				double dist = DomeGenerator.distance(centerPos, currPos);
-				this.plugin.getLogger().info("Testing planting at " + ix + "," + iy + "," + iz + " distance = " + dist);
-				if(dist<36)
+				if(dist<40) // Only grow inside the dome (duh!)
 				{
-					int len = 10 + random.nextInt(20);
+					int len = 16 + random.nextInt(16); // Length of plant
 					
 					boolean done = false;
 					int j=0;
 					
-					float growx = 0;
-					float growz = 0;
+					double currx = 0;
+					double growx1 = 0.1f;
+					double growx2 = (5+random.nextInt(15))/100.0f; // Slope factor
 					
-					int currx = 0;
-					int curry = 0;
-					int currz = 0;
+					int currix = ix;
+					int curriy = iy;
+					int curriz = iz;
 					
-					this.plugin.getLogger().info("Planting at " + ix + "," + iy + "," + iz);
-					while(j<len && !done)
+					double angle = Math.atan2(iz-sz, ix-sx);    // Angle towards center
+					
+					double fx = Math.cos(angle) * (dist/40.0f); // for sloping towards center. Less so the closer to the center
+					double fz = Math.sin(angle) * (dist/40.0f); // -||-
+					
+					while(j<len && !done) // Grow the plant
 					{
-						currx = ix+(int)growx;
-						curry = iy+j;
-						currz = iz+(int)growz;
+						currx = currx-growx1;
 						
-						Block block = world.getBlockAt(currx, curry, currz);
+						currix = (int)(currx*fx) + ix;
+						curriy = j + iy;
+						curriz = (int)(currx*fz) + iz;
+						
+						Block block = world.getBlockAt(currix, curriy, curriz);
 						Material type = block.getType();
-						if(type.equals(Material.GLASS))
+						if(type.equals(Material.GLASS)) // Stop growing if we hit the dome
 						{
 							done = true;
 						}
-						else if(type.equals(Material.AIR))
+						else if(type.equals(Material.AIR)) // Only place blocks in the air
 						{
 							block.setType(Material.SPONGE);
+						}
+						
+						growx1 = growx1 + growx1*growx2; // Slope magic
+						
+						if(growx1>1)
+						{
+							growx1 = 1;
 						}
 						
 						j++;
 					}
 					
-					if(!done) // PLace top piece
+					if(!done) // Place top piece/flower
 					{
-						this.placeTop(currx, curry, currz);
+						this.placeTop(currix, curriy, curriz);
 					}
 					
 					// Grow stem
