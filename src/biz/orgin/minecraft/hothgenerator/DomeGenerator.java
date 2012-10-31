@@ -8,6 +8,8 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.plugin.Plugin;
 
+import biz.orgin.minecraft.hothgenerator.schematic.MiniDome;
+
 public class DomeGenerator
 {
 	public static void main(String[] args)
@@ -195,6 +197,8 @@ public class DomeGenerator
 					}
 				}
 			}
+			// Next place the internal dome
+			HothUtils.placeSchematic(plugin, world, MiniDome.instance, sx-8, sy+8, sz-8);
 			
 			// Next grow some alien plants
 			int cnt = this.random.nextInt(20);
@@ -236,7 +240,7 @@ public class DomeGenerator
 						
 						Block block = world.getBlockAt(currix, curriy, curriz);
 						Material type = block.getType();
-						if(type.equals(Material.GLASS)) // Stop growing if we hit the dome
+						if(type.equals(Material.GLASS) || type.equals(Material.SMOOTH_BRICK)) // Stop growing if we hit the dome(s)
 						{
 							done = true;
 						}
