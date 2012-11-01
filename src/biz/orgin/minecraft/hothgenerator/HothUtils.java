@@ -1,9 +1,12 @@
 package biz.orgin.minecraft.hothgenerator;
 
+import java.util.Vector;
+
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EntityType;
@@ -19,17 +22,24 @@ import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
  */
 public class HothUtils
 {
+	private static IntSet delays = new IntSet(new int[] {  // Block types to defer until infrastructure is made.
+			50,75,76,6,32,37,38,39,40,51,55,26,
+			59,31,63,65,66,96,69,77,106,83,115,
+			93,94,127,131,132,141,142,143,78,64});
+	
 	public static void placeSchematic(Plugin plugin, World world, Schematic schematic, int x, int y, int z)
 	{
 		HothUtils.placeSchematic(plugin, world, schematic, x, y, z, false);
 	}
 
-	public static void placeSchematic(Plugin plugin, World world, Schematic schematic, int x, int y, int z, boolean isSpawner)
+	public static void placeSchematic(Plugin plugin, World world, Schematic schematic, int x, int y, int z, boolean darken)
 	{
 		int height = schematic.getHeight();
 		int length = schematic.getLength();
 		int width = schematic.getWidth();
 		int[][][] matrix = schematic.getMatrix();
+		
+		Vector<BlockState> delays = new Vector<BlockState>();
 		
 		for(int yy=0;yy<height;yy++)
 		{
@@ -39,9 +49,9 @@ public class HothUtils
 				{
 					int type = matrix[yy][zz][xx];
 					
-					if(isSpawner) // Handle spawner room specials
+					if(darken) // Replace lightsources with cobble
 					{
-						// Glowstone, torch, redstone torch (lit/unlit), restone lamp (lit/unlit)
+						// Glowstone, torch, redstone torch (lit/unlit), redstone lamp (lit/unlit)
 						if(type==89 || type==50 || type==75 || type==76 || type==123 || type==124 || type==10)
 						{
 							type=4; // Turn to cobble
@@ -106,6 +116,13 @@ public class HothUtils
 							chest.update(true);
 
 						}
+						else if(HothUtils.delays.contains(type)) // Torches and such, delay for later
+						{
+							BlockState state = block.getState();
+							state.setTypeId(type);
+							state.setRawData((byte)data);
+							delays.add(state);
+						}
 						else
 						{
 							block.setTypeIdAndData(type, (byte)data, false);
@@ -113,6 +130,11 @@ public class HothUtils
 					}
 				}
 			}
+		}
+		
+		for(int i=0;i<delays.size();i++) // Insert delayed blocks
+		{
+			delays.elementAt(i).update(true);
 		}
 	}
 	

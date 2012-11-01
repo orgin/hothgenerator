@@ -70,6 +70,11 @@ public class ToolUseManager implements Listener
 						Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
 					}
 				}
+				else if(item.getType().equals(Material.CLAY_BALL))
+				{
+					Block block = event.getClickedBlock();
+					player.sendMessage("Item: name = " + block.getType().name() + " type = " + block.getTypeId() + ", data = " + block.getData());
+				}
 			}
 		}
 	}

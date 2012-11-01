@@ -55,8 +55,6 @@ public class GardenGenerator
 			int z = random.nextInt(16) + this.chunkz * 16;
 			int y = 9 + random.nextInt(15);
 			
-			int cnt = 1;
-			
 			Schematic garden;
 			switch(random.nextInt(4))
 			{
@@ -68,14 +66,10 @@ public class GardenGenerator
 			case 3:
 			default:
 				garden = GreenGarden.instance; // Green garden
-				cnt = 2;  // To get the lights right.
 				break;
 			}
 			
-			for(int i=0;i<cnt;i++)
-			{
-				HothUtils.placeSchematic(plugin, world, garden, x, y, z);
-			}
+			HothUtils.placeSchematic(plugin, world, garden, x, y, z);
 
 			this.plugin.getLogger().info("Placing garden at " + x + "," + y + "," + z);
 		}
