@@ -305,10 +305,10 @@ public class HothGenerator extends ChunkGenerator
 			}
 		}
 		
-		GardenGenerator.generateGarden(this.plugin, world, random, chunkx, chunkz);
-		RoomGenerator.generateRooms(world, this.plugin, random, chunkx, chunkz);
-		OreGenerator.generateOres(chunk, random);
-		DomeGenerator.generateDome(plugin, world, random, chunkx, chunkz);
+		GardenGenerator.generateGarden(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		RoomGenerator.generateRooms(world, this.plugin, new Random(random.nextLong()), chunkx, chunkz);
+		OreGenerator.generateOres(chunk, new Random(random.nextLong()));
+		DomeGenerator.generateDome(plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 
 		return chunk;
 	}
