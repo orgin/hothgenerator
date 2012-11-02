@@ -1,5 +1,7 @@
 package biz.orgin.minecraft.hothgenerator.schematic;
 
+import biz.orgin.minecraft.hothgenerator.HothUtils;
+
 public class GreenGarden implements Schematic
 {
 	public static Schematic instance = new GreenGarden();
@@ -93,5 +95,11 @@ public class GreenGarden implements Schematic
 	public String getName()
 	{
 		return GreenGarden.name;
+	}
+
+	@Override
+	public Schematic rotate(int direction)
+	{
+		return HothUtils.rotateSchematic(direction, this);
 	}
 }

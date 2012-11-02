@@ -2,6 +2,9 @@ package biz.orgin.minecraft.hothgenerator;
 
 import java.util.Random;
 
+import biz.orgin.minecraft.hothgenerator.schematic.BaseRoom;
+import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
+
 /**
  * Just a test class. Has no meaning for the world generator itself
  * @author orgin
@@ -11,16 +14,11 @@ public class Test
 {
 	public static void main(String[] args)
 	{
-		int x = -5;
-		int z = -5;
+
+		Schematic schematic = BaseRoom.instance;
+		Schematic rot = HothUtils.rotateSchematic(3, schematic);
 		
-		double angle = Math.atan2(z, x);
-		
-		double fx = Math.cos(angle);
-		double fz = Math.sin(angle);
-		
-		System.out.println("Angle = " + angle * 180/Math.PI);
-		System.out.println("fx = " + fx + " fz = " + fz);
+		System.out.println(HothUtils.schematicToString(rot));
 		
 	}
 	

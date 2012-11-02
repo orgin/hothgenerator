@@ -7,4 +7,5 @@ public interface Schematic
 	public int getLength();
 	public int getHeight();
 	public String getName();
+	public Schematic rotate(int direction);
 }

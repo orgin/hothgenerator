@@ -1,5 +1,7 @@
 package biz.orgin.minecraft.hothgenerator.schematic;
 
+import biz.orgin.minecraft.hothgenerator.HothUtils;
+
 public class MiniDome implements Schematic
 {
 	public static Schematic instance = new MiniDome();
@@ -210,5 +212,11 @@ public class MiniDome implements Schematic
 	public String getName()
 	{
 		return MiniDome.name;
+	}
+
+	@Override
+	public Schematic rotate(int direction)
+	{
+		return HothUtils.rotateSchematic(direction, this);
 	}
 }

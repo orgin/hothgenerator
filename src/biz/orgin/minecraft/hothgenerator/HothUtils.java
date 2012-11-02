@@ -13,6 +13,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
+import biz.orgin.minecraft.hothgenerator.schematic.RotatedSchematic;
 import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
 
 /**
@@ -183,6 +184,209 @@ public class HothUtils
 		return subchunk[((y) << 8) | (z << 4) | x];
 	}
 
+	public static Schematic rotateSchematic(int direction, Schematic schematic)
+	{
+		Schematic result = null;
+		
+		if(direction==0) // North
+		{
+			result = schematic;
+		}
+		else if(direction==1) // South
+		{
+			int[][][] source = schematic.getMatrix();
+			
+			String name = schematic.getName()+"_SOUTH";
+			int width = schematic.getWidth();
+			int length = schematic.getLength();
+			int height = schematic.getHeight();
+			int[][][] matrix = new int[height][length][width*2];
+			
+			for(int y=0;y<height;y++)
+			{
+				for(int z=0;z<length;z++)
+				{
+					for(int x=0;x<width;x++)
+					{
+						int type = source[y][length-z-1][width-x-1];
+						int data = source[y][length-z-1][width-x-1+width];
+						
+						matrix[y][z][x] = type;
+						matrix[y][z][x+width] = HothUtils.rotateData(type, data, 1);
+								
+					}
+				}
+			}
+			
+			result = new RotatedSchematic(name, width, length, height, matrix);
+		}
+		else if(direction==2) // West
+		{
+			int[][][] source = schematic.getMatrix();
+			
+			String name = schematic.getName()+"_WEST";
+			int width = schematic.getLength();
+			int length = schematic.getWidth();
+			int height = schematic.getHeight();
+			int[][][] matrix = new int[height][length][width*2];
+			
+			for(int y=0;y<height;y++)
+			{
+				for(int z=0;z<length;z++)
+				{
+					for(int x=0;x<width;x++)
+					{
+						int type = source[y][x][length-z-1]; // source[y][length-z-1][x];
+						int data = source[y][x][length-z-1 + length];// source[y][length-z-1][x+width];
+						
+						matrix[y][z][x] = type;
+						matrix[y][z][x+width] = HothUtils.rotateData(type, data, 2);
+								
+					}
+				}
+			}
+			
+			result = new RotatedSchematic(name, width, length, height, matrix);
+		}
+		else if(direction==3) // East
+		{
+			int[][][] source = schematic.getMatrix();
+			
+			String name = schematic.getName()+"_EAST";
+			int width = schematic.getLength();
+			int length = schematic.getWidth();
+			int height = schematic.getHeight();
+			int[][][] matrix = new int[height][length][width*2];
+			
+			for(int y=0;y<height;y++)
+			{
+				for(int z=0;z<length;z++)
+				{
+					for(int x=0;x<width;x++)
+					{
+						int type = source[y][width-x-1][z]; // source[y][length-z-1][x];
+						int data = source[y][width-x-1][z+length];// source[y][length-z-1][x+width];
+						
+						matrix[y][z][x] = type;
+						matrix[y][z][x+width] = HothUtils.rotateData(type, data, 3);
+								
+					}
+				}
+			}
+			
+			result = new RotatedSchematic(name, width, length, height, matrix);
+		}
+
+		return result;
+		
+	}
+	
+	public static int rotateData(int type, int data, int rot)
+	{
+		if(type==50)  // torch
+		{
+			switch(rot)
+			{
+			case 1:
+				switch(data)
+				{
+				case 1: return 2; // N
+				case 2: return 1; // S
+				case 3: return 4; // W
+				case 4: return 3; // E
+				}
+			case 2:
+				switch(data)
+				{
+				case 1: return 4; // N
+				case 2: return 3; // S
+				case 3: return 1; // W
+				case 4: return 2; // E
+				}
+			case 3:
+				switch(data)
+				{
+				case 1: return 3; // N
+				case 2: return 4; // S
+				case 3: return 2; // W
+				case 4: return 1; // E
+				}
+			}
+		}
+		else if(type==54) // chest
+		{
+			switch(rot)
+			{
+			case 1:
+				switch(data)
+				{
+				case 0: return 1; // N
+				case 1: return 0; // S
+				case 2: return 3; // W
+				case 3: return 2; // E
+				}
+			case 2:
+				switch(data)
+				{
+				case 0: return 2; // N
+				case 1: return 3; // S
+				case 2: return 1; // W
+				case 3: return 0; // E
+				}
+			case 3:
+				switch(data)
+				{
+				case 0: return 3; // N
+				case 1: return 2; // S
+				case 2: return 0; // W
+				case 3: return 1; // E
+				}
+			}
+		}
+			
+		
+		
+		return data;
+	}
+	
+	public static String schematicToString(Schematic schematic)
+	{
+		int[][][] source = schematic.getMatrix();
+		StringBuffer mySB = new StringBuffer();
+		StringBuffer mySB2 = new StringBuffer();
+		StringBuffer result = new StringBuffer();
+		
+		int width = schematic.getWidth();
+		int length = schematic.getLength();
+		int height = schematic.getHeight();
+		
+		for(int y=0;y<height;y++)
+		{
+			result.append("{\n");
+			for(int z=0;z<length;z++)
+			{
+				for(int x=0;x<width;x++)
+				{
+					int type = source[y][z][x];
+					int data = source[y][z][x+width];
+					
+					if(x>0)
+					{
+						mySB.append(",");
+					}
+					mySB.append(" " + type);
+					mySB2.append(", " + data);
+				}
+				
+				result.append("{" + mySB.toString() + " " + mySB2.toString() + "},\n");
+				mySB.setLength(0);
+				mySB2.setLength(0);
+			}
+			result.append("}\n");
+		}
+		
+		return result.toString();
+	}
 	
 	
 }

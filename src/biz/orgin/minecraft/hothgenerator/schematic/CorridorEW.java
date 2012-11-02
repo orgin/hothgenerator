@@ -1,5 +1,7 @@
 package biz.orgin.minecraft.hothgenerator.schematic;
 
+import biz.orgin.minecraft.hothgenerator.HothUtils;
+
 public class CorridorEW  implements Schematic
 {
 	public static Schematic instance = new CorridorEW();
@@ -76,5 +78,11 @@ public class CorridorEW  implements Schematic
 	public String getName()
 	{
 		return CorridorEW.name;
+	}
+
+	@Override
+	public Schematic rotate(int direction)
+	{
+		return HothUtils.rotateSchematic(direction, this);
 	}
 }

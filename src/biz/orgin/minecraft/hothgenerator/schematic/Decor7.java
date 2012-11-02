@@ -1,5 +1,7 @@
 package biz.orgin.minecraft.hothgenerator.schematic;
 
+import biz.orgin.minecraft.hothgenerator.HothUtils;
+
 public class Decor7 implements Schematic
 {
 	public static Schematic instance = new Decor7();
@@ -54,5 +56,11 @@ public class Decor7 implements Schematic
 	public String getName()
 	{
 		return Decor7.name;
+	}
+
+	@Override
+	public Schematic rotate(int direction)
+	{
+		return HothUtils.rotateSchematic(direction, this);
 	}
 }

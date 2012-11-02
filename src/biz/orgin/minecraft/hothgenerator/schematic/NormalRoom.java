@@ -1,5 +1,7 @@
 package biz.orgin.minecraft.hothgenerator.schematic;
 
+import biz.orgin.minecraft.hothgenerator.HothUtils;
+
 public class NormalRoom  implements Schematic
 {
 	public static Schematic instance = new NormalRoom();
@@ -95,5 +97,11 @@ public class NormalRoom  implements Schematic
 	public String getName()
 	{
 		return NormalRoom.name;
+	}
+
+	@Override
+	public Schematic rotate(int direction)
+	{
+		return HothUtils.rotateSchematic(direction, this);
 	}
 }

@@ -1,5 +1,7 @@
 package biz.orgin.minecraft.hothgenerator.schematic;
 
+import biz.orgin.minecraft.hothgenerator.HothUtils;
+
 public class DoorEW implements Schematic
 {
 	public static Schematic instance = new DoorEW();
@@ -54,5 +56,11 @@ public class DoorEW implements Schematic
 	public String getName()
 	{
 		return DoorEW.name;
+	}
+
+	@Override
+	public Schematic rotate(int direction)
+	{
+		return HothUtils.rotateSchematic(direction, this);
 	}
 }
