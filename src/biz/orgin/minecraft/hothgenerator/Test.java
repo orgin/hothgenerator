@@ -2,7 +2,7 @@ package biz.orgin.minecraft.hothgenerator;
 
 import java.util.Random;
 
-import biz.orgin.minecraft.hothgenerator.schematic.BaseRoom;
+import biz.orgin.minecraft.hothgenerator.schematic.BaseRoom1;
 import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
 
 /**
@@ -15,10 +15,11 @@ public class Test
 	public static void main(String[] args)
 	{
 
-		Schematic schematic = BaseRoom.instance;
+		Schematic schematic = BaseRoom1.instance;
 		Schematic rot = HothUtils.rotateSchematic(3, schematic);
 		
 		System.out.println(HothUtils.schematicToString(rot));
+		
 		
 	}
 	

@@ -3,14 +3,19 @@ package biz.orgin.minecraft.hothgenerator;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 
-import biz.orgin.minecraft.hothgenerator.schematic.BaseRoom;
+import biz.orgin.minecraft.hothgenerator.schematic.BaseRoom1;
 import biz.orgin.minecraft.hothgenerator.schematic.BaseRoom2;
 import biz.orgin.minecraft.hothgenerator.schematic.BaseRoom3;
+import biz.orgin.minecraft.hothgenerator.schematic.BaseRoom4;
+import biz.orgin.minecraft.hothgenerator.schematic.BaseRoom5;
+import biz.orgin.minecraft.hothgenerator.schematic.BaseRoom6;
 import biz.orgin.minecraft.hothgenerator.schematic.BaseSection;
 import biz.orgin.minecraft.hothgenerator.schematic.BaseTop;
 import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
@@ -20,10 +25,15 @@ public class BaseGenerator {
 	
 	private static Schematic[][] rooms = new Schematic[][]
 			{
-				{ BaseRoom.instance, BaseRoom.instance.rotate(1), BaseRoom.instance.rotate(2),  BaseRoom.instance.rotate(3)},  
+				{ BaseRoom1.instance, BaseRoom1.instance.rotate(1), BaseRoom1.instance.rotate(2),  BaseRoom1.instance.rotate(3)},  
 				{ BaseRoom2.instance, BaseRoom2.instance.rotate(1), BaseRoom2.instance.rotate(2),  BaseRoom2.instance.rotate(3)},  
-				{ BaseRoom3.instance, BaseRoom3.instance.rotate(1), BaseRoom3.instance.rotate(2),  BaseRoom3.instance.rotate(3)}  
+				{ BaseRoom3.instance, BaseRoom3.instance.rotate(1), BaseRoom3.instance.rotate(2),  BaseRoom3.instance.rotate(3)},  
+				{ BaseRoom4.instance, BaseRoom4.instance.rotate(1), BaseRoom4.instance.rotate(2),  BaseRoom4.instance.rotate(3)}, 
+				{ BaseRoom5.instance, BaseRoom5.instance.rotate(1), BaseRoom5.instance.rotate(2),  BaseRoom5.instance.rotate(3)},  
+				{ BaseRoom6.instance, BaseRoom6.instance.rotate(1), BaseRoom6.instance.rotate(2),  BaseRoom6.instance.rotate(3)}  
 			};
+	
+	private static int roomCnt = BaseGenerator.rooms.length;
 	
 	public static void generateBase(Plugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
@@ -42,6 +52,8 @@ public class BaseGenerator {
 		private final Random random;
 		private final int chunkx;
 		private final int chunkz;
+		
+		private int room5s;
 
 		public PlaceBase(Plugin plugin, World world, Random random, int chunkx, int chunkz)
 		{
@@ -50,6 +62,33 @@ public class BaseGenerator {
 			this.random = random;
 			this.chunkx = chunkx;
 			this.chunkz = chunkz;
+			
+			this.room5s = 0;
+		}
+		
+		public int getRandomRoom()
+		{
+			boolean done= false;
+			int room = 0;
+			
+			while(!done)
+			{
+				room = random.nextInt(BaseGenerator.roomCnt);
+				if(room==4)
+				{
+					if(this.room5s<2)
+					{
+						this.room5s++;
+						done = true;
+					}
+				}
+				else
+				{
+					done = true;
+				}
+			}
+			
+			return room;
 		}
 
 		@Override
@@ -87,8 +126,9 @@ public class BaseGenerator {
 				this.plugin.getLogger().info("Placing base at " + sx + "," + sy + "," + sz);
 				
 				HothUtils.placeSchematic(plugin, world, BaseTop.instance, sx-5, sy+11, sz-5);
+				world.spawnEntity(new Location(world, sx+5, sy+5, sz+5), EntityType.VILLAGER);
 				
-				int sections = 3+random.nextInt(3);
+				int sections = 3+random.nextInt(4);
 				
 				for(int i=0;i<sections;i++)
 				{
@@ -97,11 +137,12 @@ public class BaseGenerator {
 					int pz = sz-3;
 					
 					HothUtils.placeSchematic(plugin, world, BaseSection.instance, px, py, pz);
+					world.spawnEntity(new Location(world, px+3, py-2, pz+2), EntityType.VILLAGER);
 					
 					int rooms = random.nextInt(16);
 					if((rooms&0x1)!=0) // North
 					{
-						Schematic roomN = BaseGenerator.rooms[random.nextInt(3)][0];
+						Schematic roomN = BaseGenerator.rooms[this.getRandomRoom()][0];
 						HothUtils.placeSchematic(plugin, world, roomN, px, py, pz-9);
 					}
 					else
@@ -111,7 +152,7 @@ public class BaseGenerator {
 					}
 					if((rooms&0x2)!=0) // South
 					{
-						Schematic roomN = BaseGenerator.rooms[random.nextInt(3)][1];
+						Schematic roomN = BaseGenerator.rooms[this.getRandomRoom()][1];
 						HothUtils.placeSchematic(plugin, world, roomN, px, py, pz+6);
 					}
 					else
@@ -121,7 +162,7 @@ public class BaseGenerator {
 					}
 					if((rooms&0x4)!=0) // West
 					{
-						Schematic roomW = BaseGenerator.rooms[random.nextInt(3)][2];
+						Schematic roomW = BaseGenerator.rooms[this.getRandomRoom()][2];
 						HothUtils.placeSchematic(plugin, world, roomW, px-9, py, pz);
 					}
 					else
@@ -131,7 +172,7 @@ public class BaseGenerator {
 					}
 					if((rooms&0x8)!=0) // East
 					{
-						Schematic roomE = BaseGenerator.rooms[random.nextInt(3)][3];
+						Schematic roomE = BaseGenerator.rooms[this.getRandomRoom()][3];
 						HothUtils.placeSchematic(plugin, world, roomE, px+6, py, pz);
 					}
 					else

@@ -2,13 +2,13 @@ package biz.orgin.minecraft.hothgenerator.schematic;
 
 import biz.orgin.minecraft.hothgenerator.HothUtils;
 
-public class BaseRoom implements Schematic
+public class BaseRoom5 implements Schematic
 {
-	public static Schematic instance = new BaseRoom();
+	public static Schematic instance = new BaseRoom5();
 	private static int WIDTH = 7;
 	private static int LENGTH = 10;
 	private static int HEIGHT = 5;
-	private static String name = "BaseRoom";
+	private static String name = "BaseRoom5";
 	
 	private final int[][][] matrix = new int[][][]
 	{
@@ -32,7 +32,7 @@ public class BaseRoom implements Schematic
 			{  4,  0,  0,  0,  0,  0,  4,   0, 0, 0, 0 ,0 ,0 ,0},
 			{  4,  0,  0,  0,  0,  0,  4,   0, 0, 0, 0 ,0 ,0 ,0},
 			{  4,  0,  0,  0,  0,  0,  4,   0, 0, 0, 0 ,0 ,0 ,0},
-			{  4,  4,  4,  4,  4,  4,  4,   0, 0, 0, 0 ,0 ,0 ,0},
+			{  4,  4,  0,  0,  0,  4,  4,   0, 0, 0, 0 ,0 ,0 ,0},
 			{ -1, -1,  4,  4,  4, -1, -1,   0, 0, 0, 0 ,0 ,0 ,0},
 			{ -1, -1,  4,  4,  4, -1, -1,   0, 0, 0, 0 ,0 ,0 ,0},
 			{ -1, -1, -1, -1, -1, -1, -1,   0, 0, 0, 0 ,0 ,0 ,0},
@@ -41,11 +41,11 @@ public class BaseRoom implements Schematic
 			{  4,  4,  4,  4,  4,  4,  4,   0, 0, 0, 0 ,0 ,0 ,0},
 			{  4,  0,  0,  0,  0,  0,  4,   0, 0, 0, 0 ,0 ,0 ,0},
 			{  4,  0,  0,  0,  0,  0,  4,   0, 0, 0, 0 ,0 ,0 ,0},
+			{  4,  0,  0, 52,  0,  0,  4,   0, 0, 0, 0 ,0 ,0 ,0},
 			{  4,  0,  0,  0,  0,  0,  4,   0, 0, 0, 0 ,0 ,0 ,0},
 			{  4,  0,  0,  0,  0,  0,  4,   0, 0, 0, 0 ,0 ,0 ,0},
-			{  4,  0, 50,  0, 50,  0,  4,   0, 0, 4, 0 ,4 ,0 ,0},
-			{  4,  4,  4,  0,  4,  4,  4,   0, 0, 0, 0 ,0 ,0 ,0},
-			{ -1, -1,  4,  0,  4, -1, -1,   0, 0, 0, 0 ,0 ,0 ,0},
+			{  4,  4,  0,  0,  0,  4,  4,   0, 0, 0, 0 ,0 ,0 ,0},
+			{ -1, -1,  4,101,  4, -1, -1,   0, 0, 0, 0 ,0 ,0 ,0},
 			{ -1, -1,  4,  0,  4, -1, -1,   0, 0, 0, 0 ,0 ,0 ,0},
 			{ -1, -1, -1,  0, -1, -1, -1,   0, 0, 0, 0 ,0 ,0 ,0},
 		},
@@ -53,11 +53,11 @@ public class BaseRoom implements Schematic
 			{  4,  4,  4,  4,  4,  4,  4,   0, 0, 0, 0 ,0 ,0 ,0},
 			{  4,  0,  0,  0,  0,  0,  4,   0, 0, 0, 0 ,0 ,0 ,0},
 			{  4,  0,  0,  0,  0,  0,  4,   0, 0, 0, 0 ,0 ,0 ,0},
+			{  4,  0,  0, 98,  0,  0,  4,   0, 0, 0, 0 ,0 ,0 ,0},
+			{  4, 54,  0,  0,  0, 54,  4,   0, 3, 0, 0 ,0 ,2 ,0},
 			{  4,  0,  0,  0,  0,  0,  4,   0, 0, 0, 0 ,0 ,0 ,0},
-			{  4,  0,  0,  0,  0,  0,  4,   0, 0, 0, 0 ,0 ,0 ,0},
-			{  4,  0,  0,  0,  0,  0,  4,   0, 0, 0, 0 ,0 ,0 ,0},
-			{  4,  4,  4,  0,  4,  4,  4,   0, 0, 0, 0 ,0 ,0 ,0},
-			{ -1, -1,  4,  0,  4, -1, -1,   0, 0, 0, 0 ,0 ,0 ,0},
+			{  4,  4,  0,  0,  0,  4,  4,   0, 0, 0, 0 ,0 ,0 ,0},
+			{ -1, -1,  4,101,  4, -1, -1,   0, 0, 0, 0 ,0 ,0 ,0},
 			{ -1, -1,  4,  0,  4, -1, -1,   0, 0, 0, 0 ,0 ,0 ,0},
 			{ -1, -1, -1,  0, -1, -1, -1,   0, 0, 0, 0 ,0 ,0 ,0},
 		},
@@ -75,21 +75,21 @@ public class BaseRoom implements Schematic
 		}
 	};
 	
-	private BaseRoom()
+	private BaseRoom5()
 	{
 	}
 	
 	public int getWidth() // Inner
 	{
-		return BaseRoom.WIDTH;
+		return BaseRoom5.WIDTH;
 	}
 	public int getLength() // Middle
 	{
-		return BaseRoom.LENGTH;
+		return BaseRoom5.LENGTH;
 	}
 	public int getHeight() // Outer
 	{
-		return BaseRoom.HEIGHT;
+		return BaseRoom5.HEIGHT;
 	}
 	
 	public int[][][] getMatrix()
@@ -100,7 +100,7 @@ public class BaseRoom implements Schematic
 	@Override
 	public String getName()
 	{
-		return BaseRoom.name;
+		return BaseRoom5.name;
 	}
 	
 	public Schematic rotate(int direction)
