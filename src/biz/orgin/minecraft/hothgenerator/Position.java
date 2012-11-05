@@ -9,12 +9,22 @@ package biz.orgin.minecraft.hothgenerator;
 public class Position
 {
 	public int x,y,z;
+	public int data;
+
+	public Position(int x, int y, int z, int data)
+	{
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		this.data = data;
+	}
 
 	public Position(int x, int y, int z)
 	{
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.data = 0;
 	}
 
 	public Position()

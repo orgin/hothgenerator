@@ -47,6 +47,7 @@ public class HothGenerator extends ChunkGenerator
 		}
 		
 		Random localRand = new Random(chunkx*chunkz);
+		Position[][] snowcover = new Position[16][16];
 		
 		int vsegs = HothGeneratorPlugin.maxHeight(world, height) / 16;
 		byte[][] chunk = new byte[vsegs][];
@@ -236,7 +237,6 @@ public class HothGenerator extends ChunkGenerator
 					}
 				}
 				
-				
 				// snowblock cover
 				double snowblocks = 1+this.noiseGenerator.noise(rx, rz, 8, 76)*2;
 
@@ -245,8 +245,9 @@ public class HothGenerator extends ChunkGenerator
 					HothUtils.setPos(chunk, x,y,z, Material.SNOW_BLOCK);
 					y++;
 				}				
-
+				
 				// snow cover
+				snowcover[z][x] = new Position(rx, y, rz, (int) (8.0*(snowblocks-(int)(snowblocks))));
 				HothUtils.setPos(chunk, x,y,z, Material.SNOW);
 
 
@@ -310,6 +311,7 @@ public class HothGenerator extends ChunkGenerator
 		OreGenerator.generateOres(chunk, new Random(random.nextLong()));
 		DomeGenerator.generateDome(plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		BaseGenerator.generateBase(plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		SnowGenerator.generateSnowCover(plugin, world, snowcover);
 
 		return chunk;
 	}
