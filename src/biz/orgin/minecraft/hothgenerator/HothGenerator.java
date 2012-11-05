@@ -248,7 +248,6 @@ public class HothGenerator extends ChunkGenerator
 				}				
 				
 				// snow cover
-				//snowcover[z][x] = new Position(rx, y, rz, (int) (8.0*(snowblocks-(int)(snowblocks))));
 				double dval = snowblocks+dicey;
 				snowcover[z][x] = new Position(rx, y, rz, (int) (8.0*(dval-(int)(dval))));
 				HothUtils.setPos(chunk, x,y,z, Material.SNOW);
@@ -314,7 +313,10 @@ public class HothGenerator extends ChunkGenerator
 		OreGenerator.generateOres(chunk, new Random(random.nextLong()));
 		DomeGenerator.generateDome(plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		BaseGenerator.generateBase(plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		SnowGenerator.generateSnowCover(plugin, world, snowcover);
+		if(plugin.isSmoothSnow())
+		{
+			SnowGenerator.generateSnowCover(plugin, world, snowcover);
+		}
 
 		return chunk;
 	}

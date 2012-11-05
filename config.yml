@@ -1,10 +1,15 @@
 # Some global configuration tags.
-#  debug - Will print some debug info into the console
-#  iteminfotool - If true then right clicking a block with a clay ball will print some data about that block
+#
+#  debug - Will print some debug info into the console if set to true.
+#  iteminfotool - If true then right clicking a block with a clay ball
+#                 will print some data about that block.
+#  smoothsnow - Set to false to turn off the smooth snow cover.
+#
 hoth:
   debug: false
   iteminfotool: false
-
+  smoothsnow: true
+#
 # List all worlds that should have the hoth environmental rules like
 # ice and snow breaking into blocks and ice freezing when placed
 #

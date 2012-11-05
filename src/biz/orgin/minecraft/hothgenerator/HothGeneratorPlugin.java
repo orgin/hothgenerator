@@ -142,6 +142,11 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.config.getBoolean("hoth.iteminfotool", false);
 	}
 	
+	public boolean isSmoothSnow()
+	{
+		return this.config.getBoolean("hoth.smoothsnow", true);
+	}
+
 	public void debugMessage(String message)
 	{
 		if(this.isDebug())
