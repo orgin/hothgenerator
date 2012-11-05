@@ -62,14 +62,16 @@ public class Loot
 		new Loot(Material.STRING,          (byte)0x00, 1, 3, 50), //String
 		new Loot(Material.SUGAR_CANE,      (byte)0x00, 1, 3,  5), //Sugar cane
 		new Loot(Material.WATER_LILY,      (byte)0x00, 1, 5,  5), //Water lily
-		new Loot(Material.WHEAT,           (byte)0x00, 1, 4,  5),  //Wheat
+		new Loot(Material.WHEAT,           (byte)0x00, 1, 4,  5), //Wheat
+		new Loot(Material.POTATO_ITEM,     (byte)0x00, 1, 2,  5), //Potato
+		new Loot(Material.CARROT_ITEM,     (byte)0x00, 1, 2,  5), //Carrot
 		
 		new Loot(Material.MONSTER_EGG,     (byte)90, 1, 4,  3),  //Pig egg
 		new Loot(Material.MONSTER_EGG,     (byte)91, 1, 4,  3),  //Sheep
 		new Loot(Material.MONSTER_EGG,     (byte)92, 1, 4,  3),  //Cow
 		new Loot(Material.MONSTER_EGG,     (byte)93, 1, 4,  3),  //Chicken
 		new Loot(Material.MONSTER_EGG,     (byte)95, 1, 4,  3),  //Wolf
-		new Loot(Material.MONSTER_EGG,     (byte)98, 1, 4,  3)  //Ocelot
+		new Loot(Material.MONSTER_EGG,     (byte)98, 1, 4,  3)   //Ocelot
 			};
 	
 	public Material material;
