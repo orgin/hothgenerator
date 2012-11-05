@@ -199,6 +199,7 @@ public class HothGenerator extends ChunkGenerator
 						      this.noiseGenerator.noise(rx, rz, 10, 12)) * 2.5;
 				
 				int icey = 64+(int)(ice);
+				double dicey = 64+ice;
 				for(;y<(icey-iceh);y++)
 				{
 					HothUtils.setPos(chunk, x,y,z, Material.SNOW_BLOCK);
@@ -240,14 +241,16 @@ public class HothGenerator extends ChunkGenerator
 				// snowblock cover
 				double snowblocks = 1+this.noiseGenerator.noise(rx, rz, 8, 76)*2;
 
-				for(int i = 0;i<(int)snowblocks; i++)
+				for(int i = 0;i<(int)(snowblocks + (dicey - (int)dicey)); i++)
 				{
 					HothUtils.setPos(chunk, x,y,z, Material.SNOW_BLOCK);
 					y++;
 				}				
 				
 				// snow cover
-				snowcover[z][x] = new Position(rx, y, rz, (int) (8.0*(snowblocks-(int)(snowblocks))));
+				//snowcover[z][x] = new Position(rx, y, rz, (int) (8.0*(snowblocks-(int)(snowblocks))));
+				double dval = snowblocks+dicey;
+				snowcover[z][x] = new Position(rx, y, rz, (int) (8.0*(dval-(int)(dval))));
 				HothUtils.setPos(chunk, x,y,z, Material.SNOW);
 
 
