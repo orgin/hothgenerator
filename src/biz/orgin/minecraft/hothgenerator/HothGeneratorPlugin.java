@@ -1,6 +1,10 @@
 
 package biz.orgin.minecraft.hothgenerator;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -17,6 +21,10 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class HothGeneratorPlugin extends JavaPlugin
 {
+	public static final String LOGFILE = "plugins/HothGenerator/hoth.log";
+	
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
 	private BlockPlaceManager blockPlaceManager;
 	private BlockBreakManager blockBreakManager;
 	private ToolUseManager toolUseManager;
@@ -123,5 +131,48 @@ public class HothGeneratorPlugin extends JavaPlugin
 		
 		return !(y>63 || (y>26 && this.blockIsHighest(world, block)));
 	}
+	
+	public boolean isDebug()
+	{
+		return this.config.getBoolean("hoth.debug", false);
+	}
+	
+	public boolean isItemInfoTool()
+	{
+		return this.config.getBoolean("hoth.iteminfotool", false);
+	}
+	
+	public void debugMessage(String message)
+	{
+		if(this.isDebug())
+		{
+			this.getLogger().info(message);
+		}
+	}
+	
+	public void logMessage(String message)
+	{
+		this.logMessage(message, false);
+	}
 
+	public void logMessage(String message, boolean onConsole)
+	{
+		if(onConsole)
+		{
+			this.debugMessage(message);
+		}
+		
+		try
+		{
+			FileWriter writer = new FileWriter(HothGeneratorPlugin.LOGFILE, true);
+			writer.write(HothGeneratorPlugin.dateFormat.format(new Date()) + " " + message);
+			writer.write("\n");
+			writer.close();
+		}
+		catch(IOException e)
+		{
+			this.getLogger().info("Failed to write to log file " + HothGeneratorPlugin.LOGFILE);
+		}
+		
+	}
 }

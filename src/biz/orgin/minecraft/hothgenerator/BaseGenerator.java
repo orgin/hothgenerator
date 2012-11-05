@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
-import org.bukkit.plugin.Plugin;
 
 import biz.orgin.minecraft.hothgenerator.schematic.BaseRoom1;
 import biz.orgin.minecraft.hothgenerator.schematic.BaseRoom2;
@@ -35,7 +34,7 @@ public class BaseGenerator {
 	
 	private static int roomCnt = BaseGenerator.rooms.length;
 	
-	public static void generateBase(Plugin plugin, World world, Random random, int chunkX, int chunkZ)
+	public static void generateBase(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
 		int doit = random.nextInt(1024);
 		if(doit == 350)
@@ -47,7 +46,7 @@ public class BaseGenerator {
 	
 	static class PlaceBase implements Runnable
 	{
-		private final Plugin plugin;
+		private final HothGeneratorPlugin plugin;
 		private final World world;
 		private final Random random;
 		private final int chunkx;
@@ -55,7 +54,7 @@ public class BaseGenerator {
 		
 		private int room5s;
 
-		public PlaceBase(Plugin plugin, World world, Random random, int chunkx, int chunkz)
+		public PlaceBase(HothGeneratorPlugin plugin, World world, Random random, int chunkx, int chunkz)
 		{
 			this.plugin = plugin;
 			this.world = world;
@@ -123,7 +122,7 @@ public class BaseGenerator {
 			
 			if(safePlace)
 			{
-				this.plugin.getLogger().info("Placing base at " + sx + "," + sy + "," + sz);
+				this.plugin.logMessage("Placing base at " + sx + "," + sy + "," + sz, true);
 				
 				HothUtils.placeSchematic(plugin, world, BaseTop.instance, sx-5, sy+11, sz-5);
 				world.spawnEntity(new Location(world, sx+5, sy+5, sz+5), EntityType.VILLAGER);
@@ -185,7 +184,7 @@ public class BaseGenerator {
 			}
 			else
 			{
-				this.plugin.getLogger().info("Failed to place base at " + sx + "," + sy + "," + sz);
+				this.plugin.logMessage("Failed to place base at " + sx + "," + sy + "," + sz, true);
 			}
 			
 			

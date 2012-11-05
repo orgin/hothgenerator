@@ -5,7 +5,6 @@ import java.util.Vector;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.plugin.Plugin;
 
 import biz.orgin.minecraft.hothgenerator.schematic.*;
 
@@ -92,7 +91,7 @@ public class RoomGenerator
 	 * @param chunkx The chunk x coordinate to originate from
 	 * @param chunkz The chunk x coordinate to originate from
 	 */
-	public static void generateRooms(World world, Plugin plugin, Random random, int chunkx, int chunkz)
+	public static void generateRooms(World world, HothGeneratorPlugin plugin, Random random, int chunkx, int chunkz)
 	{
 		int doit = random.nextInt(256);
 		if(doit == 39)
@@ -115,7 +114,7 @@ public class RoomGenerator
 		}
 	}
 	
-	private static void renderRoom(Plugin plugin, World world, Room room)
+	private static void renderRoom(HothGeneratorPlugin plugin, World world, Room room)
 	{
 		// place room
 		RoomGenerator.placeBasicRoom(plugin, world, room);
@@ -140,7 +139,7 @@ public class RoomGenerator
 		}
 	}
 
-	private static void placeDecor(Plugin plugin, World world, Room room)
+	private static void placeDecor(HothGeneratorPlugin plugin, World world, Room room)
 	{
 		Schematic schematic = null;
 		
@@ -161,7 +160,7 @@ public class RoomGenerator
 		}
 	}
 	
-	private static void placeFloor(Plugin plugin, World world, Room room)
+	private static void placeFloor(HothGeneratorPlugin plugin, World world, Room room)
 	{
 		if(room.floor!=0)
 		{
@@ -180,12 +179,12 @@ public class RoomGenerator
 		}
 	}
 	
-	private static void placeBasicRoom(Plugin plugin, World world, Room room)
+	private static void placeBasicRoom(HothGeneratorPlugin plugin, World world, Room room)
 	{
 		HothUtils.placeSchematic(plugin, world, NormalRoom.instance, room.x, room.y, room.z, room.spawner);
 	}
 	
-	private static void placeRoomExits(Plugin plugin, World world, Room room)
+	private static void placeRoomExits(HothGeneratorPlugin plugin, World world, Room room)
 	{
 		for(int i=0;i<6;i++)
 		{
@@ -205,7 +204,7 @@ public class RoomGenerator
 		}
 	}
 
-	private static void placeRoomDoors(Plugin plugin, World world, Room room)
+	private static void placeRoomDoors(HothGeneratorPlugin plugin, World world, Room room)
 	{
 		for(int i=0;i<6;i++)
 		{
@@ -491,9 +490,9 @@ public class RoomGenerator
 	{
 		private final World world;
 		private final Cluster cluster;
-		private final Plugin plugin;
+		private final HothGeneratorPlugin plugin;
 
-		public PlaceCluster(Plugin plugin, World world, Cluster cluster)
+		public PlaceCluster(HothGeneratorPlugin plugin, World world, Cluster cluster)
 		{
 			this.world = world;
 			this.cluster = cluster;
@@ -505,7 +504,7 @@ public class RoomGenerator
 		{
 			RoomGenerator.renderRoom(this.plugin, this.world, this.cluster.rooms);
 
-			this.plugin.getLogger().info("Placing maze at " + this.cluster.rooms.x + "," + this.cluster.rooms.y + "," + this.cluster.rooms.z);
+			this.plugin.logMessage("Placing maze at " + this.cluster.rooms.x + "," + this.cluster.rooms.y + "," + this.cluster.rooms.z, true);
 		}
 	}
 	

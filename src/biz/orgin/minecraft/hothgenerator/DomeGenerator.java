@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.plugin.Plugin;
 
 import biz.orgin.minecraft.hothgenerator.schematic.MiniDome;
 
@@ -65,7 +64,7 @@ public class DomeGenerator
 	}
 
 	
-	public static void generateDome(Plugin plugin, World world, Random random, int chunkX, int chunkZ)
+	public static void generateDome(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
 		int doit = random.nextInt(1024);
 		if(doit == 536)
@@ -76,13 +75,13 @@ public class DomeGenerator
 
 	static class PlaceDome implements Runnable
 	{
-		private final Plugin plugin;
+		private final HothGeneratorPlugin plugin;
 		private final World world;
 		private final Random random;
 		private final int chunkx;
 		private final int chunkz;
 
-		public PlaceDome(Plugin plugin, World world, Random random, int chunkx, int chunkz)
+		public PlaceDome(HothGeneratorPlugin plugin, World world, Random random, int chunkx, int chunkz)
 		{
 			this.plugin = plugin;
 			this.world = world;
@@ -128,7 +127,7 @@ public class DomeGenerator
 			int sz = this.chunkz*16 + random.nextInt(16);
 			int sy = 26;
 			
-			this.plugin.getLogger().info("Placing Dome at " + sx + "," + sy + "," + sz);
+			this.plugin.logMessage("Placing Dome at " + sx + "," + sy + "," + sz,true);
 
 			int radius = 46;
 

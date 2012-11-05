@@ -1,3 +1,10 @@
+# Some global configuration tags.
+#  debug - Will print some debug info into the console
+#  iteminfotool - If true then right clicking a block with a clay ball will print some data about that block
+hoth:
+  debug: false
+  iteminfotool: false
+
 # List all worlds that should have the hoth environmental rules like
 # ice and snow breaking into blocks and ice freezing when placed
 #

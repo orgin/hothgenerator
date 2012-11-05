@@ -4,7 +4,6 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.plugin.Plugin;
 
 import biz.orgin.minecraft.hothgenerator.schematic.GreenGarden;
 import biz.orgin.minecraft.hothgenerator.schematic.GreyGarden;
@@ -20,7 +19,7 @@ import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
 public class GardenGenerator
 {
 	
-	public static void generateGarden(Plugin plugin, World world, Random random, int chunkX, int chunkZ)
+	public static void generateGarden(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
 		int place = random.nextInt(100);
 		
@@ -32,13 +31,13 @@ public class GardenGenerator
 
 	static class PlaceGarden implements Runnable
 	{
-		private final Plugin plugin;
+		private final HothGeneratorPlugin plugin;
 		private final World world;
 		private final Random random;
 		private final int chunkx;
 		private final int chunkz;
 
-		public PlaceGarden(Plugin plugin, World world, Random random, int chunkx, int chunkz)
+		public PlaceGarden(HothGeneratorPlugin plugin, World world, Random random, int chunkx, int chunkz)
 		{
 			this.plugin = plugin;
 			this.world = world;
@@ -71,7 +70,7 @@ public class GardenGenerator
 			
 			HothUtils.placeSchematic(plugin, world, garden, x, y, z);
 
-			this.plugin.getLogger().info("Placing garden at " + x + "," + y + "," + z);
+			this.plugin.logMessage("Placing garden at " + x + "," + y + "," + z, true);
 		}
 	}
 

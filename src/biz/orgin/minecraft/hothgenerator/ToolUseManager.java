@@ -32,16 +32,23 @@ public class ToolUseManager implements Listener
 	public void onPlayerInteract(PlayerInteractEvent event)
 	{
 		World world = event.getPlayer().getWorld();
-		
-		if(this.plugin.isHothWorld(world))
+
+		Action action = event.getAction();
+
+		if(action.equals(Action.RIGHT_CLICK_BLOCK))
 		{
-			Action action = event.getAction();
-			
-			if(action.equals(Action.RIGHT_CLICK_BLOCK))
+
+			Player player = event.getPlayer();
+			ItemStack item = player.getItemInHand();
+
+			if(plugin.isItemInfoTool() && item.getType().equals(Material.CLAY_BALL))
 			{
-				Player player = event.getPlayer();
-				
-				ItemStack item = player.getItemInHand();
+				Block block = event.getClickedBlock();
+				player.sendMessage("Item: name = " + block.getType().name() + " type = " + block.getTypeId() + ", data = " + block.getData());
+			}
+
+			if(this.plugin.isHothWorld(world))
+			{
 				if(item.getType().equals(Material.WATER_BUCKET))
 				{
 					Block block = event.getClickedBlock();
@@ -49,7 +56,7 @@ public class ToolUseManager implements Listener
 					{
 						block = block.getRelative(event.getBlockFace());
 					}
-					
+
 					if(!this.plugin.canPlaceLiquid(world, block))
 					{
 						BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.WATER, Material.ICE);
@@ -69,11 +76,6 @@ public class ToolUseManager implements Listener
 						BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.LAVA, Material.STONE);
 						Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
 					}
-				}
-				else if(item.getType().equals(Material.CLAY_BALL))
-				{
-					Block block = event.getClickedBlock();
-					player.sendMessage("Item: name = " + block.getType().name() + " type = " + block.getTypeId() + ", data = " + block.getData());
 				}
 			}
 		}
