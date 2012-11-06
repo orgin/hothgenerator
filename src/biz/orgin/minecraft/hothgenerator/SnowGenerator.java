@@ -4,14 +4,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.plugin.Plugin;
 
+/*
+ * Makes the snow cover made by HothGenerator into a smooth one.
+ */
 public class SnowGenerator
 {
 
-	public static void generateSnowCover(Plugin plugin, World world, Position[][] snowcover)
+	public static void generateSnowCover(HothGeneratorPlugin plugin, World world, Position[][] snowcover)
 	{
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceSnowCover(world, snowcover));
+		if(plugin.isSmoothSnow())
+		{
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceSnowCover(world, snowcover));
+		}
 	}
 
 	static class PlaceSnowCover implements Runnable

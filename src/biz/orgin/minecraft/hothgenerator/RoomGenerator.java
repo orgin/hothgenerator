@@ -126,7 +126,6 @@ public class RoomGenerator
 		RoomGenerator.placeRoomExits(plugin, world, room);
 		// place doors
 		RoomGenerator.placeRoomDoors(plugin, world, room);
-		// place lights
 		
 		// Render children
 		for(int i=0;i<6;i++)
@@ -245,15 +244,13 @@ public class RoomGenerator
 			int y = room.y;
 			int z = room.z;
 			
-			int subs = 0;
+			int subs = 1;
 			int prob = cluster.random.nextInt(100);
-			if(prob>85) subs = 5;
-			else if(prob>75) subs = 4;
-			else if(prob>60) subs = 3;
-			else if(prob>40) subs = 2;
-			else if(prob>30) subs = 1;
-			
-			subs = 4;
+			if(prob>80) subs = 5;
+			else if(prob>70) subs = 4;
+			else if(prob>50) subs = 3;
+			else if(prob>30) subs = 2;
+			else if(prob>20) subs = 1;
 			
 			int free = cluster.getFreePositionCount(room);
 			if(subs>free)

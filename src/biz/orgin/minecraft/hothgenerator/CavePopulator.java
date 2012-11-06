@@ -172,7 +172,10 @@ public class CavePopulator extends BlockPopulator
 		for (Position pos : caveBlocks)
 		{
 			Block block = world.getBlockAt(pos.x, pos.y, pos.z);
-			if (!block.isEmpty() && !block.isLiquid() && block.getType() != Material.BEDROCK)
+			Material type = block.getType();
+			if (!block.isEmpty() &&
+				(type.equals(Material.SNOW_BLOCK) || type.equals(Material.STONE) ||
+				 type.equals(Material.ICE)|| type.equals(Material.SNOW) ))
 			{
 				block.setType(Material.AIR);
 			}

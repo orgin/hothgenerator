@@ -15,12 +15,12 @@ import org.bukkit.generator.BlockPopulator;
  * @author orgin
  *
  */
-public class HothPopulator extends BlockPopulator
+public class LogPopulator extends BlockPopulator
 {
 	@SuppressWarnings("unused")
 	private int height;
 
-	public HothPopulator(int height)
+	public LogPopulator(int height)
 	{
 		this.height = height;
 	}
@@ -36,10 +36,6 @@ public class HothPopulator extends BlockPopulator
 		
 		// Logs
 		this.placeLogs(world, rx, rz, random);
-		
-		// generate dungeons            - separate populator?
-		// generate abandoned mines     - separate populator?
-		
 		
 		// Set biome for proper weather effect
 	

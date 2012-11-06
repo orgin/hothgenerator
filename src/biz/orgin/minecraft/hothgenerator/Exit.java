@@ -3,8 +3,8 @@ package biz.orgin.minecraft.hothgenerator;
 import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
 
 /**
- * Holder class used by the RoomPopulator to store data about
- * what exits a room can have.
+ * Holder class used by the RoomGenerator to store data about
+ * which exits a room can have.
  * @author orgin
  *
  */
