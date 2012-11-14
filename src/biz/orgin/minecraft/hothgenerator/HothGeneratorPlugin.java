@@ -82,17 +82,25 @@ public class HothGeneratorPlugin extends JavaPlugin
 		}
 	}
 	
+	/**
+	 * Check if the current world is a hHrld. Hoth worlds are defined in the config.
+	 * The comparison is case insensitive.
+	 * @param world The world to check
+	 * @return True if the world is in the hoth world list
+	 */
 	public boolean isHothWorld(World world)
 	{
 		List<String> list = this.config.getStringList("hothworlds");
 		
 		if(list!=null)
 		{
-			String current = world.getName();
+			String current = world.getName().toLowerCase();
 			
 			for(int i=0;i<list.size();i++)
 			{
-				if(list.get(i).equals(current))
+				String item = list.get(i).toLowerCase();
+				
+				if(item.equals(current))
 				{
 					return true;
 				}
