@@ -29,6 +29,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private BlockBreakManager blockBreakManager;
 	private ToolUseManager toolUseManager;
 	private BlockMeltManager blockMeltManager;
+	private BlockGrowManager blockGrowManager;
+	private StructureGrowManager structureGrowManager;
+	private BlockSpreadManager blockSpreadManager;
 	
 	private FileConfiguration config;
 	
@@ -38,11 +41,18 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.blockBreakManager = new BlockBreakManager(this);
     	this.toolUseManager = new ToolUseManager(this);
     	this.blockMeltManager = new BlockMeltManager(this);
+    	this.blockGrowManager = new BlockGrowManager(this);
+    	this.structureGrowManager = new StructureGrowManager(this);
+    	this.blockSpreadManager = new BlockSpreadManager(this);
     	
     	this.getServer().getPluginManager().registerEvents(this.blockPlaceManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockBreakManager, this);
     	this.getServer().getPluginManager().registerEvents(this.toolUseManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockMeltManager, this);
+    	this.getServer().getPluginManager().registerEvents(this.blockGrowManager, this);
+    	this.getServer().getPluginManager().registerEvents(this.structureGrowManager, this);
+    	this.getServer().getPluginManager().registerEvents(this.blockSpreadManager, this);
+    	
     	
 		this.saveDefaultConfig();
     	this.config = this.getConfig();

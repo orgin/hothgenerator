@@ -14,8 +14,9 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * Listens to player interaction events, specifically using a
- * water och lava bucket so that any placed water or lava can
+ * water or lava bucket so that any placed water or lava can
  * be frozen into ice or stone.
+ * Bonemealing exposed blocks are prevented.
  * @author orgin
  *
  */
@@ -76,6 +77,29 @@ public class ToolUseManager implements Listener
 						BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.LAVA, Material.STONE);
 						Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
 					}
+				}
+				else if(item.getType().equals(Material.INK_SACK) && item.getDurability() == 15)
+				{
+					// User is bonemealing something
+					Block block = event.getClickedBlock();
+					Material type = block.getType();
+					
+					int maxy = world.getHighestBlockYAt(block.getX(), block.getZ());
+					
+					if(Math.abs(maxy-block.getY())<2)
+					{
+						if( type.equals(Material.CARROT) ||
+							type.equals(Material.POTATO) ||
+							type.equals(Material.PUMPKIN_STEM) ||
+							type.equals(Material.MELON_STEM) ||
+							type.equals(Material.GRASS) ||
+							type.equals(Material.SAPLING) ||
+							type.equals(Material.CROPS)	)
+						{
+							event.setCancelled(true);
+						}
+					}
+
 				}
 			}
 		}
