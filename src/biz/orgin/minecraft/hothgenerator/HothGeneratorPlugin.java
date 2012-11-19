@@ -32,6 +32,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private BlockGrowManager blockGrowManager;
 	private StructureGrowManager structureGrowManager;
 	private BlockSpreadManager blockSpreadManager;
+	private CreatureSpawnManager creatureSpawnManager;
 	
 	private FileConfiguration config;
 	
@@ -44,6 +45,7 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.blockGrowManager = new BlockGrowManager(this);
     	this.structureGrowManager = new StructureGrowManager(this);
     	this.blockSpreadManager = new BlockSpreadManager(this);
+    	this.creatureSpawnManager = new CreatureSpawnManager(this);
     	
     	this.getServer().getPluginManager().registerEvents(this.blockPlaceManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockBreakManager, this);
@@ -52,6 +54,7 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.getServer().getPluginManager().registerEvents(this.blockGrowManager, this);
     	this.getServer().getPluginManager().registerEvents(this.structureGrowManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockSpreadManager, this);
+    	this.getServer().getPluginManager().registerEvents(this.creatureSpawnManager, this);
     	
     	
 		this.saveDefaultConfig();

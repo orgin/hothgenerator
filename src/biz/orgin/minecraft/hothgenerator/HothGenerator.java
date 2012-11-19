@@ -122,7 +122,7 @@ public class HothGenerator extends ChunkGenerator
 				HothUtils.setPos(chunk, x,y+4,z, getBedrockMaterial(localRand, (int)(256*0.3f))); // 30%
 				HothUtils.setPos(chunk, x,y+5,z, getBedrockMaterial(localRand, (int)(256*0.2f))); // 20%
 				
-				// STONE Layer, solid (Use Populator for ores, lava and such?)
+				// STONE Layer, solid
 				for(y=6	;y<27;y++)
 				{
 					HothUtils.setPos(chunk, x,y,z, Material.STONE);
