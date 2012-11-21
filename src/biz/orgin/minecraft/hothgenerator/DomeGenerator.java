@@ -262,11 +262,8 @@ public class DomeGenerator
 					{
 						this.placeTop(currix, curriy, curriz);
 					}
-					
-					// Grow stem
 				}
 			}
-			// Place central schematics
 		}
 	}
 }
