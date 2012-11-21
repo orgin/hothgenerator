@@ -23,7 +23,7 @@ public class BlockPlaceManager implements Listener
 		this.plugin = plugin;
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void placeBlock(BlockPlaceEvent event)
 	{
 		if(!event.isCancelled())

@@ -146,6 +146,32 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return true;
 	}
 	
+	/**
+	 * Get the highest block y value for the given world and coordinate.
+	 * Only air is considered empty.
+	 * @param world
+	 * @param x
+	 * @param z
+	 * @return
+	 */
+	
+	public int getHighestBlockYAt(World world, int x, int z)
+	{
+		int airID = Material.AIR.getId();
+		
+		int y = world.getMaxHeight();
+		while(y>0)
+		{
+			if(world.getBlockTypeIdAt(x, y, z) != airID)
+			{
+				return y;
+			}
+			y--;
+		}
+		
+		return -1;
+	}
+	
 	public boolean canPlaceLiquid(World world, Block block)
 	{
 		int y = block.getY();

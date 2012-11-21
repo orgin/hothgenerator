@@ -4,6 +4,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -24,15 +25,16 @@ public class BlockBreakManager implements Listener
 		this.plugin = plugin;
 	}
 
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockBreak(BlockBreakEvent event)
 	{
 		if(!event.isCancelled())
 		{
 			Block block = event.getBlock();
 			World world = block.getWorld();
+			Player player = event.getPlayer(); 
 	
-			GameMode gamemode = event.getPlayer().getGameMode();
+			GameMode gamemode = player.getGameMode();
 	
 			if (!gamemode.equals(GameMode.CREATIVE))
 			{

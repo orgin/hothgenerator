@@ -29,7 +29,7 @@ public class ToolUseManager implements Listener
 		this.plugin = plugin;
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerInteract(PlayerInteractEvent event)
 	{
 		if(!event.isCancelled())
@@ -86,7 +86,7 @@ public class ToolUseManager implements Listener
 						Block block = event.getClickedBlock();
 						Material type = block.getType();
 						
-						int maxy = world.getHighestBlockYAt(block.getX(), block.getZ());
+						int maxy = this.plugin.getHighestBlockYAt(world, block.getX(), block.getZ());
 						
 						if(Math.abs(maxy-block.getY())<2)
 						{

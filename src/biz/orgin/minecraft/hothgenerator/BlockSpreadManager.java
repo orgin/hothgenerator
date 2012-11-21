@@ -23,7 +23,7 @@ public class BlockSpreadManager implements Listener
 		this.plugin = plugin;
 	}
 
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockSpread(BlockSpreadEvent event)
 	{
 		if(!event.isCancelled())
@@ -34,8 +34,8 @@ public class BlockSpreadManager implements Listener
 			if(this.plugin.isHothWorld(world))
 			{
 				Block block2 = event.getBlock(); // destination.
-				int maxy = world.getHighestBlockYAt(block.getX(), block.getZ());
-				int maxy2 = world.getHighestBlockYAt(block2.getX(), block2.getZ());
+				int maxy = this.plugin.getHighestBlockYAt(world, block.getX(), block.getZ());
+				int maxy2 = this.plugin.getHighestBlockYAt(world, block2.getX(), block2.getZ());
 				Material type = block.getType();
 	
 				if(type.equals(Material.GRASS) || type.equals(Material.MYCEL))
