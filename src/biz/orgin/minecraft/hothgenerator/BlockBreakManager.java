@@ -27,28 +27,31 @@ public class BlockBreakManager implements Listener
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onBlockBreak(BlockBreakEvent event)
 	{
-		Block block = event.getBlock();
-		World world = block.getWorld();
-
-		GameMode gamemode = event.getPlayer().getGameMode();
-
-		if (!gamemode.equals(GameMode.CREATIVE))
+		if(!event.isCancelled())
 		{
-			if (this.plugin.isHothWorld(world) && block.getType().equals(Material.ICE))
+			Block block = event.getBlock();
+			World world = block.getWorld();
+	
+			GameMode gamemode = event.getPlayer().getGameMode();
+	
+			if (!gamemode.equals(GameMode.CREATIVE))
 			{
-				ItemStack iceStack = new ItemStack(Material.ICE);
-				iceStack.setAmount(1);
-
-				block.setType(Material.AIR);
-				block.getWorld().dropItem(block.getLocation(), iceStack);
-			}
-			else if (this.plugin.isHothWorld(world) && block.getType().equals(Material.SNOW_BLOCK))
-			{
-				ItemStack iceStack = new ItemStack(Material.SNOW_BLOCK);
-				iceStack.setAmount(1);
-
-				block.setType(Material.AIR);
-				block.getWorld().dropItem(block.getLocation(), iceStack);
+				if (this.plugin.isHothWorld(world) && block.getType().equals(Material.ICE))
+				{
+					ItemStack iceStack = new ItemStack(Material.ICE);
+					iceStack.setAmount(1);
+	
+					block.setType(Material.AIR);
+					block.getWorld().dropItem(block.getLocation(), iceStack);
+				}
+				else if (this.plugin.isHothWorld(world) && block.getType().equals(Material.SNOW_BLOCK))
+				{
+					ItemStack iceStack = new ItemStack(Material.SNOW_BLOCK);
+					iceStack.setAmount(1);
+	
+					block.setType(Material.AIR);
+					block.getWorld().dropItem(block.getLocation(), iceStack);
+				}
 			}
 		}
 	}

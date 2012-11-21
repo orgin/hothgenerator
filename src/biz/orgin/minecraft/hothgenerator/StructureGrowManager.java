@@ -22,17 +22,20 @@ public class StructureGrowManager implements Listener
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST)
-	public void onStructireGrow(StructureGrowEvent event)
+	public void onStructureGrow(StructureGrowEvent event)
 	{
-		World world = event.getWorld();
-		
-		if(this.plugin.isHothWorld(world))
+		if(!event.isCancelled())
 		{
-			int maxy = world.getHighestBlockYAt(event.getLocation());
-
-			if(maxy==event.getLocation().getY())
+			World world = event.getWorld();
+			
+			if(this.plugin.isHothWorld(world))
 			{
-				event.setCancelled(true);
+				int maxy = world.getHighestBlockYAt(event.getLocation());
+	
+				if(maxy==event.getLocation().getY())
+				{
+					event.setCancelled(true);
+				}
 			}
 		}
 	}

@@ -26,35 +26,35 @@ public class BlockPlaceManager implements Listener
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void placeBlock(BlockPlaceEvent event)
 	{
-		Block block = event.getBlock();
-		
-		World world = block.getWorld();
-		
-  	  	if (this.plugin.isHothWorld(world) && block.isLiquid())
+		if(!event.isCancelled())
 		{
-			if(!this.plugin.canPlaceLiquid(world, block))
-			{
-				Material type = block.getType();
 			
-				if(type.equals(Material.WATER) ||
-					type.equals(Material.WATER_BUCKET))
+			Block block = event.getBlock();
+			
+			World world = block.getWorld();
+			
+	  	  	if (this.plugin.isHothWorld(world) && block.isLiquid())
+			{
+				if(!this.plugin.canPlaceLiquid(world, block))
 				{
-					BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.WATER, Material.ICE);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
-				}
-				else if(type.equals(Material.LAVA) ||
-					type.equals(Material.LAVA_BUCKET))
-				{
-					BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.LAVA, Material.STONE);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
+					Material type = block.getType();
+				
+					if(type.equals(Material.WATER) ||
+						type.equals(Material.WATER_BUCKET))
+					{
+						BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.WATER, Material.ICE);
+						Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
+					}
+					else if(type.equals(Material.LAVA) ||
+						type.equals(Material.LAVA_BUCKET))
+					{
+						BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.LAVA, Material.STONE);
+						Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
+					}
 				}
 			}
 		}
-
 	}
-	
-	
-	
 }
 
 

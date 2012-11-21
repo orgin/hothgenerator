@@ -24,17 +24,20 @@ public class BlockGrowManager implements Listener
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onBlockGrow(BlockGrowEvent event)
 	{
-		Block block = event.getBlock();
-		World world = block.getWorld();
-		
-		if(this.plugin.isHothWorld(world))
+		if(!event.isCancelled())
 		{
-			int maxy = world.getHighestBlockYAt(block.getX(), block.getZ());
-
-			if(maxy==block.getY())
+			Block block = event.getBlock();
+			World world = block.getWorld();
+			
+			if(this.plugin.isHothWorld(world))
 			{
-				event.setCancelled(true);
-				block.breakNaturally();
+				int maxy = world.getHighestBlockYAt(block.getX(), block.getZ());
+	
+				if(maxy==block.getY())
+				{
+					event.setCancelled(true);
+					block.breakNaturally();
+				}
 			}
 		}
 	}

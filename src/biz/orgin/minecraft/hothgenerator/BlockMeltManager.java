@@ -25,22 +25,25 @@ public class BlockMeltManager implements Listener
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockFade(BlockFadeEvent event)
 	{
-		Block block = event.getBlock();
-		World world = block.getWorld();
-		
-		if(this.plugin.isHothWorld(world))
+		if(!event.isCancelled())
 		{
-			int y = block.getY();
+			Block block = event.getBlock();
+			World world = block.getWorld();
 			
-			if(y>26)
+			if(this.plugin.isHothWorld(world))
 			{
-				Material type = block.getType();
+				int y = block.getY();
 				
-				if(type.equals(Material.ICE) ||
-				   type.equals(Material.SNOW) ||
-				   type.equals(Material.SNOW_BLOCK))
+				if(y>26)
 				{
-					event.setCancelled(true);
+					Material type = block.getType();
+					
+					if(type.equals(Material.ICE) ||
+					   type.equals(Material.SNOW) ||
+					   type.equals(Material.SNOW_BLOCK))
+					{
+						event.setCancelled(true);
+					}
 				}
 			}
 		}

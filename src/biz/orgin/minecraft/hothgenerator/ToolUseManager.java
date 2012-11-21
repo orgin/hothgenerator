@@ -32,74 +32,77 @@ public class ToolUseManager implements Listener
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerInteract(PlayerInteractEvent event)
 	{
-		World world = event.getPlayer().getWorld();
-
-		Action action = event.getAction();
-
-		if(action.equals(Action.RIGHT_CLICK_BLOCK))
+		if(!event.isCancelled())
 		{
-
-			Player player = event.getPlayer();
-			ItemStack item = player.getItemInHand();
-
-			if(plugin.isItemInfoTool() && item.getType().equals(Material.CLAY_BALL))
+			World world = event.getPlayer().getWorld();
+	
+			Action action = event.getAction();
+	
+			if(action.equals(Action.RIGHT_CLICK_BLOCK))
 			{
-				Block block = event.getClickedBlock();
-				player.sendMessage("Item: name = " + block.getType().name() + " type = " + block.getTypeId() + ", data = " + block.getData());
-			}
-
-			if(this.plugin.isHothWorld(world))
-			{
-				if(item.getType().equals(Material.WATER_BUCKET))
+	
+				Player player = event.getPlayer();
+				ItemStack item = player.getItemInHand();
+	
+				if(plugin.isItemInfoTool() && item.getType().equals(Material.CLAY_BALL))
 				{
 					Block block = event.getClickedBlock();
-					if(!block.getType().equals(Material.SNOW))
-					{
-						block = block.getRelative(event.getBlockFace());
-					}
-
-					if(!this.plugin.canPlaceLiquid(world, block))
-					{
-						BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.WATER, Material.ICE);
-						Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
-					}
+					player.sendMessage("Item: name = " + block.getType().name() + " type = " + block.getTypeId() + ", data = " + block.getData());
 				}
-				else if(item.getType().equals(Material.LAVA_BUCKET))
+	
+				if(this.plugin.isHothWorld(world))
 				{
-					Block block = event.getClickedBlock();
-					if(!block.getType().equals(Material.SNOW))
+					if(item.getType().equals(Material.WATER_BUCKET))
 					{
-						block = block.getRelative(event.getBlockFace());
-					}
-
-					if(!this.plugin.canPlaceLiquid(world, block))
-					{
-						BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.LAVA, Material.STONE);
-						Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
-					}
-				}
-				else if(item.getType().equals(Material.INK_SACK) && item.getDurability() == 15)
-				{
-					// User is bonemealing something
-					Block block = event.getClickedBlock();
-					Material type = block.getType();
-					
-					int maxy = world.getHighestBlockYAt(block.getX(), block.getZ());
-					
-					if(Math.abs(maxy-block.getY())<2)
-					{
-						if( type.equals(Material.CARROT) ||
-							type.equals(Material.POTATO) ||
-							type.equals(Material.PUMPKIN_STEM) ||
-							type.equals(Material.MELON_STEM) ||
-							type.equals(Material.GRASS) ||
-							type.equals(Material.SAPLING) ||
-							type.equals(Material.CROPS)	)
+						Block block = event.getClickedBlock();
+						if(!block.getType().equals(Material.SNOW))
 						{
-							event.setCancelled(true);
+							block = block.getRelative(event.getBlockFace());
+						}
+	
+						if(!this.plugin.canPlaceLiquid(world, block))
+						{
+							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.WATER, Material.ICE);
+							Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
 						}
 					}
-
+					else if(item.getType().equals(Material.LAVA_BUCKET))
+					{
+						Block block = event.getClickedBlock();
+						if(!block.getType().equals(Material.SNOW))
+						{
+							block = block.getRelative(event.getBlockFace());
+						}
+	
+						if(!this.plugin.canPlaceLiquid(world, block))
+						{
+							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.LAVA, Material.STONE);
+							Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
+						}
+					}
+					else if(item.getType().equals(Material.INK_SACK) && item.getDurability() == 15)
+					{
+						// User is bonemealing something
+						Block block = event.getClickedBlock();
+						Material type = block.getType();
+						
+						int maxy = world.getHighestBlockYAt(block.getX(), block.getZ());
+						
+						if(Math.abs(maxy-block.getY())<2)
+						{
+							if( type.equals(Material.CARROT) ||
+								type.equals(Material.POTATO) ||
+								type.equals(Material.PUMPKIN_STEM) ||
+								type.equals(Material.MELON_STEM) ||
+								type.equals(Material.GRASS) ||
+								type.equals(Material.SAPLING) ||
+								type.equals(Material.CROPS)	)
+							{
+								event.setCancelled(true);
+							}
+						}
+	
+					}
 				}
 			}
 		}
