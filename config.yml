@@ -1,14 +1,3 @@
-# Some global configuration tags.
-#
-#  debug - Will print some debug info into the console if set to true.
-#  iteminfotool - If true then right clicking a block with a clay ball
-#                 will print some data about that block.
-#  smoothsnow - Set to false to turn off the smooth snow cover.
-#
-hoth:
-  debug: false
-  iteminfotool: false
-  smoothsnow: true
 #
 # List all worlds that should have the hoth environmental rules like
 # ice and snow breaking into blocks and ice freezing when placed
@@ -21,3 +10,76 @@ hoth:
 #
 hothworlds:
    - hoth
+#
+#
+# --- Advanced options ---
+#
+#  There's no need to change anything of the following unless there's
+#  some game mechanics you really want to change. If you want to play
+#  the hoth world as the author intended, just leave the following as is.
+#
+# If you should mess up the config then just stop the server, remove the
+# config file and then start the server again.
+#
+# Option descriptions:
+#
+#  debug - true/false. Will print some debug info into the console if set to true.
+#
+#  iteminfotool - true/false. If true then right clicking a block with a clay ball
+#                 will print some data about that block.
+#
+#  smoothsnow - true/false. Set to false to turn off the smooth snow cover.
+#
+#  structure.gardens - 0-10. Rarity for gardens. 0 is off, 1-10 is rarity (1 = common, 10 = very rare)
+#  structure.domes - 0-10. Rarity for domes. 0 is off, 1-10 is rarity (1 = common, 10 = very rare)
+#  structure.domes.plantstem - Block ID for alien plant stems
+#  structure.domes.planttop  - Block ID for alien plant top
+#  structure.domes.floor - Block ID for dome floor material
+#  structure.domes.placeminidome - true/false. Whether the central building should be generated.
+#  structure.domes.floorrandom - Block ID for the random floor material
+#  structure.bases - 0-10. Rarity for bases. 0 is off, 1-10 is rarity (1 = common, 10 = very rare)
+#  structure.bases.spawner - true/false. Whether bases can have monster spawners
+#  structure.roomcluster - 0-10. Rarity for room clusters. 0 is off, 1-10 is rarity (1 = common, 10 = very rare)
+#  structure.roomcluster.minrooms - > 0. Minimum number of rooms the generator attempts to make
+#  structure.roomcluster.maxrooms - > minrooms. Maximum number of rooms the generator attempts to make
+#  structure.roomcluster.spawner - true/false. Whether bases can have monster spawners
+#  generate.logs - true/false. Whether frozen logs should be generated
+#  generate.caves - 0-10. Rarity for caves. 0 is off, 1-10 is rarity (1 = rare, 10 = very common)
+#  generate.ores - true/false. Whether frozen logs should be generated
+#  rules.dropice - true/false. Whether ice should drop ice blocks when destroyed. 
+#  rules.dropsnow - true/false. Whether snow should drop snow blocks when destroyed. 
+#  rules.freezewater - true/false. Whether water should freeze when placed above stone layer. 
+#  rules.freezelava - true/false. Whether lava should freeze when placed above stone layer. 
+#  rules.plantsgrow - true/false. Whether plants and trees can grow under open sky. 
+#  rules.grassspread - true/false. Whether grass can spread under open sky. 
+#  rules.stopmelt - true/false. Whether ice and snow should be able to melt above stone layer. 
+#  rules.limitslime - true/false. Whether slime can only spawn in the stone layer. 
+#
+hoth:
+  debug: false
+  iteminfotool: false
+  smoothsnow: true
+  structure.gardens: 1
+  structure.domes: 1
+  structure.domes.plantstem: 19
+  structure.domes.planttop: 89
+  structure.domes.floor: 3
+  structure.domes.placeminidome: true
+  structure.domes.floorrandom: 89
+  structure.bases: 1
+  structure.bases.spawner: true
+  structure.roomcluster: 1
+  structure.roomcluster.minrooms: 8
+  structure.roomcluster.maxrooms: 32
+  structure.roomcluster.spawner: true
+  generate.logs: true
+  generate.caves: 1
+  generate.ores: true
+  rules.dropice: true
+  rules.dropsnow: true
+  rules.freezewater: true
+  rules.freezelava: true
+  rules.plantsgrow: false
+  rules.grassspread: false
+  rules.stopmelt: true
+  rules.limitslime: true
