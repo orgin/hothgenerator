@@ -26,15 +26,18 @@ public class OreGenerator
 	private static final int[] maxHeight = new int[] {60, 26, 128, 128, 26, 16, 16,	26, 128};
 	private static int REPLACE = Material.STONE.getId();
 	
-	public static void generateOres(byte[][] chunk, Random random)
+	public static void generateOres(HothGeneratorPlugin plugin, byte[][] chunk, Random random)
 	{
-		for (int i = 0; i < type.length; i++)
+		if(plugin.isGenerateOres())
 		{
-			for (int j = 0; j < iterations[i]; j++)
+			for (int i = 0; i < type.length; i++)
 			{
-				OreGenerator.vein(chunk, random, random.nextInt(16),
-						random.nextInt(maxHeight[i]), random.nextInt(16),
-						amount[i], type[i]);
+				for (int j = 0; j < iterations[i]; j++)
+				{
+					OreGenerator.vein(chunk, random, random.nextInt(16),
+							random.nextInt(maxHeight[i]), random.nextInt(16),
+							amount[i], type[i]);
+				}
 			}
 		}
 	}

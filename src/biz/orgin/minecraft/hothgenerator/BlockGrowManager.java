@@ -29,7 +29,7 @@ public class BlockGrowManager implements Listener
 			Block block = event.getBlock();
 			World world = block.getWorld();
 			
-			if(this.plugin.isHothWorld(world))
+			if(this.plugin.isHothWorld(world) && !this.plugin.isRulesPlantsgrow())
 			{
 				int maxy = this.plugin.getHighestBlockYAt(world, block.getX(), block.getZ());
 	

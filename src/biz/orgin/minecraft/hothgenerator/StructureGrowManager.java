@@ -28,7 +28,7 @@ public class StructureGrowManager implements Listener
 		{
 			World world = event.getWorld();
 			
-			if(this.plugin.isHothWorld(world))
+			if(this.plugin.isHothWorld(world) && !this.plugin.isRulesPlantsgrow())
 			{
 				int maxy = this.plugin.getHighestBlockYAt(world, event.getLocation().getBlockX(), event.getLocation().getBlockZ());
 	

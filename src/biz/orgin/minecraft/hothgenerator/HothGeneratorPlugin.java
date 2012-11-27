@@ -8,8 +8,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -59,6 +62,46 @@ public class HothGeneratorPlugin extends JavaPlugin
     	
 		this.saveDefaultConfig();
     	this.config = this.getConfig();
+    }
+    
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
+    {
+    	// Log all actions
+    	StringBuffer full = new StringBuffer();
+    	for(int i=0;i<args.length;i++)
+    	{
+    		if(full.length()>0)
+    		{
+        		full.append(" ");
+    		}
+    		full.append(args[i]);
+    	}
+    	this.getLogger().info("[PLAYER COMMAND] " + sender.getName() + ": /" + cmd.getName() + " " + full.toString());
+
+    	
+    	if(cmd.getName().equalsIgnoreCase("hothreload"))
+    	{
+    		this.sendMessage(sender, "&bReloading HothGenerator config...");
+    		
+    		this.saveDefaultConfig();
+    		this.config = this.getConfig();
+    		
+    		this.sendMessage(sender, "&b... reloading done.");
+    	}
+
+    	return false;
+    }
+    
+    
+    
+    public void sendMessage(CommandSender sender, String message)
+    {
+    	sender.sendMessage(MessageFormatter.format(message));
+    }
+
+    public void sendMessage(Server sender, String message)
+    {
+    	sender.broadcastMessage(MessageFormatter.format(message));
     }
  	
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id)
@@ -256,6 +299,107 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.config.getBoolean("hoth.structure.bases.spawner", true);
 	}
 
+	public int getStructureRoomcluster()
+	{
+		int result = this.config.getInt("hoth.structure.roomcluster", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+	
+	public int getStructureRoomclusterMinrooms()
+	{
+		int min = this.config.getInt("hoth.structure.roomcluster.minrooms", 8);
+		int max = this.config.getInt("hoth.structure.roomcluster.maxrooms", 32);
+		
+		if(min>max || min<1 || max<1 || max>100)
+		{
+			min = 8;
+		}
+		
+		return min;
+	}
+
+	public int getStructureRoomclusterMaxrooms()
+	{
+		int min = this.config.getInt("hoth.structure.roomcluster.minrooms", 8);
+		int max = this.config.getInt("hoth.structure.roomcluster.maxrooms", 32);
+		
+		if(min>max || min<1 || max<1 || max>100)
+		{
+			max = 32;
+		}
+		
+		return max;
+	}
+	
+	public boolean isStructureRoomclusterSpawner()
+	{
+		return this.config.getBoolean("hoth.structure.roomcluster.spawner", true);
+	}
+
+	public boolean isGenerateLogs()
+	{
+		return this.config.getBoolean("hoth.generate.logs", true);
+	}
+
+	public int getGenerateCaves()
+	{
+		int result = this.config.getInt("hoth.generate.caves", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+	
+	public boolean isGenerateOres()
+	{
+		return this.config.getBoolean("hoth.generate.ores", true);
+	}
+
+	public boolean isRulesDropice()
+	{
+		return this.config.getBoolean("hoth.rules.dropice", true);
+	}
+
+	public boolean isRulesDropsnow()
+	{
+		return this.config.getBoolean("hoth.rules.dropsnow", true);
+	}
+
+	public boolean isRulesFreezewater()
+	{
+		return this.config.getBoolean("hoth.rules.freezewater", true);
+	}
+	
+	public boolean isRulesFreezelava()
+	{
+		return this.config.getBoolean("hoth.rules.freezelava", true);
+	}
+	
+	public boolean isRulesPlantsgrow()
+	{
+		return this.config.getBoolean("hoth.rules.plantsgrow", false);
+	}
+
+	public boolean isRulesGrassspread()
+	{
+		return this.config.getBoolean("hoth.rules.grassspread", false);
+	}
+	
+	public boolean isRulesStopmelt()
+	{
+		return this.config.getBoolean("hoth.rules.stopmelt", true);
+	}
+
+	public boolean isRulesLimitslime()
+	{
+		return this.config.getBoolean("hoth.rules.limitslime", true);
+	}
+	
 	/*
 	  +structure.gardens: 2
 	  +structure.domes: 2
@@ -266,21 +410,21 @@ public class HothGeneratorPlugin extends JavaPlugin
 	  +structure.domes.placeminidome: true
 	  +structure.bases: 2
 	  +structure.bases.spawner: true
-	  structure.roomcluster: 2
-	  structure.roomcluster.minrooms: 8
-	  structure.roomcluster.maxrooms: 32
-	  structure.roomcluster.spawner: true
-	  generate.logs: true
-	  generate.caves: 2
-	  generate.ores: true
-	  rules.dropice: true
-	  rules.dropsnow: true
-	  rules.freezewater: true
-	  rules.freezelava: true
-	  rules.plantsgrow: false
-	  rules.grassspread: false
-	  rules.stopmelt: true
-	  rules.limitslime: true
+	  +structure.roomcluster: 2
+	  +structure.roomcluster.minrooms: 8
+	  +structure.roomcluster.maxrooms: 32
+	  +structure.roomcluster.spawner: true
+	  +generate.logs: true
+	  +generate.caves: 2
+	  +generate.ores: true
+	  +rules.dropice: true
+	  +rules.dropsnow: true
+	  +rules.freezewater: true
+	  +rules.freezelava: true
+	  +rules.plantsgrow: false
+	  +rules.grassspread: false
+	  +rules.stopmelt: true
+	  +rules.limitslime: true
 	  */
 	
 	

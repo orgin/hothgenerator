@@ -93,7 +93,14 @@ public class Room
 		
 		if(this.decoration==8) // This is a spawner room.
 		{
-			this.spawner = true;
+			if(RoomGenerator.SPAWNER)
+			{
+				this.spawner = true;
+			}
+			else
+			{
+				this.decoration = 0;
+			}
 		}
 	}
 	

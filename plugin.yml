@@ -3,3 +3,18 @@ version: 1.4
 main: biz.orgin.minecraft.hothgenerator.HothGeneratorPlugin
 load: STARTUP
 description: Generates a really icy world.
+commands:
+   hothreload:
+      description: Reload the hoth configuration file.
+      usage: /hothreload
+      permission: hothgenerator.hothreload
+      permission-message: You don't have permission to use the hothreload command
+permissions:
+    hothgenerator.*:
+        description: Gives access to all hothgenerator commands
+        children:
+            hothgenerator.hothreload: true
+    hothgenerator.hothreload:
+        description: Reload the hoth configuration file.
+        default: op
+            

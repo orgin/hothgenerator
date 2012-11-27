@@ -50,36 +50,41 @@ public class CavePopulator extends BlockPopulator
 	@Override
 	public void populate(final World world, final Random random, Chunk source)
 	{
-		if (random.nextInt(100) < 4)
+		int rarity = plugin.getGenerateCaves();
+		
+		if(rarity!=0)
 		{
-			final int x = 4 + random.nextInt(8) + source.getX() * 16;
-			final int z = 4 + random.nextInt(8) + source.getZ() * 16;
-			int maxY = world.getHighestBlockYAt(x, z);
-			if (maxY < 16)
+			if (random.nextInt(100) < 2*rarity)
 			{
-				maxY = 32;
-			}
-	
-			final int y = random.nextInt(maxY);
-			new Thread()
-			{
-				@Override
-				public void run()
+				final int x = 4 + random.nextInt(8) + source.getX() * 16;
+				final int z = 4 + random.nextInt(8) + source.getZ() * 16;
+				int maxY = world.getHighestBlockYAt(x, z);
+				if (maxY < 16)
 				{
-					Set<Position> cave = startCave(world, random, x, y, z);
-					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceCave(world, cave));
-	
-					if (random.nextInt(16) > 5) {
-						if (y > 36) {
-							cave = startCave(world, random, x, y / 2, z);
-							Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceCave(world, cave));
-						} else if (y < 24) {
-							cave = startCave(world, random, x, y * 2, z);
-							Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceCave(world, cave));
+					maxY = 32;
+				}
+		
+				final int y = random.nextInt(maxY);
+				new Thread()
+				{
+					@Override
+					public void run()
+					{
+						Set<Position> cave = startCave(world, random, x, y, z);
+						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceCave(world, cave));
+		
+						if (random.nextInt(16) > 5) {
+							if (y > 36) {
+								cave = startCave(world, random, x, y / 2, z);
+								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceCave(world, cave));
+							} else if (y < 24) {
+								cave = startCave(world, random, x, y * 2, z);
+								Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceCave(world, cave));
+							}
 						}
 					}
-				}
-			}.start();
+				}.start();
+			}
 		}
 	}
 

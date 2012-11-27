@@ -60,7 +60,7 @@ public class ToolUseManager implements Listener
 							block = block.getRelative(event.getBlockFace());
 						}
 	
-						if(!this.plugin.canPlaceLiquid(world, block))
+						if(this.plugin.isRulesFreezewater() && !this.plugin.canPlaceLiquid(world, block))
 						{
 							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.WATER, Material.ICE);
 							Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
@@ -74,7 +74,7 @@ public class ToolUseManager implements Listener
 							block = block.getRelative(event.getBlockFace());
 						}
 	
-						if(!this.plugin.canPlaceLiquid(world, block))
+						if(this.plugin.isRulesFreezelava() && !this.plugin.canPlaceLiquid(world, block))
 						{
 							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.LAVA, Material.STONE);
 							Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
@@ -82,23 +82,26 @@ public class ToolUseManager implements Listener
 					}
 					else if(item.getType().equals(Material.INK_SACK) && item.getDurability() == 15)
 					{
-						// User is bonemealing something
-						Block block = event.getClickedBlock();
-						Material type = block.getType();
-						
-						int maxy = this.plugin.getHighestBlockYAt(world, block.getX(), block.getZ());
-						
-						if(Math.abs(maxy-block.getY())<2)
+						if(!this.plugin.isRulesPlantsgrow())
 						{
-							if( type.equals(Material.CARROT) ||
-								type.equals(Material.POTATO) ||
-								type.equals(Material.PUMPKIN_STEM) ||
-								type.equals(Material.MELON_STEM) ||
-								type.equals(Material.GRASS) ||
-								type.equals(Material.SAPLING) ||
-								type.equals(Material.CROPS)	)
+							// User is bonemealing something
+							Block block = event.getClickedBlock();
+							Material type = block.getType();
+							
+							int maxy = this.plugin.getHighestBlockYAt(world, block.getX(), block.getZ());
+							
+							if(Math.abs(maxy-block.getY())<2)
 							{
-								event.setCancelled(true);
+								if( type.equals(Material.CARROT) ||
+									type.equals(Material.POTATO) ||
+									type.equals(Material.PUMPKIN_STEM) ||
+									type.equals(Material.MELON_STEM) ||
+									type.equals(Material.GRASS) ||
+									type.equals(Material.SAPLING) ||
+									type.equals(Material.CROPS)	)
+								{
+									event.setCancelled(true);
+								}
 							}
 						}
 	

@@ -19,8 +19,9 @@ public class LogPopulator extends BlockPopulator
 {
 	@SuppressWarnings("unused")
 	private int height;
+	private HothGeneratorPlugin plugin;
 
-	public LogPopulator(int height)
+	public LogPopulator(HothGeneratorPlugin plugin, int height)
 	{
 		this.height = height;
 	}
@@ -35,10 +36,12 @@ public class LogPopulator extends BlockPopulator
 		int rz = z * 16;
 		
 		// Logs
-		this.placeLogs(world, rx, rz, random);
+		if(plugin.isGenerateLogs())
+		{
+			this.placeLogs(world, rx, rz, random);
+		}
 		
 		// Set biome for proper weather effect
-	
 		for(int i=0;i<16;i++)
 		{
 			for(int j=0;j<16;j++)

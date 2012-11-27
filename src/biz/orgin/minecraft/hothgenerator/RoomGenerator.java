@@ -24,6 +24,10 @@ public class RoomGenerator
 	 * Minimum number of rooms in a cluster
 	 */
 	public static int MINROOMS = 8;
+	/**
+	 * Defines if spawners may be added to the cluster
+	 */
+	public static boolean SPAWNER = true;
 	
 	private static Position[] positions = new Position[]
 		{
@@ -93,24 +97,32 @@ public class RoomGenerator
 	 */
 	public static void generateRooms(World world, HothGeneratorPlugin plugin, Random random, int chunkx, int chunkz)
 	{
-		int doit = random.nextInt(256);
-		if(doit == 39)
+		int rarity = plugin.getStructureRoomcluster();
+		RoomGenerator.MINROOMS = plugin.getStructureRoomclusterMinrooms();
+		RoomGenerator.MAXROOMS = plugin.getStructureRoomclusterMaxrooms();
+		RoomGenerator.SPAWNER = plugin.isStructureRoomclusterSpawner();
+		
+		if(rarity!=0)
 		{
-			RoomGenerator populator = new RoomGenerator();
 
-			
-			int x = random.nextInt(16) + chunkx*16;
-			int y = 11 + random.nextInt(16);
-			int z = random.nextInt(16) + chunkz*16;
-			
-			Cluster cluster = populator.getNewCluster(random);
-			Room start = populator.getEmptyRoom(cluster, null, x, y, z);
-			cluster.rooms = start;
-			populator.populateRoom(cluster, start); // Populate start room and all children
-			populator.decorateRoom(cluster, start); // Decorate start room and all children
-
-			// Place the cluster into the world
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceCluster(plugin, world, cluster));	
+			int doit = random.nextInt(128*rarity);
+			if(doit == 39)
+			{
+				RoomGenerator populator = new RoomGenerator();
+				
+				int x = random.nextInt(16) + chunkx*16;
+				int y = 11 + random.nextInt(16);
+				int z = random.nextInt(16) + chunkz*16;
+				
+				Cluster cluster = populator.getNewCluster(random);
+				Room start = populator.getEmptyRoom(cluster, null, x, y, z);
+				cluster.rooms = start;
+				populator.populateRoom(cluster, start); // Populate start room and all children
+				populator.decorateRoom(cluster, start); // Decorate start room and all children
+	
+				// Place the cluster into the world
+				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceCluster(plugin, world, cluster));	
+			}
 		}
 	}
 	

@@ -42,14 +42,20 @@ public class BlockPlaceManager implements Listener
 					if(type.equals(Material.WATER) ||
 						type.equals(Material.WATER_BUCKET))
 					{
-						BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.WATER, Material.ICE);
-						Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
+						if(this.plugin.isRulesFreezewater())
+						{
+							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.WATER, Material.ICE);
+							Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
+						}
 					}
 					else if(type.equals(Material.LAVA) ||
 						type.equals(Material.LAVA_BUCKET))
 					{
-						BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.LAVA, Material.STONE);
-						Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
+						if(this.plugin.isRulesFreezelava())
+						{
+							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.LAVA, Material.STONE);
+							Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
+						}
 					}
 				}
 			}

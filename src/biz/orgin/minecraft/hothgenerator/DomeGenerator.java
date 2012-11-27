@@ -11,10 +11,10 @@ import biz.orgin.minecraft.hothgenerator.schematic.MiniDome;
 
 public class DomeGenerator
 {
-	private static int PlantstemID = 19;   // Sponge
-	private static int PlanttopID = 89;    // Glowstone
-	private static int FloorID = 3;        // Dirt
-	private static int FloorrandomID = 89; // Glowstone
+	private static int PLANTSTEMID = 19;   // Sponge
+	private static int PLANTTOPID = 89;    // Glowstone
+	private static int FLOORID = 3;        // Dirt
+	private static int FLOORRANDOMID = 89; // Glowstone
 	
 	public static void main(String[] args)
 	{
@@ -72,10 +72,10 @@ public class DomeGenerator
 	public static void generateDome(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
 		int rarity = plugin.getStructureDomes();
-		DomeGenerator.PlantstemID = plugin.getStructureDomesPlantstem();
-		DomeGenerator.PlanttopID = plugin.getStructureDomesPlanttop();
-		DomeGenerator.FloorID = plugin.getStructureDomesFloor();
-		DomeGenerator.FloorrandomID = plugin.getStructureDomesFloorrandom();
+		DomeGenerator.PLANTSTEMID = plugin.getStructureDomesPlantstem();
+		DomeGenerator.PLANTTOPID = plugin.getStructureDomesPlanttop();
+		DomeGenerator.FLOORID = plugin.getStructureDomesFloor();
+		DomeGenerator.FLOORRANDOMID = plugin.getStructureDomesFloorrandom();
 		
 		if(rarity!=0)
 		{
@@ -124,7 +124,7 @@ public class DomeGenerator
 							Material type = block.getType();
 							if(type.equals(Material.AIR))
 							{
-								block.setTypeId(DomeGenerator.PlanttopID); // Glowstone
+								block.setTypeId(DomeGenerator.PLANTTOPID); // Glowstone
 							}
 						}
 
@@ -195,11 +195,11 @@ public class DomeGenerator
 								int glow = this.random.nextInt(40);
 								if(glow==5)
 								{
-									block.setTypeId(DomeGenerator.FloorrandomID); // Glowstone
+									block.setTypeId(DomeGenerator.FLOORRANDOMID); // Glowstone
 								}
 								else
 								{
-									block.setTypeId(DomeGenerator.FloorID); // Dirt
+									block.setTypeId(DomeGenerator.FLOORID); // Dirt
 								}
 							}
 						}
@@ -262,7 +262,7 @@ public class DomeGenerator
 						}
 						else if(type.equals(Material.AIR)) // Only place blocks in the air
 						{
-							block.setTypeId(DomeGenerator.PlantstemID); // Default is sponge
+							block.setTypeId(DomeGenerator.PLANTSTEMID); // Default is sponge
 						}
 						
 						growx1 = growx1 + growx1*growx2; // Slope magic

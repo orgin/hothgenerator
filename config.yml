@@ -40,8 +40,8 @@ hothworlds:
 #  structure.bases - 0-10. Rarity for bases. 0 is off, 1-10 is rarity (1 = common, 10 = very rare)
 #  structure.bases.spawner - true/false. Whether bases can have monster spawners
 #  structure.roomcluster - 0-10. Rarity for room clusters. 0 is off, 1-10 is rarity (1 = common, 10 = very rare)
-#  structure.roomcluster.minrooms - > 0. Minimum number of rooms the generator attempts to make
-#  structure.roomcluster.maxrooms - > minrooms. Maximum number of rooms the generator attempts to make
+#  structure.roomcluster.minrooms - 1-99. Minimum number of rooms the generator attempts to make
+#  structure.roomcluster.maxrooms - 1-99. Maximum number of rooms the generator attempts to make
 #  structure.roomcluster.spawner - true/false. Whether bases can have monster spawners
 #  generate.logs - true/false. Whether frozen logs should be generated
 #  generate.caves - 0-10. Rarity for caves. 0 is off, 1-10 is rarity (1 = rare, 10 = very common)

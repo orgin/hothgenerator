@@ -311,10 +311,10 @@ public class HothGenerator extends ChunkGenerator
 		// Add structures and such
 		GardenGenerator.generateGarden(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		RoomGenerator.generateRooms(world, this.plugin, new Random(random.nextLong()), chunkx, chunkz);
-		OreGenerator.generateOres(chunk, new Random(random.nextLong()));
-		DomeGenerator.generateDome(plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		BaseGenerator.generateBase(plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		SnowGenerator.generateSnowCover(plugin, world, snowcover);
+		OreGenerator.generateOres(this.plugin, chunk, new Random(random.nextLong()));
+		DomeGenerator.generateDome(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		BaseGenerator.generateBase(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		SnowGenerator.generateSnowCover(this.plugin, world, snowcover);
 
 		return chunk;
 	}
@@ -334,7 +334,7 @@ public class HothGenerator extends ChunkGenerator
 	{
 			List<BlockPopulator> list = new ArrayList<BlockPopulator>(1);
 			list.add(new CavePopulator(this.plugin));
-			list.add(new LogPopulator(this.height));
+			list.add(new LogPopulator(this.plugin, this.height));
 			return list;
 	}
 

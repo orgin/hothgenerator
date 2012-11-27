@@ -31,7 +31,7 @@ public class CreatureSpawnManager implements Listener
 			Location location = event.getLocation();
 			World world = location.getWorld();
 			
-			if(this.plugin.isHothWorld(world))
+			if(this.plugin.isHothWorld(world) && this.plugin.isRulesLimitslime())
 			{
 				EntityType type = event.getEntityType();
 				

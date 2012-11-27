@@ -40,19 +40,24 @@ public class BlockBreakManager implements Listener
 			{
 				if (this.plugin.isHothWorld(world) && block.getType().equals(Material.ICE))
 				{
-					ItemStack iceStack = new ItemStack(Material.ICE);
-					iceStack.setAmount(1);
-	
 					block.setType(Material.AIR);
-					block.getWorld().dropItem(block.getLocation(), iceStack);
+					if(this.plugin.isRulesDropice())
+					{
+						ItemStack iceStack = new ItemStack(Material.ICE);
+						iceStack.setAmount(1);
+						block.getWorld().dropItem(block.getLocation(), iceStack);
+					}
 				}
 				else if (this.plugin.isHothWorld(world) && block.getType().equals(Material.SNOW_BLOCK))
 				{
-					ItemStack iceStack = new ItemStack(Material.SNOW_BLOCK);
-					iceStack.setAmount(1);
-	
 					block.setType(Material.AIR);
-					block.getWorld().dropItem(block.getLocation(), iceStack);
+
+					if(this.plugin.isRulesDropsnow())
+					{
+						ItemStack iceStack = new ItemStack(Material.SNOW_BLOCK);
+						iceStack.setAmount(1);
+						block.getWorld().dropItem(block.getLocation(), iceStack);
+					}
 				}
 			}
 		}
