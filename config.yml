@@ -59,21 +59,21 @@ hoth:
   debug: false
   iteminfotool: false
   smoothsnow: true
-  structure.gardens: 1
-  structure.domes: 1
+  structure.gardens: 2
+  structure.domes: 2
   structure.domes.plantstem: 19
   structure.domes.planttop: 89
   structure.domes.floor: 3
-  structure.domes.placeminidome: true
   structure.domes.floorrandom: 89
-  structure.bases: 1
+  structure.domes.placeminidome: true
+  structure.bases: 2
   structure.bases.spawner: true
-  structure.roomcluster: 1
+  structure.roomcluster: 2
   structure.roomcluster.minrooms: 8
   structure.roomcluster.maxrooms: 32
   structure.roomcluster.spawner: true
   generate.logs: true
-  generate.caves: 1
+  generate.caves: 2
   generate.ores: true
   rules.dropice: true
   rules.dropsnow: true

@@ -179,6 +179,8 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return !(y>63 || (y>26 && this.blockIsHighest(world, block)));
 	}
 	
+	/* Config - Start */
+	
 	public boolean isDebug()
 	{
 		return this.config.getBoolean("hoth.debug", false);
@@ -193,6 +195,96 @@ public class HothGeneratorPlugin extends JavaPlugin
 	{
 		return this.config.getBoolean("hoth.smoothsnow", true);
 	}
+	
+	public int getStructureGardens()
+	{
+		int result = this.config.getInt("hoth.structure.gardens", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+
+	public int getStructureDomes()
+	{
+		int result = this.config.getInt("hoth.structure.domes", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+
+	public int getStructureDomesPlantstem()
+	{
+		return this.config.getInt("hoth.structure.domes.plantstem", 19);
+	}
+
+	public int getStructureDomesPlanttop()
+	{
+		return this.config.getInt("hoth.structure.domes.planttop", 89);
+	}
+	
+	public int getStructureDomesFloor()
+	{
+		return this.config.getInt("hoth.structure.domes.floor", 3);
+	}
+
+	public int getStructureDomesFloorrandom()
+	{
+		return this.config.getInt("hoth.structure.domes.floorrandom", 89);
+	}
+	
+	public boolean isStructureDomesPlaceminidome()
+	{
+		return this.config.getBoolean("hoth.structure.domes.placeminidome", true);
+	}
+
+	public int getStructureBases()
+	{
+		int result = this.config.getInt("hoth.structure.bases", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+
+	public boolean isStructureBasesSpawner()
+	{
+		return this.config.getBoolean("hoth.structure.bases.spawner", true);
+	}
+
+	/*
+	  +structure.gardens: 2
+	  +structure.domes: 2
+	  +structure.domes.plantstem: 19
+	  +structure.domes.planttop: 89
+	  +structure.domes.floor: 3
+	  +structure.domes.floorrandom: 89
+	  +structure.domes.placeminidome: true
+	  +structure.bases: 2
+	  +structure.bases.spawner: true
+	  structure.roomcluster: 2
+	  structure.roomcluster.minrooms: 8
+	  structure.roomcluster.maxrooms: 32
+	  structure.roomcluster.spawner: true
+	  generate.logs: true
+	  generate.caves: 2
+	  generate.ores: true
+	  rules.dropice: true
+	  rules.dropsnow: true
+	  rules.freezewater: true
+	  rules.freezelava: true
+	  rules.plantsgrow: false
+	  rules.grassspread: false
+	  rules.stopmelt: true
+	  rules.limitslime: true
+	  */
+	
+	
+	/* Config - End */
 
 	public void debugMessage(String message)
 	{

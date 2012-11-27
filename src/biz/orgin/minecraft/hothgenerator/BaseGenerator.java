@@ -36,11 +36,16 @@ public class BaseGenerator {
 	
 	public static void generateBase(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
-		int doit = random.nextInt(1024);
-		if(doit == 350)
+		int rarity = plugin.getStructureBases();
+
+		if(rarity!=0)
 		{
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceBase(plugin, world, random, chunkX, chunkZ));
-		}	
+			int doit = random.nextInt(512*rarity);
+			if(doit == 350)
+			{
+				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceBase(plugin, world, random, chunkX, chunkZ));
+			}	
+		}
 	}
 	
 	
@@ -65,7 +70,7 @@ public class BaseGenerator {
 			this.room5s = 0;
 		}
 		
-		public int getRandomRoom()
+		public int getRandomRoom(HothGeneratorPlugin plugin)
 		{
 			boolean done= false;
 			int room = 0;
@@ -75,7 +80,7 @@ public class BaseGenerator {
 				room = random.nextInt(BaseGenerator.roomCnt);
 				if(room==4)
 				{
-					if(this.room5s<2)
+					if(this.room5s<2 && plugin.isStructureBasesSpawner())
 					{
 						this.room5s++;
 						done = true;
@@ -141,7 +146,7 @@ public class BaseGenerator {
 					int rooms = random.nextInt(16);
 					if((rooms&0x1)!=0) // North
 					{
-						Schematic roomN = BaseGenerator.rooms[this.getRandomRoom()][0];
+						Schematic roomN = BaseGenerator.rooms[this.getRandomRoom(plugin)][0];
 						HothUtils.placeSchematic(plugin, world, roomN, px, py, pz-9);
 					}
 					else
@@ -151,7 +156,7 @@ public class BaseGenerator {
 					}
 					if((rooms&0x2)!=0) // South
 					{
-						Schematic roomN = BaseGenerator.rooms[this.getRandomRoom()][1];
+						Schematic roomN = BaseGenerator.rooms[this.getRandomRoom(plugin)][1];
 						HothUtils.placeSchematic(plugin, world, roomN, px, py, pz+6);
 					}
 					else
@@ -161,7 +166,7 @@ public class BaseGenerator {
 					}
 					if((rooms&0x4)!=0) // West
 					{
-						Schematic roomW = BaseGenerator.rooms[this.getRandomRoom()][2];
+						Schematic roomW = BaseGenerator.rooms[this.getRandomRoom(plugin)][2];
 						HothUtils.placeSchematic(plugin, world, roomW, px-9, py, pz);
 					}
 					else
@@ -171,7 +176,7 @@ public class BaseGenerator {
 					}
 					if((rooms&0x8)!=0) // East
 					{
-						Schematic roomE = BaseGenerator.rooms[this.getRandomRoom()][3];
+						Schematic roomE = BaseGenerator.rooms[this.getRandomRoom(plugin)][3];
 						HothUtils.placeSchematic(plugin, world, roomE, px+6, py, pz);
 					}
 					else

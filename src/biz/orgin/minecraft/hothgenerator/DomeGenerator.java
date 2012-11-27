@@ -11,6 +11,11 @@ import biz.orgin.minecraft.hothgenerator.schematic.MiniDome;
 
 public class DomeGenerator
 {
+	private static int PlantstemID = 19;   // Sponge
+	private static int PlanttopID = 89;    // Glowstone
+	private static int FloorID = 3;        // Dirt
+	private static int FloorrandomID = 89; // Glowstone
+	
 	public static void main(String[] args)
 	{
 		int radius = 20;
@@ -66,11 +71,20 @@ public class DomeGenerator
 	
 	public static void generateDome(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
-		int doit = random.nextInt(1024);
-		if(doit == 536)
+		int rarity = plugin.getStructureDomes();
+		DomeGenerator.PlantstemID = plugin.getStructureDomesPlantstem();
+		DomeGenerator.PlanttopID = plugin.getStructureDomesPlanttop();
+		DomeGenerator.FloorID = plugin.getStructureDomesFloor();
+		DomeGenerator.FloorrandomID = plugin.getStructureDomesFloorrandom();
+		
+		if(rarity!=0)
 		{
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceDome(plugin, world, random, chunkX, chunkZ));
-		}	
+			int doit = random.nextInt(512*rarity);
+			if(doit == 336)
+			{
+				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceDome(plugin, world, random, chunkX, chunkZ));
+			}	
+		}
 	}
 
 	static class PlaceDome implements Runnable
@@ -110,7 +124,7 @@ public class DomeGenerator
 							Material type = block.getType();
 							if(type.equals(Material.AIR))
 							{
-								block.setType(Material.GLOWSTONE);
+								block.setTypeId(DomeGenerator.PlanttopID); // Glowstone
 							}
 						}
 
@@ -181,11 +195,11 @@ public class DomeGenerator
 								int glow = this.random.nextInt(40);
 								if(glow==5)
 								{
-									block.setType(Material.GLOWSTONE);
+									block.setTypeId(DomeGenerator.FloorrandomID); // Glowstone
 								}
 								else
 								{
-									block.setType(Material.DIRT);
+									block.setTypeId(DomeGenerator.FloorID); // Dirt
 								}
 							}
 						}
@@ -197,7 +211,10 @@ public class DomeGenerator
 				}
 			}
 			// Next place the internal dome
-			HothUtils.placeSchematic(plugin, world, MiniDome.instance, sx-8, sy+8, sz-8);
+			if(plugin.isStructureDomesPlaceminidome())
+			{
+				HothUtils.placeSchematic(plugin, world, MiniDome.instance, sx-8, sy+8, sz-8);
+			}
 			
 			// Next grow some alien plants
 			int cnt = this.random.nextInt(20);
@@ -245,7 +262,7 @@ public class DomeGenerator
 						}
 						else if(type.equals(Material.AIR)) // Only place blocks in the air
 						{
-							block.setType(Material.SPONGE);
+							block.setTypeId(DomeGenerator.PlantstemID); // Default is sponge
 						}
 						
 						growx1 = growx1 + growx1*growx2; // Slope magic

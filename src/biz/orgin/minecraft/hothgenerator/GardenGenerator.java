@@ -21,12 +21,17 @@ public class GardenGenerator
 	
 	public static void generateGarden(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
-		int place = random.nextInt(100);
+		int rarity = plugin.getStructureGardens();
 		
-		if(place==37)
+		if(rarity!=0)
 		{
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceGarden(plugin, world, random, chunkX, chunkZ));
-		}	
+			int place = random.nextInt(50*rarity);
+		
+			if(place==37)
+			{
+				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceGarden(plugin, world, random, chunkX, chunkZ));
+			}	
+		}
 	}
 
 	static class PlaceGarden implements Runnable
