@@ -18,7 +18,7 @@ import org.bukkit.generator.ChunkGenerator;
  */
 public class HothGenerator extends ChunkGenerator
 {
-	HothGeneratorPlugin plugin; 
+	private HothGeneratorPlugin plugin; 
 	
 	private int height;
 	

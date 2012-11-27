@@ -83,10 +83,13 @@ public class HothGeneratorPlugin extends JavaPlugin
     	{
     		this.sendMessage(sender, "&bReloading HothGenerator config...");
     		
-    		this.saveDefaultConfig();
+    		this.saveDefaultConfig(); // In case the file has been deleted
+    		this.reloadConfig();
     		this.config = this.getConfig();
-    		
+
     		this.sendMessage(sender, "&b... reloading done.");
+    		
+    		return true;
     	}
 
     	return false;

@@ -23,6 +23,7 @@ public class LogPopulator extends BlockPopulator
 
 	public LogPopulator(HothGeneratorPlugin plugin, int height)
 	{
+		this.plugin = plugin;
 		this.height = height;
 	}
 
@@ -36,7 +37,7 @@ public class LogPopulator extends BlockPopulator
 		int rz = z * 16;
 		
 		// Logs
-		if(plugin.isGenerateLogs())
+		if(this.plugin.isGenerateLogs())
 		{
 			this.placeLogs(world, rx, rz, random);
 		}

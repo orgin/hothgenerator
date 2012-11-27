@@ -23,37 +23,55 @@ hothworlds:
 #
 # Option descriptions:
 #
-#  debug - true/false. Will print some debug info into the console if set to true.
+#  debug - true/false. Will print some debug info into the console if set to
+#          true.
 #
-#  iteminfotool - true/false. If true then right clicking a block with a clay ball
-#                 will print some data about that block.
+#  iteminfotool - true/false. If true then right clicking a block with a clay
+#                 ball will print some data about that block.
 #
 #  smoothsnow - true/false. Set to false to turn off the smooth snow cover.
 #
-#  structure.gardens - 0-10. Rarity for gardens. 0 is off, 1-10 is rarity (1 = common, 10 = very rare)
-#  structure.domes - 0-10. Rarity for domes. 0 is off, 1-10 is rarity (1 = common, 10 = very rare)
+#  structure.gardens - 0-10. Rarity for gardens. 0 is off, 1-10 is rarity
+#                      (1 = common, 10 = very rare)
+#  structure.domes - 0-10. Rarity for domes. 0 is off, 1-10 is rarity
+#                    (1 = common, 10 = very rare)
 #  structure.domes.plantstem - Block ID for alien plant stems
 #  structure.domes.planttop  - Block ID for alien plant top
 #  structure.domes.floor - Block ID for dome floor material
-#  structure.domes.placeminidome - true/false. Whether the central building should be generated.
+#  structure.domes.placeminidome - true/false. Whether the central building
+#                                  should be generated.
 #  structure.domes.floorrandom - Block ID for the random floor material
-#  structure.bases - 0-10. Rarity for bases. 0 is off, 1-10 is rarity (1 = common, 10 = very rare)
-#  structure.bases.spawner - true/false. Whether bases can have monster spawners
-#  structure.roomcluster - 0-10. Rarity for room clusters. 0 is off, 1-10 is rarity (1 = common, 10 = very rare)
-#  structure.roomcluster.minrooms - 1-99. Minimum number of rooms the generator attempts to make
-#  structure.roomcluster.maxrooms - 1-99. Maximum number of rooms the generator attempts to make
-#  structure.roomcluster.spawner - true/false. Whether bases can have monster spawners
+#  structure.bases - 0-10. Rarity for bases. 0 is off, 1-10 is rarity
+#                    (1 = common, 10 = very rare)
+#  structure.bases.spawner - true/false. Whether bases can have monster
+#                            spawners
+#  structure.roomcluster - 0-10. Rarity for room clusters. 0 is off, 1-10 is
+#                          rarity (1 = common, 10 = very rare)
+#  structure.roomcluster.minrooms - 1-99. Minimum number of rooms the
+#                                   generator attempts to make
+#  structure.roomcluster.maxrooms - 1-99. Maximum number of rooms the
+#                                   generator attempts to make
+#  structure.roomcluster.spawner - true/false. Whether bases can have monster
+#                                  spawners
 #  generate.logs - true/false. Whether frozen logs should be generated
-#  generate.caves - 0-10. Rarity for caves. 0 is off, 1-10 is rarity (1 = rare, 10 = very common)
+#  generate.caves - 0-10. Rarity for caves. 0 is off, 1-10 is rarity
+#                   (1 = rare, 10 = very common)
 #  generate.ores - true/false. Whether frozen logs should be generated
-#  rules.dropice - true/false. Whether ice should drop ice blocks when destroyed. 
-#  rules.dropsnow - true/false. Whether snow should drop snow blocks when destroyed. 
-#  rules.freezewater - true/false. Whether water should freeze when placed above stone layer. 
-#  rules.freezelava - true/false. Whether lava should freeze when placed above stone layer. 
-#  rules.plantsgrow - true/false. Whether plants and trees can grow under open sky. 
+#  rules.dropice - true/false. Whether ice should drop ice blocks when
+#                  destroyed. 
+#  rules.dropsnow - true/false. Whether snow should drop snow blocks when
+#                   destroyed. 
+#  rules.freezewater - true/false. Whether water should freeze when placed
+#                      above stone layer. 
+#  rules.freezelava - true/false. Whether lava should freeze when placed above
+#                     stone layer. 
+#  rules.plantsgrow - true/false. Whether plants and trees can grow under open
+#                     sky. 
 #  rules.grassspread - true/false. Whether grass can spread under open sky. 
-#  rules.stopmelt - true/false. Whether ice and snow should be able to melt above stone layer. 
-#  rules.limitslime - true/false. Whether slime can only spawn in the stone layer. 
+#  rules.stopmelt - true/false. Whether ice and snow should be able to melt
+#                   above stone layer. 
+#  rules.limitslime - true/false. Whether slime can only spawn in the stone
+#                     layer. 
 #
 hoth:
   debug: false
