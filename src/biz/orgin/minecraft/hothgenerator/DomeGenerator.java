@@ -71,7 +71,7 @@ public class DomeGenerator
 	
 	public static void generateDome(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
-		int rarity = plugin.getStructureDomes();
+		int rarity = plugin.getStructureDomesRarity();
 		DomeGenerator.PLANTSTEMID = plugin.getStructureDomesPlantstem();
 		DomeGenerator.PLANTTOPID = plugin.getStructureDomesPlanttop();
 		DomeGenerator.FLOORID = plugin.getStructureDomesFloor();

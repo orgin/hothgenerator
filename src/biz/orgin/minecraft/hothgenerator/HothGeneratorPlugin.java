@@ -259,9 +259,10 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.config.getBoolean("hoth.smoothsnow", true);
 	}
 	
-	public int getStructureGardens()
+	public int getStructureGardensRarity()
 	{
-		int result = this.config.getInt("hoth.structure.gardens", 2);
+		int result = this.config.getInt("hoth.structure.gardens.rarity", 2);
+		//System.out.println("Looking for hoth.structure.gardens.rarity, got:" + result);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -269,9 +270,10 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 
-	public int getStructureDomes()
+	public int getStructureDomesRarity()
 	{
-		int result = this.config.getInt("hoth.structure.domes", 2);
+		int result = this.config.getInt("hoth.structure.domes.rarity", 2);
+		//System.out.println("Looking for hoth.structure.domes.rarity, got:" + result);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -304,9 +306,10 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.config.getBoolean("hoth.structure.domes.placeminidome", true);
 	}
 
-	public int getStructureBases()
+	public int getStructureBasesRarity()
 	{
-		int result = this.config.getInt("hoth.structure.bases", 2);
+		int result = this.config.getInt("hoth.structure.bases.rarity", 2);
+		//System.out.println("Looking for hoth.structure.bases.rarity, got:" + result);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -319,9 +322,10 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.config.getBoolean("hoth.structure.bases.spawner", true);
 	}
 
-	public int getStructureMazes()
+	public int getStructureMazesRarity()
 	{
-		int result = this.config.getInt("hoth.structure.mazes", 2);
+		int result = this.config.getInt("hoth.structure.mazes.rarity", 2);
+		//System.out.println("Looking for hoth.structure.mazes.rarity, got:" + result);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -365,9 +369,10 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.config.getBoolean("hoth.generate.logs", true);
 	}
 
-	public int getGenerateCaves()
+	public int getGenerateCavesRarity()
 	{
-		int result = this.config.getInt("hoth.generate.caves", 2);
+		int result = this.config.getInt("hoth.generate.caves.rarity", 2);
+		//System.out.println("Looking for hoth.structure.caves.rarity, got:" + result);
 		if(result<0 || result>10)
 		{
 			result = 2;

@@ -36,7 +36,7 @@ public class BaseGenerator {
 	
 	public static void generateBase(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
-		int rarity = plugin.getStructureBases();
+		int rarity = plugin.getStructureBasesRarity();
 
 		if(rarity!=0)
 		{

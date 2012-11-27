@@ -21,7 +21,7 @@ public class GardenGenerator
 	
 	public static void generateGarden(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
-		int rarity = plugin.getStructureGardens();
+		int rarity = plugin.getStructureGardensRarity();
 		
 		if(rarity!=0)
 		{

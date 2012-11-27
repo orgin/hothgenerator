@@ -97,7 +97,7 @@ public class RoomGenerator
 	 */
 	public static void generateRooms(World world, HothGeneratorPlugin plugin, Random random, int chunkx, int chunkz)
 	{
-		int rarity = plugin.getStructureMazes();
+		int rarity = plugin.getStructureMazesRarity();
 		RoomGenerator.MINROOMS = plugin.getStructureMazesMinrooms();
 		RoomGenerator.MAXROOMS = plugin.getStructureMazesMaxrooms();
 		RoomGenerator.SPAWNER = plugin.isStructureMazesSpawner();
