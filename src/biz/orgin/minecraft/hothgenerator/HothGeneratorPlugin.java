@@ -142,7 +142,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	}
 	
 	/**
-	 * Check if the current world is a hHrld. Hoth worlds are defined in the config.
+	 * Check if the current world is a hothworld. Hoth worlds are defined in the config.
 	 * The comparison is case insensitive.
 	 * @param world The world to check
 	 * @return True if the world is in the hoth world list
@@ -169,6 +169,13 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return false;
 	}
 	
+	/**
+	 * Check if the given block is the highest at that x,z position.
+	 * Only air blocks are treated as empty.
+	 * @param world The world to check
+	 * @param block The block to check
+	 * @return true if it's the highest block
+	 */
 	public boolean blockIsHighest(World world, Block block)
 	{
 		int x = block.getX();
@@ -200,7 +207,6 @@ public class HothGeneratorPlugin extends JavaPlugin
 	 * @param z
 	 * @return
 	 */
-	
 	public int getHighestBlockYAt(World world, int x, int z)
 	{
 		int airID = Material.AIR.getId();
@@ -218,6 +224,12 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return -1;
 	}
 	
+	/**
+	 * Returns true if the given block is allowed to be liquid
+	 * @param world The world to check
+	 * @param block The block to check
+	 * @return True if allowed
+	 */
 	public boolean canPlaceLiquid(World world, Block block)
 	{
 		int y = block.getY();
@@ -225,7 +237,12 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return !(y>63 || (y>26 && this.blockIsHighest(world, block)));
 	}
 	
-	/* Config - Start */
+	/* Config - Start
+	 * 
+	 * This section defines methods for retrieving information from the config file.
+	 * Some of the methods contain non standard behavior which is why the config object
+	 * isn't used directly where config information is needed throughout this plugin.
+	 */
 	
 	public boolean isDebug()
 	{
@@ -433,6 +450,11 @@ public class HothGeneratorPlugin extends JavaPlugin
 	
 	/* Config - End */
 
+	/**
+	 * Logs the given message on the console as an info message.
+	 * Messages are only logged if the hoth.debug flag is set to true in the config file.
+	 * @param message The message to log.
+	 */
 	public void debugMessage(String message)
 	{
 		if(this.isDebug())
@@ -441,11 +463,21 @@ public class HothGeneratorPlugin extends JavaPlugin
 		}
 	}
 	
+	/**
+	 * Sends a message to the log file.
+	 * @param message The message to send.
+	 */
 	public void logMessage(String message)
 	{
 		this.logMessage(message, false);
 	}
 
+	/**
+	 * Sends a message to the log file and optionally to the console.
+	 * The console message is sent by the debugMessage() method.
+	 * @param message The message to send.
+	 * @param onConsole Whether it should be sent to teh console or not.
+	 */
 	public void logMessage(String message, boolean onConsole)
 	{
 		if(onConsole)
