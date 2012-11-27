@@ -319,9 +319,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.config.getBoolean("hoth.structure.bases.spawner", true);
 	}
 
-	public int getStructureRoomcluster()
+	public int getStructureMazes()
 	{
-		int result = this.config.getInt("hoth.structure.roomcluster", 2);
+		int result = this.config.getInt("hoth.structure.mazes", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -329,10 +329,10 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 	
-	public int getStructureRoomclusterMinrooms()
+	public int getStructureMazesMinrooms()
 	{
-		int min = this.config.getInt("hoth.structure.roomcluster.minrooms", 8);
-		int max = this.config.getInt("hoth.structure.roomcluster.maxrooms", 32);
+		int min = this.config.getInt("hoth.structure.mazes.minrooms", 8);
+		int max = this.config.getInt("hoth.structure.mazes.maxrooms", 32);
 		
 		if(min>max || min<1 || max<1 || max>100)
 		{
@@ -342,10 +342,10 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return min;
 	}
 
-	public int getStructureRoomclusterMaxrooms()
+	public int getStructureMazesMaxrooms()
 	{
-		int min = this.config.getInt("hoth.structure.roomcluster.minrooms", 8);
-		int max = this.config.getInt("hoth.structure.roomcluster.maxrooms", 32);
+		int min = this.config.getInt("hoth.structure.mazes.minrooms", 8);
+		int max = this.config.getInt("hoth.structure.mazes.maxrooms", 32);
 		
 		if(min>max || min<1 || max<1 || max>100)
 		{
@@ -355,9 +355,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return max;
 	}
 	
-	public boolean isStructureRoomclusterSpawner()
+	public boolean isStructureMazesSpawner()
 	{
-		return this.config.getBoolean("hoth.structure.roomcluster.spawner", true);
+		return this.config.getBoolean("hoth.structure.mazes.spawner", true);
 	}
 
 	public boolean isGenerateLogs()

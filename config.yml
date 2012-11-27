@@ -86,10 +86,10 @@ hoth:
   structure.domes.placeminidome: true
   structure.bases: 2
   structure.bases.spawner: true
-  structure.roomcluster: 2
-  structure.roomcluster.minrooms: 8
-  structure.roomcluster.maxrooms: 32
-  structure.roomcluster.spawner: true
+  structure.mazes: 2
+  structure.mazes.minrooms: 8
+  structure.mazes.maxrooms: 32
+  structure.mazes.spawner: true
   generate.logs: true
   generate.caves: 2
   generate.ores: true
