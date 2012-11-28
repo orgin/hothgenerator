@@ -262,7 +262,6 @@ public class HothGeneratorPlugin extends JavaPlugin
 	public int getStructureGardensRarity()
 	{
 		int result = this.config.getInt("hoth.structure.gardens.rarity", 2);
-		//System.out.println("Looking for hoth.structure.gardens.rarity, got:" + result);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -273,7 +272,6 @@ public class HothGeneratorPlugin extends JavaPlugin
 	public int getStructureDomesRarity()
 	{
 		int result = this.config.getInt("hoth.structure.domes.rarity", 2);
-		//System.out.println("Looking for hoth.structure.domes.rarity, got:" + result);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -309,7 +307,6 @@ public class HothGeneratorPlugin extends JavaPlugin
 	public int getStructureBasesRarity()
 	{
 		int result = this.config.getInt("hoth.structure.bases.rarity", 2);
-		//System.out.println("Looking for hoth.structure.bases.rarity, got:" + result);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -325,7 +322,6 @@ public class HothGeneratorPlugin extends JavaPlugin
 	public int getStructureMazesRarity()
 	{
 		int result = this.config.getInt("hoth.structure.mazes.rarity", 2);
-		//System.out.println("Looking for hoth.structure.mazes.rarity, got:" + result);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -372,7 +368,6 @@ public class HothGeneratorPlugin extends JavaPlugin
 	public int getGenerateCavesRarity()
 	{
 		int result = this.config.getInt("hoth.generate.caves.rarity", 2);
-		//System.out.println("Looking for hoth.structure.caves.rarity, got:" + result);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -426,21 +421,21 @@ public class HothGeneratorPlugin extends JavaPlugin
 	}
 	
 	/*
-	  +structure.gardens: 2
-	  +structure.domes: 2
+	  +structure.gardens.rarity: 2
+	  +structure.domes.rarity: 2
 	  +structure.domes.plantstem: 19
 	  +structure.domes.planttop: 89
 	  +structure.domes.floor: 3
 	  +structure.domes.floorrandom: 89
 	  +structure.domes.placeminidome: true
-	  +structure.bases: 2
+	  +structure.bases.rarity: 2
 	  +structure.bases.spawner: true
-	  +structure.roomcluster: 2
+	  +structure.roomcluster.rarity: 2
 	  +structure.roomcluster.minrooms: 8
 	  +structure.roomcluster.maxrooms: 32
 	  +structure.roomcluster.spawner: true
 	  +generate.logs: true
-	  +generate.caves: 2
+	  +generate.caves.rarity: 2
 	  +generate.ores: true
 	  +rules.dropice: true
 	  +rules.dropsnow: true
