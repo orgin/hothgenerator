@@ -68,24 +68,31 @@ public class HothUtils
 						{
 							block.setTypeId(type);
 							CreatureSpawner spawner = (CreatureSpawner)block.getState();
-							int creature = x%8;
-							switch(creature)
+							if(data==0)
 							{
-							case 0:
-							case 1:
-								spawner.setSpawnedType(EntityType.SKELETON); //25
-								break;
-							case 2:
-							case 3:
-								spawner.setSpawnedType(EntityType.SPIDER); // 25
-								break;
-							case 4:
-							case 5:
-							case 6:
-							case 7:
-							default:
-								spawner.setSpawnedType(EntityType.ZOMBIE); // 50
-								break;
+								int creature = x%8;
+								switch(creature)
+								{
+								case 0:
+								case 1:
+									spawner.setSpawnedType(EntityType.SKELETON); //25
+									break;
+								case 2:
+								case 3:
+									spawner.setSpawnedType(EntityType.SPIDER); // 25
+									break;
+								case 4:
+								case 5:
+								case 6:
+								case 7:
+								default:
+									spawner.setSpawnedType(EntityType.ZOMBIE); // 50
+									break;
+								}
+							}
+							else // Schematic wants to set spawner type
+							{
+								spawner.setSpawnedType(EntityType.fromId(data));
 							}
 							
 							spawner.update(true);

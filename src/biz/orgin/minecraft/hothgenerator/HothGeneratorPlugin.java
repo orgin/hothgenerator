@@ -62,6 +62,8 @@ public class HothGeneratorPlugin extends JavaPlugin
     	
 		this.saveDefaultConfig();
     	this.config = this.getConfig();
+    	CustomGenerator.load(this);
+    	this.saveResource("custom/example.sm", true);
     }
     
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
@@ -86,6 +88,9 @@ public class HothGeneratorPlugin extends JavaPlugin
     		this.saveDefaultConfig(); // In case the file has been deleted
     		this.reloadConfig();
     		this.config = this.getConfig();
+    		
+    		CustomGenerator.load(this);
+        	this.saveResource("custom/example.sm", true);
 
     		this.sendMessage(sender, "&b... reloading done.");
     		

@@ -1,0 +1,366 @@
+package biz.orgin.minecraft.hothgenerator.schematic;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+import biz.orgin.minecraft.hothgenerator.HothUtils;
+
+
+public class LoadedSchematic implements Schematic
+{
+	private int width;
+	private int length;
+	private int height;
+	private String name;
+	
+	private boolean enabled;
+	private int type;
+	private int rarity;
+	private int random;
+	private String loot;
+
+	private int[][][] matrix;
+	
+
+	public LoadedSchematic(File file) throws IOException
+	{
+		this.width = 0;
+		this.length = 0;
+		this.height = 0;
+		this.name = "";
+		this.enabled = false;
+		this.type = -1;
+		this.rarity = 0;
+		this.random = -1;
+		this.loot = "";
+		this.matrix = null;
+		
+		this.name = file.getName();
+		this.load(file);
+	}
+	
+	public static void main(String artgs[])
+	{
+		File file = new File("/home/orgin/minecraft/bukkit/plugins/HothGenerator/schematics/test1.sm");
+		
+		try
+		{
+			LoadedSchematic schematic = new LoadedSchematic(file);
+			System.out.println(schematic.toString());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+	}
+	
+	private void load(File file) throws IOException
+	{
+		BufferedReader reader = new BufferedReader(new FileReader(file));
+		
+		int mode = 0; // 0 - reading tags, 1 - reading matrix
+		String line = "";
+		int _layer = 0;
+		int _row = 0;
+		
+		while( (line=reader.readLine())!=null)
+		{
+			String row = line.trim();
+			if(row.length()>0 &&  row.charAt(0)!=';' && row.charAt(0)!='#')
+			{
+				switch(mode)
+				{
+				case 0:
+					String[] data = row.split(":",2);
+					if(data.length==2)
+					{
+						String key = data[0].toUpperCase();
+						String value = data[1].trim();
+						
+						if(key.equals("ENABLED"))
+						{
+							if(value.toLowerCase().equals("true"))
+							{
+								this.enabled = true;
+							}
+							else if(value.toLowerCase().equals("false"))
+							{
+								this.enabled = false;
+							}
+							else
+							{
+								throw new IOException("ENABLED must be true or false but was set to: " + value);
+							}
+						}
+						else if(key.equals("WIDTH"))
+						{
+							try
+							{
+								this.width = Integer.parseInt(value);
+							}
+							catch(NumberFormatException e)
+							{
+								throw new IOException("WIDTH contains illegal characters: " + value);
+							}
+							
+							if(this.width<1)
+							{
+								throw new IOException("WIDTH must be 1 or more, was: " + value);
+							}
+						}
+						else if(key.equals("LENGTH"))
+						{
+							try
+							{
+								this.length = Integer.parseInt(value);
+							}
+							catch(NumberFormatException e)
+							{
+								throw new IOException("LENGTH contains illegal characters: " + value);
+							}
+							if(this.length<1)
+							{
+								throw new IOException("LENGTH must be 1 or more, was: " + value);
+							}
+						}
+						else if(key.equals("HEIGHT"))
+						{
+							try
+							{
+								this.height = Integer.parseInt(value);
+							}
+							catch(NumberFormatException e)
+							{
+								throw new IOException("HEIGHT contains illegal characters: " + value);
+							}
+							if(this.height<1)
+							{
+								throw new IOException("HEIGHT must be 1 or more, was: " + value);
+							}
+						}
+						else if(key.equals("TYPE"))
+						{
+							try
+							{
+								this.type = Integer.parseInt(value);
+							}
+							catch(NumberFormatException e)
+							{
+								throw new IOException("TYPE contains illegal characters: " + value);
+							}
+
+							if(this.type!=0 && this.type!=1 && type!=2)
+							{
+								throw new IOException("TYPE must be 0,1 or 2, was: " + value);
+							}
+						}
+						else if(key.equals("RARITY"))
+						{
+							try
+							{
+								this.rarity = Integer.parseInt(value);
+							}
+							catch(NumberFormatException e)
+							{
+								throw new IOException("RARITY contains illegal characters: " + value);
+							}
+							
+							if(this.rarity<1)
+							{
+								throw new IOException("RARITY must be 1 or more, was: " + value);
+							}
+						}
+						else if(key.equals("RANDOM"))
+						{
+							try
+							{
+								this.random = Integer.parseInt(value);
+							}
+							catch(NumberFormatException e)
+							{
+								throw new IOException("RANDOM contains illegal characters: " + value);
+							}
+							
+							if(this.random<0)
+							{
+								throw new IOException("RANDOM must be 0 or more, was: " + value);
+							}
+						}
+						else if(key.equals("LOOT"))
+						{
+							this.loot = value;
+						}
+						else if(key.equals("MATRIX"))
+						{
+							if(this.width==0)
+							{
+								throw new IOException("WIDTH was not defined properly");
+							}
+							if(this.length==0)
+							{
+								throw new IOException("LENGTH was not defined properly");
+							}
+							if(this.height==0)
+							{
+								throw new IOException("HEIGHT was not defined properly");
+							}
+							
+							this.matrix = new int[this.height][this.length][this.width*2];
+							_layer = 0;
+							_row = 0;
+							mode = 1;
+						}
+					}
+					break;
+				case 1:
+					String[] vals = line.split(",");
+					if(vals.length!=this.width*2)
+					{
+						throw new IOException("MATRIX row contained incorrect number of values: " + line);
+					}
+					
+					if(_layer==this.height)
+					{
+						throw new IOException("MATRIX contains too many rows");
+					}
+					
+					for(int i=0;i<this.width*2;i++)
+					{
+						try
+						{
+							int val = Integer.parseInt(vals[i].trim());
+							this.matrix[_layer][_row][i] = val;
+						}
+						catch(Exception e)
+						{
+							throw new IOException("MATRIX row contained illegal characters: " + line);
+						}
+					}
+					
+					_row++;
+					if(_row==this.length)
+					{
+						_layer++;
+						_row = 0;
+					}
+					
+
+					break;
+				}
+			}
+		}
+		
+
+		if(this.type<0)
+		{
+			throw new IOException("TYPE was not defined properly");
+		}
+		if(this.rarity==0)
+		{
+			throw new IOException("RARITY was not defined properly");
+		}
+		if(this.random==-1 || random>=this.rarity)
+		{
+			throw new IOException("RANDOM was not defined properly. Must be below RARITY.");
+		}
+		if(this.matrix==null)
+		{
+			throw new IOException("Could not read the MATRIX data.");
+		}
+		
+		if(!(_layer==this.height && _row==0))
+		{
+			throw new IOException("MATRIX does not contain enough rows.");
+		}
+	}
+	
+
+	@Override
+	public int[][][] getMatrix() {
+		return this.matrix;
+	}
+
+	@Override
+	public int getWidth() {
+		return this.width;
+	}
+
+	@Override
+	public int getLength() {
+		return this.length;
+	}
+
+	@Override
+	public int getHeight() {
+		return this.height;
+	}
+
+	@Override
+	public String getName() {
+		return this.name;
+	}
+
+	public Schematic rotate(int direction)
+	{
+		return HothUtils.rotateSchematic(direction, this);
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public int getRarity() {
+		return rarity;
+	}
+
+	public int getRandom() {
+		return random;
+	}
+
+	public String getLoot() {
+		return loot;
+	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuffer mySB = new StringBuffer();
+		
+		mySB.append("WIDTH=").append(this.width).append("\n");
+		mySB.append("LENGTH=").append(this.length).append("\n");
+		mySB.append("HEIGHT=").append(this.height).append("\n");
+		mySB.append("NAME=").append(this.name).append("\n");
+		mySB.append("TYPE=").append(this.type).append("\n");
+		mySB.append("RARITY=").append(this.rarity).append("\n");
+		mySB.append("RANDOM=").append(this.random).append("\n");
+		mySB.append("LOOT=").append(this.loot).append("\n");
+		
+		for(int y=0;y<this.height;y++)
+		{
+			mySB.append("Layer ").append(y).append(":\n");
+			for(int z=0;z<this.length;z++)
+			{
+				for(int x=0;x<this.width;x++)
+				{
+					mySB.append(this.matrix[y][z][x]).append(" ");
+				}
+				
+				mySB.append("- ");
+
+				for(int x=this.width;x<this.width*2;x++)
+				{
+					mySB.append(this.matrix[y][z][x]).append(" ");
+				}
+				mySB.append("\n");
+			}
+		}
+		
+		return mySB.toString();
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+}
