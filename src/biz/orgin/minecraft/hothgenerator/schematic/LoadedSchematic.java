@@ -196,7 +196,7 @@ public class LoadedSchematic implements Schematic
 						else if(key.equals("LOOT"))
 						{
 							this.loot = value;
-							if(!value.endsWith(""))
+							if(!value.equals(""))
 							{
 								LootGenerator generator = LootGenerator.getLootGenerator(value);
 								if(generator==null)

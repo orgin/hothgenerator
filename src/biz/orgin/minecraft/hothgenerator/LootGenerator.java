@@ -110,12 +110,14 @@ public class LootGenerator
 				for(int i=0;i<files.length;i++)
 				{
 					File file = files[i];
-					if(file.isFile() && file.getName().endsWith(".ll"))
+					if(file.isFile() && file.getName().endsWith(".ll")  && !file.getName().equals("example.ll"))
 					{
 						try
 						{
 							LootGenerator generator = LootGenerator.loadLootGenerator(file);
 							LootGenerator.generators.put(file.getName(), generator);
+							plugin.getLogger().info("Loaded custom loot list: " + file.getName());
+
 						}
 						catch(Exception e)
 						{

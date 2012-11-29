@@ -36,7 +36,7 @@ public class CustomGenerator
 				for(int i=0;i<files.length;i++)
 				{
 					File file = files[i];
-					if(file.isFile() && file.getName().endsWith(".sm"))
+					if(file.isFile() && file.getName().endsWith(".sm") && !file.getName().endsWith("example.sm"))
 					{
 						try
 						{
