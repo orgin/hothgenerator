@@ -213,7 +213,7 @@ public class DomeGenerator
 			// Next place the internal dome
 			if(plugin.isStructureDomesPlaceminidome())
 			{
-				HothUtils.placeSchematic(plugin, world, MiniDome.instance, sx-8, sy+8, sz-8);
+				HothUtils.placeSchematic(plugin, world, MiniDome.instance, sx-8, sy+8, sz-8, 2, 10);
 			}
 			
 			// Next grow some alien plants

@@ -73,7 +73,7 @@ public class GardenGenerator
 				break;
 			}
 			
-			HothUtils.placeSchematic(plugin, world, garden, x, y, z);
+			HothUtils.placeSchematic(plugin, world, garden, x, y, z, 2, 10);
 
 			this.plugin.logMessage("Placing garden at " + x + "," + y + "," + z, true);
 		}

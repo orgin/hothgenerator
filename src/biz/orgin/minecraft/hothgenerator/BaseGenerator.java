@@ -129,7 +129,7 @@ public class BaseGenerator {
 			{
 				this.plugin.logMessage("Placing base at " + sx + "," + sy + "," + sz, true);
 				
-				HothUtils.placeSchematic(plugin, world, BaseTop.instance, sx-5, sy+11, sz-5);
+				HothUtils.placeSchematic(plugin, world, BaseTop.instance, sx-5, sy+11, sz-5, 2, 10);
 				world.spawnEntity(new Location(world, sx+5, sy+5, sz+5), EntityType.VILLAGER);
 				
 				int sections = 3+random.nextInt(4);
@@ -140,14 +140,14 @@ public class BaseGenerator {
 					int py = sy-5-i*5;
 					int pz = sz-3;
 					
-					HothUtils.placeSchematic(plugin, world, BaseSection.instance, px, py, pz);
+					HothUtils.placeSchematic(plugin, world, BaseSection.instance, px, py, pz, 2, 10);
 					world.spawnEntity(new Location(world, px+3, py-2, pz+2), EntityType.VILLAGER);
 					
 					int rooms = random.nextInt(16);
 					if((rooms&0x1)!=0) // North
 					{
 						Schematic roomN = BaseGenerator.rooms[this.getRandomRoom(plugin)][0];
-						HothUtils.placeSchematic(plugin, world, roomN, px, py, pz-9);
+						HothUtils.placeSchematic(plugin, world, roomN, px, py, pz-9, 2, 10);
 					}
 					else
 					{
@@ -157,7 +157,7 @@ public class BaseGenerator {
 					if((rooms&0x2)!=0) // South
 					{
 						Schematic roomN = BaseGenerator.rooms[this.getRandomRoom(plugin)][1];
-						HothUtils.placeSchematic(plugin, world, roomN, px, py, pz+6);
+						HothUtils.placeSchematic(plugin, world, roomN, px, py, pz+6, 2, 10);
 					}
 					else
 					{
@@ -167,7 +167,7 @@ public class BaseGenerator {
 					if((rooms&0x4)!=0) // West
 					{
 						Schematic roomW = BaseGenerator.rooms[this.getRandomRoom(plugin)][2];
-						HothUtils.placeSchematic(plugin, world, roomW, px-9, py, pz);
+						HothUtils.placeSchematic(plugin, world, roomW, px-9, py, pz, 2, 10);
 					}
 					else
 					{
@@ -177,7 +177,7 @@ public class BaseGenerator {
 					if((rooms&0x8)!=0) // East
 					{
 						Schematic roomE = BaseGenerator.rooms[this.getRandomRoom(plugin)][3];
-						HothUtils.placeSchematic(plugin, world, roomE, px+6, py, pz);
+						HothUtils.placeSchematic(plugin, world, roomE, px+6, py, pz, 2, 10);
 					}
 					else
 					{

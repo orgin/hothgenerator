@@ -172,7 +172,15 @@ public class CustomGenerator
 			
 			if(safe)
 			{
-				HothUtils.placeSchematic(plugin, world, schematic, x, y, z);
+				LootGenerator generator = LootGenerator.getLootGenerator(schematic.getLoot());
+				if(generator==null)
+				{
+					HothUtils.placeSchematic(plugin, world, schematic, x, y, z, schematic.getLootMin(), schematic.getLootMax());
+				}
+				else
+				{
+					HothUtils.placeSchematic(plugin, world, schematic, x, y, z, schematic.getLootMin(), schematic.getLootMax(), generator);
+				}
 	
 				this.plugin.logMessage("Placing " + schematic.getName() + " at " + x + "," + y + "," + z, true);
 			}

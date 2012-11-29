@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import biz.orgin.minecraft.hothgenerator.HothUtils;
+import biz.orgin.minecraft.hothgenerator.LootGenerator;
 
 
 public class LoadedSchematic implements Schematic
@@ -20,6 +21,8 @@ public class LoadedSchematic implements Schematic
 	private int rarity;
 	private int random;
 	private String loot;
+	private int lootMin;
+	private int lootMax;
 
 	private int[][][] matrix;
 	
@@ -35,6 +38,8 @@ public class LoadedSchematic implements Schematic
 		this.rarity = 0;
 		this.random = -1;
 		this.loot = "";
+		this.lootMin = -1;
+		this.lootMax = -1;
 		this.matrix = null;
 		
 		this.name = file.getName();
@@ -191,6 +196,46 @@ public class LoadedSchematic implements Schematic
 						else if(key.equals("LOOT"))
 						{
 							this.loot = value;
+							if(!value.endsWith(""))
+							{
+								LootGenerator generator = LootGenerator.getLootGenerator(value);
+								if(generator==null)
+								{
+									throw new IOException("Unknown Loot List: " + value);
+								}
+							}
+						}
+						else if(key.equals("LOOTMIN"))
+						{
+							try
+							{
+								this.lootMin = Integer.parseInt(value);
+							}
+							catch(NumberFormatException e)
+							{
+								throw new IOException("LOOTMIN contains illegal characters: " + value);
+							}
+							
+							if(this.lootMin<0)
+							{
+								throw new IOException("LOOTMIN must be 0 or more, was: " + value);
+							}
+						}
+						else if(key.equals("LOOTMAX"))
+						{
+							try
+							{
+								this.lootMax = Integer.parseInt(value);
+							}
+							catch(NumberFormatException e)
+							{
+								throw new IOException("LOOTMAX contains illegal characters: " + value);
+							}
+							
+							if(this.lootMax<1)
+							{
+								throw new IOException("LOOTMAX must be 1 or more, was: " + value);
+							}
 						}
 						else if(key.equals("MATRIX"))
 						{
@@ -273,6 +318,26 @@ public class LoadedSchematic implements Schematic
 		if(!(_layer==this.height && _row==0))
 		{
 			throw new IOException("MATRIX does not contain enough rows.");
+		}
+		
+		if(this.lootMin==-1)
+		{
+			throw new IOException("LOOTMIN was not set.");
+		}
+
+		if(this.lootMax==-1)
+		{
+			throw new IOException("LOOTMAX was not set.");
+		}
+		
+		if(this.lootMin > this.lootMax)
+		{
+			throw new IOException("LOOTMIN is higher that LOOTMAX.");
+		}
+		
+		if(this.lootMax<1)
+		{
+			throw new IOException("LOOTMAX must be 1 or more.");
 		}
 	}
 	
@@ -362,5 +427,13 @@ public class LoadedSchematic implements Schematic
 
 	public boolean isEnabled() {
 		return enabled;
+	}
+
+	public int getLootMin() {
+		return lootMin;
+	}
+
+	public int getLootMax() {
+		return lootMax;
 	}
 }

@@ -29,8 +29,10 @@
 #            every 50'th generated chuck on average.
 #  RANDOM: - Must be above 0 and below the RARITY value. See it as the
 #            random seed for this schematic.
-#  LOOT: - Name of the Loot list that should be used for any chests in
+#  LOOT: - Name of the Loot list file that should be used for any chests in
 #          this schematic. Leave blank to use the internal loot list.
+#  LOOTMIN: - Minimum number of stacks a chest in this schematic will contain
+#  LOOTMAX: - Maximum number of stacks a chest in this schematic will contain
 #  MATRIX: - You must enter the schematic block type and data matrix
 #            after this line.
 #            Each line represents all types and data values for a
@@ -74,6 +76,8 @@ TYPE: 2
 RARITY: 500
 RANDOM: 23
 LOOT: 
+LOOTMIN: 2
+LOOTMAX: 10
 MATRIX:
 # Layer 0
 #         Type                      Data

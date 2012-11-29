@@ -167,7 +167,7 @@ public class RoomGenerator
 		}
 		if(schematic!=null)
 		{
-			HothUtils.placeSchematic(plugin, world, schematic, room.x+3, room.y-1, room.z+3, room.spawner);
+			HothUtils.placeSchematic(plugin, world, schematic, room.x+3, room.y-1, room.z+3, 2, 10, room.spawner);
 		}
 	}
 	
@@ -185,14 +185,14 @@ public class RoomGenerator
 			}
 			if(schematic!=null)
 			{
-				HothUtils.placeSchematic(plugin, world, schematic, room.x+1, room.y-4, room.z+1, room.spawner);
+				HothUtils.placeSchematic(plugin, world, schematic, room.x+1, room.y-4, room.z+1, 2, 10, room.spawner);
 			}
 		}
 	}
 	
 	private static void placeBasicRoom(HothGeneratorPlugin plugin, World world, Room room)
 	{
-		HothUtils.placeSchematic(plugin, world, NormalRoom.instance, room.x, room.y, room.z, room.spawner);
+		HothUtils.placeSchematic(plugin, world, NormalRoom.instance, room.x, room.y, room.z, 2, 10, room.spawner);
 	}
 	
 	private static void placeRoomExits(HothGeneratorPlugin plugin, World world, Room room)
@@ -209,7 +209,7 @@ public class RoomGenerator
 				
 				if(schematic!=null)
 				{
-					HothUtils.placeSchematic(plugin, world, schematic, x, y, z);
+					HothUtils.placeSchematic(plugin, world, schematic, x, y, z, 2, 10);
 				}
 			}
 		}
@@ -229,7 +229,7 @@ public class RoomGenerator
 				
 				if(schematic!=null && !(room.floor>0 && i==1))
 				{
-					HothUtils.placeSchematic(plugin, world, schematic, x, y, z, room.spawner);
+					HothUtils.placeSchematic(plugin, world, schematic, x, y, z, 2, 10, room.spawner);
 				}
 			}
 		}

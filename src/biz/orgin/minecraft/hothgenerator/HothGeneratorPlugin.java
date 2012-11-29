@@ -62,8 +62,10 @@ public class HothGeneratorPlugin extends JavaPlugin
     	
 		this.saveDefaultConfig();
     	this.config = this.getConfig();
+    	LootGenerator.load(this);
     	CustomGenerator.load(this);
     	this.saveResource("custom/example.sm", true);
+    	this.saveResource("custom/example.ll", true);
     }
     
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
@@ -89,8 +91,10 @@ public class HothGeneratorPlugin extends JavaPlugin
     		this.reloadConfig();
     		this.config = this.getConfig();
     		
+    		LootGenerator.load(this);
     		CustomGenerator.load(this);
         	this.saveResource("custom/example.sm", true);
+        	this.saveResource("custom/example.ll", true);
 
     		this.sendMessage(sender, "&b... reloading done.");
     		

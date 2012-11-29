@@ -27,13 +27,23 @@ public class HothUtils
 			50,75,76,6,32,37,38,39,40,51,55,26,
 			59,31,63,65,66,96,69,77,106,83,115,
 			93,94,127,131,132,141,142,143,78,64});
-	
-	public static void placeSchematic(Plugin plugin, World world, Schematic schematic, int x, int y, int z)
+
+	public static void placeSchematic(Plugin plugin, World world, Schematic schematic, int x, int y, int z, int lootMin, int lootMax)
 	{
-		HothUtils.placeSchematic(plugin, world, schematic, x, y, z, false);
+		HothUtils.placeSchematic(plugin, world, schematic, x, y, z, lootMin, lootMax, LootGenerator.getLootGenerator(), false);
+
+	}
+	public static void placeSchematic(Plugin plugin, World world, Schematic schematic, int x, int y, int z, int lootMin, int lootMax, boolean darken)
+	{
+		HothUtils.placeSchematic(plugin, world, schematic, x, y, z, lootMin, lootMax, LootGenerator.getLootGenerator(), darken);
 	}
 
-	public static void placeSchematic(Plugin plugin, World world, Schematic schematic, int x, int y, int z, boolean darken)
+	public static void placeSchematic(Plugin plugin, World world, Schematic schematic, int x, int y, int z, int lootMin, int lootMax, LootGenerator lootGenerator)
+	{
+		HothUtils.placeSchematic(plugin, world, schematic, x, y, z, lootMin, lootMax, lootGenerator, false);
+	}
+
+	public static void placeSchematic(Plugin plugin, World world, Schematic schematic, int x, int y, int z, int lootMin, int lootMax, LootGenerator lootGenerator, boolean darken)
 	{
 		int height = schematic.getHeight();
 		int length = schematic.getLength();
@@ -120,7 +130,7 @@ public class HothUtils
 							}
 							chest.setData(cst);
 							Inventory inv = chest.getInventory();
-							Loot.getLoot(inv);
+							lootGenerator.getLootInventory(inv, lootMin, lootMax);
 							chest.update(true);
 
 						}
