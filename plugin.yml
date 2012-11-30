@@ -9,12 +9,21 @@ commands:
       usage: /hothreload
       permission: hothgenerator.hothreload
       permission-message: You don't have permission to use the hothreload command
+   hothexport:
+      description: Export the selected region to a schematic file.
+      usage: /hothexport filename
+      permission: hothgenerator.hothexport
+      permission-message: You don't have permission to use the hothexport command
 permissions:
     hothgenerator.*:
         description: Gives access to all hothgenerator commands
         children:
             hothgenerator.hothreload: true
+            hothgenerator.hothexport: true
     hothgenerator.hothreload:
         description: Reload the hoth configuration file.
+        default: op
+    hothgenerator.hothexport:
+        description: Export the selected region to a schematic file.
         default: op
             

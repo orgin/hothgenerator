@@ -14,8 +14,16 @@ import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
+import com.sk89q.worldedit.bukkit.selections.Selection;
+import com.sk89q.worldedit.regions.CuboidRegionSelector;
+import com.sk89q.worldedit.regions.RegionSelector;
 
 /**
  * Main plugin class
@@ -100,11 +108,47 @@ public class HothGeneratorPlugin extends JavaPlugin
     		
     		return true;
     	}
-
+    	else if(cmd.getName().equalsIgnoreCase("hothexport"))
+       	{
+    		if(args.length>0)
+    		{
+	       		if(sender instanceof Player)
+	       		{
+	       			World world = ((Player) sender).getWorld();
+	       			Plugin plugin = getServer().getPluginManager().getPlugin("WorldEdit");
+	       			if(plugin!=null && plugin instanceof WorldEditPlugin)
+	       			{
+	       				WorldEditPlugin wePlugin = (WorldEditPlugin)plugin;
+	       				Selection selection = wePlugin.getSelection((Player)sender);
+	       				if(selection!=null && selection instanceof CuboidSelection)
+	       				{
+	       					CuboidSelection cSelection = (CuboidSelection)selection;
+	        					
+	       					RegionSelector rSelector = cSelection.getRegionSelector();
+	       					if(rSelector!=null && rSelector instanceof CuboidRegionSelector)
+	       					{
+	       						ExportManager.export(this, world, (CuboidRegionSelector)rSelector, sender, args[0]);
+	       					}
+							else
+							{
+								this.sendMessage(sender, "ERROR: Selected region is not cuboid");
+							}
+						}
+						else
+						{
+							this.sendMessage(sender, "ERROR: Selected region is not cuboid");
+						}
+	       			}
+	       			else
+	       			{
+	       				this.sendMessage(sender, "ERROR: WorldEdit plugin not installed");
+	       			}
+		       	}
+	    		return true;
+    		}
+       	}
     	return false;
     }
-    
-    
     
     public void sendMessage(CommandSender sender, String message)
     {
