@@ -3,6 +3,7 @@ package biz.orgin.minecraft.hothgenerator;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Random;
@@ -86,15 +87,56 @@ public class LootGenerator
 	{
 		
 	}
+	public void save(HothGeneratorPlugin plugin) throws IOException
+	{
+		File dataFolder = plugin.getDataFolder();
+		String path = dataFolder.getAbsolutePath() + "/custom/" + this.name;
+		
+		File file = new File(path);
+		
+		if(file.exists())
+		{
+			file.delete();
+		}
+		
+		file.createNewFile();
+		
+		FileWriter writer = new FileWriter(file);
+		
+		writer.write("# Generated loot list\n");
+		writer.write("#\n");
+		writer.write("# Name,MaterialID,Data,Min,Max,Probability\n");
+		
+		for(int i=0;i<this.loot.length;i++)
+		{
+			Loot loot = this.loot[i];
+			writer.write(String.format("%-16s", loot.material.name()));
+			writer.write(",");
+			writer.write(String.format("%4d", loot.material.getId()));
+			writer.write(",");
+			writer.write(String.format("%3d", loot.data));
+			writer.write(",");
+			writer.write(String.format("%3d", loot.min));
+			writer.write(",");
+			writer.write(String.format("%3d", loot.max));
+			writer.write(",");
+			writer.write(String.format("%3d", loot.chance));
+			writer.write("\n");
+		}
+		writer.flush();
+	}
+	
 	
 	private LootGenerator(Loot[] loot)
 	{
 		this.loot = loot;
-		this.name = "default";
+		this.name = "default.ll";
 	}
 	
 	public static void load(HothGeneratorPlugin plugin)
 	{
+		LootGenerator.generators = new Hashtable<String, LootGenerator>();
+		
 		File dataFolder = plugin.getDataFolder();
 		String path = dataFolder.getAbsolutePath() + "/custom";
 		File customFolder = new File(path);
@@ -128,6 +170,13 @@ public class LootGenerator
 			}
 		}
 	}
+
+	/**
+	 * Get a named custom loot generator.
+	 * Returns null if the generator can't be found.
+	 * @param name Name of the loot list
+	 * @return The specified LootGenerator
+	 */
 	public static LootGenerator getLootGenerator(String name)
 	{
 		return LootGenerator.generators.get(name);
@@ -162,11 +211,11 @@ public class LootGenerator
 				
 				try
 				{
-					materialID = Integer.parseInt(data[1]);
-					dataVal = Integer.parseInt(data[2]);
-					min = Integer.parseInt(data[3]);
-					max = Integer.parseInt(data[4]);
-					probability = Integer.parseInt(data[5]);
+					materialID = Integer.parseInt(data[1].trim());
+					dataVal = Integer.parseInt(data[2].trim());
+					min = Integer.parseInt(data[3].trim());
+					max = Integer.parseInt(data[4].trim());
+					probability = Integer.parseInt(data[5].trim());
 				}
 				catch(Exception e)
 				{
@@ -207,10 +256,22 @@ public class LootGenerator
 		generator.loot = lootVector.toArray(new Loot[lootVector.size()]);
 		return generator;
 	}
+	
+	
 
+	/**
+	 * Get the default loot generator that is used for internally generated loot chests.
+	 * The default loot list can be replaced by adding a custom loot list called "default.ll"
+	 * @return The default loot generator.
+	 */
 	public static LootGenerator getLootGenerator()
 	{
-		return LootGenerator.defLoot;
+		LootGenerator generator = LootGenerator.generators.get("default.ll");
+		if(generator==null)
+		{
+			generator = LootGenerator.defLoot;
+		}
+		return generator;
 	}
 	
 	public Inventory getLootInventory(Inventory inv, int min, int max)

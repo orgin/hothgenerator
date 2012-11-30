@@ -144,7 +144,41 @@ public class HothGeneratorPlugin extends JavaPlugin
 	       				this.sendMessage(sender, "ERROR: WorldEdit plugin not installed");
 	       			}
 		       	}
-	    		return true;
+				return true;
+    		}
+       	}
+    	else if(cmd.getName().equalsIgnoreCase("hothsavell"))
+       	{
+    		if(args.length>0)
+    		{
+    			LootGenerator generator = null;
+    			String name = args[0].toLowerCase();
+    			
+    			if(name.equals("default.ll"))
+    			{
+    				generator = LootGenerator.getLootGenerator();
+    			}
+    			else
+    			{
+    				generator = LootGenerator.getLootGenerator(name);
+    			}
+    			
+    			if(generator!=null)
+    			{
+    				try
+    				{
+    					generator.save(this);
+    				}
+    				catch(Exception e)
+    				{
+        				this.sendMessage(sender, "Failed to save loot list: " + name);
+    				}
+    			}
+    			else
+    			{
+    				this.sendMessage(sender, "Could not find any loot list with name: " + name);
+    			}
+    			return true;
     		}
        	}
     	return false;
