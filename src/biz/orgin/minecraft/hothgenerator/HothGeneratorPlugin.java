@@ -378,7 +378,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 
 	public int getStructureDomesRarity()
 	{
-		int result = this.config.getInt("hoth.structure.domes.rarity", 2);
+		int result = this.config.getInt("hoth.structure.domes.rarity", 3);
 		if(result<0 || result>10)
 		{
 			result = 2;

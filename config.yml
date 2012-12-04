@@ -78,7 +78,7 @@ hoth:
   iteminfotool: false
   smoothsnow: true
   structure.gardens.rarity: 2
-  structure.domes.rarity: 2
+  structure.domes.rarity: 3
   structure.domes.plantstem: 19
   structure.domes.planttop: 89
   structure.domes.floor: 3
