@@ -1,9 +1,7 @@
 package biz.orgin.minecraft.hothgenerator;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Random;
-import java.util.Vector;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -12,101 +10,79 @@ import org.bukkit.block.Block;
 
 import biz.orgin.minecraft.hothgenerator.schematic.LoadedSchematic;
 
-public class CustomGenerator
+public class SchematicsGenerator
 {
-	private static Vector<LoadedSchematic> schematics = null;
+	private static LoadedSchematic skeleton = null;
+	private static LoadedSchematic skeleton2 = null;
+	private static LoadedSchematic[][] schematics = new LoadedSchematic[2][4];
 	
-
-	public static void load(HothGeneratorPlugin plugin)
+	public static void generateSchematics(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
-		CustomGenerator.schematics = new Vector<LoadedSchematic>();
-		
-		File dataFolder = plugin.getDataFolder();
-		String path = dataFolder.getAbsolutePath() + "/custom";
-		File customFolder = new File(path);
-		if(!customFolder.exists())
+		try
 		{
-			customFolder.mkdir();
-		}
-		else
-		{
-			File[] files = customFolder.listFiles();
-			if(files!=null)
+			if(SchematicsGenerator.skeleton==null)
 			{
-				for(int i=0;i<files.length;i++)
+				SchematicsGenerator.skeleton = new LoadedSchematic(plugin.getResource("schematics/skeleton.sm"),"skeleton");
+				SchematicsGenerator.skeleton.setRarity(plugin.getStructureSkeletonsRarity()*SchematicsGenerator.skeleton.getRarity()/2);
+				SchematicsGenerator.skeleton.setRandom(plugin.getStructureSkeletonsRarity()*SchematicsGenerator.skeleton.getRandom()/2);
+				SchematicsGenerator.schematics[0][0] = SchematicsGenerator.skeleton;
+				SchematicsGenerator.schematics[0][1] = SchematicsGenerator.skeleton.cloneRotate(1);
+				SchematicsGenerator.schematics[0][2] = SchematicsGenerator.skeleton.cloneRotate(2);
+				SchematicsGenerator.schematics[0][3] = SchematicsGenerator.skeleton.cloneRotate(3);
+				
+				SchematicsGenerator.skeleton2 = SchematicsGenerator.skeleton.cloneRotate(0);
+				SchematicsGenerator.skeleton2.setType(1);
+				SchematicsGenerator.schematics[1][0] = SchematicsGenerator.skeleton2;
+				SchematicsGenerator.schematics[1][1] = SchematicsGenerator.skeleton2.cloneRotate(1);
+				SchematicsGenerator.schematics[1][2] = SchematicsGenerator.skeleton2.cloneRotate(2);
+				SchematicsGenerator.schematics[1][3] = SchematicsGenerator.skeleton2.cloneRotate(3);
+			}
+			
+			for(int i=0;i<schematics.length;i++)
+			{
+				Random newRandom = new Random(random.nextLong());
+				
+				LoadedSchematic schematic = schematics[i][newRandom.nextInt(4)];
+				int rarity = schematic.getRarity();
+				if(rarity!=0)
 				{
-					File file = files[i];
-					if(file.isFile() && file.getName().endsWith(".sm") && !file.getName().endsWith("example.sm"))
+					int rnd = schematic.getRandom();
+					
+					if(rnd==newRandom.nextInt(rarity))
 					{
-						try
-						{
-							LoadedSchematic schematic = new LoadedSchematic(file);
-							if(schematic.isEnabled())
-							{
-								CustomGenerator.schematics.add(schematic);
-								plugin.getLogger().info("Loaded custom schematic: " + file.getName());
-							}
-							else
-							{
-								plugin.getLogger().info("Ignoring disabled schematic: " + file.getName());
-							}
-						}
-						catch(IOException e)
-						{
-							plugin.getLogger().info("ERROR: Failed to load " + file.getName() + " " + e.getMessage());
-						}
+						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceSchematic(plugin, world, newRandom, chunkX, chunkZ, schematic));
 					}
 				}
 			}
 		}
-	}
-	
-	public static void generateCustom(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
-	{
-		if(CustomGenerator.schematics!=null)
+		catch(IOException e)
 		{
-			long randomLong = random.nextLong();
 			
-			for(int i=0;i<CustomGenerator.schematics.size();i++)
-			{
-				LoadedSchematic schematic = schematics.elementAt(i);
-				
-				int rarity = schematic.getRarity();
-				int rnd = schematic.getRandom();
-				
-				int place = random.nextInt(rarity);
-				if(place==rnd)
-				{
-					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceCustom(schematic, plugin, world, new Random(randomLong), chunkX, chunkZ));
-				}	
-			}
 		}
 	}
 
-
-	static class PlaceCustom implements Runnable
+	static class PlaceSchematic implements Runnable
 	{
-		private final LoadedSchematic schematic;
 		private final HothGeneratorPlugin plugin;
 		private final World world;
 		private final Random random;
 		private final int chunkx;
 		private final int chunkz;
+		private final LoadedSchematic schematic;
 
-		public PlaceCustom(LoadedSchematic schematic, HothGeneratorPlugin plugin, World world, Random random, int chunkx, int chunkz)
+		public PlaceSchematic(HothGeneratorPlugin plugin, World world, Random random, int chunkx, int chunkz, LoadedSchematic schematic)
 		{
-			this.schematic = schematic;
 			this.plugin = plugin;
 			this.world = world;
 			this.random = random;
 			this.chunkx = chunkx;
 			this.chunkz = chunkz;
+			this.schematic = schematic;
 		}
 
 		@Override
 		public void run()
 		{
-
 			int x = this.random.nextInt(16) + this.chunkx * 16 - this.schematic.getWidth()/2;
 			int z = this.random.nextInt(16) + this.chunkz * 16 - this.schematic.getLength()/2;
 			int y = 128;
@@ -125,18 +101,21 @@ public class CustomGenerator
 			switch(this.schematic.getType())
 			{
 			case 0: // On surface
-				int y1 = this.world.getHighestBlockYAt(x-hw, z-hl);
-				int y2 = this.world.getHighestBlockYAt(x+hw, z-hl);
-				int y3 = this.world.getHighestBlockYAt(x-hw, z+hl);
-				int y4 = this.world.getHighestBlockYAt(x+hw, z+hl);
 				
-				y = y1;
-				if(y2<y) y=y2;
-				if(y3<y) y=y3;
-				if(y4<y) y=y4;
+				for(int zz=z-hl;zz<z+hl;zz++)
+				{
+					for(int xx=x-hw;xx<x+hw;xx++)
+					{
+						int ty = this.world.getHighestBlockYAt(xx,zz);
+						if(ty<y)
+						{
+							y=ty;
+						}
+					}
+				}
 				
-				y = y + h - 1;
-
+				y = y + h;
+				
 				Block block = world.getBlockAt(x,y - h,z); Material type = block.getType();
 				if(safe && (type.equals(Material.STONE) || type.equals(Material.GLASS))) safe = false;
 				block = world.getBlockAt(x-hw,y,z-hl); type = block.getType();
@@ -155,8 +134,6 @@ public class CustomGenerator
 				if(safe && (type.equals(Material.STONE) || type.equals(Material.GLASS) || type.equals(Material.AIR))) safe = false;
 				block = world.getBlockAt(x-hw,y-h,z+hl); type = block.getType();
 				if(safe && (type.equals(Material.STONE) || type.equals(Material.GLASS) || type.equals(Material.AIR))) safe = false;
-				
-				
 				break;
 			case 1: // In ice layer
 				miny = 30 + this.schematic.getHeight();
@@ -175,11 +152,11 @@ public class CustomGenerator
 				LootGenerator generator = LootGenerator.getLootGenerator(schematic.getLoot());
 				if(generator==null)
 				{
-					HothUtils.placeSchematic(plugin, world, schematic, x-hw, y, z+hl, schematic.getLootMin(), schematic.getLootMax());
+					HothUtils.placeSchematic(plugin, world, schematic, x-hw, y, z-hl, schematic.getLootMin(), schematic.getLootMax());
 				}
 				else
 				{
-					HothUtils.placeSchematic(plugin, world, schematic, x-hw, y, z+hl, schematic.getLootMin(), schematic.getLootMax(), generator);
+					HothUtils.placeSchematic(plugin, world, schematic, x-hw, y, z-hl, schematic.getLootMin(), schematic.getLootMax(), generator);
 				}
 	
 				this.plugin.logMessage("Placing " + schematic.getName() + " at " + x + "," + y + "," + z, true);
@@ -190,4 +167,5 @@ public class CustomGenerator
 			}
 		}
 	}
+
 }

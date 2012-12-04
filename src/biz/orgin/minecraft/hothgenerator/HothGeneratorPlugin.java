@@ -467,6 +467,17 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.config.getBoolean("hoth.structure.mazes.spawner", true);
 	}
 
+	public int getStructureSkeletonsRarity()
+	{
+		int result = this.config.getInt("structure.skeletons.rarity", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+	
+	
 	public boolean isGenerateLogs()
 	{
 		return this.config.getBoolean("hoth.generate.logs", true);

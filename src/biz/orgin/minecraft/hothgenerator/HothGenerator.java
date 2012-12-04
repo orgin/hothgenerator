@@ -314,6 +314,7 @@ public class HothGenerator extends ChunkGenerator
 		OreGenerator.generateOres(this.plugin, chunk, new Random(random.nextLong()));
 		DomeGenerator.generateDome(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		BaseGenerator.generateBase(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		SchematicsGenerator.generateSchematics(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		CustomGenerator.generateCustom(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		SnowGenerator.generateSnowCover(this.plugin, world, snowcover);
 

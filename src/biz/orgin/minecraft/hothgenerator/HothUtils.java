@@ -1,5 +1,7 @@
 package biz.orgin.minecraft.hothgenerator;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.Vector;
 
 import org.bukkit.Material;
@@ -13,6 +15,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
+import biz.orgin.minecraft.hothgenerator.schematic.LoadedSchematic;
 import biz.orgin.minecraft.hothgenerator.schematic.RotatedSchematic;
 import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
 
@@ -23,6 +26,29 @@ import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
  */
 public class HothUtils
 {
+	public static void main(String artgs[])
+	{
+		File file = new File("/home/orgin/minecraft/bukkit/plugins/HothGenerator/custom/skeleton.sm");
+		File ofile = new File("/home/orgin/minecraft/bukkit/plugins/HothGenerator/custom/skeleton.java");
+		
+		try
+		{
+			LoadedSchematic schematic = new LoadedSchematic(file);
+			String string = HothUtils.schematicToString(schematic);
+			System.out.println(string);
+			
+			FileWriter writer = new FileWriter(ofile);
+			writer.write(string);
+			writer.flush();
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+	}
+	
+	
 	private static IntSet delays = new IntSet(new int[] {  // Block types to defer until infrastructure is made.
 			50,75,76,6,32,37,38,39,40,51,55,26,
 			59,31,63,65,66,96,69,77,106,83,115,
@@ -379,7 +405,7 @@ public class HothUtils
 		
 		for(int y=0;y<height;y++)
 		{
-			result.append("{\n");
+			result.append("\t{\t// Layer " + y + "\n");
 			for(int z=0;z<length;z++)
 			{
 				for(int x=0;x<width;x++)
@@ -387,23 +413,49 @@ public class HothUtils
 					int type = source[y][z][x];
 					int data = source[y][z][x+width];
 					
+					String stype = String.format("%4d", type);
+					String sdata;
+					if(x==0)
+					{
+						sdata = String.format("%5d", data);
+					}
+					else
+					{
+						sdata = String.format("%3d", data);
+					}
+					
 					if(x>0)
 					{
 						mySB.append(",");
 					}
-					mySB.append(" " + type);
-					mySB2.append(", " + data);
+					mySB.append(stype);
+					mySB2.append("," + sdata);
 				}
 				
-				result.append("{" + mySB.toString() + " " + mySB2.toString() + "},\n");
+				result.append("\t\t{" + mySB.toString() + mySB2.toString() + "}");
+				if(z!=length-1)
+				{
+					result.append(",\n");
+				}
+				else
+				{
+					result.append("\n");
+				}
 				mySB.setLength(0);
 				mySB2.setLength(0);
 			}
-			result.append("}\n");
+			if(y!=height-1)
+			{
+			result.append("\t},\n");
+			}
+			else
+			{
+				result.append("\t}\n");
+			
+			}
 		}
 		
 		return result.toString();
 	}
-	
-	
+
 }

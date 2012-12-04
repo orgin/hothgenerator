@@ -90,6 +90,7 @@ hoth:
   structure.mazes.minrooms: 8
   structure.mazes.maxrooms: 32
   structure.mazes.spawner: true
+  structure.skeletons.rarity: 2
   generate.logs: true
   generate.caves.rarity: 2
   generate.ores: true

@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import biz.orgin.minecraft.hothgenerator.HothUtils;
 import biz.orgin.minecraft.hothgenerator.LootGenerator;
@@ -46,25 +48,39 @@ public class LoadedSchematic implements Schematic
 		this.load(file);
 	}
 	
-	public static void main(String artgs[])
+	private LoadedSchematic()
 	{
-		File file = new File("/home/orgin/minecraft/bukkit/plugins/HothGenerator/schematics/test1.sm");
 		
-		try
-		{
-			LoadedSchematic schematic = new LoadedSchematic(file);
-			System.out.println(schematic.toString());
-		}
-		catch(Exception e)
-		{
-			System.out.println(e);
-		}
+	}
+	
+	public LoadedSchematic(InputStream stream, String name) throws IOException
+	{
+		this.width = 0;
+		this.length = 0;
+		this.height = 0;
+		this.name = "";
+		this.enabled = false;
+		this.type = -1;
+		this.rarity = 0;
+		this.random = -1;
+		this.loot = "";
+		this.lootMin = -1;
+		this.lootMax = -1;
+		this.matrix = null;
+		
+		this.name = name;
+		
+		this.load(new BufferedReader(new InputStreamReader(stream)));
 	}
 	
 	private void load(File file) throws IOException
 	{
 		BufferedReader reader = new BufferedReader(new FileReader(file));
-		
+		this.load(reader);
+	}
+	
+	private void load(BufferedReader reader) throws IOException
+	{
 		int mode = 0; // 0 - reading tags, 1 - reading matrix
 		String line = "";
 		int _layer = 0;
@@ -371,17 +387,52 @@ public class LoadedSchematic implements Schematic
 	{
 		return HothUtils.rotateSchematic(direction, this);
 	}
+	
+	public LoadedSchematic cloneRotate(int direction)
+	{
+		LoadedSchematic newSchematic = new LoadedSchematic();
+		
+		Schematic schematic = HothUtils.rotateSchematic(direction, this);
+		
+		newSchematic.width = schematic.getWidth();
+		newSchematic.length = schematic.getLength();
+		newSchematic.height = schematic.getHeight();
+		newSchematic.name = schematic.getName();
+		
+		newSchematic.enabled = this.enabled;
+		newSchematic.type = this.type;
+		newSchematic.rarity = this.rarity;
+		newSchematic.random = this.random;
+		newSchematic.loot = this.loot;
+		newSchematic.lootMin = this.lootMin;
+		newSchematic.lootMax = this.lootMax;
+		newSchematic.matrix = schematic.getMatrix();
+		
+		return newSchematic;
+	}
 
 	public int getType() {
 		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 	public int getRarity() {
 		return rarity;
 	}
 
+	public void setRarity(int rarity) {
+		this.rarity = rarity;
+	}
+
 	public int getRandom() {
 		return random;
+	}
+
+	public void setRandom(int random) {
+		this.random = random;
 	}
 
 	public String getLoot() {
