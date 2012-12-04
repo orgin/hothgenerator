@@ -1,5 +1,5 @@
 name: HothGenerator
-version: 1.5
+version: 1.6
 main: biz.orgin.minecraft.hothgenerator.HothGeneratorPlugin
 load: STARTUP
 description: Generates a really icy world.
@@ -11,7 +11,7 @@ commands:
       permission-message: You don't have permission to use the hothreload command
    hothexport:
       description: Export the selected region to a schematic file.
-      usage: /hothexport filename
+      usage: /hothexport filename [maskid]
       permission: hothgenerator.hothexport
       permission-message: You don't have permission to use the hothexport command
    hothsavell:

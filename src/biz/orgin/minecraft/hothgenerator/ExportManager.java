@@ -35,7 +35,7 @@ public class ExportManager {
 
 	}
 	
-	public static void export(HothGeneratorPlugin plugin, World world, CuboidRegionSelector rSelector, CommandSender sender, String filename)
+	public static void export(HothGeneratorPlugin plugin, World world, CuboidRegionSelector rSelector, CommandSender sender, String filename, int maskid)
 	{
 		File dataFolder = plugin.getDataFolder();
 		String path = dataFolder.getAbsolutePath() + "/custom";
@@ -141,6 +141,12 @@ public class ExportManager {
 								Block block = world.getBlockAt(x, y, z);
 								int typeID = block.getTypeId();
 								int data = block.getData();
+								
+								if(typeID==maskid)
+								{
+									typeID = -1;
+									data = 0;
+								}
 								
 								if(block.getType().equals(Material.MOB_SPAWNER))
 								{

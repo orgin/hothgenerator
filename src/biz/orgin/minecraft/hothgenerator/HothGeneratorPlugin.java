@@ -112,6 +112,26 @@ public class HothGeneratorPlugin extends JavaPlugin
        	{
     		if(args.length>0)
     		{
+    			int maskid = -1;
+    			
+    			if(args.length==2)
+    			{
+    				try
+    				{
+    					maskid = Integer.parseInt(args[1]);
+    					if(maskid<0)
+    					{
+    						this.sendMessage(sender, "ERROR: Invalid mask: " + args[1]);
+    						return false;
+    					}
+    				}
+    				catch(NumberFormatException e)
+    				{
+    					this.sendMessage(sender, "ERROR: Invalid mask: " + args[1]);
+    					return false;
+    				}
+    			}
+    			
 	       		if(sender instanceof Player)
 	       		{
 	       			World world = ((Player) sender).getWorld();
@@ -127,7 +147,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	       					RegionSelector rSelector = cSelection.getRegionSelector();
 	       					if(rSelector!=null && rSelector instanceof CuboidRegionSelector)
 	       					{
-	       						ExportManager.export(this, world, (CuboidRegionSelector)rSelector, sender, args[0]);
+	       						ExportManager.export(this, world, (CuboidRegionSelector)rSelector, sender, args[0], maskid);
 	       					}
 							else
 							{
