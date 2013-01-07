@@ -22,13 +22,16 @@
 #  HEIGHT: - the height of the schematics in blocks
 #  TYPE: - Type of schematics. Decides where it is placed in the world.
 #          0=on surface, 1=in ice layer, 2=in stone layer
+#  YOFFSET: - Only used if Type is 0. Offsets the schematic from the surface.
 #  RARITY: - Any value above 0. The schematic will be inserted in one
 #            per rarity chunk.
 #            Example: 50
 #            The plugin will attempt to insert this schematic into
 #            every 50'th generated chuck on average.
+#            Integer value.
 #  RANDOM: - Must be above 0 and below the RARITY value. See it as the
 #            random seed for this schematic.
+#            Integer value.
 #  LOOT: - Name of the Loot list file that should be used for any chests in
 #          this schematic. Leave blank to use the internal loot list.
 #  LOOTMIN: - Minimum number of stacks a chest in this schematic will contain

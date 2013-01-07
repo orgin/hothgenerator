@@ -114,7 +114,7 @@ public class SchematicsGenerator
 					}
 				}
 				
-				y = y + h;
+				y = y + h + this.schematic.getYoffset();
 				
 				Block block = world.getBlockAt(x,y - h,z); Material type = block.getType();
 				if(safe && (type.equals(Material.STONE) || type.equals(Material.GLASS))) safe = false;

@@ -14,26 +14,13 @@ import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.CuboidRegionSelector;
 
-public class ExportManager {
-	
-	public static void main(String[] args)
-	{
-		System.out.println(String.format("'%4d'",1,2,3,4));
-		
-		int y1=5;
-		int y2=7;
-		
-		
-		for(int y=y1;y<=y2;y++)
-		{
-			System.out.println(y);
-		}
-		for(int y=y2;y>=y1;y--)
-		{
-			System.out.println(y);
-		}
-
-	}
+/**
+ * Used to export a selected region into a schematics file
+ * @author orgin
+ *
+ */
+public class ExportManager
+{
 	
 	public static void export(HothGeneratorPlugin plugin, World world, CuboidRegionSelector rSelector, CommandSender sender, String filename, int maskid)
 	{
@@ -125,7 +112,6 @@ public class ExportManager {
 					
 					int layer = 0;
 
-					//for(int y=y1;y<=y2;y++)
 					for(int y=y2;y>=y1;y--)
 					{
 						writer.write("# Layer " + layer + "\n");

@@ -20,6 +20,7 @@ public class LoadedSchematic implements Schematic
 	
 	private boolean enabled;
 	private int type;
+	private int yoffset;
 	private int rarity;
 	private int random;
 	private String loot;
@@ -37,6 +38,7 @@ public class LoadedSchematic implements Schematic
 		this.name = "";
 		this.enabled = false;
 		this.type = -1;
+		this.yoffset = 0;
 		this.rarity = 0;
 		this.random = -1;
 		this.loot = "";
@@ -61,6 +63,7 @@ public class LoadedSchematic implements Schematic
 		this.name = "";
 		this.enabled = false;
 		this.type = -1;
+		this.yoffset = 0;
 		this.rarity = 0;
 		this.random = -1;
 		this.loot = "";
@@ -175,6 +178,17 @@ public class LoadedSchematic implements Schematic
 							if(this.type!=0 && this.type!=1 && type!=2)
 							{
 								throw new IOException("TYPE must be 0,1 or 2, was: " + value);
+							}
+						}
+						else if(key.equals("YOFFSET"))
+						{
+							try
+							{
+								this.setYoffset(Integer.parseInt(value));
+							}
+							catch(NumberFormatException e)
+							{
+								throw new IOException("YOFFSET contains illegal characters: " + value);
 							}
 						}
 						else if(key.equals("RARITY"))
@@ -401,6 +415,7 @@ public class LoadedSchematic implements Schematic
 		
 		newSchematic.enabled = this.enabled;
 		newSchematic.type = this.type;
+		newSchematic.yoffset = this.yoffset;
 		newSchematic.rarity = this.rarity;
 		newSchematic.random = this.random;
 		newSchematic.loot = this.loot;
@@ -449,6 +464,7 @@ public class LoadedSchematic implements Schematic
 		mySB.append("HEIGHT=").append(this.height).append("\n");
 		mySB.append("NAME=").append(this.name).append("\n");
 		mySB.append("TYPE=").append(this.type).append("\n");
+		mySB.append("YOFFSET=").append(this.yoffset).append("\n");
 		mySB.append("RARITY=").append(this.rarity).append("\n");
 		mySB.append("RANDOM=").append(this.random).append("\n");
 		mySB.append("LOOT=").append(this.loot).append("\n");
@@ -486,5 +502,13 @@ public class LoadedSchematic implements Schematic
 
 	public int getLootMax() {
 		return lootMax;
+	}
+
+	public int getYoffset() {
+		return yoffset;
+	}
+
+	public void setYoffset(int yoffset) {
+		this.yoffset = yoffset;
 	}
 }

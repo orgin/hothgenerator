@@ -135,7 +135,7 @@ public class CustomGenerator
 				if(y3<y) y=y3;
 				if(y4<y) y=y4;
 				
-				y = y + h - 1;
+				y = y + h - 1 + this.schematic.getYoffset();
 
 				Block block = world.getBlockAt(x,y - h,z); Material type = block.getType();
 				if(safe && (type.equals(Material.STONE) || type.equals(Material.GLASS))) safe = false;
