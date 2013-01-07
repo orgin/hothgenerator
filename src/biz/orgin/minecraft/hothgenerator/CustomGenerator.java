@@ -12,6 +12,11 @@ import org.bukkit.block.Block;
 
 import biz.orgin.minecraft.hothgenerator.schematic.LoadedSchematic;
 
+/**
+ * This class finds all user defined schematics files and inserts them into the generated terrain.
+ * @author orgin
+ *
+ */
 public class CustomGenerator
 {
 	private static Vector<LoadedSchematic> schematics = null;

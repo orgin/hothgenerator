@@ -10,6 +10,15 @@ import org.bukkit.block.Block;
 
 import biz.orgin.minecraft.hothgenerator.schematic.LoadedSchematic;
 
+/**
+ * Used to generate structures that are defined in the form of schematics files.
+ * It basically does the same job as the CustomGenerator but it loads its schematics from
+ * internal resource files instead of external ones.
+ * Which schematic files to use are hard coded. Which means that new schematics cannot be
+ * added without changing the code in this class.
+ * @author orgin
+ *
+ */
 public class SchematicsGenerator
 {
 	private static LoadedSchematic skeleton = null;
