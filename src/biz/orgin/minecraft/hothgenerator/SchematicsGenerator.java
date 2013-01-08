@@ -111,6 +111,8 @@ public class SchematicsGenerator
 			{
 			case 0: // On surface
 				
+				int yoffset = this.schematic.getYoffset();
+				
 				for(int zz=z-hl;zz<z+hl;zz++)
 				{
 					for(int xx=x-hw;xx<x+hw;xx++)
@@ -123,26 +125,40 @@ public class SchematicsGenerator
 					}
 				}
 				
-				y = y + h + this.schematic.getYoffset();
+				y = y + h + yoffset;
 				
 				Block block = world.getBlockAt(x,y - h,z); Material type = block.getType();
 				if(safe && (type.equals(Material.STONE) || type.equals(Material.GLASS))) safe = false;
-				block = world.getBlockAt(x-hw,y,z-hl); type = block.getType();
-				if(safe && !type.equals(Material.AIR)) safe = false;
-				block = world.getBlockAt(x+hw,y,z-hl); type = block.getType();
-				if(safe && !type.equals(Material.AIR)) safe = false;
-				block = world.getBlockAt(x+hw,y,z+hl); type = block.getType();
-				if(safe && !type.equals(Material.AIR)) safe = false;
-				block = world.getBlockAt(x-hw,y,z+hl); type = block.getType();
-				if(safe && !type.equals(Material.AIR)) safe = false;
+
+				if(yoffset==0) // Only do air safety checks if the offset value is 0
+				{
+					block = world.getBlockAt(x-hw,y,z-hl); type = block.getType();
+					if(safe && !type.equals(Material.AIR)) safe = false;
+					block = world.getBlockAt(x+hw,y,z-hl); type = block.getType();
+					if(safe && !type.equals(Material.AIR)) safe = false;
+					block = world.getBlockAt(x+hw,y,z+hl); type = block.getType();
+					if(safe && !type.equals(Material.AIR)) safe = false;
+					block = world.getBlockAt(x-hw,y,z+hl); type = block.getType();
+					if(safe && !type.equals(Material.AIR)) safe = false;
+
+					block = world.getBlockAt(x-hw,y-h,z-hl); type = block.getType();
+					if(safe && type.equals(Material.AIR)) safe = false;
+					block = world.getBlockAt(x+hw,y-h,z-hl); type = block.getType();
+					if(safe && type.equals(Material.AIR)) safe = false;
+					block = world.getBlockAt(x+hw,y-h,z+hl); type = block.getType();
+					if(safe && type.equals(Material.AIR)) safe = false;
+					block = world.getBlockAt(x-hw,y-h,z+hl); type = block.getType();
+					if(safe && type.equals(Material.AIR)) safe = false;
+				
+				}
 				block = world.getBlockAt(x-hw,y-h,z-hl); type = block.getType();
-				if(safe && (type.equals(Material.STONE) || type.equals(Material.GLASS) || type.equals(Material.AIR))) safe = false;
+				if(safe && (type.equals(Material.STONE) || type.equals(Material.GLASS))) safe = false;
 				block = world.getBlockAt(x+hw,y-h,z-hl); type = block.getType();
-				if(safe && (type.equals(Material.STONE) || type.equals(Material.GLASS) || type.equals(Material.AIR))) safe = false;
+				if(safe && (type.equals(Material.STONE) || type.equals(Material.GLASS))) safe = false;
 				block = world.getBlockAt(x+hw,y-h,z+hl); type = block.getType();
-				if(safe && (type.equals(Material.STONE) || type.equals(Material.GLASS) || type.equals(Material.AIR))) safe = false;
+				if(safe && (type.equals(Material.STONE) || type.equals(Material.GLASS))) safe = false;
 				block = world.getBlockAt(x-hw,y-h,z+hl); type = block.getType();
-				if(safe && (type.equals(Material.STONE) || type.equals(Material.GLASS) || type.equals(Material.AIR))) safe = false;
+				if(safe && (type.equals(Material.STONE) || type.equals(Material.GLASS))) safe = false;
 				break;
 			case 1: // In ice layer
 				miny = 30 + this.schematic.getHeight();
