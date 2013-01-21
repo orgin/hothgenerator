@@ -72,8 +72,10 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.config = this.getConfig();
     	LootGenerator.load(this);
     	CustomGenerator.load(this);
+    	OreGenerator.load(this);
     	this.saveResource("custom/example.sm", true);
     	this.saveResource("custom/example.ll", true);
+    	this.saveResource("custom/example_ores.ol", true);
     }
     
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
@@ -101,8 +103,10 @@ public class HothGeneratorPlugin extends JavaPlugin
     		
     		LootGenerator.load(this);
     		CustomGenerator.load(this);
+        	OreGenerator.load(this);
         	this.saveResource("custom/example.sm", true);
         	this.saveResource("custom/example.ll", true);
+        	this.saveResource("custom/example_ores.ol", true);
 
     		this.sendMessage(sender, "&b... reloading done.");
     		
@@ -498,6 +502,11 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.config.getBoolean("hoth.generate.ores", true);
 	}
 
+	public boolean isGenerateExtendedOre()
+	{
+		return this.config.getBoolean("hoth.generate.extendedore", true);
+	}
+
 	public boolean isRulesDropice()
 	{
 		return this.config.getBoolean("hoth.rules.dropice", true);
@@ -555,6 +564,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	  +generate.logs: true
 	  +generate.caves.rarity: 2
 	  +generate.ores: true
+	  +generate.extendedores: false
 	  +rules.dropice: true
 	  +rules.dropsnow: true
 	  +rules.freezewater: true

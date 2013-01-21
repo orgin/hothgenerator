@@ -57,6 +57,9 @@ hothworlds:
 #  generate.caves.rarity - 0-10. Rarity for caves. 0 is off, 1-10 is rarity
 #                   (1 = rare, 10 = very common)
 #  generate.ores - true/false. Whether frozen logs should be generated
+#  generate.extendedore - true/false. If true then ores can use type id's>255
+#                         and its data value can be set.
+#                         Warning: Extended ores are much slower to generate.
 #  rules.dropice - true/false. Whether ice should drop ice blocks when
 #                  destroyed. 
 #  rules.dropsnow - true/false. Whether snow should drop snow blocks when
@@ -94,6 +97,7 @@ hoth:
   generate.logs: true
   generate.caves.rarity: 2
   generate.ores: true
+  generate.extendedore: false
   rules.dropice: true
   rules.dropsnow: true
   rules.freezewater: true

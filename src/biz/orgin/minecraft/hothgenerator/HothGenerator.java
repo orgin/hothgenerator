@@ -311,7 +311,7 @@ public class HothGenerator extends ChunkGenerator
 		// Add structures and such
 		GardenGenerator.generateGarden(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		RoomGenerator.generateRooms(world, this.plugin, new Random(random.nextLong()), chunkx, chunkz);
-		OreGenerator.generateOres(this.plugin, chunk, new Random(random.nextLong()));
+		OreGenerator.generateOres(this.plugin, world, chunk, new Random(random.nextLong()) , chunkx, chunkz);
 		DomeGenerator.generateDome(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		BaseGenerator.generateBase(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		SchematicsGenerator.generateSchematics(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
