@@ -13,7 +13,20 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 
 /**
- * A generator that replaces stone blocks into strands of ore blocks
+ * A generator that replaces stone blocks into strands of ore blocks.
+ * The generator can operate in two modes.
+ *  - Fast, this will inject ores during terrain chuck generation into the chunk byte array
+ *  - Slow, this will schedule a delayed task to inject ores by setting block types and data values
+ *  
+ *  Which one that is used is determined by the hoth.generate.extendedore flag in the config file.
+ *  In fast mode a typeID of 0-255 can be used with no data value
+ *  In slow mode the type ID can be above 255 and a data value can be set
+ *  Do not set hoth.generate.extendedore to true unless a custom ore list is used or else terrain
+ *  generation will be slow for no good reason.
+ *  
+ *  An attempt to load a custom ore list from custom/custom_ores.ol will be made on start up and
+ *  every time /hothreload is executed.
+ *  
  * @author orgin
  *
  */
@@ -58,6 +71,16 @@ public class OreGenerator
 		}
 	}
 
+	/**
+	 * Used to create veins using only the generator byte chunk
+	 * @param chunk
+	 * @param random
+	 * @param originX
+	 * @param originY
+	 * @param originZ
+	 * @param amount
+	 * @param type
+	 */
 	private static void vein(byte[][] chunk, Random random, int originX,
 			int originY, int originZ, int amount, int type)
 	{
@@ -107,6 +130,19 @@ public class OreGenerator
 		}
 	}
 
+	/**
+	 * Used to generate veins when extendedore is set to true
+	 * @param world
+	 * @param chunkx
+	 * @param chunkz
+	 * @param random
+	 * @param originX
+	 * @param originY
+	 * @param originZ
+	 * @param amount
+	 * @param typeID
+	 * @param dataValue
+	 */
 	private static void extendedVein(World world, int chunkx, int chunkz, Random random, int originX,
 			int originY, int originZ, int amount, int typeID, int dataValue)
 	{
@@ -147,7 +183,7 @@ public class OreGenerator
 				continue;
 			}
 
-			Block block = world.getBlockAt(chunkx*16 + dx, dy, chunkz*16 + dz); // .HothUtils.getPos(chunk, dx, dy, dz);
+			Block block = world.getBlockAt(chunkx*16 + dx, dy, chunkz*16 + dz);
 			int oldTypeID = block.getTypeId();
 			if(oldTypeID == REPLACE)
 			{
@@ -157,6 +193,10 @@ public class OreGenerator
 		}
 	}
 	
+	/**
+	 * Loads the ore list from custom_ores.ol if found.
+	 * @param plugin
+	 */
 	public static void load(HothGeneratorPlugin plugin)
 	{
 		Vector<Ore> ores = new Vector<Ore>();
@@ -186,11 +226,11 @@ public class OreGenerator
 						try
 						{
 							Ore ore = new Ore();
-							ore.typeID = Integer.parseInt(cols[1]);
-							ore.data = Integer.parseInt(cols[2]);
-							ore.iterations = Integer.parseInt(cols[3]);
-							ore.amount = Integer.parseInt(cols[4]);
-							ore.maxHeight = Integer.parseInt(cols[5]);
+							ore.typeID = Integer.parseInt(cols[1].trim());
+							ore.data = Integer.parseInt(cols[2].trim());
+							ore.iterations = Integer.parseInt(cols[3].trim());
+							ore.amount = Integer.parseInt(cols[4].trim());
+							ore.maxHeight = Integer.parseInt(cols[5].trim());
 							
 							if(ore.typeID<0 || ore.data<0 || ore.iterations<0 || ore.amount<0 || ore.maxHeight<0 || ore.data>255)
 							{
