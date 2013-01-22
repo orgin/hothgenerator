@@ -53,6 +53,8 @@ hothworlds:
 #                                   generator attempts to make
 #  structure.mazes.spawner - true/false. Whether bases can have monster
 #                                  spawners
+#  structure.skeletons.rarity  - 0-10. Rarity for skeletons. 0 is off, 1-10 is
+#                                rarity (1 = rare, 10 = very common)
 #  generate.logs - true/false. Whether frozen logs should be generated
 #  generate.caves.rarity - 0-10. Rarity for caves. 0 is off, 1-10 is rarity
 #                   (1 = rare, 10 = very common)

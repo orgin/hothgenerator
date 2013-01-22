@@ -504,7 +504,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 
 	public boolean isGenerateExtendedOre()
 	{
-		return this.config.getBoolean("hoth.generate.extendedore", true);
+		return this.config.getBoolean("hoth.generate.extendedore", false);
 	}
 
 	public boolean isRulesDropice()
