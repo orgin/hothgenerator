@@ -92,6 +92,8 @@ public class SchematicsGenerator
 		@Override
 		public void run()
 		{
+			int surfaceOffset = this.plugin.getWorldSurfaceoffset();
+			
 			int x = this.random.nextInt(16) + this.chunkx * 16 - this.schematic.getWidth()/2;
 			int z = this.random.nextInt(16) + this.chunkz * 16 - this.schematic.getLength()/2;
 			int y = 128;
@@ -161,13 +163,13 @@ public class SchematicsGenerator
 				if(safe && (type.equals(Material.STONE) || type.equals(Material.GLASS))) safe = false;
 				break;
 			case 1: // In ice layer
-				miny = 30 + this.schematic.getHeight();
-				maxy = 65;
+				miny = surfaceOffset + 30 + this.schematic.getHeight();
+				maxy = surfaceOffset + 65;
 				y = miny + this.random.nextInt(maxy-miny);
 				break;
 			case 2: // In stone layer
 				miny = 6 + this.schematic.getHeight();
-				maxy = 26;
+				maxy = surfaceOffset + 26;
 				y = miny + this.random.nextInt(maxy-miny);
 				break;
 			}

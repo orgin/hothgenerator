@@ -370,6 +370,20 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.config.getBoolean("hoth.smoothsnow", true);
 	}
 	
+	public int getWorldSurfaceoffset()
+	{
+		int result =  this.config.getInt("hoth.world.surfaceoffset", 0);
+		if(result<0)
+		{
+			result = 0;
+		}
+		else if(result>127)
+		{
+			result = 127;
+		}
+		return result;
+	}
+
 	public int getStructureGardensRarity()
 	{
 		int result = this.config.getInt("hoth.structure.gardens.rarity", 2);

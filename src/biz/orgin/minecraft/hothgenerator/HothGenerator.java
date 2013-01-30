@@ -46,6 +46,8 @@ public class HothGenerator extends ChunkGenerator
 			this.noiseGenerator = new NoiseGenerator(world);
 		}
 		
+		int surfaceOffset = this.plugin.getWorldSurfaceoffset();
+		
 		Random localRand = new Random(chunkx*chunkz);
 		Position[][] snowcover = new Position[16][16];
 		
@@ -123,7 +125,7 @@ public class HothGenerator extends ChunkGenerator
 				HothUtils.setPos(chunk, x,y+5,z, getBedrockMaterial(localRand, (int)(256*0.2f))); // 20%
 				
 				// STONE Layer, solid
-				for(y=6	;y<27;y++)
+				for(y=6	;y<27 + surfaceOffset ;y++)
 				{
 					HothUtils.setPos(chunk, x,y,z, Material.STONE);
 				}
@@ -179,7 +181,7 @@ public class HothGenerator extends ChunkGenerator
 
 				
 				// ice Layer
-				while(y<34)
+				while(y<34+surfaceOffset)
 				{
 					HothUtils.setPos(chunk, x,y,z, Material.ICE);
 					y++;
@@ -198,8 +200,8 @@ public class HothGenerator extends ChunkGenerator
 				double ice = factor * (this.noiseGenerator.noise(rx, rz, 4, 63)*2 + 
 						      this.noiseGenerator.noise(rx, rz, 10, 12)) * 2.5;
 				
-				int icey = 64+(int)(ice);
-				double dicey = 64+ice;
+				int icey = surfaceOffset + 64+(int)(ice);
+				double dicey = surfaceOffset + 64+ice;
 				for(;y<(icey-iceh);y++)
 				{
 					HothUtils.setPos(chunk, x,y,z, Material.SNOW_BLOCK);
@@ -229,11 +231,11 @@ public class HothGenerator extends ChunkGenerator
 					mountain = mountain + this.noiseGenerator.noise(rx, rz, 8, 3)*5; // Add a bit more noise
 					for(int i=0;i<(int)(mountain*mfactor);i++)
 					{
-						HothUtils.setPos(chunk, x,i+26,z, Material.STONE);
+						HothUtils.setPos(chunk, x,i+26 + surfaceOffset,z, Material.STONE);
 						
-						if(i+26>y)
+						if(i+26+surfaceOffset>y)
 						{
-							y = i+26;
+							y = i+26+surfaceOffset;
 						}
 					}
 				}
@@ -344,7 +346,7 @@ public class HothGenerator extends ChunkGenerator
 	public Location getFixedSpawnLocation(World world, Random random)
 	{
 		
-		int y = 65;
+		int y = 65 + this.plugin.getWorldSurfaceoffset();
 		if(this.height<=66)
 		{
 			y = (this.height/2)+1;

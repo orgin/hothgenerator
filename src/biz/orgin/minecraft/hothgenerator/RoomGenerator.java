@@ -61,29 +61,9 @@ public class RoomGenerator
 	
 	private static int[] reverse = new int[] { 1,0,3,2,5,4 };
 	
-	private Cluster getNewCluster(Random random)
+	private Cluster getNewCluster(Random random, int surfaceOffset)
 	{
-		return new Cluster(random);
-	}
-	
-	// For testing
-	public static void main(String [] args)
-	{
-		RoomGenerator populator = new RoomGenerator();
-		Cluster cluster = populator.getNewCluster(new Random(8));
-		
-		System.out.println("MaxRooms = " + cluster.maxRooms);
-		
-		System.out.println("Populating ..");
-		Room start = populator.getEmptyRoom(cluster, null, 0, 15, 0);
-		cluster.rooms = start;
-
-		populator.populateRoom(cluster, start);
-		populator.decorateRoom(cluster, start);
-		
-		System.out.println("Printing ..");
-		
-		populator.print(cluster);
+		return new Cluster(random, surfaceOffset);
 	}
 	
 	/**
@@ -108,13 +88,15 @@ public class RoomGenerator
 			int doit = random.nextInt(128*rarity);
 			if(doit == 39)
 			{
+				int surfaceOffset = plugin.getWorldSurfaceoffset();
+				
 				RoomGenerator populator = new RoomGenerator();
 				
 				int x = random.nextInt(16) + chunkx*16;
-				int y = 11 + random.nextInt(16);
+				int y = 11 + random.nextInt(16 + surfaceOffset);
 				int z = random.nextInt(16) + chunkz*16;
 				
-				Cluster cluster = populator.getNewCluster(random);
+				Cluster cluster = populator.getNewCluster(random, surfaceOffset);
 				Room start = populator.getEmptyRoom(cluster, null, x, y, z);
 				cluster.rooms = start;
 				populator.populateRoom(cluster, start); // Populate start room and all children
@@ -426,7 +408,7 @@ public class RoomGenerator
 				{4,5,1,3,2,0}
 				};
 		
-		public Cluster(Random random)
+		public Cluster(Random random, int surfaceOffset)
 		{
 			this.random = random;
 			this.list = new Vector<Position>();
@@ -435,6 +417,8 @@ public class RoomGenerator
 			this.maxRooms = RoomGenerator.MINROOMS + random.nextInt(RoomGenerator.MAXROOMS - RoomGenerator.MINROOMS);
 			this.ctr = 0;
 			this.stopper = 1;
+			
+			this.surfaceOffset = surfaceOffset;
 		}
 		
 		public Room rooms;
@@ -443,6 +427,8 @@ public class RoomGenerator
 		public int ctr;
 		public int stopper;
 		public Random random;
+		
+		private int surfaceOffset;
 		
 		public int[] getRandomDirectionArray()
 		{
@@ -471,7 +457,7 @@ public class RoomGenerator
 		public boolean isPositionValid(Position delta, int x, int y, int z)
 		{
 			int ry = y + delta.y;
-			return ry > 10 & ry < 26; 
+			return ry > 10 & ry < 26 + this.surfaceOffset; 
 		}
 		
 		public int getFreePositionCount(Room room)

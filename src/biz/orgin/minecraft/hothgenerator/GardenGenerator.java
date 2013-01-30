@@ -54,10 +54,11 @@ public class GardenGenerator
 		@Override
 		public void run()
 		{
+			int surfaceOffset = this.plugin.getWorldSurfaceoffset();
 
 			int x = random.nextInt(16) + this.chunkx * 16;
 			int z = random.nextInt(16) + this.chunkz * 16;
-			int y = 9 + random.nextInt(15);
+			int y = 9 + random.nextInt(15 + surfaceOffset);
 			
 			Schematic garden;
 			switch(random.nextInt(4))

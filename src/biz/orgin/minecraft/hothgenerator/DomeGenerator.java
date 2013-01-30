@@ -16,46 +16,6 @@ public class DomeGenerator
 	private static int FLOORID = 3;        // Dirt
 	private static int FLOORRANDOMID = 89; // Glowstone
 	
-	public static void main(String[] args)
-	{
-		int radius = 20;
-		
-		Position centerPos = new Position(0,0,0);
-		
-		StringBuffer mySB = new StringBuffer();
-		
-		for(int y = centerPos.y;y<=centerPos.y+radius;y++)
-		{
-			for(int z =-radius;z<=radius;z++)
-			{
-				for(int x =-radius;x<=radius;x++)
-				{
-					Position currPos = new Position(x,y,z);
-					
-					int dist = (int)Math.ceil(DomeGenerator.distance(centerPos, currPos));
-					if(dist==radius)
-					{
-						mySB.append("#");
-					}
-					else if(dist<radius)
-					{
-						mySB.append("-");
-					}
-					else
-					{
-						mySB.append(".");
-					}
-					
-				}
-				
-				System.out.println(mySB);
-				mySB.setLength(0);
-			}
-			
-			System.out.println("");
-			
-		}
-	}
 
 	public static double distance(Position pos1, Position pos2)
 	{
@@ -137,9 +97,11 @@ public class DomeGenerator
 		@Override
 		public void run()
 		{	
+			int surfaceOffset = this.plugin.getWorldSurfaceoffset();
+			
 			int sx = this.chunkx*16 + random.nextInt(16);
 			int sz = this.chunkz*16 + random.nextInt(16);
-			int sy = 26;
+			int sy = 26 + surfaceOffset;
 			
 			this.plugin.logMessage("Placing Dome at " + sx + "," + sy + "," + sz,true);
 
@@ -221,7 +183,7 @@ public class DomeGenerator
 			for(int i=0;i<30+cnt;i++)
 			{
 				int ix = sx+random.nextInt(40*2)-40;
-				int iy = 26;
+				int iy = 26 + surfaceOffset;
 				int iz = sz+random.nextInt(40*2)-40;
 				
 				Position currPos = new Position(ix,iy,iz);
