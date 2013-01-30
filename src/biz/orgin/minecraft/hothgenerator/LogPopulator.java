@@ -77,6 +77,7 @@ public class LogPopulator extends BlockPopulator
 	
 	private void placeLogs(World world, int rx, int rz, Random random)
 	{
+		int surfaceOffset = this.plugin.getWorldSurfaceoffset();
 		int cnt = random.nextInt(32);
 		
 		for(int i=0;i<cnt;i++)
@@ -132,7 +133,7 @@ public class LogPopulator extends BlockPopulator
 				int blocks = 3 + random.nextInt(2);
 				int direction = random.nextInt(3);
 				
-				int ry = random.nextInt(44 + 32) + 20;
+				int ry = random.nextInt(44 + 32) + 20 + surfaceOffset;
 				
 				switch(direction)
 				{
