@@ -35,7 +35,9 @@ public class CreatureSpawnManager implements Listener
 			{
 				EntityType type = event.getEntityType();
 				
-				if(type.equals(EntityType.SLIME) && location.getBlockY()>27 &&
+				int surfaceOffset = this.plugin.getWorldSurfaceoffset();
+				
+				if(type.equals(EntityType.SLIME) && location.getBlockY()>(27 + surfaceOffset) &&
 						event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.NATURAL))
 				{
 					event.setCancelled(true);

@@ -344,8 +344,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 	public boolean canPlaceLiquid(World world, Block block)
 	{
 		int y = block.getY();
+		int surfaceOffset = this.getWorldSurfaceoffset();
 		
-		return !(y>63 || (y>26 && this.blockIsHighest(world, block)));
+		return !(y>63 || (y>(26 + surfaceOffset) && this.blockIsHighest(world, block)));
 	}
 	
 	/* Config - Start

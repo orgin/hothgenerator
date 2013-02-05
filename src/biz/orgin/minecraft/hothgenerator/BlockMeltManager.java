@@ -34,7 +34,9 @@ public class BlockMeltManager implements Listener
 			{
 				int y = block.getY();
 				
-				if(y>26)
+				int surfaceOffset = this.plugin.getWorldSurfaceoffset();
+				
+				if(y>(26 + surfaceOffset))
 				{
 					Material type = block.getType();
 					
