@@ -80,6 +80,12 @@ hothworlds:
 #                   above stone layer. 
 #  rules.limitslime - true/false. Whether slime can only spawn in the stone
 #                     layer. 
+#  rules.freeze.period - Positive integer value. Seconds between freeze damage
+#                        checks. 0 = no freezing.
+#  rules.freeze.damage - Positive integer value. Damage taken when freezing.
+#  rules.freeze.stormdamage - Positive integer value. Extra damage taken
+#                             during storms.
+#  rules.freeze.message - Message sent when freezing
 #
 hoth:
   debug: false
@@ -112,3 +118,7 @@ hoth:
   rules.grassspread: false
   rules.stopmelt: true
   rules.limitslime: true
+  rules.freeze.period: 5
+  rules.freeze.damage: 2
+  rules.freeze.stormdamage: 1
+  rules.freeze.message: "&bYou are freezing. Find shelter!"

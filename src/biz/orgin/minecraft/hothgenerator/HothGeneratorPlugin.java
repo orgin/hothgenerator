@@ -44,6 +44,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private StructureGrowManager structureGrowManager;
 	private BlockSpreadManager blockSpreadManager;
 	private CreatureSpawnManager creatureSpawnManager;
+	private PlayerFreezeManager playerFreezeManager;
 	
 	private FileConfiguration config;
 	
@@ -76,6 +77,16 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.saveResource("custom/example.sm", true);
     	this.saveResource("custom/example.ll", true);
     	this.saveResource("custom/example_ores.ol", true);
+
+    	this.playerFreezeManager = new PlayerFreezeManager(this);
+    }
+    
+    public void onDisable()
+    {
+    	if(this.playerFreezeManager!=null)
+    	{
+    		this.playerFreezeManager.stop();
+    	}
     }
     
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
@@ -108,8 +119,14 @@ public class HothGeneratorPlugin extends JavaPlugin
         	this.saveResource("custom/example.ll", true);
         	this.saveResource("custom/example_ores.ol", true);
 
+        	if(this.playerFreezeManager!=null)
+        	{
+        		this.playerFreezeManager.stop();
+        	}
+    		this.playerFreezeManager = new PlayerFreezeManager(this);
+
     		this.sendMessage(sender, "&b... reloading done.");
-    		
+
     		return true;
     	}
     	else if(cmd.getName().equalsIgnoreCase("hothexport"))
@@ -208,6 +225,11 @@ public class HothGeneratorPlugin extends JavaPlugin
     	return false;
     }
     
+    public void sendMessage(Player sender, String message)
+    {
+    	sender.sendMessage(MessageFormatter.format(message));
+    }
+
     public void sendMessage(CommandSender sender, String message)
     {
     	sender.sendMessage(MessageFormatter.format(message));
@@ -560,6 +582,42 @@ public class HothGeneratorPlugin extends JavaPlugin
 	public boolean isRulesLimitslime()
 	{
 		return this.config.getBoolean("hoth.rules.limitslime", true);
+	}
+	
+	public int getRulesFreezePeriod()
+	{
+	    int period = this.config.getInt("hoth.rules.freeze.period", 5);
+	    if(period<0)
+	    {
+	    	period = 5;
+	    }
+	    return period;
+	}
+
+	public int getRulesFreezeDamage()
+	{
+	    int damage = this.config.getInt("hoth.rules.freeze.damage", 2);
+	    if(damage<0)
+	    {
+	    	damage = 2;
+	    }
+	    return damage;
+	}
+
+	public int getRulesFreezeStormdamage()
+	{
+	    int damage = this.config.getInt("hoth.rules.freeze.stormdamage", 1);
+	    if(damage<0)
+	    {
+	    	damage = 2;
+	    }
+	    return damage;
+	}
+
+	public String getRulesFreezeMessage()
+	{
+		return this.config.getString("hoth.rules.freeze.message", "&bYou are freezing. Find shelter!");
+		
 	}
 	
 	/*
