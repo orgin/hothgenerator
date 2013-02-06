@@ -118,7 +118,7 @@ hoth:
   rules.grassspread: false
   rules.stopmelt: true
   rules.limitslime: true
-  rules.freeze.period: 5
+  rules.freeze.period: 0
   rules.freeze.damage: 2
   rules.freeze.stormdamage: 1
   rules.freeze.message: "&bYou are freezing. Find shelter!"

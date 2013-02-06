@@ -586,7 +586,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	
 	public int getRulesFreezePeriod()
 	{
-	    int period = this.config.getInt("hoth.rules.freeze.period", 5);
+	    int period = this.config.getInt("hoth.rules.freeze.period", 0);
 	    if(period<0)
 	    {
 	    	period = 5;
