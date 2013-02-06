@@ -510,7 +510,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 
 	public int getStructureSkeletonsRarity()
 	{
-		int result = this.config.getInt("structure.skeletons.rarity", 2);
+		int result = this.config.getInt("hoth.structure.skeletons.rarity", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;
