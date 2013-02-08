@@ -45,6 +45,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private BlockSpreadManager blockSpreadManager;
 	private CreatureSpawnManager creatureSpawnManager;
 	private PlayerFreezeManager playerFreezeManager;
+	private BlockGravityManager blockGravityManager;
 	
 	private FileConfiguration config;
 	
@@ -58,6 +59,7 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.structureGrowManager = new StructureGrowManager(this);
     	this.blockSpreadManager = new BlockSpreadManager(this);
     	this.creatureSpawnManager = new CreatureSpawnManager(this);
+    	this.blockGravityManager = new BlockGravityManager(this);
     	
     	this.getServer().getPluginManager().registerEvents(this.blockPlaceManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockBreakManager, this);
@@ -67,6 +69,7 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.getServer().getPluginManager().registerEvents(this.structureGrowManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockSpreadManager, this);
     	this.getServer().getPluginManager().registerEvents(this.creatureSpawnManager, this);
+    	this.getServer().getPluginManager().registerEvents(this.blockGravityManager, this);
     	
     	
 		this.saveDefaultConfig();
@@ -582,6 +585,11 @@ public class HothGeneratorPlugin extends JavaPlugin
 	public boolean isRulesLimitslime()
 	{
 		return this.config.getBoolean("hoth.rules.limitslime", true);
+	}
+	
+	public boolean isRulesSnowgravity()
+	{
+		return this.config.getBoolean("hoth.rules.snowgravity", false);
 	}
 	
 	public int getRulesFreezePeriod()

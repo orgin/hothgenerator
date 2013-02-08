@@ -80,6 +80,7 @@ hothworlds:
 #                   above stone layer. 
 #  rules.limitslime - true/false. Whether slime can only spawn in the stone
 #                     layer. 
+#  rules.snowgravity - true/false. Whether gravity is applied to snow blocks.
 #  rules.freeze.period - Positive integer value. Seconds between freeze damage
 #                        checks. 0 = no freezing.
 #  rules.freeze.damage - Positive integer value. Damage taken when freezing.
@@ -118,6 +119,7 @@ hoth:
   rules.grassspread: false
   rules.stopmelt: true
   rules.limitslime: true
+  rules.snowgravity: false
   rules.freeze.period: 0
   rules.freeze.damage: 2
   rules.freeze.stormdamage: 1
