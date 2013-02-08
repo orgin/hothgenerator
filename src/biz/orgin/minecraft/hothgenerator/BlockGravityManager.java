@@ -75,7 +75,7 @@ public class BlockGravityManager  implements Listener
 			{
 				byte data = block.getData();
 				
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DropBlock(this.plugin, world, block, material, data));
+				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DropBlock(world, block, material, data));
 				
 
 			}
@@ -84,15 +84,13 @@ public class BlockGravityManager  implements Listener
 
 	private class DropBlock implements Runnable
 	{
-		HothGeneratorPlugin plugin;
 		private World world;
 		private Block block;
 		private Material material;
 		private byte data;
 		
-		public DropBlock(HothGeneratorPlugin plugin, World world, Block block, Material material, byte data)
+		public DropBlock(World world, Block block, Material material, byte data)
 		{
-			this.plugin = plugin;
 			this.world = world;
 			this.block = block;
 			this.material = material;
@@ -101,8 +99,6 @@ public class BlockGravityManager  implements Listener
 		
 		public void run()
 		{
-			this.plugin.debugMessage("DropBlock.run(...)");
-			
 			int x = this.block.getX();
 			int y = this.block.getY();
 			int z = this.block.getZ();
