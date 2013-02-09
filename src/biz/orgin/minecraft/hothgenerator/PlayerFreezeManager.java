@@ -82,9 +82,6 @@ public class PlayerFreezeManager
 		 */
 		private void freeze(World world)
 		{
-			int damage = this.plugin.getRulesFreezeDamage();
-			int stormdamage = this.plugin.getRulesFreezeStormdamage();
-			String message = this.plugin.getRulesFreezeMessage();
 			boolean storm = world.hasStorm();
 			int realDamage = 0;
 			
@@ -97,6 +94,9 @@ public class PlayerFreezeManager
 				if(!gm.equals(GameMode.CREATIVE))
 				{
 					Location location = player.getLocation();
+					int damage = this.plugin.getRulesFreezeDamage(location);
+					int stormdamage = this.plugin.getRulesFreezeStormdamage(location);
+					String message = this.plugin.getRulesFreezeMessage(location);
 					
 					Block block = world.getBlockAt(location.getBlockX(), location.getBlockY()+1, location.getBlockZ());
 					

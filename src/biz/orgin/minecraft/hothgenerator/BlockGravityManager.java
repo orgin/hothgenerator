@@ -33,10 +33,9 @@ public class BlockGravityManager  implements Listener
 			Block block = event.getBlock();
 			
 			World world = block.getWorld();
-			if(plugin.isHothWorld(world) && this.plugin.isRulesSnowgravity())
+			if(plugin.isHothWorld(world) && this.plugin.isRulesSnowgravity(block.getLocation()))
 			{
 				this.applyGravityToBlock(world, block, false);
-
 			}
 		}
 	}
@@ -53,7 +52,7 @@ public class BlockGravityManager  implements Listener
 			int z = block.getZ();
 			
 			World world = block.getWorld();
-			if(plugin.isHothWorld(world) && this.plugin.isRulesSnowgravity())
+			if(plugin.isHothWorld(world) && this.plugin.isRulesSnowgravity(block.getLocation()))
 			{
 				this.applyGravityToBlock(world, world.getBlockAt(x, y+1, z), true);
 			}
@@ -76,8 +75,6 @@ public class BlockGravityManager  implements Listener
 				byte data = block.getData();
 				
 				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DropBlock(world, block, material, data));
-				
-
 			}
 		}
 	}
@@ -115,9 +112,6 @@ public class BlockGravityManager  implements Listener
 			applyGravityToBlock(world, world.getBlockAt(x-1, y, z), false);
 			applyGravityToBlock(world, world.getBlockAt(x, y, z+1), false);
 			applyGravityToBlock(world, world.getBlockAt(x, y, z-1), false);
-		
 		}
-		
 	}
-	
 }

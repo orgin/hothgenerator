@@ -82,10 +82,11 @@ hothworlds:
 #                     layer. 
 #  rules.snowgravity - true/false. Whether gravity is applied to snow blocks.
 #  rules.freeze.period - Positive integer value. Seconds between freeze damage
-#                        checks. 0 = no freezing.
+#                        checks. 0 = no freezing (global off).
 #  rules.freeze.damage - Positive integer value. Damage taken when freezing.
+#                        0 = no damage
 #  rules.freeze.stormdamage - Positive integer value. Extra damage taken
-#                             during storms.
+#                             during storms. 0 = no damage
 #  rules.freeze.message - Message sent when freezing
 #
 hoth:

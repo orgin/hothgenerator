@@ -41,7 +41,7 @@ public class BlockBreakManager implements Listener
 				if (this.plugin.isHothWorld(world) && block.getType().equals(Material.ICE))
 				{
 					block.setType(Material.AIR);
-					if(this.plugin.isRulesDropice())
+					if(this.plugin.isRulesDropice(block.getLocation()))
 					{
 						ItemStack iceStack = new ItemStack(Material.ICE);
 						iceStack.setAmount(1);
@@ -52,7 +52,7 @@ public class BlockBreakManager implements Listener
 				{
 					block.setType(Material.AIR);
 
-					if(this.plugin.isRulesDropsnow())
+					if(this.plugin.isRulesDropsnow(block.getLocation()))
 					{
 						ItemStack iceStack = new ItemStack(Material.SNOW_BLOCK);
 						iceStack.setAmount(1);

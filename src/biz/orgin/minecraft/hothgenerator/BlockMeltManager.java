@@ -30,7 +30,7 @@ public class BlockMeltManager implements Listener
 			Block block = event.getBlock();
 			World world = block.getWorld();
 			
-			if(this.plugin.isHothWorld(world) && this.plugin.isRulesStopmelt())
+			if(this.plugin.isHothWorld(world) && this.plugin.isRulesStopmelt(block.getLocation()))
 			{
 				int y = block.getY();
 				

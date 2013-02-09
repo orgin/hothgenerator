@@ -60,7 +60,7 @@ public class ToolUseManager implements Listener
 							block = block.getRelative(event.getBlockFace());
 						}
 	
-						if(this.plugin.isRulesFreezewater() && !this.plugin.canPlaceLiquid(world, block))
+						if(this.plugin.isRulesFreezewater(block.getLocation()) && !this.plugin.canPlaceLiquid(world, block))
 						{
 							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.WATER, Material.ICE);
 							Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
@@ -74,7 +74,7 @@ public class ToolUseManager implements Listener
 							block = block.getRelative(event.getBlockFace());
 						}
 	
-						if(this.plugin.isRulesFreezelava() && !this.plugin.canPlaceLiquid(world, block))
+						if(this.plugin.isRulesFreezelava(block.getLocation()) && !this.plugin.canPlaceLiquid(world, block))
 						{
 							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.LAVA, Material.STONE);
 							Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
@@ -82,10 +82,10 @@ public class ToolUseManager implements Listener
 					}
 					else if(item.getType().equals(Material.INK_SACK) && item.getDurability() == 15)
 					{
-						if(!this.plugin.isRulesPlantsgrow())
+						Block block = event.getClickedBlock();
+						if(!this.plugin.isRulesPlantsgrow(block.getLocation()))
 						{
 							// User is bonemealing something
-							Block block = event.getClickedBlock();
 							Material type = block.getType();
 							
 							int maxy = this.plugin.getHighestBlockYAt(world, block.getX(), block.getZ());

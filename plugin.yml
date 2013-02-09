@@ -19,6 +19,11 @@ commands:
       usage: /hothsavell filename
       permission: hothgenerator.hothsavell
       permission-message: You don't have permission to use the hothsavell command
+   hothregion:
+      description: Access the hoth region commands
+      usage: /hothregion [info|flag|remove] [parameters...]
+      permission: hothgenerator.hothregion
+      permission-message: You don't have permission to use the hothregion command
 permissions:
     hothgenerator.*:
         description: Gives access to all hothgenerator commands
@@ -26,6 +31,7 @@ permissions:
             hothgenerator.hothreload: true
             hothgenerator.hothexport: true
             hothgenerator.hothsavell: true
+            hothgenerator.hothregion: true
     hothgenerator.hothreload:
         description: Reload the hoth configuration.
         default: op
@@ -34,5 +40,8 @@ permissions:
         default: op
     hothgenerator.hothsavell:
         description: Save the named loot list.
+        default: op
+    hothgenerator.hothregion:
+        description: Access the hoth region commands
         default: op
             

@@ -42,7 +42,7 @@ public class BlockPlaceManager implements Listener
 					if(type.equals(Material.WATER) ||
 						type.equals(Material.WATER_BUCKET))
 					{
-						if(this.plugin.isRulesFreezewater())
+						if(this.plugin.isRulesFreezewater(block.getLocation()))
 						{
 							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.WATER, Material.ICE);
 							Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
@@ -51,7 +51,7 @@ public class BlockPlaceManager implements Listener
 					else if(type.equals(Material.LAVA) ||
 						type.equals(Material.LAVA_BUCKET))
 					{
-						if(this.plugin.isRulesFreezelava())
+						if(this.plugin.isRulesFreezelava(block.getLocation()))
 						{
 							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.LAVA, Material.STONE);
 							Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);

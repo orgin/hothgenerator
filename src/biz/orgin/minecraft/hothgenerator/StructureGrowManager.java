@@ -1,5 +1,6 @@
 package biz.orgin.minecraft.hothgenerator;
 
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -28,9 +29,11 @@ public class StructureGrowManager implements Listener
 		{
 			World world = event.getWorld();
 			
-			if(this.plugin.isHothWorld(world) && !this.plugin.isRulesPlantsgrow())
+			Location location = event.getLocation();
+			
+			if(this.plugin.isHothWorld(world) && !this.plugin.isRulesPlantsgrow(location))
 			{
-				int maxy = this.plugin.getHighestBlockYAt(world, event.getLocation().getBlockX(), event.getLocation().getBlockZ());
+				int maxy = this.plugin.getHighestBlockYAt(world, location.getBlockX(), location.getBlockZ());
 	
 				if(Math.abs(maxy-event.getLocation().getY())<2)
 				{

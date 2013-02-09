@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -46,6 +47,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private CreatureSpawnManager creatureSpawnManager;
 	private PlayerFreezeManager playerFreezeManager;
 	private BlockGravityManager blockGravityManager;
+	private RegionManager regionManager;
 	
 	private FileConfiguration config;
 	
@@ -60,6 +62,7 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.blockSpreadManager = new BlockSpreadManager(this);
     	this.creatureSpawnManager = new CreatureSpawnManager(this);
     	this.blockGravityManager = new BlockGravityManager(this);
+    	this.regionManager = new RegionManager(this);
     	
     	this.getServer().getPluginManager().registerEvents(this.blockPlaceManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockBreakManager, this);
@@ -80,6 +83,8 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.saveResource("custom/example.sm", true);
     	this.saveResource("custom/example.ll", true);
     	this.saveResource("custom/example_ores.ol", true);
+    	
+    	this.regionManager.load();
 
     	this.playerFreezeManager = new PlayerFreezeManager(this);
     }
@@ -121,6 +126,8 @@ public class HothGeneratorPlugin extends JavaPlugin
         	this.saveResource("custom/example.sm", true);
         	this.saveResource("custom/example.ll", true);
         	this.saveResource("custom/example_ores.ol", true);
+        	
+        	this.regionManager.load();
 
         	if(this.playerFreezeManager!=null)
         	{
@@ -145,13 +152,13 @@ public class HothGeneratorPlugin extends JavaPlugin
     					maskid = Integer.parseInt(args[1]);
     					if(maskid<0)
     					{
-    						this.sendMessage(sender, "ERROR: Invalid mask: " + args[1]);
+    						this.sendMessage(sender, "&cERROR: Invalid mask: " + args[1]);
     						return false;
     					}
     				}
     				catch(NumberFormatException e)
     				{
-    					this.sendMessage(sender, "ERROR: Invalid mask: " + args[1]);
+    					this.sendMessage(sender, "&cERROR: Invalid mask: " + args[1]);
     					return false;
     				}
     			}
@@ -175,17 +182,17 @@ public class HothGeneratorPlugin extends JavaPlugin
 	       					}
 							else
 							{
-								this.sendMessage(sender, "ERROR: Selected region is not cuboid");
+								this.sendMessage(sender, "&cERROR: Selected region is not cuboid");
 							}
 						}
 						else
 						{
-							this.sendMessage(sender, "ERROR: Selected region is not cuboid");
+							this.sendMessage(sender, "&cERROR: Selected region is not cuboid");
 						}
 	       			}
 	       			else
 	       			{
-	       				this.sendMessage(sender, "ERROR: WorldEdit plugin not installed");
+	       				this.sendMessage(sender, "&cERROR: WorldEdit plugin not installed");
 	       			}
 		       	}
 				return true;
@@ -215,16 +222,120 @@ public class HothGeneratorPlugin extends JavaPlugin
     				}
     				catch(Exception e)
     				{
-        				this.sendMessage(sender, "Failed to save loot list: " + name);
+        				this.sendMessage(sender, "&cFailed to save loot list: " + name);
     				}
     			}
     			else
     			{
-    				this.sendMessage(sender, "Could not find any loot list with name: " + name);
+    				this.sendMessage(sender, "&cCould not find any loot list with name: " + name);
     			}
     			return true;
     		}
        	}
+    	else if(cmd.getName().equalsIgnoreCase("hothregion"))
+    	{
+    		try
+    		{
+	    		if(args.length>0)
+	    		{
+	    			String command = args[0].toLowerCase();
+	    			if(command.equals("info"))
+	    			{
+	    				if(args.length>1)
+	    				{
+	    					String region = args[1].toLowerCase();
+	    					if(this.regionManager.isValidRegion(region))
+	    					{
+	    						this.sendMessage(sender, "&9Region: " + region + ": " + this.regionManager.getInfo(region));
+	    					}
+	    					else
+	    					{
+	        					this.sendMessage(sender, "&cERROR: " + region + " is not a valid region");
+	    					}
+	    				}
+	    				else
+	    				{
+	    					this.sendMessage(sender, "Usage: /hothregion info [region]");
+	    				}
+	    				return true;
+	    			}
+	    			if(command.equals("remove"))
+	    			{
+	    				if(args.length>1)
+	    				{
+	    					String region = args[1].toLowerCase();
+	    					if(this.regionManager.isValidRegion(region))
+	    					{
+	    						this.regionManager.remove(region);
+	        					this.sendMessage(sender, "&bRegion removed");
+	    					}
+	    					else
+	    					{
+	        					this.sendMessage(sender, "&cERROR: " + region + " is not a valid region");
+	    					}
+	    				}
+	    				else
+	    				{
+	    					this.sendMessage(sender, "Usage: /hothregion info [region]");
+	    				}
+	    				return true;
+	    			}
+	    			else if(command.equals("flag"))
+	    			{
+	    				if(args.length>2)
+	    				{
+	    					String region = args[1].toLowerCase();
+	    					if(this.regionManager.isValidRegion(region))
+	    					{
+	    						String flag = args[2].toLowerCase();
+		    					if(this.regionManager.isValidFlag(flag))
+		    					{
+		    						String value = "";
+		    						for(int i=3;i<args.length;i++)
+		    						{
+		    							value = value + args[i] + " ";
+		    						}
+		    						value = value.trim();
+			    					if(this.regionManager.isValidFlagValue(flag, value))
+			    					{
+			    						regionManager.set(region, flag, value);
+			    						if(value.equals(""))
+			    						{
+			    							this.sendMessage(sender, "&bRegion flag &9" + flag + "&b cleared");
+			    						}
+			    						else
+			    						{
+			    							this.sendMessage(sender, "&bRegion flag &9" + flag + "&b set to &f" + value);
+			    						}
+			    					}
+			    					else
+			    					{
+			    						this.sendMessage(sender, "&cERROR: Valid values for " + flag + " are: " + this.regionManager.getValidFlagValues(flag));
+			    					}
+		    					}
+		    					else
+		    					{
+		    						this.sendMessage(sender, "&cERROR: Valid flags are: " + this.regionManager.getValidFlags() );
+		    					}
+	    					}
+	    					else
+	    					{
+	        					this.sendMessage(sender, "&cERROR: " + region + " is not a valid region");
+	    					}
+	    				}
+	    				else
+	    				{
+	    					this.sendMessage(sender, "Usage: /hothregion flag [region] [flag] <value>");
+	    				}
+	    				return true;
+	    			}
+	    		}
+    		}
+    		catch(WorldGuardNotInstalledException e)
+    		{
+    			this.sendMessage(sender, e.getMessage());
+    		}
+    	}
     	return false;
     }
     
@@ -547,54 +658,55 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.config.getBoolean("hoth.generate.extendedore", false);
 	}
 
-	public boolean isRulesDropice()
+	public boolean isRulesDropice(Location location)
 	{
-		return this.config.getBoolean("hoth.rules.dropice", true);
+		return this.regionManager.getBoolean("dropice", location, this.config.getBoolean("hoth.rules.dropice", true));
 	}
 
-	public boolean isRulesDropsnow()
+	public boolean isRulesDropsnow(Location location)
 	{
-		return this.config.getBoolean("hoth.rules.dropsnow", true);
+		return this.regionManager.getBoolean("dropsnow", location, this.config.getBoolean("hoth.rules.dropsnow", true));
 	}
 
-	public boolean isRulesFreezewater()
+	public boolean isRulesFreezewater(Location location)
 	{
-		return this.config.getBoolean("hoth.rules.freezewater", true);
+		return this.regionManager.getBoolean("freezewater", location, this.config.getBoolean("hoth.rules.freezewater", true));
 	}
 	
-	public boolean isRulesFreezelava()
+	public boolean isRulesFreezelava(Location location)
 	{
-		return this.config.getBoolean("hoth.rules.freezelava", true);
+		return this.regionManager.getBoolean("freezelava", location, this.config.getBoolean("hoth.rules.freezelava", true));
 	}
 	
-	public boolean isRulesPlantsgrow()
+	public boolean isRulesPlantsgrow(Location location)
 	{
-		return this.config.getBoolean("hoth.rules.plantsgrow", false);
+		return this.regionManager.getBoolean("plantsgrow", location, this.config.getBoolean("hoth.rules.plantsgrow", false));
 	}
 
-	public boolean isRulesGrassspread()
+	public boolean isRulesGrassspread(Location location)
 	{
-		return this.config.getBoolean("hoth.rules.grassspread", false);
+		return this.regionManager.getBoolean("grassspread", location, this.config.getBoolean("hoth.rules.grassspread", false));
 	}
 	
-	public boolean isRulesStopmelt()
+	public boolean isRulesStopmelt(Location location)
 	{
-		return this.config.getBoolean("hoth.rules.stopmelt", true);
+		return this.regionManager.getBoolean("stopmelt", location, this.config.getBoolean("hoth.rules.stopmelt", true));
 	}
 
-	public boolean isRulesLimitslime()
+	public boolean isRulesLimitslime(Location location)
 	{
-		return this.config.getBoolean("hoth.rules.limitslime", true);
+		return this.regionManager.getBoolean("limitslime", location, this.config.getBoolean("hoth.rules.limitslime", true));
 	}
 	
-	public boolean isRulesSnowgravity()
+	public boolean isRulesSnowgravity(Location location)
 	{
-		return this.config.getBoolean("hoth.rules.snowgravity", false);
+		return this.regionManager.getBoolean("snowgravity", location, this.config.getBoolean("hoth.rules.snowgravity", false));
 	}
-	
+
 	public int getRulesFreezePeriod()
 	{
 	    int period = this.config.getInt("hoth.rules.freeze.period", 0);
+
 	    if(period<0)
 	    {
 	    	period = 5;
@@ -602,9 +714,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 	    return period;
 	}
 
-	public int getRulesFreezeDamage()
+	public int getRulesFreezeDamage(Location location)
 	{
-	    int damage = this.config.getInt("hoth.rules.freeze.damage", 2);
+	    int damage = this.regionManager.getInt("freeze.damage", location, this.config.getInt("hoth.rules.freeze.damage", 2));
 	    if(damage<0)
 	    {
 	    	damage = 2;
@@ -612,9 +724,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 	    return damage;
 	}
 
-	public int getRulesFreezeStormdamage()
+	public int getRulesFreezeStormdamage(Location location)
 	{
-	    int damage = this.config.getInt("hoth.rules.freeze.stormdamage", 1);
+	    int damage = this.regionManager.getInt("freeze.stormdamage", location, this.config.getInt("hoth.rules.freeze.stormdamage", 1));
 	    if(damage<0)
 	    {
 	    	damage = 2;
@@ -622,10 +734,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 	    return damage;
 	}
 
-	public String getRulesFreezeMessage()
+	public String getRulesFreezeMessage(Location location)
 	{
-		return this.config.getString("hoth.rules.freeze.message", "&bYou are freezing. Find shelter!");
-		
+		return this.regionManager.get("freeze.message", location, this.config.getString("hoth.rules.freeze.message", "&bYou are freezing. Find shelter!"));
 	}
 	
 	/*
