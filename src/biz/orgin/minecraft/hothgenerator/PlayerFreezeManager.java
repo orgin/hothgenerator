@@ -1,5 +1,6 @@
 package biz.orgin.minecraft.hothgenerator;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -83,13 +84,14 @@ public class PlayerFreezeManager
 		private void freeze(World world)
 		{
 			boolean storm = world.hasStorm();
-			int realDamage = 0;
 			
 			List<Player> players = world.getPlayers();
+			Iterator<Player> iterator = players.iterator();
 			
-			for(int i=0;i<players.size();i++)
+			while(iterator.hasNext())
 			{
-				Player player = players.get(i);
+				int realDamage = 0;
+				Player player = iterator.next();
 				GameMode gm = player.getGameMode();
 				if(!gm.equals(GameMode.CREATIVE))
 				{
