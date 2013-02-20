@@ -48,6 +48,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private PlayerFreezeManager playerFreezeManager;
 	private BlockGravityManager blockGravityManager;
 	private RegionManager regionManager;
+	private MobSpawnManager mobSpawnManager;
 	
 	private FileConfiguration config;
 	
@@ -87,6 +88,7 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.regionManager.load();
 
     	this.playerFreezeManager = new PlayerFreezeManager(this);
+    	this.mobSpawnManager = new MobSpawnManager(this);
     }
     
     public void onDisable()
@@ -94,6 +96,10 @@ public class HothGeneratorPlugin extends JavaPlugin
     	if(this.playerFreezeManager!=null)
     	{
     		this.playerFreezeManager.stop();
+    	}
+    	if(this.mobSpawnManager!=null)
+    	{
+    		this.mobSpawnManager.stop();
     	}
     }
     
@@ -134,6 +140,12 @@ public class HothGeneratorPlugin extends JavaPlugin
         		this.playerFreezeManager.stop();
         	}
     		this.playerFreezeManager = new PlayerFreezeManager(this);
+
+    		if(this.mobSpawnManager!=null)
+        	{
+        		this.mobSpawnManager.stop();
+        	}
+        	this.mobSpawnManager = new MobSpawnManager(this);
 
     		this.sendMessage(sender, "&b... reloading done.");
 
@@ -737,6 +749,22 @@ public class HothGeneratorPlugin extends JavaPlugin
 	public String getRulesFreezeMessage(Location location)
 	{
 		return this.regionManager.get("freeze.message", location, this.config.getString("hoth.rules.freeze.message", "&bYou are freezing. Find shelter!"));
+	}
+	
+	
+	public int getRulesSpawnNeutralRarity(Location location)
+	{
+	    int rarity = this.regionManager.getInt("spawn.neutral.rarity", location, this.config.getInt("hoth.rules.spawn.neutral.rarity", 2));
+	    if(rarity<1 || rarity>10)
+	    {
+	    	rarity = 2;
+	    }
+	    return rarity;
+	}
+	
+	public String getRulesSpawnNeutralMobs(Location location)
+	{
+		return this.regionManager.get("spawn.neutral.mobs", location, this.config.getString("hoth.rules.spawn.neutral.mobs", "chicken,cow,mushroom_cow,ocelot,pig,sheep,wolf"));
 	}
 	
 	/*

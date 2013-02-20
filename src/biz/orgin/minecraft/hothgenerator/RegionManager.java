@@ -33,19 +33,21 @@ public class RegionManager
 	private HashMap<String, RegionSet> regionSets;
 	
 	private FlagValue[] validFlags = new FlagValue[] {
-		new FlagValue("dropice",            new String[]{"allow","deny", "[blank]"}),	
-		new FlagValue("dropsnow",           new String[]{"allow","deny", "[blank]"}),	
-		new FlagValue("freezewater",        new String[]{"allow","deny", "[blank]"}),	
-		new FlagValue("freezelava",         new String[]{"allow","deny", "[blank]"}),	
-		new FlagValue("plantsgrow",         new String[]{"allow","deny", "[blank]"}),	
-		new FlagValue("grassspread",        new String[]{"allow","deny", "[blank]"}),	
-		new FlagValue("stopmelt",           new String[]{"allow","deny", "[blank]"}),	
-		new FlagValue("limitslime",         new String[]{"allow","deny", "[blank]"}),	
-		new FlagValue("snowgravity",        new String[]{"allow","deny", "[blank]"}),	
+		new FlagValue("dropice",              new String[]{"allow","deny", "[blank]"}),	
+		new FlagValue("dropsnow",             new String[]{"allow","deny", "[blank]"}),	
+		new FlagValue("freezewater",          new String[]{"allow","deny", "[blank]"}),	
+		new FlagValue("freezelava",           new String[]{"allow","deny", "[blank]"}),	
+		new FlagValue("plantsgrow",           new String[]{"allow","deny", "[blank]"}),	
+		new FlagValue("grassspread",          new String[]{"allow","deny", "[blank]"}),	
+		new FlagValue("stopmelt",             new String[]{"allow","deny", "[blank]"}),	
+		new FlagValue("limitslime",           new String[]{"allow","deny", "[blank]"}),	
+		new FlagValue("snowgravity",          new String[]{"allow","deny", "[blank]"}),	
 		//new FlagValue("freeze.period",      new String[]{"[integer]"}), // The period is global and cannot be set per region
-		new FlagValue("freeze.damage",      new String[]{"[integer]", "[blank]"}),
-		new FlagValue("freeze.stormdamage", new String[]{"[integer]", "[blank]"}),
-		new FlagValue("freeze.message",     new String[]{"[text]", "[blank]"})
+		new FlagValue("freeze.damage",        new String[]{"[integer]", "[blank]"}),
+		new FlagValue("freeze.stormdamage",   new String[]{"[integer]", "[blank]"}),
+		new FlagValue("freeze.message",       new String[]{"[text]", "[blank]"}),
+		new FlagValue("spawn.neutral.rarity", new String[]{"[integer]", "[blank]"}),
+		new FlagValue("spawn.neutral.mobs",   new String[]{"[text]", "[blank]"})
 	};
 
 	
