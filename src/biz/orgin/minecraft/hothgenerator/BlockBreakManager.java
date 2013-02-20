@@ -35,28 +35,30 @@ public class BlockBreakManager implements Listener
 			Player player = event.getPlayer(); 
 	
 			GameMode gamemode = player.getGameMode();
-	
+			
+			
 			if (!gamemode.equals(GameMode.CREATIVE))
 			{
 				if (this.plugin.isHothWorld(world) && block.getType().equals(Material.ICE))
 				{
-					block.setType(Material.AIR);
 					if(this.plugin.isRulesDropice(block.getLocation()))
 					{
+						block.setType(Material.AIR);
 						ItemStack iceStack = new ItemStack(Material.ICE);
 						iceStack.setAmount(1);
-						block.getWorld().dropItem(block.getLocation(), iceStack);
+						block.getWorld().dropItemNaturally(block.getLocation(), iceStack);
+						
 					}
 				}
 				else if (this.plugin.isHothWorld(world) && block.getType().equals(Material.SNOW_BLOCK))
 				{
-					block.setType(Material.AIR);
-
 					if(this.plugin.isRulesDropsnow(block.getLocation()))
 					{
-						ItemStack iceStack = new ItemStack(Material.SNOW_BLOCK);
-						iceStack.setAmount(1);
-						block.getWorld().dropItem(block.getLocation(), iceStack);
+						block.setType(Material.AIR);
+						ItemStack snowStack = new ItemStack(Material.SNOW_BLOCK);
+						snowStack.setAmount(1);
+						block.getWorld().dropItemNaturally(block.getLocation(), snowStack);
+
 					}
 				}
 			}
