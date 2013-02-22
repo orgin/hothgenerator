@@ -767,6 +767,12 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.regionManager.get("spawn.neutral.mobs", location, this.config.getString("hoth.rules.spawn.neutral.mobs", "chicken,cow,mushroom_cow,ocelot,pig,sheep,wolf"));
 	}
 	
+	public boolean isRulesSpawnNeutralOn()
+	{
+		return this.config.getBoolean("hoth.rules.spawn.neutral.on", true);
+	}
+
+	
 	/*
 	  +structure.gardens.rarity: 2
 	  +structure.domes.rarity: 2

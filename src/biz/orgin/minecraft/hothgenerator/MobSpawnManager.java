@@ -14,6 +14,7 @@ import org.bukkit.entity.*;
 
 /**
  * Spawns neutral mobs around the player.
+ * @ToDo: This might be performance draining. Speed it up. 
  * @author orgin
  *
  */
@@ -58,7 +59,7 @@ public class MobSpawnManager
 	{
 		this.plugin = plugin;
 		
-		int period = 20*5; // this.plugin.getRulesMobSpawnPeriod();
+		int period = 20*5;
 		
 		this.taskId = -1;
 		if(period>0)
@@ -95,17 +96,21 @@ public class MobSpawnManager
 		@Override
 		public void run()
 		{
-			Server server = this.plugin.getServer();
-			
-			List<World> worlds = server.getWorlds();
-			
-			// Find all worlds configured as hoth worlds
-			for(int i=0;i<worlds.size();i++)
+			// Check if we should spawn anything at all
+			if(this.plugin.isRulesSpawnNeutralOn())
 			{
-				World world = worlds.get(i);
-				if(this.plugin.isHothWorld(world))
+				Server server = this.plugin.getServer();
+				
+				List<World> worlds = server.getWorlds();
+				
+				// Find all worlds configured as hoth worlds
+				for(int i=0;i<worlds.size();i++)
 				{
-					this.spawnMobs(world);
+					World world = worlds.get(i);
+					if(this.plugin.isHothWorld(world))
+					{
+						this.spawnMobs(world);
+					}
 				}
 			}
 		}
@@ -116,6 +121,7 @@ public class MobSpawnManager
 			
 			Iterator<Player> pi = players.iterator();
 			
+			// Check the area around each player on this world
 			while(pi.hasNext())
 			{
 				Player player = pi.next();
@@ -161,39 +167,38 @@ public class MobSpawnManager
 					
 					if(cnt<maxCnt && mindis>15) // allowed to spawn
 					{
+						// Loop through the block column for places where we can spawn
 						for(int y=0;y<world.getMaxHeight()-1;y++)
 						{
 							int id = world.getBlockTypeIdAt(x, y, z);
-							if(id == typeId)
+							if(id == typeId && world.getBlockTypeIdAt(x,  y+1, z) == 0)
 							{
-								if(world.getBlockTypeIdAt(x,  y+1, z) == 0)
+								Location location = new Location(world, x, y+1, z);
+								
+								// Check if mobs of this type is allowed at this location
+								String allowedMobs = this.plugin.getRulesSpawnNeutralMobs(location);
+								String[] mobs = allowedMobs.split(",");
+								
+								for(int m=0;m<mobs.length;m++)
 								{
-									Location location = new Location(world, x, y+1, z);
-									
-									String allowedMobs = this.plugin.getRulesSpawnNeutralMobs(location);
-									String[] mobs = allowedMobs.split(",");
-									
-									for(int m=0;m<mobs.length;m++)
+									if(mobs[m].equals(MobSpawnManager.mobNames[i]))
 									{
-										if(mobs[m].equals(MobSpawnManager.mobNames[i]))
+										int test = this.random.nextInt(1000 * this.plugin.getRulesSpawnNeutralRarity(location));
+										int prob = (int)(MobSpawnManager.probability[i]*10);
+										
+										if( test < prob)
 										{
-											int test = this.random.nextInt(1000 * this.plugin.getRulesSpawnNeutralRarity(location));
-											int prob = (int)(MobSpawnManager.probability[i]*10);
+											Block block = world.getBlockAt(x,  y+1, z);
+											Byte light = block.getLightLevel();
+											Byte skyLight = block.getLightFromSky();
 											
-											if( test < prob)
+											if(light > 9 && skyLight < 9)
 											{
-												Block block = world.getBlockAt(x,  y+1, z);
-												Byte light = block.getLightLevel();
-												Byte skyLight = block.getLightFromSky();
-												
-												if(light > 9 && skyLight < 9)
-												{
-													world.spawnEntity(location, mobType);
-												}
+												world.spawnEntity(location, mobType);
 											}
-
-											break;
 										}
+
+										break;
 									}
 								}
 							}

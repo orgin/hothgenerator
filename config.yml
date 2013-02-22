@@ -89,9 +89,11 @@ hothworlds:
 #                             during storms. 0 = no damage
 #  rules.freeze.message - Message sent when freezing
 #
+#  rules.spawn.neutral.on - true/false. turn on or off the hothgenerator's own
+#                           neutral mob spawning.
 #  rules.spawn.neutral.rarity - Rarity of neutral mob spawns 1-10 
 #  rules.spawn.neutral.mobs - Comma separated list of which neutral mobs to
-#                             spawn. Leave empty for no mobs.
+#                             spawn.
 #                             Currently supported neutral mobs:
 #                              chicken,cow,mushroom_cow,ocelot,pig,sheep,wolf
 hoth:
@@ -130,5 +132,6 @@ hoth:
   rules.freeze.damage: 2
   rules.freeze.stormdamage: 1
   rules.freeze.message: "&bYou are freezing. Find shelter!"
+  rules.spawn.neutral.on: true
   rules.spawn.neutral.rarity: 2
   rules.spawn.neutral.mobs: chicken,cow,mushroom_cow,ocelot,pig,sheep,wolf
