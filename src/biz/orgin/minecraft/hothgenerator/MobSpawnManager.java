@@ -12,6 +12,11 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 
+/**
+ * Spawns neutral mobs around the player.
+ * @author orgin
+ *
+ */
 public class MobSpawnManager
 {
 	private HothGeneratorPlugin plugin;
@@ -131,6 +136,7 @@ public class MobSpawnManager
 					int maxCnt = MobSpawnManager.maxExisting[i];
 					double mindis = 999.0;
 					
+					// Check how many mobs of this type that already exists close by
 					Iterator<Entity> iterator = entities.iterator();
 					while(cnt<=maxCnt && iterator.hasNext())
 					{
