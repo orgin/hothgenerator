@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 /**
  * BlockBreakEvent listener. Makes sure that ice and snow blocks breaks into blocks that the player can pick up. 
@@ -36,10 +37,30 @@ public class BlockBreakManager implements Listener
 	
 			GameMode gamemode = player.getGameMode();
 			
-			
+			// Don't do anything in creative mode
 			if (!gamemode.equals(GameMode.CREATIVE))
 			{
-				if (this.plugin.isHothWorld(world) && block.getType().equals(Material.ICE))
+				boolean gotPermsICE = true;
+				boolean gotPermsSNOWBLOCK = true;
+				
+				// Special Essentials permissions check. For some reason Essentials executes its block break event handling
+				// after HothGenerator so the event isn't cancelled properly before executing this method.
+				// Thus a special essentials only check had to be added here.
+				Plugin tempPlugin = this.plugin.getServer().getPluginManager().getPlugin("Essentials");
+				if(tempPlugin!=null)
+				{
+					if(!player.hasPermission("essentials.build.break." + Material.ICE.getId()) && !player.hasPermission("essentials.build.break.*"))
+					{
+						gotPermsICE = false;
+					}
+					if(!player.hasPermission("essentials.build.break." + Material.SNOW_BLOCK.getId()) && !player.hasPermission("essentials.build.break.*"))
+					{
+						gotPermsSNOWBLOCK = false;
+					}
+				}				
+				
+				// Ice breaking
+				if (gotPermsICE && this.plugin.isHothWorld(world) && block.getType().equals(Material.ICE))
 				{
 					if(this.plugin.isRulesDropice(block.getLocation()))
 					{
@@ -50,7 +71,8 @@ public class BlockBreakManager implements Listener
 						
 					}
 				}
-				else if (this.plugin.isHothWorld(world) && block.getType().equals(Material.SNOW_BLOCK))
+				// Snow block breaking
+				else if (gotPermsSNOWBLOCK && this.plugin.isHothWorld(world) && block.getType().equals(Material.SNOW_BLOCK))
 				{
 					if(this.plugin.isRulesDropsnow(block.getLocation()))
 					{
