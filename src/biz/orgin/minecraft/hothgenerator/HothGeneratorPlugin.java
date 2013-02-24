@@ -63,7 +63,7 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.blockSpreadManager = new BlockSpreadManager(this);
     	this.creatureSpawnManager = new CreatureSpawnManager(this);
     	this.blockGravityManager = new BlockGravityManager(this);
-    	this.regionManager = new RegionManager(this);
+    	this.regionManager = RegionManagerFactory.getRegionmanager(this);
     	
     	this.getServer().getPluginManager().registerEvents(this.blockPlaceManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockBreakManager, this);
@@ -246,106 +246,99 @@ public class HothGeneratorPlugin extends JavaPlugin
        	}
     	else if(cmd.getName().equalsIgnoreCase("hothregion"))
     	{
-    		try
+    		if(args.length>0)
     		{
-	    		if(args.length>0)
-	    		{
-	    			String command = args[0].toLowerCase();
-	    			if(command.equals("info"))
-	    			{
-	    				if(args.length>1)
-	    				{
-	    					String region = args[1].toLowerCase();
-	    					if(this.regionManager.isValidRegion(region))
+    			String command = args[0].toLowerCase();
+    			if(command.equals("info"))
+    			{
+    				if(args.length>1)
+    				{
+    					String region = args[1].toLowerCase();
+    					if(this.regionManager.isValidRegion(region))
+    					{
+    						this.sendMessage(sender, "&9Region: " + region + ": " + this.regionManager.getInfo(region));
+    					}
+    					else
+    					{
+        					this.sendMessage(sender, "&cERROR: " + region + " is not a valid region");
+    					}
+    				}
+    				else
+    				{
+    					this.sendMessage(sender, "Usage: /hothregion info [region]");
+    				}
+    				return true;
+    			}
+    			if(command.equals("remove"))
+    			{
+    				if(args.length>1)
+    				{
+    					String region = args[1].toLowerCase();
+    					if(this.regionManager.isValidRegion(region))
+    					{
+    						this.regionManager.remove(region);
+        					this.sendMessage(sender, "&bRegion removed");
+    					}
+    					else
+    					{
+        					this.sendMessage(sender, "&cERROR: " + region + " is not a valid region");
+    					}
+    				}
+    				else
+    				{
+    					this.sendMessage(sender, "Usage: /hothregion info [region]");
+    				}
+    				return true;
+    			}
+    			else if(command.equals("flag"))
+    			{
+    				if(args.length>2)
+    				{
+    					String region = args[1].toLowerCase();
+    					if(this.regionManager.isValidRegion(region))
+    					{
+    						String flag = args[2].toLowerCase();
+	    					if(this.regionManager.isValidFlag(flag))
 	    					{
-	    						this.sendMessage(sender, "&9Region: " + region + ": " + this.regionManager.getInfo(region));
-	    					}
-	    					else
-	    					{
-	        					this.sendMessage(sender, "&cERROR: " + region + " is not a valid region");
-	    					}
-	    				}
-	    				else
-	    				{
-	    					this.sendMessage(sender, "Usage: /hothregion info [region]");
-	    				}
-	    				return true;
-	    			}
-	    			if(command.equals("remove"))
-	    			{
-	    				if(args.length>1)
-	    				{
-	    					String region = args[1].toLowerCase();
-	    					if(this.regionManager.isValidRegion(region))
-	    					{
-	    						this.regionManager.remove(region);
-	        					this.sendMessage(sender, "&bRegion removed");
-	    					}
-	    					else
-	    					{
-	        					this.sendMessage(sender, "&cERROR: " + region + " is not a valid region");
-	    					}
-	    				}
-	    				else
-	    				{
-	    					this.sendMessage(sender, "Usage: /hothregion info [region]");
-	    				}
-	    				return true;
-	    			}
-	    			else if(command.equals("flag"))
-	    			{
-	    				if(args.length>2)
-	    				{
-	    					String region = args[1].toLowerCase();
-	    					if(this.regionManager.isValidRegion(region))
-	    					{
-	    						String flag = args[2].toLowerCase();
-		    					if(this.regionManager.isValidFlag(flag))
+	    						String value = "";
+	    						for(int i=3;i<args.length;i++)
+	    						{
+	    							value = value + args[i] + " ";
+	    						}
+	    						value = value.trim();
+		    					if(this.regionManager.isValidFlagValue(flag, value))
 		    					{
-		    						String value = "";
-		    						for(int i=3;i<args.length;i++)
+		    						regionManager.set(region, flag, value);
+		    						if(value.equals(""))
 		    						{
-		    							value = value + args[i] + " ";
+		    							this.sendMessage(sender, "&bRegion flag &9" + flag + "&b cleared");
 		    						}
-		    						value = value.trim();
-			    					if(this.regionManager.isValidFlagValue(flag, value))
-			    					{
-			    						regionManager.set(region, flag, value);
-			    						if(value.equals(""))
-			    						{
-			    							this.sendMessage(sender, "&bRegion flag &9" + flag + "&b cleared");
-			    						}
-			    						else
-			    						{
-			    							this.sendMessage(sender, "&bRegion flag &9" + flag + "&b set to &f" + value);
-			    						}
-			    					}
-			    					else
-			    					{
-			    						this.sendMessage(sender, "&cERROR: Valid values for " + flag + " are: " + this.regionManager.getValidFlagValues(flag));
-			    					}
+		    						else
+		    						{
+		    							this.sendMessage(sender, "&bRegion flag &9" + flag + "&b set to &f" + value);
+		    						}
 		    					}
 		    					else
 		    					{
-		    						this.sendMessage(sender, "&cERROR: Valid flags are: " + this.regionManager.getValidFlags() );
+		    						this.sendMessage(sender, "&cERROR: Valid values for " + flag + " are: " + this.regionManager.getValidFlagValues(flag));
 		    					}
 	    					}
 	    					else
 	    					{
-	        					this.sendMessage(sender, "&cERROR: " + region + " is not a valid region");
+	    						this.sendMessage(sender, "&cERROR: Valid flags are: " + this.regionManager.getValidFlags() );
 	    					}
-	    				}
-	    				else
-	    				{
-	    					this.sendMessage(sender, "Usage: /hothregion flag [region] [flag] <value>");
-	    				}
-	    				return true;
-	    			}
-	    		}
-    		}
-    		catch(WorldGuardNotInstalledException e)
-    		{
-    			this.sendMessage(sender, e.getMessage());
+    					}
+    					else
+    					{
+        					this.sendMessage(sender, "&cERROR: " + region + " is not a valid region");
+    					}
+    				}
+    				else
+    				{
+    					this.sendMessage(sender, "Usage: /hothregion flag [region] [flag] <value>");
+    				}
+    				return true;
+    			}
     		}
     	}
     	return false;

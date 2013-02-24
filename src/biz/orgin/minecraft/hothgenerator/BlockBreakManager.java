@@ -10,6 +10,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.Plugin;
 
 /**
@@ -20,6 +22,11 @@ import org.bukkit.plugin.Plugin;
 public class BlockBreakManager implements Listener
 {
 	private HothGeneratorPlugin plugin;
+	
+	private static Permission EssentialsBuildAll = new Permission("essentials.build.*","",PermissionDefault.TRUE);
+	private static Permission EssentialsBuildBreakAll = new Permission("essentials.build.break.*","",PermissionDefault.TRUE);
+	private static Permission EssentialsBuildBreakICE = new Permission("essentials.build.break." + Material.ICE.getId(),"",PermissionDefault.TRUE);
+	private static Permission EssentialsBuildBreakSNOW_BLOCK = new Permission("essentials.build.break." + Material.SNOW_BLOCK.getId(),"",PermissionDefault.TRUE);
 
 	public BlockBreakManager(HothGeneratorPlugin plugin)
 	{
@@ -49,11 +56,17 @@ public class BlockBreakManager implements Listener
 				Plugin tempPlugin = this.plugin.getServer().getPluginManager().getPlugin("Essentials");
 				if(tempPlugin!=null)
 				{
-					if(!player.hasPermission("essentials.build.break." + Material.ICE.getId()) && !player.hasPermission("essentials.build.break.*"))
+					//if(!player.hasPermission("essentials.build.break." + Material.ICE.getId()) && !player.hasPermission("essentials.build.break.*"))
+					if(!player.hasPermission(BlockBreakManager.EssentialsBuildBreakICE)
+						|| !player.hasPermission(BlockBreakManager.EssentialsBuildBreakAll)
+						|| !player.hasPermission(BlockBreakManager.EssentialsBuildAll))
 					{
 						gotPermsICE = false;
 					}
-					if(!player.hasPermission("essentials.build.break." + Material.SNOW_BLOCK.getId()) && !player.hasPermission("essentials.build.break.*"))
+					//if(!player.hasPermission("essentials.build.break." + Material.SNOW_BLOCK.getId()) && !player.hasPermission("essentials.build.break.*"))
+					if(!player.hasPermission(BlockBreakManager.EssentialsBuildBreakSNOW_BLOCK)
+						|| !player.hasPermission(BlockBreakManager.EssentialsBuildBreakAll)
+						|| !player.hasPermission(BlockBreakManager.EssentialsBuildAll))
 					{
 						gotPermsSNOWBLOCK = false;
 					}
