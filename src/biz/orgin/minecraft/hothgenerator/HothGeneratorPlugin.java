@@ -18,6 +18,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -340,6 +341,32 @@ public class HothGeneratorPlugin extends JavaPlugin
     				return true;
     			}
     		}
+    	}
+    	else if(cmd.getName().equalsIgnoreCase("hothinfo"))
+    	{
+    		PluginDescriptionFile descriptionFile = this.getDescription();
+    		String version = descriptionFile.getVersion();
+    		String name = descriptionFile.getName();
+    		String website = descriptionFile.getWebsite();
+    		List<String> authors = descriptionFile.getAuthors();
+    		String description = descriptionFile.getDescription();
+    		
+    		this.sendMessage(sender, "&b" + name + " " + version);
+    		this.sendMessage(sender, "&b" + description);
+    		this.sendMessage(sender, "&b" + website);
+    		
+    		String author = "";
+    		
+    		for(String authr : authors)
+    		{
+    			if(author.length()!=0)
+    			{
+    				author = author + ", ";
+    			}
+    			author = author + authr;
+    		}
+
+    		this.sendMessage(sender, "&bCreated by: " + author);
     	}
     	return false;
     }

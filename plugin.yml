@@ -1,8 +1,10 @@
 name: HothGenerator
-version: 1.11
+version: 1.12
 main: biz.orgin.minecraft.hothgenerator.HothGeneratorPlugin
 load: STARTUP
 description: Generates a really icy world.
+author: orgin_org
+website: http://dev.bukkit.org/server-mods/hothgenerator/
 commands:
    hothreload:
       description: Reload the hoth configuration.
@@ -24,6 +26,11 @@ commands:
       usage: /hothregion [info|flag|remove] [parameters...]
       permission: hothgenerator.hothregion
       permission-message: You don't have permission to use the hothregion command
+   hothinfo:
+      description: Shows some information about the plugin
+      usage: /hothinfo
+      permission: hothgenerator.hothinfo
+      permission-message: You don't have permission to use the hothinfocommand
 permissions:
     hothgenerator.*:
         description: Gives access to all hothgenerator commands
@@ -32,6 +39,7 @@ permissions:
             hothgenerator.hothexport: true
             hothgenerator.hothsavell: true
             hothgenerator.hothregion: true
+            hothgenerator.hothinfo: true
     hothgenerator.hothreload:
         description: Reload the hoth configuration.
         default: op
@@ -44,4 +52,7 @@ permissions:
     hothgenerator.hothregion:
         description: Access the hoth region commands
         default: op
+    hothgenerator.hothinfo:
+        description: Shows some information about the plugin
+        default: true
             
