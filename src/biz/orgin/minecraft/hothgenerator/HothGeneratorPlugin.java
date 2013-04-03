@@ -514,14 +514,14 @@ public class HothGeneratorPlugin extends JavaPlugin
 		int y = block.getY();
 		int surfaceOffset = this.getWorldSurfaceoffset();
 		
-		return !(y>63 || (y>(26 + surfaceOffset) && this.blockIsHighest(world, block)));
+		return !(y>(63 + surfaceOffset) || (y>(26 + surfaceOffset) && this.blockIsHighest(world, block)));
 	}
 	
 	/* Config - Start
 	 * 
 	 * This section defines methods for retrieving information from the config file.
 	 * Some of the methods contain non standard behavior which is why the config object
-	 * isn't used directly where config information is needed throughout this plugin.
+	 * isn't used directly where config information is needed throughout this plugin. 
 	 */
 	
 	public boolean isDebug()
