@@ -55,11 +55,8 @@ public class ToolUseManager implements Listener
 					if(item.getType().equals(Material.WATER_BUCKET))
 					{
 						Block block = event.getClickedBlock();
-						if(!block.getType().equals(Material.SNOW))
-						{
-							block = block.getRelative(event.getBlockFace());
-						}
-	
+						block = block.getRelative(event.getBlockFace());
+
 						if(this.plugin.isRulesFreezewater(block.getLocation()) && !this.plugin.canPlaceLiquid(world, block))
 						{
 							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.WATER, Material.ICE);
@@ -69,11 +66,8 @@ public class ToolUseManager implements Listener
 					else if(item.getType().equals(Material.LAVA_BUCKET))
 					{
 						Block block = event.getClickedBlock();
-						if(!block.getType().equals(Material.SNOW))
-						{
-							block = block.getRelative(event.getBlockFace());
-						}
-	
+						block = block.getRelative(event.getBlockFace());
+
 						if(this.plugin.isRulesFreezelava(block.getLocation()) && !this.plugin.canPlaceLiquid(world, block))
 						{
 							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.LAVA, Material.STONE);
