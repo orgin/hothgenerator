@@ -79,7 +79,8 @@ public class LootGenerator
 			new Loot(Material.MONSTER_EGG,     (byte)92, 1, 4,  3),  //Cow
 			new Loot(Material.MONSTER_EGG,     (byte)93, 1, 4,  3),  //Chicken
 			new Loot(Material.MONSTER_EGG,     (byte)95, 1, 4,  3),  //Wolf
-			new Loot(Material.MONSTER_EGG,     (byte)98, 1, 4,  3)   //Ocelot
+			new Loot(Material.MONSTER_EGG,     (byte)98, 1, 4,  3),  //Ocelot
+			new Loot(Material.MONSTER_EGG,     (byte)100, 1, 4,  3)   //Horse
 		}
 	);
 	
