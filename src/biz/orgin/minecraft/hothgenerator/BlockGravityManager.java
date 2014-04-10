@@ -69,10 +69,10 @@ public class BlockGravityManager  implements Listener
 			int y = block.getY();
 			int z = block.getZ();
 
-			int below = world.getBlockTypeIdAt(x, y-1, z);
+			int below = MaterialManager.toID(world.getBlockAt(x, y-1, z).getType());
 			if(below==0 || breakBlock)
 			{
-				byte data = block.getData();
+				byte data = DataManager.getData(block);
 				
 				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DropBlock(world, block, material, data));
 			}
@@ -102,6 +102,7 @@ public class BlockGravityManager  implements Listener
 
 			this.block.setType(Material.AIR);
 
+			@SuppressWarnings("deprecation")
 			FallingBlock falling = this.world.spawnFallingBlock(block.getLocation(), this.material, this.data);
 			falling.setDropItem(true);
 			

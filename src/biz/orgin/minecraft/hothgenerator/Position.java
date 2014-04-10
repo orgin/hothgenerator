@@ -9,14 +9,23 @@ package biz.orgin.minecraft.hothgenerator;
 public class Position
 {
 	public int x,y,z;
-	public int data;
-
-	public Position(int x, int y, int z, int data)
+	public int type;
+	public byte data;
+	public int lootMin;
+	public int lootMax;
+	public LootGenerator lootGenerator;
+	
+	public Position(int x, int y, int z, int type)
 	{
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.data = data;
+		this.type = type;
+		this.data = 0;
+		this.lootMin = 0;
+		this.lootMax = 0;
+		this.lootGenerator = null;
+
 	}
 
 	public Position(int x, int y, int z)
@@ -24,7 +33,11 @@ public class Position
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.type = 0;
 		this.data = 0;
+		this.lootMin = 0;
+		this.lootMax = 0;
+		this.lootGenerator = null;
 	}
 
 	public Position()
@@ -32,6 +45,11 @@ public class Position
 		this.x = 0;
 		this.y = 0;
 		this.z = 0;
+		this.type = 0;
+		this.data = 0;
+		this.lootMin = 0;
+		this.lootMax = 0;
+		this.lootGenerator = null;
 	}
 
 	@Override

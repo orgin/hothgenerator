@@ -45,10 +45,16 @@ public class SnowGenerator
 					
 					if(block.getType().equals(Material.SNOW))
 					{
-						block.setData((byte)this.snowcover[z][x].data, false);
+						byte data = (byte)this.snowcover[z][x].type;
+						DataManager.setData(block, data, false);
 					}
 				}
 			}
 		}
+
+
+
 	}
+	
+
 }

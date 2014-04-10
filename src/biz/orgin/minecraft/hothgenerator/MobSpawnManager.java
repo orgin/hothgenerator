@@ -134,7 +134,7 @@ public class MobSpawnManager
 					
 					EntityType mobType = MobSpawnManager.mobTypes[i];
 					Material material = MobSpawnManager.spawnBlocks[i];
-					int typeId = material.getId();
+					int typeId = MaterialManager.toID(material);
 					
 					int x = 25-this.random.nextInt(50) + player.getLocation().getBlockX();
 					int z = 25-this.random.nextInt(50) + player.getLocation().getBlockZ();
@@ -173,8 +173,8 @@ public class MobSpawnManager
 						// Loop through the block column for places where we can spawn
 						for(int y=0;y<world.getMaxHeight()-1;y++)
 						{
-							int id = world.getBlockTypeIdAt(x, y, z);
-							if(id == typeId && world.getBlockTypeIdAt(x,  y+1, z) == 0)
+							int id = MaterialManager.toID(world.getBlockAt(x, y, z).getType());
+							if(id == typeId && world.getBlockAt(x,  y+1, z).equals(Material.AIR))
 							{
 								Location location = new Location(world, x, y+1, z);
 								

@@ -460,14 +460,13 @@ public class HothGeneratorPlugin extends JavaPlugin
 		int x = block.getX();
 		int y = block.getY();
 		int z = block.getZ();
-		int airID = Material.AIR.getId();
 		
 		if(y<255)
 		{
 			y++;
 			while(y<256)
 			{
-				if(world.getBlockTypeIdAt(x, y, z) != airID)
+				if(!world.getBlockAt(x, y, z).equals(Material.AIR))
 				{
 					return false;
 				}
@@ -488,12 +487,10 @@ public class HothGeneratorPlugin extends JavaPlugin
 	 */
 	public int getHighestBlockYAt(World world, int x, int z)
 	{
-		int airID = Material.AIR.getId();
-		
 		int y = world.getMaxHeight();
 		while(y>0)
 		{
-			if(world.getBlockTypeIdAt(x, y, z) != airID)
+			if(!world.getBlockAt(x, y, z).getType().equals(Material.AIR))
 			{
 				return y;
 			}

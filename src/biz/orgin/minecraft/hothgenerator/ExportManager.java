@@ -125,8 +125,8 @@ public class ExportManager
 							for(int x=x1;x<=x2;x++)
 							{
 								Block block = world.getBlockAt(x, y, z);
-								int typeID = block.getTypeId();
-								int data = block.getData();
+								int typeID = MaterialManager.toID(block.getType());
+								int data = DataManager.getData(block);
 								
 								if(typeID==maskid)
 								{
@@ -137,7 +137,7 @@ public class ExportManager
 								if(block.getType().equals(Material.MOB_SPAWNER))
 								{
 									CreatureSpawner spawner = (CreatureSpawner)block.getState();
-									data = spawner.getSpawnedType().getTypeId();
+									data = EntityTypeManager.toID(spawner.getSpawnedType());
 								}
 								
 								if(x!=x1)

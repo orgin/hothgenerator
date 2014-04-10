@@ -25,8 +25,9 @@ public class BlockBreakManager implements Listener
 	
 	private static Permission EssentialsBuildAll = new Permission("essentials.build.*","",PermissionDefault.TRUE);
 	private static Permission EssentialsBuildBreakAll = new Permission("essentials.build.break.*","",PermissionDefault.TRUE);
-	private static Permission EssentialsBuildBreakICE = new Permission("essentials.build.break." + Material.ICE.getId(),"",PermissionDefault.TRUE);
-	private static Permission EssentialsBuildBreakSNOW_BLOCK = new Permission("essentials.build.break." + Material.SNOW_BLOCK.getId(),"",PermissionDefault.TRUE);
+	private static Permission EssentialsBuildBreakICE = new Permission("essentials.build.break." + MaterialManager.toID(Material.ICE),"",PermissionDefault.TRUE);
+	private static Permission EssentialsBuildBreakSNOW_BLOCK = new Permission("essentials.build.break." + MaterialManager.toID(Material.SNOW_BLOCK),"",PermissionDefault.TRUE);
+	private static Permission EssentialsBuildBreakPACKED_ICE = new Permission("essentials.build.break." + MaterialManager.toID(Material.PACKED_ICE),"",PermissionDefault.TRUE);
 
 	public BlockBreakManager(HothGeneratorPlugin plugin)
 	{
@@ -49,6 +50,7 @@ public class BlockBreakManager implements Listener
 			{
 				boolean gotPermsICE = true;
 				boolean gotPermsSNOWBLOCK = true;
+				boolean gotPermsPACKEDICE = true;
 				
 				// Special Essentials permissions check. For some reason Essentials executes its block break event handling
 				// after HothGenerator so the event isn't cancelled properly before executing this method.
@@ -56,19 +58,23 @@ public class BlockBreakManager implements Listener
 				Plugin tempPlugin = this.plugin.getServer().getPluginManager().getPlugin("Essentials");
 				if(tempPlugin!=null)
 				{
-					//if(!player.hasPermission("essentials.build.break." + Material.ICE.getId()) && !player.hasPermission("essentials.build.break.*"))
 					if(!player.hasPermission(BlockBreakManager.EssentialsBuildBreakICE)
 						|| !player.hasPermission(BlockBreakManager.EssentialsBuildBreakAll)
 						|| !player.hasPermission(BlockBreakManager.EssentialsBuildAll))
 					{
 						gotPermsICE = false;
 					}
-					//if(!player.hasPermission("essentials.build.break." + Material.SNOW_BLOCK.getId()) && !player.hasPermission("essentials.build.break.*"))
 					if(!player.hasPermission(BlockBreakManager.EssentialsBuildBreakSNOW_BLOCK)
 						|| !player.hasPermission(BlockBreakManager.EssentialsBuildBreakAll)
 						|| !player.hasPermission(BlockBreakManager.EssentialsBuildAll))
 					{
 						gotPermsSNOWBLOCK = false;
+					}
+					if(!player.hasPermission(BlockBreakManager.EssentialsBuildBreakPACKED_ICE)
+							|| !player.hasPermission(BlockBreakManager.EssentialsBuildBreakAll)
+							|| !player.hasPermission(BlockBreakManager.EssentialsBuildAll))
+					{
+						gotPermsPACKEDICE = false;
 					}
 				}				
 				
@@ -81,7 +87,6 @@ public class BlockBreakManager implements Listener
 						ItemStack iceStack = new ItemStack(Material.ICE);
 						iceStack.setAmount(1);
 						block.getWorld().dropItemNaturally(block.getLocation(), iceStack);
-						
 					}
 				}
 				// Snow block breaking
@@ -93,7 +98,17 @@ public class BlockBreakManager implements Listener
 						ItemStack snowStack = new ItemStack(Material.SNOW_BLOCK);
 						snowStack.setAmount(1);
 						block.getWorld().dropItemNaturally(block.getLocation(), snowStack);
-
+					}
+				}
+				// Packed ice breaking
+				if (gotPermsPACKEDICE && this.plugin.isHothWorld(world) && block.getType().equals(Material.PACKED_ICE))
+				{
+					if(this.plugin.isRulesDropice(block.getLocation()))
+					{
+						block.setType(Material.AIR);
+						ItemStack iceStack = new ItemStack(Material.PACKED_ICE);
+						iceStack.setAmount(1);
+						block.getWorld().dropItemNaturally(block.getLocation(), iceStack);
 					}
 				}
 			}

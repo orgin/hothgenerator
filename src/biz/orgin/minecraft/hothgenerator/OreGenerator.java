@@ -35,18 +35,18 @@ public class OreGenerator
 	private static int[] iterations = new int[] {10, 10, 20, 20, 2, 8, 1, 1, 1};
 	private static int[] amount =     new int[] {32, 32, 16,  8, 8, 7, 7, 6, 6};
 	private static int[] type =       new int[] {
-		Material.DIRT.getId(),         // 60
-		Material.GRAVEL.getId(),       // 26
-		Material.COAL_ORE.getId(),     // 128
-		Material.IRON_ORE.getId(),     // 128
-		Material.GOLD_ORE.getId(),     // 26
-		Material.REDSTONE_ORE.getId(), // 16
-		Material.DIAMOND_ORE.getId(),  // 16
-		Material.LAPIS_ORE.getId(),    // 26
-		Material.EMERALD_ORE.getId()}; // 128
+		MaterialManager.toID(Material.DIRT),         // 60
+		MaterialManager.toID(Material.GRAVEL),       // 26
+		MaterialManager.toID(Material.COAL_ORE),     // 128
+		MaterialManager.toID(Material.IRON_ORE),     // 128
+		MaterialManager.toID(Material.GOLD_ORE),     // 26
+		MaterialManager.toID(Material.REDSTONE_ORE), // 16
+		MaterialManager.toID(Material.DIAMOND_ORE),  // 16
+		MaterialManager.toID(Material.LAPIS_ORE),    // 26
+		MaterialManager.toID(Material.EMERALD_ORE)}; // 128
 	private static int[] data =     new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
 	private static int[] maxHeight = new int[] {60, 26, 128, 128, 26, 16, 16,	26, 128};
-	private static int REPLACE = Material.STONE.getId();
+	private static int REPLACE = MaterialManager.toID(Material.STONE);
 	
 	public static void generateOres(HothGeneratorPlugin plugin, World world, byte[][] chunk, Random random, int chunkx, int chunkz)
 	{
@@ -184,12 +184,12 @@ public class OreGenerator
 			}
 
 			Block block = world.getBlockAt(chunkx*16 + dx, dy, chunkz*16 + dz);
-			int oldTypeID = block.getTypeId();
+			int oldTypeID = MaterialManager.toID(block.getType());
 			if(oldTypeID == REPLACE)
 			{
-				block.setTypeIdAndData(typeID, (byte)dataValue, false);
+				block.setType(MaterialManager.toMaterial(typeID));
+				DataManager.setData(block, (byte)dataValue, false);
 			}
-			
 		}
 	}
 	

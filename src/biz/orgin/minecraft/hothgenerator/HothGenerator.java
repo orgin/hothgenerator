@@ -204,7 +204,7 @@ public class HothGenerator extends ChunkGenerator
 				double dicey = surfaceOffset + 64+ice;
 				for(;y<(icey-iceh);y++)
 				{
-					HothUtils.setPos(chunk, x,y,z, Material.SNOW_BLOCK);
+					HothUtils.setPos(chunk, x,y,z, Material.PACKED_ICE); // Replace with packed ice
 				}
 
 				for(;y<(icey);y++)
@@ -318,6 +318,7 @@ public class HothGenerator extends ChunkGenerator
 		BaseGenerator.generateBase(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		SchematicsGenerator.generateSchematics(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		CustomGenerator.generateCustom(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		CaveGenerator.generateCaves(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		SnowGenerator.generateSnowCover(this.plugin, world, snowcover);
 
 		return chunk;
@@ -337,7 +338,7 @@ public class HothGenerator extends ChunkGenerator
 	public List<BlockPopulator> getDefaultPopulators(World world)
 	{
 			List<BlockPopulator> list = new ArrayList<BlockPopulator>(1);
-			list.add(new CavePopulator(this.plugin));
+			//list.add(new CavePopulator(this.plugin));
 			list.add(new LogPopulator(this.plugin, this.height));
 			return list;
 	}

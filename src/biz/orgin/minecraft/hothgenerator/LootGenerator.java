@@ -113,7 +113,7 @@ public class LootGenerator
 			Loot loot = this.loot[i];
 			writer.write(String.format("%-16s", loot.material.name()));
 			writer.write(",");
-			writer.write(String.format("%4d", loot.material.getId()));
+			writer.write(String.format("%4d", MaterialManager.toID(loot.material)));
 			writer.write(",");
 			writer.write(String.format("%3d", loot.data));
 			writer.write(",");
@@ -223,7 +223,7 @@ public class LootGenerator
 					throw new IOException("Error reading from " + generator.name + " invalid parameters: " + row);
 				}
 				
-				Material material = Material.getMaterial(materialID);
+				Material material = MaterialManager.toMaterial(materialID);
 				if(material==null)
 				{
 					throw new IOException("Error reading from " + generator.name + " Unknow materialID: " + row);
@@ -297,8 +297,8 @@ public class LootGenerator
 						cnt = cnt + random.nextInt(rand);
 					}
 					
-
-					MaterialData mdata = new MaterialData(randLoot.material, randLoot.data);
+					MaterialData mdata = new MaterialData(randLoot.material);
+					DataManager.setData(mdata, randLoot.data);
 					ItemStack stack = mdata.toItemStack(cnt);
 
 					inv.addItem(stack);

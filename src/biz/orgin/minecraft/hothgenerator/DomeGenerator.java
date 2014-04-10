@@ -84,7 +84,7 @@ public class DomeGenerator
 							Material type = block.getType();
 							if(type.equals(Material.AIR))
 							{
-								block.setTypeId(DomeGenerator.PLANTTOPID); // Glowstone
+								block.setType(MaterialManager.toMaterial(DomeGenerator.PLANTTOPID)); // Glowstone
 							}
 						}
 
@@ -126,6 +126,7 @@ public class DomeGenerator
 							Block block = this.world.getBlockAt(x, y, z);
 							Material type = block.getType();
 							if(type.equals(Material.ICE)
+									|| type.equals(Material.PACKED_ICE)
 									|| type.equals(Material.SNOW_BLOCK)
 									|| type.equals(Material.SNOW)
 									|| type.equals(Material.AIR)
@@ -143,6 +144,7 @@ public class DomeGenerator
 							Block block = this.world.getBlockAt(x, y, z);
 							Material type = block.getType();
 							if(type.equals(Material.ICE) // Make air
+									|| type.equals(Material.PACKED_ICE)
 									|| type.equals(Material.SNOW_BLOCK)
 									|| type.equals(Material.SNOW)
 									|| type.equals(Material.LOG))
@@ -157,11 +159,11 @@ public class DomeGenerator
 								int glow = this.random.nextInt(40);
 								if(glow==5)
 								{
-									block.setTypeId(DomeGenerator.FLOORRANDOMID); // Glowstone
+									block.setType(MaterialManager.toMaterial(DomeGenerator.FLOORRANDOMID)); // Glowstone
 								}
 								else
 								{
-									block.setTypeId(DomeGenerator.FLOORID); // Dirt
+									block.setType(MaterialManager.toMaterial(DomeGenerator.FLOORID)); // Dirt
 								}
 							}
 						}
@@ -224,7 +226,7 @@ public class DomeGenerator
 						}
 						else if(type.equals(Material.AIR)) // Only place blocks in the air
 						{
-							block.setTypeId(DomeGenerator.PLANTSTEMID); // Default is sponge
+							block.setType(MaterialManager.toMaterial(DomeGenerator.PLANTSTEMID)); // Default is sponge
 						}
 						
 						growx1 = growx1 + growx1*growx2; // Slope magic

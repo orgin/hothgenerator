@@ -8,7 +8,10 @@ import org.bukkit.TreeSpecies;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.generator.BlockPopulator;
+import org.bukkit.material.Tree;
 
 /**
  * Generates random frozen logs and sets biome
@@ -52,23 +55,29 @@ public class LogPopulator extends BlockPopulator
 		}
 	}
 	
-	private byte getRandomSpecies(Random random)
+	private TreeSpecies getRandomSpecies(Random random)
 	{
-		int ran = random.nextInt(4);
-		byte result = 0;
+		int ran = random.nextInt(6);
+		TreeSpecies result = TreeSpecies.GENERIC;
 		switch(ran)
 		{
 		case 0:
-			result = TreeSpecies.GENERIC.getData();
+			result = TreeSpecies.GENERIC;
 			break;
 		case 1:
-			result = TreeSpecies.BIRCH.getData();
+			result = TreeSpecies.BIRCH;
 			break;
 		case 2:
-			result = TreeSpecies.REDWOOD.getData();
+			result = TreeSpecies.REDWOOD;
 			break;
 		case 3:
-			result = TreeSpecies.JUNGLE.getData();
+			result = TreeSpecies.JUNGLE;
+			break;
+		case 4:
+			result = TreeSpecies.ACACIA;
+			break;
+		case 5:
+			result = TreeSpecies.DARK_OAK;
 			break;
 		}
 		
@@ -85,7 +94,7 @@ public class LogPopulator extends BlockPopulator
 			boolean addLog = false;
 			int prob = random.nextInt(256);
 			Material material = null;
-			byte data = 0;
+			TreeSpecies species = TreeSpecies.GENERIC;
 			int x = random.nextInt(16);
 			int z = random.nextInt(16);
 			
@@ -94,42 +103,50 @@ public class LogPopulator extends BlockPopulator
 			if(biome.equals(Biome.EXTREME_HILLS))
 			{
 				material = Material.LOG;
-				data = TreeSpecies.GENERIC.getData();
+				species = TreeSpecies.GENERIC;
 				addLog = prob<64;
 			}
 			else if(biome.equals(Biome.FOREST) || biome.equals(Biome.FOREST_HILLS))
 			{
 				material = Material.LOG;
-				data = this.getRandomSpecies(random);
+				species = this.getRandomSpecies(random);
 				addLog = prob<128;
 			}
 			else if(biome.equals(Biome.PLAINS))
 			{
 				material = Material.LOG;
-				data = this.getRandomSpecies(random);
+				species = this.getRandomSpecies(random);
 				addLog = prob<32;
 			}
 			else if(biome.equals(Biome.JUNGLE) || biome.equals(Biome.JUNGLE_HILLS))
 			{
 				material = Material.LOG;
-				data = TreeSpecies.JUNGLE.getData();
+				species = TreeSpecies.JUNGLE;
 				addLog = prob<128;
 			}
 			else if(biome.equals(Biome.SWAMPLAND))
 			{
 				material = Material.LOG;
-				data = TreeSpecies.GENERIC.getData();
+				species = TreeSpecies.GENERIC;
 				addLog = prob<128;
 			}
 			else if(biome.equals(Biome.TAIGA) || biome.equals(Biome.TAIGA_HILLS))
 			{
 				material = Material.LOG;
-				data = TreeSpecies.GENERIC.getData();
+				species = TreeSpecies.GENERIC;
+				addLog = prob<32;
+			}
+			else if(biome.equals(Biome.ROOFED_FOREST) || biome.equals(Biome.ROOFED_FOREST_MOUNTAINS))
+			{
+				material = Material.LOG;
+				species = TreeSpecies.DARK_OAK;
 				addLog = prob<32;
 			}
 			
+			
 			if(addLog)
 			{
+				
 				int blocks = 3 + random.nextInt(2);
 				int direction = random.nextInt(3);
 				
@@ -141,34 +158,44 @@ public class LogPopulator extends BlockPopulator
 					for(int j=0;j<blocks;j++)
 					{
 						Block block = world.getBlockAt(rx+x, ry+j, rz+z);
-						if((block.getType().equals(Material.ICE) || block.getType().equals(Material.SNOW_BLOCK)) && isBlockSubmerged(world, block))
+						if((block.getType().equals(Material.ICE) || block.getType().equals(Material.SNOW_BLOCK) || block.getType().equals(Material.PACKED_ICE)) && isBlockSubmerged(world, block))
 						{
 							block.setType(material);
-							block.setData(data);
+							BlockState state = block.getState();
+							Tree tree = (Tree)state.getData();
+							tree.setSpecies(species);
+							tree.setDirection(BlockFace.DOWN);
+							state.update();
 						}
 					}
 					break;
 				case 1: // X
-					data = (byte)(data | 0x04);
 					for(int j=0;j<blocks;j++)
 					{
 						Block block = world.getBlockAt(rx+x+j, ry, rz+z);
-						if((block.getType().equals(Material.ICE) || block.getType().equals(Material.SNOW_BLOCK)) && isBlockSubmerged(world, block))
+						if((block.getType().equals(Material.ICE) || block.getType().equals(Material.SNOW_BLOCK) || block.getType().equals(Material.PACKED_ICE)) && isBlockSubmerged(world, block))
 						{
 							block.setType(material);
-							block.setData(data);
+							BlockState state = block.getState();
+							Tree tree = (Tree)state.getData();
+							tree.setSpecies(species);
+							tree.setDirection(BlockFace.EAST);
+							state.update();
 						}
 					}
 					break;
 				case 2: // Z
-					data = (byte)(data | 0x08);
 					for(int j=0;j<blocks;j++)
 					{
 						Block block = world.getBlockAt(rx+x, ry, rz+z+j);
-						if((block.getType().equals(Material.ICE) || block.getType().equals(Material.SNOW_BLOCK)) && isBlockSubmerged(world, block))
+						if((block.getType().equals(Material.ICE) || block.getType().equals(Material.SNOW_BLOCK) || block.getType().equals(Material.PACKED_ICE)) && isBlockSubmerged(world, block))
 						{
 							block.setType(material);
-							block.setData(data);
+							BlockState state = block.getState();
+							Tree tree = (Tree)state.getData();
+							tree.setSpecies(species);
+							tree.setDirection(BlockFace.NORTH);
+							state.update();
 						}
 					}
 					break;
@@ -186,14 +213,14 @@ public class LogPopulator extends BlockPopulator
 		int y = block.getY();
 		int z = block.getZ();
 
-		if(		world.getBlockTypeIdAt(x+1, y, z) == 0 ||
-				world.getBlockTypeIdAt(x-1, y, z) == 0 ||
-				world.getBlockTypeIdAt(x, y, z+1) == 0 ||
-				world.getBlockTypeIdAt(x, y, z-1) == 0 ||
-				world.getBlockTypeIdAt(x+1, y, z) == Material.SNOW.getId() ||
-				world.getBlockTypeIdAt(x-1, y, z) == Material.SNOW.getId() ||
-				world.getBlockTypeIdAt(x, y, z+1) == Material.SNOW.getId() ||
-				world.getBlockTypeIdAt(x, y, z-1) == Material.SNOW.getId()				
+		if(		world.getBlockAt(x+1,y,z).getType().equals(Material.AIR) ||
+				world.getBlockAt(x-1, y, z).getType().equals(Material.AIR) ||
+				world.getBlockAt(x, y, z+1).getType().equals(Material.AIR) ||
+				world.getBlockAt(x, y, z-1).getType().equals(Material.AIR) ||
+				world.getBlockAt(x+1, y, z).getType().equals(Material.SNOW) ||
+				world.getBlockAt(x-1, y, z).getType().equals(Material.SNOW) ||
+				world.getBlockAt(x, y, z+1).getType().equals(Material.SNOW) ||
+				world.getBlockAt(x, y, z-1).getType().equals(Material.SNOW)				
 				)
 		{
 			return false;

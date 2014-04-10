@@ -2,13 +2,13 @@ package biz.orgin.minecraft.hothgenerator;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EntityType;
@@ -76,7 +76,8 @@ public class HothUtils
 		int width = schematic.getWidth();
 		int[][][] matrix = schematic.getMatrix();
 		
-		Vector<BlockState> delays = new Vector<BlockState>();
+		//Vector<BlockState> delays = new Vector<BlockState>();
+		Set<Position>delays = new HashSet<Position>();
 		
 		for(int yy=0;yy<height;yy++)
 		{
@@ -102,7 +103,7 @@ public class HothUtils
 						
 						if(type==52) // Spawner, Set some spawner data
 						{
-							block.setTypeId(type);
+							block.setType(Material.MOB_SPAWNER);
 							CreatureSpawner spawner = (CreatureSpawner)block.getState();
 							if(data==0)
 							{
@@ -128,32 +129,33 @@ public class HothUtils
 							}
 							else // Schematic wants to set spawner type
 							{
-								spawner.setSpawnedType(EntityType.fromId(data));
+								spawner.setSpawnedType(EntityTypeManager.toEntityType(data));
 							}
 							
 							spawner.update(true);
 						}
 						else if(type==54) // Chest, set correct rotation and add some random loot
 						{
-							block.setTypeId(type);
+							block.setType(Material.CHEST);
 							Chest chest = (Chest)block.getState();
 							org.bukkit.material.Chest cst = null;
 							switch(data)
 							{
 							default:
 							case 0:
-								cst = new org.bukkit.material.Chest(BlockFace.EAST);
-								break;
-							case 1:
-								cst = new org.bukkit.material.Chest(BlockFace.WEST);
-								break;
-							case 2:
 								cst = new org.bukkit.material.Chest(BlockFace.NORTH);
 								break;
-							case 3:
+							case 1:
 								cst = new org.bukkit.material.Chest(BlockFace.SOUTH);
 								break;
+							case 2:
+								cst = new org.bukkit.material.Chest(BlockFace.WEST);
+								break;
+							case 3:
+								cst = new org.bukkit.material.Chest(BlockFace.EAST);
+								break;
 							}
+							
 							chest.setData(cst);
 							Inventory inv = chest.getInventory();
 							lootGenerator.getLootInventory(inv, lootMin, lootMax);
@@ -162,29 +164,34 @@ public class HothUtils
 						}
 						else if(HothUtils.delays.contains(type)) // Torches and such, delay for later
 						{
-							BlockState state = block.getState();
-							state.setTypeId(type);
-							state.setRawData((byte)data);
-							delays.add(state);
+							Position pos = new Position(block.getX(), block.getY(), block.getZ());
+							pos.type = type;
+							pos.data = (byte)data;
+							delays.add(pos);
 						}
 						else
 						{
-							block.setTypeIdAndData(type, (byte)data, false);
+							block.setType(MaterialManager.toMaterial(type));
+							DataManager.setData(block, (byte)data, false);
 						}
 					}
 				}
 			}
 		}
 		
-		for(int i=0;i<delays.size();i++) // Insert delayed blocks
+		Position[] posArray = delays.toArray(new Position[0]);
+		
+		for(int i=0;i<posArray.length;i++)
 		{
-			delays.elementAt(i).update(true);
+			Block block = world.getBlockAt(posArray[i].x, posArray[i].y, posArray[i].z);
+			block.setType(MaterialManager.toMaterial(posArray[i].type));
+			DataManager.setData(block, posArray[i].data);
 		}
 	}
 	
 	public static void setPos(byte[][] chunk, int x, int y, int z, Material material)
 	{
-		int type = material.getId();
+		int type = MaterialManager.toID(material);
 		HothUtils.setPos(chunk, x, y, z, type);
 	}
 	
