@@ -319,6 +319,7 @@ public class HothGenerator extends ChunkGenerator
 		SchematicsGenerator.generateSchematics(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		CustomGenerator.generateCustom(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		CaveGenerator.generateCaves(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		SpikeGenerator.generateSpikes(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		SnowGenerator.generateSnowCover(this.plugin, world, snowcover);
 
 		return chunk;

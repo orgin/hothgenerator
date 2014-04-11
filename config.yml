@@ -34,6 +34,8 @@ hothworlds:
 #  world.surfaceoffset - 0 or a positive value. Offsets the surface upward
 #                        from the default of 64 by adding more stone layers.
 #
+#  structure.spikes.rarity - 0-10. Rarity for spikes. 0 is off, 1-10 is
+#                             rarity (1 = common, 10 = very rare)
 #  structure.gardens.rarity - 0-10. Rarity for gardens. 0 is off, 1-10 is
 #                             rarity (1 = common, 10 = very rare)
 #  structure.domes.rarity - 0-10. Rarity for domes. 0 is off, 1-10 is rarity
@@ -103,6 +105,7 @@ hoth:
   iteminfotool: false
   smoothsnow: true
   world.surfaceoffset: 0
+  structure.spikes.rarity: 2
   structure.gardens.rarity: 2
   structure.domes.rarity: 3
   structure.domes.plantstem: 19

@@ -550,6 +550,16 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 
+	public int getStructureSpikesRarity()
+	{
+		int result = this.config.getInt("hoth.structure.spikes.rarity", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+
 	public int getStructureGardensRarity()
 	{
 		int result = this.config.getInt("hoth.structure.gardens.rarity", 2);
@@ -796,6 +806,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 
 	
 	/*
+	  +structure.spikes.rarity: 2
 	  +structure.gardens.rarity: 2
 	  +structure.domes.rarity: 2
 	  +structure.domes.plantstem: 19

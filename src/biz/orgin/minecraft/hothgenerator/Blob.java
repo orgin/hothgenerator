@@ -133,7 +133,7 @@ public class Blob
 				else
 				{
 					block.setType(MaterialManager.toMaterial(type));
-					DataManager.setData(block, data);
+					DataManager.setData(block, data, false);
 				}
 			}
 			

@@ -158,7 +158,7 @@ public class DataManager
 			stairs.setInverted(upside>0);
 			state.update(true, applyPhysics);
 			
-			System.out.println("Indata = " + data + " Outdata = " + DataManager.getData(block));
+			//System.out.println("Indata = " + data + " Outdata = " + DataManager.getData(block));
 		}
 		else
 		{
