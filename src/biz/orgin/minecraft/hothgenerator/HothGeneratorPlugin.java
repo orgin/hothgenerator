@@ -692,6 +692,11 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.regionManager.getBoolean("dropice", location, this.config.getBoolean("hoth.rules.dropice", true));
 	}
 
+	public boolean isRulesDroppackedice(Location location)
+	{
+		return this.regionManager.getBoolean("droppackedice", location, this.config.getBoolean("hoth.rules.droppackedice", true));
+	}
+
 	public boolean isRulesDropsnow(Location location)
 	{
 		return this.regionManager.getBoolean("dropsnow", location, this.config.getBoolean("hoth.rules.dropsnow", true));
@@ -809,6 +814,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	  +generate.ores: true
 	  +generate.extendedores: false
 	  +rules.dropice: true
+	  +rules.droppackedice: true
 	  +rules.dropsnow: true
 	  +rules.freezewater: true
 	  +rules.freezelava: true

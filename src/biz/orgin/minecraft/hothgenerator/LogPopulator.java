@@ -165,7 +165,7 @@ public class LogPopulator extends BlockPopulator
 							Tree tree = (Tree)state.getData();
 							tree.setSpecies(species);
 							tree.setDirection(BlockFace.DOWN);
-							state.update();
+							state.update(true, false);
 						}
 					}
 					break;
@@ -180,7 +180,7 @@ public class LogPopulator extends BlockPopulator
 							Tree tree = (Tree)state.getData();
 							tree.setSpecies(species);
 							tree.setDirection(BlockFace.EAST);
-							state.update();
+							state.update(true, false);
 						}
 					}
 					break;
@@ -195,7 +195,7 @@ public class LogPopulator extends BlockPopulator
 							Tree tree = (Tree)state.getData();
 							tree.setSpecies(species);
 							tree.setDirection(BlockFace.NORTH);
-							state.update();
+							state.update(true, false);
 						}
 					}
 					break;

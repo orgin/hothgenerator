@@ -67,6 +67,8 @@ hothworlds:
 #                         Warning: Extended ores are much slower to generate.
 #  rules.dropice - true/false. Whether ice should drop ice blocks when
 #                  destroyed. 
+#  rules.droppackedice - true/false. Whether packed ice should drop packed ice
+#                        blocks when destroyed. 
 #  rules.dropsnow - true/false. Whether snow should drop snow blocks when
 #                   destroyed. 
 #  rules.freezewater - true/false. Whether water should freeze when placed
@@ -120,6 +122,7 @@ hoth:
   generate.ores: true
   generate.extendedore: false
   rules.dropice: true
+  rules.droppackedice: true
   rules.dropsnow: true
   rules.freezewater: true
   rules.freezelava: true

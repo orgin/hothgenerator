@@ -103,7 +103,7 @@ public class BlockBreakManager implements Listener
 				// Packed ice breaking
 				if (gotPermsPACKEDICE && this.plugin.isHothWorld(world) && block.getType().equals(Material.PACKED_ICE))
 				{
-					if(this.plugin.isRulesDropice(block.getLocation()))
+					if(this.plugin.isRulesDroppackedice(block.getLocation()))
 					{
 						block.setType(Material.AIR);
 						ItemStack iceStack = new ItemStack(Material.PACKED_ICE);

@@ -22,6 +22,7 @@ public abstract class RegionManager
 		
 		private FlagValue[] validFlags = new FlagValue[] {
 			new FlagValue("dropice",              new String[]{"allow","deny", "[blank]"}),	
+			new FlagValue("droppackedice",        new String[]{"allow","deny", "[blank]"}),	
 			new FlagValue("dropsnow",             new String[]{"allow","deny", "[blank]"}),	
 			new FlagValue("freezewater",          new String[]{"allow","deny", "[blank]"}),	
 			new FlagValue("freezelava",           new String[]{"allow","deny", "[blank]"}),	
