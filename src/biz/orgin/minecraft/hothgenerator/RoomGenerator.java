@@ -3,7 +3,6 @@ package biz.orgin.minecraft.hothgenerator;
 import java.util.Random;
 import java.util.Vector;
 
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import biz.orgin.minecraft.hothgenerator.schematic.*;
@@ -103,7 +102,7 @@ public class RoomGenerator
 				populator.decorateRoom(cluster, start); // Decorate start room and all children
 	
 				// Place the cluster into the world
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceCluster(plugin, world, cluster));	
+				plugin.addTask(new PlaceCluster(plugin, world, cluster));
 			}
 		}
 	}
@@ -481,7 +480,7 @@ public class RoomGenerator
 		}
 	}
 	
-	static class PlaceCluster implements Runnable
+	static class PlaceCluster implements HothRunnable
 	{
 		private final World world;
 		private final Cluster cluster;
@@ -494,6 +493,14 @@ public class RoomGenerator
 			this.plugin = plugin;
 		}
 
+		public String getName() {
+			return "PlaceCluster";
+		}
+
+		public String getParameterString() {
+			return "";
+		}
+
 		@Override
 		public void run()
 		{
@@ -502,6 +509,4 @@ public class RoomGenerator
 			this.plugin.logMessage("Placing maze at " + this.cluster.rooms.x + "," + this.cluster.rooms.y + "," + this.cluster.rooms.z, true);
 		}
 	}
-	
-
 }

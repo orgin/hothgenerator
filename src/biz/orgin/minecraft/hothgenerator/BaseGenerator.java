@@ -2,7 +2,6 @@ package biz.orgin.minecraft.hothgenerator;
 
 import java.util.Random;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -43,13 +42,13 @@ public class BaseGenerator {
 			int doit = random.nextInt(512*rarity);
 			if(doit == 350)
 			{
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceBase(plugin, world, random, chunkX, chunkZ));
+				plugin.addTask(new PlaceBase(plugin, world, random, chunkX, chunkZ));
 			}	
 		}
 	}
 	
 	
-	static class PlaceBase implements Runnable
+	static class PlaceBase implements HothRunnable
 	{
 		private final HothGeneratorPlugin plugin;
 		private final World world;
@@ -58,6 +57,16 @@ public class BaseGenerator {
 		private final int chunkz;
 		
 		private int room5s;
+		
+		public String getName()
+		{
+			return "PlaceBase";
+		}
+		
+		public String getParameterString()
+		{
+			return "chunkx=" + this.chunkx + " chunkz=" + this.chunkz;
+		}
 
 		public PlaceBase(HothGeneratorPlugin plugin, World world, Random random, int chunkx, int chunkz)
 		{

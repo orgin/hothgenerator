@@ -2,7 +2,6 @@ package biz.orgin.minecraft.hothgenerator;
 
 import java.util.Random;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -42,18 +41,27 @@ public class DomeGenerator
 			int doit = random.nextInt(512*rarity);
 			if(doit == 336)
 			{
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceDome(plugin, world, random, chunkX, chunkZ));
+				//Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceDome(plugin, world, random, chunkX, chunkZ));
+				plugin.addTask(new PlaceDome(plugin, world, random, chunkX, chunkZ));
 			}	
 		}
 	}
 
-	static class PlaceDome implements Runnable
+	static class PlaceDome implements HothRunnable
 	{
 		private final HothGeneratorPlugin plugin;
 		private final World world;
 		private final Random random;
 		private final int chunkx;
 		private final int chunkz;
+		
+		public String getName() {
+			return "PlaceDome";
+		}
+
+		public String getParameterString() {
+			return "chunkx=" + this.chunkx + " chunkz=" + this.chunkz;
+		}
 
 		public PlaceDome(HothGeneratorPlugin plugin, World world, Random random, int chunkx, int chunkz)
 		{

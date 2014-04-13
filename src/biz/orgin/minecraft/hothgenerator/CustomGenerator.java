@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.Vector;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -82,14 +81,14 @@ public class CustomGenerator
 				int place = random.nextInt(rarity);
 				if(place==rnd)
 				{
-					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceCustom(schematic, plugin, world, new Random(randomLong), chunkX, chunkZ));
+					plugin.addTask(new PlaceCustom(schematic, plugin, world, new Random(randomLong), chunkX, chunkZ));
 				}	
 			}
 		}
 	}
 
 
-	static class PlaceCustom implements Runnable
+	static class PlaceCustom implements HothRunnable
 	{
 		private final LoadedSchematic schematic;
 		private final HothGeneratorPlugin plugin;
@@ -106,6 +105,16 @@ public class CustomGenerator
 			this.random = random;
 			this.chunkx = chunkx;
 			this.chunkz = chunkz;
+		}
+		
+		public String getName()
+		{
+			return "PlaceCustom";
+		}
+
+		public String getParameterString()
+		{
+			return "schematic=" + this.schematic.getName() + " chunkx=" + this.chunkx + " chunkz=" + this.chunkz;
 		}
 
 		@Override

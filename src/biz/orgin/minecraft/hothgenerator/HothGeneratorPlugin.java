@@ -50,6 +50,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private BlockGravityManager blockGravityManager;
 	private RegionManager regionManager;
 	private MobSpawnManager mobSpawnManager;
+	private HothTaskManager taskManager;
 	
 	private FileConfiguration config;
 	
@@ -90,6 +91,14 @@ public class HothGeneratorPlugin extends JavaPlugin
 
     	this.playerFreezeManager = new PlayerFreezeManager(this);
     	this.mobSpawnManager = new MobSpawnManager(this);
+    	if(this.taskManager==null)
+    	{
+    		this.taskManager = new HothTaskManager(this);
+    	}
+    	else
+    	{
+    		this.taskManager.resume();
+    	}
     }
     
     public void onDisable()
@@ -102,6 +111,29 @@ public class HothGeneratorPlugin extends JavaPlugin
     	{
     		this.mobSpawnManager.stop();
     	}
+    	if(this.taskManager!=null)
+    	{
+    		this.taskManager.pause();
+    	}
+
+    	// @ToDo:
+    	// Wait for all sub tasks to finish...
+    	// All sub tasks must add themselves to a global task heap when constructed (not in run method) and remove themselves when finished.
+    	// log: plugin is being disabled, wait for a maximum 40s for all sub tasks to finish
+    	// while(TaskList.size()>0 && sleepCount < 40 seconds)
+    	// {
+    	//  sleep 1 second
+    	//  log: every 10s report still waiting for sub tasks
+    	// }
+    	// if(TaskList.size()>0)
+    	// {
+    	//   log: not all tasks have finished. The plugin will now crash.... please restart server. You will now have unfinished chunks on the map.
+    	// }
+    }
+    
+    public void addTask(HothRunnable task)
+    {
+    	this.taskManager.addTask(task);
     }
     
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)

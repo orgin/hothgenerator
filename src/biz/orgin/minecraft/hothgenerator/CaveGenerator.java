@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -17,7 +16,7 @@ import org.bukkit.block.Block;
  */
 public class CaveGenerator {
 	
-	private static int blocksPerInteration = 200;
+	private static int blocksPerInteration = 1000;
 
 	public static void generateCaves(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
@@ -33,20 +32,20 @@ public class CaveGenerator {
 				
 				final int y = random.nextInt(32);
 				
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceCave(plugin, world, random, x, y, z));
-
+				plugin.addTask(new PlaceCave(plugin, world, random, x, y, z));
+						
 				if (random.nextInt(16) > 5) {
 					if (y > 36) {
-						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceCave(plugin, world, random, x, y / 2, z));
+						plugin.addTask(new PlaceCave(plugin, world, random, x, y / 2, z));
 					} else if (y < 24) {
-						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceCave(plugin, world, random, x, y * 2, z));
+						plugin.addTask(new PlaceCave(plugin, world, random, x, y * 2, z));
 					}
 				}
 			}
 		}
 	}
 	
-	static class PlaceCave implements Runnable
+	static class PlaceCave implements HothRunnable
 	{
 		private final World world;
 		private final int x;
@@ -63,6 +62,14 @@ public class CaveGenerator {
 			this.z = z;
 			this.random = random;
 			this.plugin = plugin;
+		}
+		
+		public String getName() {
+			return "PlaceCave";
+		}
+
+		public String getParameterString() {
+			return "x="+x+" y="+y+" z="+z;
 		}
 
 		@Override
@@ -191,10 +198,10 @@ public class CaveGenerator {
 	
 	private static void finishCave(HothGeneratorPlugin plugin, World world, Position[] blocks)
 	{
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Render(plugin, world, blocks, 0, CaveGenerator.blocksPerInteration));
+		plugin.addTask(new Render(plugin, world, blocks, 0, CaveGenerator.blocksPerInteration));
 	}
 	
-	static class Render implements Runnable
+	static class Render implements HothRunnable
 	{
 		private final HothGeneratorPlugin plugin;
 		private final World world;
@@ -209,6 +216,15 @@ public class CaveGenerator {
 			this.start = start;
 			this.count = count;
 			this.plugin = plugin;
+		}
+		
+		public String getName()
+		{
+			return "PlaceCave.Render";
+		}
+		
+		public String getParameterString() {
+			return "start="+start+" count="+count;
 		}
 		
 		@Override
@@ -236,7 +252,7 @@ public class CaveGenerator {
 			}
 			if(start+count < blocks.length)
 			{
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Render(this.plugin, this.world, blocks, start+count, count));
+				plugin.addTask(new Render(this.plugin, this.world, blocks, start+count, count));
 			}
 		}
 	}

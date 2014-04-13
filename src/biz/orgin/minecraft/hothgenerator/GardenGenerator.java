@@ -2,7 +2,6 @@ package biz.orgin.minecraft.hothgenerator;
 
 import java.util.Random;
 
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import biz.orgin.minecraft.hothgenerator.schematic.GreenGarden;
@@ -29,12 +28,13 @@ public class GardenGenerator
 		
 			if(place==37)
 			{
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceGarden(plugin, world, random, chunkX, chunkZ));
+				//Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceGarden(plugin, world, random, chunkX, chunkZ));
+				plugin.addTask(new PlaceGarden(plugin, world, random, chunkX, chunkZ));
 			}	
 		}
 	}
 
-	static class PlaceGarden implements Runnable
+	static class PlaceGarden implements HothRunnable
 	{
 		private final HothGeneratorPlugin plugin;
 		private final World world;
@@ -50,6 +50,15 @@ public class GardenGenerator
 			this.chunkx = chunkx;
 			this.chunkz = chunkz;
 		}
+
+		public String getName() {
+			return "PlaceGarden";
+		}
+
+		public String getParameterString() {
+			return "chunkx=" + chunkx + " chunkz=" + chunkz;
+		}
+
 
 		@Override
 		public void run()
@@ -78,6 +87,7 @@ public class GardenGenerator
 
 			this.plugin.logMessage("Placing garden at " + x + "," + y + "," + z, true);
 		}
+
 	}
 
 }

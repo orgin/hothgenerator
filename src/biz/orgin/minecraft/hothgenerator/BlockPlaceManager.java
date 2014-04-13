@@ -1,6 +1,5 @@
 package biz.orgin.minecraft.hothgenerator;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -10,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 /**
- * Listens for BlockPlacEvents. Makes sure that water and lava is placed as ice and stone.
+ * Listens for BlockPlaceEvents. Makes sure that water and lava is placed as ice and stone.
  * @author orgin
  *
  */
@@ -45,7 +44,7 @@ public class BlockPlaceManager implements Listener
 						if(this.plugin.isRulesFreezewater(block.getLocation()))
 						{
 							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.WATER, Material.ICE);
-							Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
+							plugin.addTask(th);
 						}
 					}
 					else if(type.equals(Material.LAVA) ||
@@ -54,7 +53,7 @@ public class BlockPlaceManager implements Listener
 						if(this.plugin.isRulesFreezelava(block.getLocation()))
 						{
 							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.LAVA, Material.STONE);
-							Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
+							plugin.addTask(th);
 						}
 					}
 				}

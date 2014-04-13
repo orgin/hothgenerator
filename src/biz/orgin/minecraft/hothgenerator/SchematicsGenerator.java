@@ -3,7 +3,6 @@ package biz.orgin.minecraft.hothgenerator;
 import java.io.IOException;
 import java.util.Random;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -59,7 +58,7 @@ public class SchematicsGenerator
 					
 					if(rnd==newRandom.nextInt(rarity))
 					{
-						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceSchematic(plugin, world, newRandom, chunkX, chunkZ, schematic));
+						plugin.addTask(new PlaceSchematic(plugin, world, newRandom, chunkX, chunkZ, schematic));
 					}
 				}
 			}
@@ -70,7 +69,7 @@ public class SchematicsGenerator
 		}
 	}
 
-	static class PlaceSchematic implements Runnable
+	static class PlaceSchematic implements HothRunnable
 	{
 		private final HothGeneratorPlugin plugin;
 		private final World world;
@@ -87,6 +86,16 @@ public class SchematicsGenerator
 			this.chunkx = chunkx;
 			this.chunkz = chunkz;
 			this.schematic = schematic;
+		}
+		
+		public String getName()
+		{
+			return "PlaceSchematic";
+		}
+		
+		public String getParameterString()
+		{
+			return "schematic=" + schematic.getName() + " chunkx=" + this.chunkx + " chunkz=" + this.chunkz;
 		}
 
 		@Override

@@ -15,11 +15,12 @@ public class SnowGenerator
 	{
 		if(plugin.isSmoothSnow())
 		{
+			//plugin.addTask(new PlaceSnowCover(world, snowcover));
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceSnowCover(world, snowcover));
 		}
 	}
 
-	static class PlaceSnowCover implements Runnable
+	static class PlaceSnowCover implements HothRunnable
 	{
 		private final World world;
 		private final Position[][] snowcover;
@@ -28,6 +29,14 @@ public class SnowGenerator
 		{
 			this.world = world;
 			this.snowcover = snowcover;
+		}
+		
+		public String getName() {
+			return "PlaceSnowCover";
+		}
+
+		public String getParameterString() {
+			return "";
 		}
 
 		@Override
@@ -51,10 +60,5 @@ public class SnowGenerator
 				}
 			}
 		}
-
-
-
 	}
-	
-
 }

@@ -2,7 +2,6 @@ package biz.orgin.minecraft.hothgenerator;
 
 import java.util.Random;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 
@@ -19,19 +18,30 @@ public class SpikeGenerator {
 
 			if(place==45)
 			{
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceSpikes(plugin, world, random, chunkX, chunkZ));
+				plugin.addTask(new PlaceSpikes(plugin, world, random, chunkX, chunkZ));
+				//Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceSpikes(plugin, world, random, chunkX, chunkZ));
 			}	
 		}
 	}
 
 
-	static class PlaceSpikes implements Runnable
+	static class PlaceSpikes implements HothRunnable
 	{
 		private final HothGeneratorPlugin plugin;
 		private final World world;
 		private final Random random;
 		private final int chunkx;
 		private final int chunkz;
+		
+		public String getName()
+		{
+			return "PlaceSpikes";
+		}
+		
+		public String getParameterString()
+		{
+			return "chunkx=" + chunkx + " chunkz=" + chunkz;
+		}
 
 		private double getMin(double n1, double n2, double n3)
 		{
@@ -51,6 +61,8 @@ public class SpikeGenerator {
 
 		public PlaceSpikes(HothGeneratorPlugin plugin, World world, Random random, int chunkx, int chunkz)
 		{
+			// @ToDo: Add self to global task heap
+			
 			this.plugin = plugin;
 			this.world = world;
 			this.random = random;
@@ -81,7 +93,7 @@ public class SpikeGenerator {
 		@Override
 		public void run()
 		{
-			Blob blob = new Blob(this.plugin, this.world);
+			Blob blob = new Blob(this.plugin, this.world, this.getName());
 			int iceID = MaterialManager.toID(Material.PACKED_ICE);
 
 			int surfaceOffset = this.plugin.getWorldSurfaceoffset();
@@ -238,8 +250,5 @@ public class SpikeGenerator {
 
 			blob.instantiate();
 		}
-
 	}
-
-
 }

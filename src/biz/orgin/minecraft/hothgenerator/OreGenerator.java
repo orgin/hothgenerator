@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.Vector;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -66,7 +65,7 @@ public class OreGenerator
 			}
 			else // Schedule a delayed task to generate ores with typeID and data values
 			{
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceOre(plugin, world, random, chunkx, chunkz));
+				plugin.addTask(new PlaceOre(plugin, world, random, chunkx, chunkz));
 			}
 		}
 	}
@@ -298,7 +297,7 @@ public class OreGenerator
 
 	}
 	
-	static class PlaceOre implements Runnable
+	static class PlaceOre implements HothRunnable
 	{
 		@SuppressWarnings("unused")
 		private final HothGeneratorPlugin plugin;
@@ -315,6 +314,15 @@ public class OreGenerator
 			this.chunkx = chunkx;
 			this.chunkz = chunkz;
 		}
+		
+		public String getName() {
+			return "PlaceOre";
+		}
+
+		public String getParameterString() {
+			return "chunkx=" + this.chunkx + " chunkz=" + this.chunkz;
+		}
+
 
 		@Override
 		public void run()

@@ -9,7 +9,7 @@ import org.bukkit.block.Block;
  * @author orgin
  *
  */
-public class BlockPlacerThread extends Thread
+public class BlockPlacerThread implements HothRunnable
 {
 	private int x,y,z;
 	private Material from;
@@ -37,6 +37,15 @@ public class BlockPlacerThread extends Thread
 			this.world = world;
 	}
 	
+	public String getName() {
+		return "BlockPlacerThread";
+	}
+
+	public String getParameterString() {
+		return "x="+x+" y="+y+" z="+z+" from="+from.name()+" to="+to.name();
+	}
+	
+	@Override
 	public void run()
 	{
 		try

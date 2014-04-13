@@ -3,7 +3,6 @@ package biz.orgin.minecraft.hothgenerator;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -17,20 +16,22 @@ public class Blob
 	private Set<Position>secondary;
 	private World world;
 	private HothGeneratorPlugin plugin;
+	private String parentName;
 	
 	private static IntSet delays = new IntSet(new int[] {  // Block types to defer until infrastructure is made.
 			50,75,76,6,32,37,38,39,40,51,55,26,
 			59,31,63,65,66,96,69,77,106,83,115,
 			93,94,127,131,132,141,142,143,78,64});
 	
-	private static int blocksPerInteration = 200;
+	private static int blocksPerInteration = 500;
 	
-	public Blob(HothGeneratorPlugin plugin, World world)
+	public Blob(HothGeneratorPlugin plugin, World world, String parentName)
 	{
 		this.plugin = plugin;
 		this.world = world;
 		this.primary = new HashSet<Position>();
 		this.secondary = new HashSet<Position>();
+		this.parentName = parentName;
 	}
 	
 	public void addPosition(Position position)
@@ -56,24 +57,36 @@ public class Blob
 	
 	private void finishBlob(Position[] blocks)
 	{
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, new PlaceBlob(this.plugin, this.world, blocks, 0, Blob.blocksPerInteration));
+		plugin.addTask(new PlaceBlob(this.plugin, this.world, this.parentName, blocks, 0, Blob.blocksPerInteration));
 	}
 	
-	static class PlaceBlob implements Runnable
+	static class PlaceBlob implements HothRunnable
 	{
 		private final HothGeneratorPlugin plugin;
 		private final World world;
 		private final Position[] blocks;
 		private final int start;
 		private final int count;
+		private final String parentName;
 
-		public PlaceBlob(HothGeneratorPlugin plugin, World world, Position[] blocks, int start, int count)
+		public String getName()
+		{
+			return parentName + ".PlaceBlob";
+		}
+		
+		public String getParameterString()
+		{
+			return "parentName = " + this.parentName + " start=" + this.start + " count=" + this.count;
+		}
+		
+		public PlaceBlob(HothGeneratorPlugin plugin, World world, String parentName, Position[] blocks, int start, int count)
 		{
 			this.world = world;
 			this.blocks = blocks;
 			this.start = start;
 			this.count = count;
 			this.plugin = plugin;
+			this.parentName = parentName;
 		}
 
 		@Override
@@ -139,8 +152,9 @@ public class Blob
 			
 			if(start+count < blocks.length)
 			{
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceBlob(this.plugin, this.world, blocks, start+count, count));
+				this.plugin.addTask(new PlaceBlob(this.plugin, this.world, this.parentName, blocks, start+count, count));
 			}
+
 		}
 	}
 
