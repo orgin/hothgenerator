@@ -4,11 +4,9 @@ import org.bukkit.DyeColor;
 import org.bukkit.GrassSpecies;
 import org.bukkit.Material;
 import org.bukkit.SandstoneType;
-import org.bukkit.TreeSpecies;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
-import org.bukkit.material.Leaves;
 import org.bukkit.material.LongGrass;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Mushroom;
@@ -126,6 +124,7 @@ public class DataManager
 			}
 			state.update();
 		}
+		/*
 		else if(material.equals(Material.LEAVES))
 		{
 			BlockState state = block.getState();
@@ -142,6 +141,7 @@ public class DataManager
 			}
 			state.update();
 		}
+		*/
 		else if(material.equals(Material.LONG_GRASS))
 		{
 			BlockState state = block.getState();

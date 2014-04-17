@@ -127,24 +127,26 @@ public class HothGeneratorPlugin extends JavaPlugin
     		this.taskManager.pause();
     	}
 
-    	// @ToDo:
-    	// Wait for all sub tasks to finish...
-    	// All sub tasks must add themselves to a global task heap when constructed (not in run method) and remove themselves when finished.
-    	// log: plugin is being disabled, wait for a maximum 40s for all sub tasks to finish
-    	// while(TaskList.size()>0 && sleepCount < 40 seconds)
-    	// {
-    	//  sleep 1 second
-    	//  log: every 10s report still waiting for sub tasks
-    	// }
-    	// if(TaskList.size()>0)
-    	// {
-    	//   log: not all tasks have finished. The plugin will now crash.... please restart server. You will now have unfinished chunks on the map.
-    	// }
+    	// Unload worlds to make sure the ChunkGenerator is reloaded properly
+    	List<World> worlds = this.getServer().getWorlds();
+    	for(int i=0;i<worlds.size();i++)
+    	{
+    		if(this.isHothWorld(worlds.get(i)))
+    		{
+    			this.getServer().unloadWorld(worlds.get(i), true);
+    		}
+    	}
+
     }
     
     public void addTask(HothRunnable task)
     {
-    	this.taskManager.addTask(task);
+    	this.taskManager.addTask(task, false);
+    }
+
+    public void addTask(HothRunnable task, boolean prioritized)
+    {
+    	this.taskManager.addTask(task, prioritized);
     }
     
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)

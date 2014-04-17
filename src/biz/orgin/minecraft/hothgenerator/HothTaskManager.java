@@ -25,11 +25,12 @@ public class HothTaskManager
 		this.resume();
 	}
 	
-	public void addTask(HothRunnable task)
+	public void addTask(HothRunnable task, boolean prioritized)
 	{
+		task.setPrioritized(true);
 		this.taskList.add(task);
 	}
-	
+
 	public void pause()
 	{
 		if(this.taskId!=-1)
@@ -118,30 +119,56 @@ public class HothTaskManager
 		{
 			if(taskList.size()>0)
 			{
-				HothRunnable task = taskList.get(0);
-				task.setPlugin(this.plugin);
-				if(task.getWorld()!=null)
+				boolean isEmpty = false;
+				boolean runNormalTask = true;
+				while(!isEmpty)
 				{
-					try
+					boolean stop = false;
+					for(int i=0;!stop && i<taskList.size();i++)
 					{
-						this.plugin.debugMessage("Executing task: " + task.getName() + " with parameters: " + task.getParameterString());
-						taskList.remove(task);
-						Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, task);
+						HothRunnable task = taskList.get(i);
+						if(task.isPrioritized())
+						{
+							this.executeTask(task);
+							stop = true;
+							runNormalTask = false;
+						}
 					}
-					catch(Exception e)
-					{
-						plugin.logMessage("WARNING! Exception while trying to execute task in queue " + task.getName() + ". You probably need to restart the server.", true);
-					}
+					isEmpty = stop == false;
 				}
-				else
+				
+				if(runNormalTask && taskList.size()>0)
 				{
-					// try to deserialize the task again, perhaps the world was not loaded?
-					task.deserialize();
-					if(task.isStale())
-					{
-						taskList.remove(task);
-						plugin.debugMessage("Removed task " + task.getName() + " from task list, could not deserialize.");
-					}
+					HothRunnable task = taskList.get(0);
+					this.executeTask(task);
+				}
+			}
+		}
+		
+		private void executeTask(HothRunnable task)
+		{
+			task.setPlugin(this.plugin);
+			if(task.getWorld()!=null)
+			{
+				try
+				{
+					this.plugin.debugMessage("Executing task: " + task.getName() + " with parameters: " + task.getParameterString());
+					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, task);
+					taskList.remove(task);
+				}
+				catch(Exception e)
+				{
+					plugin.logMessage("WARNING! Exception while trying to execute task in queue " + task.getName() + ". You probably need to restart the server.", true);
+				}
+			}
+			else
+			{
+				// try to deserialize the task again, perhaps the world was not loaded?
+				task.deserialize();
+				if(task.isStale())
+				{
+					taskList.remove(task);
+					plugin.debugMessage("Removed task " + task.getName() + " from task list, could not deserialize.");
 				}
 			}
 		}

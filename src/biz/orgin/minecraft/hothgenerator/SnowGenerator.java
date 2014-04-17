@@ -1,6 +1,5 @@
 package biz.orgin.minecraft.hothgenerator;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -15,16 +14,18 @@ public class SnowGenerator
 	{
 		if(plugin.isSmoothSnow())
 		{
+			plugin.addTask(new PlaceSnowCover(world, snowcover), true);
+			/*
 			try
 			{
-				//plugin.addTask(new PlaceSnowCover(world, snowcover));
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceSnowCover(world, snowcover));
+				//Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceSnowCover(world, snowcover));
 			}
 			catch(Exception e)
 			{
-				plugin.logMessage("Exception while trying to schedule PlaceSnowCover task. You probably need to restart the server", true);
+				plugin.logMessage("WARNING! Exception while trying to schedule PlaceSnowCover task. You probably need to restart the server", true);
 				if(!plugin.isEnabled())	System.out.println("The plugin has been disabled. Plugin ID = " + plugin.getID());
 			}
+			*/
 		}
 	}
 
