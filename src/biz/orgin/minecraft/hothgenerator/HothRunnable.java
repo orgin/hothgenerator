@@ -13,6 +13,7 @@ public abstract class HothRunnable implements Runnable, Serializable
 	private World world;
 	private HothGeneratorPlugin plugin;
 	private int staleCtr = 0;
+	private boolean prioritized;
 	
 	public String getName()
 	{
@@ -48,6 +49,16 @@ public abstract class HothRunnable implements Runnable, Serializable
 	{
 		return this.plugin;
 	}
+	
+	public boolean isPrioritized()
+	{
+		return this.prioritized;
+	}
+
+	public void setPrioritized(boolean prioritized)
+	{
+		this.prioritized = prioritized;
+	}
 
 	public void serialize()
 	{
@@ -57,6 +68,7 @@ public abstract class HothRunnable implements Runnable, Serializable
 		}
 		this.world = null;
 		this.plugin = null;
+		this.staleCtr = 0;
 	}
 	
 	public void deserialize()
