@@ -41,38 +41,34 @@ public class DomeGenerator
 			int doit = random.nextInt(512*rarity);
 			if(doit == 336)
 			{
-				//Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceDome(plugin, world, random, chunkX, chunkZ));
-				plugin.addTask(new PlaceDome(plugin, world, random, chunkX, chunkZ));
+				plugin.addTask(new PlaceDome(world, random, chunkX, chunkZ));
 			}	
 		}
 	}
 
-	static class PlaceDome implements HothRunnable
+	static class PlaceDome extends HothRunnable
 	{
-		private final HothGeneratorPlugin plugin;
-		private final World world;
-		private final Random random;
-		private final int chunkx;
-		private final int chunkz;
+		private static final long serialVersionUID = -9172096637393548731L;
+		private Random random;
+		private int chunkx;
+		private int chunkz;
 		
-		public String getName() {
-			return "PlaceDome";
-		}
-
+		
 		public String getParameterString() {
 			return "chunkx=" + this.chunkx + " chunkz=" + this.chunkz;
 		}
 
-		public PlaceDome(HothGeneratorPlugin plugin, World world, Random random, int chunkx, int chunkz)
+		public PlaceDome(World world, Random random, int chunkx, int chunkz)
 		{
-			this.plugin = plugin;
-			this.world = world;
+			this.setName("PlaceDome");
+			this.setWorld(world);
+			this.setPlugin(null);
 			this.random = random;
 			this.chunkx = chunkx;
 			this.chunkz = chunkz;
 		}
 		
-		private void placeTop(int sx, int sy, int sz)
+		private void placeTop(World world, int sx, int sy, int sz)
 		{
 			Position centerPos = new Position(sx, sy, sz);
 			
@@ -88,7 +84,7 @@ public class DomeGenerator
 						int dist = (int)Math.ceil(DomeGenerator.distance(centerPos, currPos));
 						if(dist==radius)
 						{
-							Block block = this.world.getBlockAt(x, y, z);
+							Block block = world.getBlockAt(x, y, z);
 							Material type = block.getType();
 							if(type.equals(Material.AIR))
 							{
@@ -105,13 +101,16 @@ public class DomeGenerator
 		@Override
 		public void run()
 		{	
-			int surfaceOffset = this.plugin.getWorldSurfaceoffset();
+			HothGeneratorPlugin plugin = this.getPlugin();
+			World world = this.getWorld();
+			
+			int surfaceOffset = plugin.getWorldSurfaceoffset();
 			
 			int sx = this.chunkx*16 + random.nextInt(16);
 			int sz = this.chunkz*16 + random.nextInt(16);
 			int sy = 26 + surfaceOffset;
 			
-			this.plugin.logMessage("Placing Dome at " + sx + "," + sy + "," + sz,true);
+			plugin.logMessage("Placing Dome at " + sx + "," + sy + "," + sz,true);
 
 			int radius = 46;
 
@@ -131,7 +130,7 @@ public class DomeGenerator
 
 						if(dist==radius) // Dome
 						{
-							Block block = this.world.getBlockAt(x, y, z);
+							Block block = world.getBlockAt(x, y, z);
 							Material type = block.getType();
 							if(type.equals(Material.ICE)
 									|| type.equals(Material.PACKED_ICE)
@@ -149,7 +148,7 @@ public class DomeGenerator
 						}
 						else if(dist<radius) // Inside dome
 						{
-							Block block = this.world.getBlockAt(x, y, z);
+							Block block = world.getBlockAt(x, y, z);
 							Material type = block.getType();
 							if(type.equals(Material.ICE) // Make air
 									|| type.equals(Material.PACKED_ICE)
@@ -249,7 +248,7 @@ public class DomeGenerator
 					
 					if(!done) // Place top piece/flower
 					{
-						this.placeTop(currix, curriy, curriz);
+						this.placeTop(world, currix, curriy, curriz);
 					}
 				}
 			}

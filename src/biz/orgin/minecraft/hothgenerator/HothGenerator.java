@@ -18,24 +18,37 @@ import org.bukkit.generator.ChunkGenerator;
  */
 public class HothGenerator extends ChunkGenerator
 {
-	private HothGeneratorPlugin plugin; 
+	private static HothGeneratorPlugin plugin; 
 	
 	private int height;
 	
 	private NoiseGenerator noiseGenerator;
-	
-	public HothGenerator(HothGeneratorPlugin plugin)
+
+	public static void setPlugin(HothGeneratorPlugin plugin)
 	{
-		this.plugin = plugin;
-		this.height = 256;
-		this.noiseGenerator = null;
+		HothGenerator.plugin = plugin;
+		System.out.println("HotheGenerator got a new plugin with id: " + plugin.getID());
 	}
 	
-	public HothGenerator(HothGeneratorPlugin plugin, int height)
+	public static HothGeneratorPlugin getPlugin()
 	{
-		this.plugin = plugin;
+		return HothGenerator.plugin;
+	}
+	
+	public HothGenerator()
+	{
+		//this.plugin = plugin;
+		this.height = 256;
+		this.noiseGenerator = null;
+		System.out.println("HothGenerator() constructor was called");
+	}
+	
+	public HothGenerator(int height)
+	{
+		//this.plugin = plugin;
 		this.height = height;
 		this.noiseGenerator = null;
+		System.out.println("HothGeneator(int height) constructor was called");
 	}
 	
 	@Override
@@ -46,7 +59,7 @@ public class HothGenerator extends ChunkGenerator
 			this.noiseGenerator = new NoiseGenerator(world);
 		}
 		
-		int surfaceOffset = this.plugin.getWorldSurfaceoffset();
+		int surfaceOffset = HothGenerator.plugin.getWorldSurfaceoffset();
 		
 		Random localRand = new Random(chunkx*chunkz);
 		Position[][] snowcover = new Position[16][16];
@@ -311,16 +324,16 @@ public class HothGenerator extends ChunkGenerator
 		}
 		
 		// Add structures and such
-		GardenGenerator.generateGarden(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		RoomGenerator.generateRooms(world, this.plugin, new Random(random.nextLong()), chunkx, chunkz);
-		OreGenerator.generateOres(this.plugin, world, chunk, new Random(random.nextLong()) , chunkx, chunkz);
-		DomeGenerator.generateDome(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		BaseGenerator.generateBase(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		SchematicsGenerator.generateSchematics(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		CustomGenerator.generateCustom(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		CaveGenerator.generateCaves(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		SpikeGenerator.generateSpikes(this.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		SnowGenerator.generateSnowCover(this.plugin, world, snowcover);
+		GardenGenerator.generateGarden(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		RoomGenerator.generateRooms(world, HothGenerator.plugin, new Random(random.nextLong()), chunkx, chunkz);
+		OreGenerator.generateOres(HothGenerator.plugin, world, chunk, new Random(random.nextLong()) , chunkx, chunkz);
+		DomeGenerator.generateDome(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		BaseGenerator.generateBase(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		SchematicsGenerator.generateSchematics(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		CustomGenerator.generateCustom(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		CaveGenerator.generateCaves(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		SpikeGenerator.generateSpikes(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		SnowGenerator.generateSnowCover(HothGenerator.plugin, world, snowcover);
 
 		return chunk;
 	}
@@ -339,8 +352,7 @@ public class HothGenerator extends ChunkGenerator
 	public List<BlockPopulator> getDefaultPopulators(World world)
 	{
 			List<BlockPopulator> list = new ArrayList<BlockPopulator>(1);
-			//list.add(new CavePopulator(this.plugin));
-			list.add(new LogPopulator(this.plugin, this.height));
+			list.add(new LogPopulator(this.height));
 			return list;
 	}
 
@@ -348,7 +360,7 @@ public class HothGenerator extends ChunkGenerator
 	public Location getFixedSpawnLocation(World world, Random random)
 	{
 		
-		int y = 65 + this.plugin.getWorldSurfaceoffset();
+		int y = 65 + HothGenerator.plugin.getWorldSurfaceoffset();
 		if(this.height<=66)
 		{
 			y = (this.height/2)+1;
@@ -356,6 +368,5 @@ public class HothGenerator extends ChunkGenerator
 		
 		return new Location(world,8,y,8);
 	}
-	
 
 }

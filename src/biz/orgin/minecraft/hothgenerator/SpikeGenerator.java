@@ -18,31 +18,24 @@ public class SpikeGenerator {
 
 			if(place==45)
 			{
-				plugin.addTask(new PlaceSpikes(plugin, world, random, chunkX, chunkZ));
-				//Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceSpikes(plugin, world, random, chunkX, chunkZ));
+				plugin.addTask(new PlaceSpikes(world, random, chunkX, chunkZ));
 			}	
 		}
 	}
 
 
-	static class PlaceSpikes implements HothRunnable
+	static class PlaceSpikes extends HothRunnable
 	{
-		private final HothGeneratorPlugin plugin;
-		private final World world;
-		private final Random random;
-		private final int chunkx;
-		private final int chunkz;
-		
-		public String getName()
-		{
-			return "PlaceSpikes";
-		}
+		private static final long serialVersionUID = -5714001078356727719L;
+		private Random random;
+		private int chunkx;
+		private int chunkz;
 		
 		public String getParameterString()
 		{
 			return "chunkx=" + chunkx + " chunkz=" + chunkz;
 		}
-
+		
 		private double getMin(double n1, double n2, double n3)
 		{
 			double min = n1;
@@ -59,12 +52,11 @@ public class SpikeGenerator {
 			return max;
 		}
 
-		public PlaceSpikes(HothGeneratorPlugin plugin, World world, Random random, int chunkx, int chunkz)
+		public PlaceSpikes(World world, Random random, int chunkx, int chunkz)
 		{
-			// @ToDo: Add self to global task heap
-			
-			this.plugin = plugin;
-			this.world = world;
+			this.setName("PlaceSpikes");
+			this.setPlugin(null);
+			this.setWorld(world);
 			this.random = random;
 			this.chunkx = chunkx;
 			this.chunkz = chunkz;
@@ -93,10 +85,13 @@ public class SpikeGenerator {
 		@Override
 		public void run()
 		{
-			Blob blob = new Blob(this.plugin, this.world, this.getName());
+			World world = this.getWorld();
+			HothGeneratorPlugin plugin = this.getPlugin();
+			
+			Blob blob = new Blob(plugin, world, this.getName());
 			int iceID = MaterialManager.toID(Material.PACKED_ICE);
 
-			int surfaceOffset = this.plugin.getWorldSurfaceoffset();
+			int surfaceOffset = this.getPlugin().getWorldSurfaceoffset();
 
 			double basex1 = random.nextInt(24) + this.chunkx * 16;
 			double basez1 = random.nextInt(24) + this.chunkz * 16;
@@ -179,20 +174,14 @@ public class SpikeGenerator {
 								double currz = startz + diffz * currx;
 								if(Math.abs(((stopx-startx)/2)-currx)> ((stopx-startx)*0.2))
 								{
-									//Block block1 = this.world.getBlockAt((int)Math.round(startx+currx), 30 + (int)Math.round(y1+curry), (int)Math.round(currz));
-									//block1.setType(Material.PACKED_ICE);
 									blob.addPosition(new Position((int)Math.round(startx+currx), (int)Math.round(y1+curry), (int)Math.round(currz), iceID));
 								}
 								if(Math.abs(((stopx-startx)/2)-currx)< ((stopx-startx)*0.3))
 								{
-									//Block block2 = this.world.getBlockAt((int)Math.round(startx+currx), 30 + (int)Math.round(y1+curry)+1, (int)Math.round(currz));
-									//block2.setType(Material.PACKED_ICE);
 									blob.addPosition(new Position((int)Math.round(startx+currx), (int)Math.round(y1+curry)+1, (int)Math.round(currz), iceID));
 								}
 								if(Math.abs(((stopx-startx)/2)-currx)< ((stopx-startx)*0.1))
 								{
-									//Block block3 = this.world.getBlockAt((int)Math.round(startx+currx), 30 +(int)Math.round(y1+curry)+2, (int)Math.round(currz));
-									//block3.setType(Material.PACKED_ICE);
 									blob.addPosition(new Position((int)Math.round(startx+currx), (int)Math.round(y1+curry)+2, (int)Math.round(currz), iceID));
 								}
 							}
@@ -219,27 +208,21 @@ public class SpikeGenerator {
 								double currx = startx + diffx * currz;
 								if(Math.abs(((stopx-startx)/2)-currx)> ((stopx-startx)*0.2))
 								{
-									//Block block1 = this.world.getBlockAt((int)Math.round(currx), 30 + (int)Math.round(y1+curry), (int)Math.round(startz+currz));
-									//block1.setType(Material.PACKED_ICE);
 									blob.addPosition(new Position((int)Math.round(currx), (int)Math.round(y1+curry), (int)Math.round(startz+currz), iceID));
 								}
 								if(Math.abs(((stopx-startx)/2)-currx)< ((stopx-startx)*0.3))
 								{
-									//Block block2 = this.world.getBlockAt((int)Math.round(currx), 30 + (int)Math.round(y1+curry)+1, (int)Math.round(startz+currz));
-									//block2.setType(Material.PACKED_ICE);
 									blob.addPosition(new Position((int)Math.round(currx), (int)Math.round(y1+curry)+1, (int)Math.round(startz+currz), iceID));
 								}
 								if(Math.abs(((stopx-startx)/2)-currx)< ((stopx-startx)*0.1))
 								{
-									//Block block3 = this.world.getBlockAt((int)Math.round(currx), 30 + (int)Math.round(y1+curry)+2, (int)Math.round(startz+currz));
-									//block3.setType(Material.PACKED_ICE);
 									blob.addPosition(new Position((int)Math.round(currx), (int)Math.round(y1+curry)+2, (int)Math.round(startz+currz), iceID));
 								}
 							}
 						}
 					}
 
-					this.plugin.logMessage("Placing spike at " + x3 + "," + y3 + "," + z3, true);
+					plugin.logMessage("Placing spike at " + x3 + "," + y3 + "," + z3, true);
 
 				}
 				else if(method == 2) // z

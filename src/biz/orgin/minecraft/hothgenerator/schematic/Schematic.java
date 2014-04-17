@@ -1,6 +1,8 @@
 package biz.orgin.minecraft.hothgenerator.schematic;
 
-public interface Schematic
+import java.io.Serializable;
+
+public interface Schematic extends Serializable
 {
 	public int[][][] getMatrix();
 	public int getWidth();

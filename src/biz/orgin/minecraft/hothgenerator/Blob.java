@@ -57,41 +57,39 @@ public class Blob
 	
 	private void finishBlob(Position[] blocks)
 	{
-		plugin.addTask(new PlaceBlob(this.plugin, this.world, this.parentName, blocks, 0, Blob.blocksPerInteration));
+		plugin.addTask(new PlaceBlob(this.world, this.parentName, blocks, 0, Blob.blocksPerInteration));
 	}
 	
-	static class PlaceBlob implements HothRunnable
+	static class PlaceBlob extends HothRunnable
 	{
-		private final HothGeneratorPlugin plugin;
-		private final World world;
-		private final Position[] blocks;
-		private final int start;
-		private final int count;
-		private final String parentName;
+		private static final long serialVersionUID = 9054230080505873655L;
+		private Position[] blocks;
+		private int start;
+		private int count;
+		private String parentName;
 
-		public String getName()
-		{
-			return parentName + ".PlaceBlob";
-		}
-		
 		public String getParameterString()
 		{
 			return "parentName = " + this.parentName + " start=" + this.start + " count=" + this.count;
 		}
 		
-		public PlaceBlob(HothGeneratorPlugin plugin, World world, String parentName, Position[] blocks, int start, int count)
+		public PlaceBlob(World world, String parentName, Position[] blocks, int start, int count)
 		{
-			this.world = world;
+			this.setName(parentName + ".PlaceBlob");
+			this.setWorld(world);
+			this.setPlugin(null);
 			this.blocks = blocks;
 			this.start = start;
 			this.count = count;
-			this.plugin = plugin;
 			this.parentName = parentName;
 		}
 
 		@Override
 		public void run()
 		{
+			HothGeneratorPlugin plugin = this.getPlugin();
+			World world = this.getWorld();
+			
 			Position[] blocks = this.blocks;
 			int start = this.start;
 			int count = this.count;
@@ -100,7 +98,7 @@ public class Blob
 			{
 				Position pos = blocks[i];
 				
-				Block block = this.world.getBlockAt(pos.x, pos.y, pos.z);
+				Block block = world.getBlockAt(pos.x, pos.y, pos.z);
 				// Check if chest, rotation and what not
 				int type = pos.type;
 				byte data = pos.data;
@@ -152,7 +150,7 @@ public class Blob
 			
 			if(start+count < blocks.length)
 			{
-				this.plugin.addTask(new PlaceBlob(this.plugin, this.world, this.parentName, blocks, start+count, count));
+				plugin.addTask(new PlaceBlob(world, this.parentName, blocks, start+count, count));
 			}
 
 		}

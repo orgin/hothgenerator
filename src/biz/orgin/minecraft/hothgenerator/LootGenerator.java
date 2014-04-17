@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Random;
 import java.util.Vector;
@@ -14,8 +15,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
-public class LootGenerator
+public class LootGenerator implements Serializable
 {
+	private static final long serialVersionUID = 4855454685158085649L;
 	private String name;
 	private Loot[] loot;
 	
@@ -73,6 +75,8 @@ public class LootGenerator
 			new Loot(Material.WHEAT,           (byte)0x00, 1, 4,  5), //Wheat
 			new Loot(Material.POTATO_ITEM,     (byte)0x00, 1, 2,  5), //Potato
 			new Loot(Material.CARROT_ITEM,     (byte)0x00, 1, 2,  5), //Carrot
+			new Loot(Material.SAPLING,         (byte)0x04, 1, 4,  5), //Acacia sapling
+			new Loot(Material.SAPLING,         (byte)0x05, 1, 4,  5), //Dark oak sapling
 			
 			new Loot(Material.MONSTER_EGG,     (byte)90, 1, 4,  3),  //Pig egg
 			new Loot(Material.MONSTER_EGG,     (byte)91, 1, 4,  3),  //Sheep

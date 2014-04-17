@@ -81,37 +81,32 @@ public class CustomGenerator
 				int place = random.nextInt(rarity);
 				if(place==rnd)
 				{
-					plugin.addTask(new PlaceCustom(schematic, plugin, world, new Random(randomLong), chunkX, chunkZ));
+					plugin.addTask(new PlaceCustom(schematic, world, new Random(randomLong), chunkX, chunkZ));
 				}	
 			}
 		}
 	}
 
 
-	static class PlaceCustom implements HothRunnable
+	static class PlaceCustom extends HothRunnable
 	{
-		private final LoadedSchematic schematic;
-		private final HothGeneratorPlugin plugin;
-		private final World world;
-		private final Random random;
-		private final int chunkx;
-		private final int chunkz;
-
-		public PlaceCustom(LoadedSchematic schematic, HothGeneratorPlugin plugin, World world, Random random, int chunkx, int chunkz)
+		private static final long serialVersionUID = 8128113807666393929L;
+		private LoadedSchematic schematic;
+		private Random random;
+		private int chunkx;
+		private int chunkz;
+		
+		public PlaceCustom(LoadedSchematic schematic, World world, Random random, int chunkx, int chunkz)
 		{
+			this.setName("PlaceCustom");
+			this.setWorld(world);
+			this.setPlugin(null);
 			this.schematic = schematic;
-			this.plugin = plugin;
-			this.world = world;
 			this.random = random;
 			this.chunkx = chunkx;
 			this.chunkz = chunkz;
 		}
 		
-		public String getName()
-		{
-			return "PlaceCustom";
-		}
-
 		public String getParameterString()
 		{
 			return "schematic=" + this.schematic.getName() + " chunkx=" + this.chunkx + " chunkz=" + this.chunkz;
@@ -120,7 +115,10 @@ public class CustomGenerator
 		@Override
 		public void run()
 		{
-			int surfaceOffset = this.plugin.getWorldSurfaceoffset();
+			HothGeneratorPlugin plugin = this.getPlugin();
+			World world = this.getWorld();
+			
+			int surfaceOffset = plugin.getWorldSurfaceoffset();
 			
 
 			int x = this.random.nextInt(16) + this.chunkx * 16 - this.schematic.getWidth()/2;
@@ -141,10 +139,10 @@ public class CustomGenerator
 			switch(this.schematic.getType())
 			{
 			case 0: // On surface
-				int y1 = this.world.getHighestBlockYAt(x-hw, z-hl);
-				int y2 = this.world.getHighestBlockYAt(x+hw, z-hl);
-				int y3 = this.world.getHighestBlockYAt(x-hw, z+hl);
-				int y4 = this.world.getHighestBlockYAt(x+hw, z+hl);
+				int y1 = world.getHighestBlockYAt(x-hw, z-hl);
+				int y2 = world.getHighestBlockYAt(x+hw, z-hl);
+				int y3 = world.getHighestBlockYAt(x-hw, z+hl);
+				int y4 = world.getHighestBlockYAt(x+hw, z+hl);
 				int yoffset = this.schematic.getYoffset();
 				
 				y = y1;
@@ -212,11 +210,11 @@ public class CustomGenerator
 					HothUtils.placeSchematic(plugin, world, schematic, x-hw, y, z+hl, schematic.getLootMin(), schematic.getLootMax(), generator);
 				}
 	
-				this.plugin.logMessage("Placing " + schematic.getName() + " at " + x + "," + y + "," + z, true);
+				plugin.logMessage("Placing " + schematic.getName() + " at " + x + "," + y + "," + z, true);
 			}
 			else
 			{
-				this.plugin.logMessage("Failed to place " + this.schematic.getName() + " at " + x + "," + y + "," + z, true);
+				plugin.logMessage("Failed to place " + this.schematic.getName() + " at " + x + "," + y + "," + z, true);
 			}
 		}
 	}

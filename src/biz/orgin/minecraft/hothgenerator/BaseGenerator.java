@@ -42,36 +42,31 @@ public class BaseGenerator {
 			int doit = random.nextInt(512*rarity);
 			if(doit == 350)
 			{
-				plugin.addTask(new PlaceBase(plugin, world, random, chunkX, chunkZ));
+				plugin.addTask(new PlaceBase(world, random, chunkX, chunkZ));
 			}	
 		}
 	}
 	
 	
-	static class PlaceBase implements HothRunnable
+	static class PlaceBase extends HothRunnable
 	{
-		private final HothGeneratorPlugin plugin;
-		private final World world;
-		private final Random random;
-		private final int chunkx;
-		private final int chunkz;
+		private static final long serialVersionUID = -4298666022386809250L;
+		private Random random;
+		private int chunkx;
+		private int chunkz;
 		
 		private int room5s;
-		
-		public String getName()
-		{
-			return "PlaceBase";
-		}
 		
 		public String getParameterString()
 		{
 			return "chunkx=" + this.chunkx + " chunkz=" + this.chunkz;
 		}
 
-		public PlaceBase(HothGeneratorPlugin plugin, World world, Random random, int chunkx, int chunkz)
+		public PlaceBase(World world, Random random, int chunkx, int chunkz)
 		{
-			this.plugin = plugin;
-			this.world = world;
+			this.setName("PlaceBase");
+			this.setPlugin(null);
+			this.setWorld(world);
 			this.random = random;
 			this.chunkx = chunkx;
 			this.chunkz = chunkz;
@@ -107,10 +102,13 @@ public class BaseGenerator {
 		@Override
 		public void run()
 		{	
+			HothGeneratorPlugin plugin = this.getPlugin();
+			World world = this.getWorld();
+			
 			int sx = this.chunkx*16 + random.nextInt(16);
 			int sz = this.chunkz*16 + random.nextInt(16);
 			
-			int sy = this.world.getHighestBlockYAt(sx, sz);
+			int sy = world.getHighestBlockYAt(sx, sz);
 			
 			boolean safePlace = true;
 			
@@ -136,7 +134,7 @@ public class BaseGenerator {
 			
 			if(safePlace)
 			{
-				this.plugin.logMessage("Placing base at " + sx + "," + sy + "," + sz, true);
+				plugin.logMessage("Placing base at " + sx + "," + sy + "," + sz, true);
 				
 				HothUtils.placeSchematic(plugin, world, BaseTop.instance, sx-5, sy+11, sz-5, 2, 10);
 				world.spawnEntity(new Location(world, sx+5, sy+5, sz+5), EntityType.VILLAGER);
@@ -198,7 +196,7 @@ public class BaseGenerator {
 			}
 			else
 			{
-				this.plugin.logMessage("Failed to place base at " + sx + "," + sy + "," + sz, true);
+				plugin.logMessage("Failed to place base at " + sx + "," + sy + "," + sz, true);
 			}
 			
 			

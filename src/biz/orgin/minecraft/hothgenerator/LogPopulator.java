@@ -24,9 +24,9 @@ public class LogPopulator extends BlockPopulator
 	private int height;
 	private HothGeneratorPlugin plugin;
 
-	public LogPopulator(HothGeneratorPlugin plugin, int height)
+	public LogPopulator(int height)
 	{
-		this.plugin = plugin;
+		this.plugin = HothGenerator.getPlugin();
 		this.height = height;
 	}
 

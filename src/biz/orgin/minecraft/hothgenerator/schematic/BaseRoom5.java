@@ -4,6 +4,7 @@ import biz.orgin.minecraft.hothgenerator.HothUtils;
 
 public class BaseRoom5 implements Schematic
 {
+	private static final long serialVersionUID = -2410514965366797681L;
 	public static Schematic instance = new BaseRoom5();
 	private static int WIDTH = 7;
 	private static int LENGTH = 10;

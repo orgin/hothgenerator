@@ -32,40 +32,36 @@ public class CaveGenerator {
 				
 				final int y = random.nextInt(32);
 				
-				plugin.addTask(new PlaceCave(plugin, world, random, x, y, z));
+				plugin.addTask(new PlaceCave(world, random, x, y, z));
 						
 				if (random.nextInt(16) > 5) {
 					if (y > 36) {
-						plugin.addTask(new PlaceCave(plugin, world, random, x, y / 2, z));
+						plugin.addTask(new PlaceCave(world, random, x, y / 2, z));
 					} else if (y < 24) {
-						plugin.addTask(new PlaceCave(plugin, world, random, x, y * 2, z));
+						plugin.addTask(new PlaceCave(world, random, x, y * 2, z));
 					}
 				}
 			}
 		}
 	}
 	
-	static class PlaceCave implements HothRunnable
+	static class PlaceCave extends HothRunnable
 	{
-		private final World world;
+		private static final long serialVersionUID = -6264580576949180228L;
 		private final int x;
 		private final int y;
 		private final int z;
 		private Random random;
-		private HothGeneratorPlugin plugin;
-
-		public PlaceCave(HothGeneratorPlugin plugin, World world, Random random, int x, int y, int z)
+		
+		public PlaceCave(World world, Random random, int x, int y, int z)
 		{
-			this.world = world;
+			this.setName("PlaceCave");
+			this.setPlugin(null);
+			this.setWorld(world);
 			this.x = x;
 			this.y = y;
 			this.z = z;
 			this.random = random;
-			this.plugin = plugin;
-		}
-		
-		public String getName() {
-			return "PlaceCave";
 		}
 
 		public String getParameterString() {
@@ -75,6 +71,8 @@ public class CaveGenerator {
 		@Override
 		public void run()
 		{
+			World world = this.getWorld();
+			HothGeneratorPlugin plugin = this.getPlugin();
 			Position[] snake = startCave(world, this.random, x, y, z).toArray(new Position[0]);
 			finishCave(plugin, world, snake);
 		}
@@ -198,29 +196,24 @@ public class CaveGenerator {
 	
 	private static void finishCave(HothGeneratorPlugin plugin, World world, Position[] blocks)
 	{
-		plugin.addTask(new Render(plugin, world, blocks, 0, CaveGenerator.blocksPerInteration));
+		plugin.addTask(new Render(world, blocks, 0, CaveGenerator.blocksPerInteration));
 	}
 	
-	static class Render implements HothRunnable
+	static class Render extends HothRunnable
 	{
-		private final HothGeneratorPlugin plugin;
-		private final World world;
-		private final Position[] blocks;
-		private final int start;
-		private final int count;
-
-		public Render(HothGeneratorPlugin plugin, World world, Position[] blocks, int start, int count)
+		private static final long serialVersionUID = -1067709122105347543L;
+		private Position[] blocks;
+		private int start;
+		private int count;
+		
+		public Render(World world, Position[] blocks, int start, int count)
 		{
-			this.world = world;
+			this.setName("PlaceCave.Render");
+			this.setWorld(world);
+			this.setPlugin(null);
 			this.blocks = blocks;
 			this.start = start;
 			this.count = count;
-			this.plugin = plugin;
-		}
-		
-		public String getName()
-		{
-			return "PlaceCave.Render";
 		}
 		
 		public String getParameterString() {
@@ -230,6 +223,9 @@ public class CaveGenerator {
 		@Override
 		public void run()
 		{
+			World world = this.getWorld();
+			HothGeneratorPlugin plugin = this.getPlugin();
+			
 			Position[] blocks = this.blocks;
 			int start = this.start;
 			int count = this.count;
@@ -252,7 +248,7 @@ public class CaveGenerator {
 			}
 			if(start+count < blocks.length)
 			{
-				plugin.addTask(new Render(this.plugin, this.world, blocks, start+count, count));
+				plugin.addTask(new Render(world, blocks, start+count, count));
 			}
 		}
 	}

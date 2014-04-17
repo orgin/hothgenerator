@@ -1,5 +1,7 @@
 package biz.orgin.minecraft.hothgenerator;
 
+import java.io.Serializable;
+
 import org.bukkit.Material;
 
 /**
@@ -7,8 +9,9 @@ import org.bukkit.Material;
  * @author orgin
  *
  */
-public class Loot
+public class Loot implements Serializable
 {
+	private static final long serialVersionUID = -7447778964063337175L;
 	public Material material;
 	public byte data;
 	public int min;

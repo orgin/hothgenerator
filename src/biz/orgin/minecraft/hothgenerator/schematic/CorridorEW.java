@@ -4,6 +4,7 @@ import biz.orgin.minecraft.hothgenerator.HothUtils;
 
 public class CorridorEW  implements Schematic
 {
+	private static final long serialVersionUID = -3723609036328259577L;
 	public static Schematic instance = new CorridorEW();
 	private static int WIDTH = 7;
 	private static int LENGTH = 5;

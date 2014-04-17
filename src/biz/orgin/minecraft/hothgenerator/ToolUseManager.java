@@ -60,7 +60,14 @@ public class ToolUseManager implements Listener
 						if(this.plugin.isRulesFreezewater(block.getLocation()) && !this.plugin.canPlaceLiquid(world, block))
 						{
 							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.WATER, Material.ICE);
+							try
+							{
 							Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
+							}
+							catch(Exception e)
+							{
+								this.plugin.logMessage("Exception while trying to register BlockPlacerThread. You probably need to restart yoru server.", true);
+							}
 						}
 					}
 					else if(item.getType().equals(Material.LAVA_BUCKET))

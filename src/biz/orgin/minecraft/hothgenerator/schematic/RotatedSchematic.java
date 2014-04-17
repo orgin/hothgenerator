@@ -4,6 +4,7 @@ import biz.orgin.minecraft.hothgenerator.HothUtils;
 
 public class RotatedSchematic implements Schematic
 {
+	private static final long serialVersionUID = 2511207124250593853L;
 	private int width;
 	private int length;
 	private int height;

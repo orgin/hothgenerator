@@ -4,6 +4,7 @@ import biz.orgin.minecraft.hothgenerator.HothUtils;
 
 public class Decor2 implements Schematic
 {
+	private static final long serialVersionUID = -251757684513788963L;
 	public static Schematic instance = new Decor2();
 	private static int WIDTH = 3;
 	private static int LENGTH = 3;

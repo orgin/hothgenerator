@@ -65,7 +65,7 @@ public class OreGenerator
 			}
 			else // Schedule a delayed task to generate ores with typeID and data values
 			{
-				plugin.addTask(new PlaceOre(plugin, world, random, chunkx, chunkz));
+				plugin.addTask(new PlaceOre(world, random, chunkx, chunkz));
 			}
 		}
 	}
@@ -297,28 +297,23 @@ public class OreGenerator
 
 	}
 	
-	static class PlaceOre implements HothRunnable
+	static class PlaceOre extends HothRunnable
 	{
-		@SuppressWarnings("unused")
-		private final HothGeneratorPlugin plugin;
-		private final World world;
-		private final Random random;
-		private final int chunkx;
-		private final int chunkz;
-
-		public PlaceOre(HothGeneratorPlugin plugin, World world, Random random, int chunkx, int chunkz)
+		private static final long serialVersionUID = -9013022427480954998L;
+		private Random random;
+		private int chunkx;
+		private int chunkz;
+		
+		public PlaceOre(World world, Random random, int chunkx, int chunkz)
 		{
-			this.plugin = plugin;
-			this.world = world;
+			this.setName("PlaceOre");
+			this.setWorld(world);
+			this.setPlugin(null);
 			this.random = random;
 			this.chunkx = chunkx;
 			this.chunkz = chunkz;
 		}
 		
-		public String getName() {
-			return "PlaceOre";
-		}
-
 		public String getParameterString() {
 			return "chunkx=" + this.chunkx + " chunkz=" + this.chunkz;
 		}
@@ -327,6 +322,8 @@ public class OreGenerator
 		@Override
 		public void run()
 		{	
+			World world = this.getWorld();
+
 			for (int i = 0; i < type.length; i++)
 			{
 				for (int j = 0; j < iterations[i]; j++)

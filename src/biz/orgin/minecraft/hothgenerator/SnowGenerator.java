@@ -15,26 +15,32 @@ public class SnowGenerator
 	{
 		if(plugin.isSmoothSnow())
 		{
-			//plugin.addTask(new PlaceSnowCover(world, snowcover));
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceSnowCover(world, snowcover));
+			try
+			{
+				//plugin.addTask(new PlaceSnowCover(world, snowcover));
+				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceSnowCover(world, snowcover));
+			}
+			catch(Exception e)
+			{
+				plugin.logMessage("Exception while trying to schedule PlaceSnowCover task. You probably need to restart the server", true);
+				if(!plugin.isEnabled())	System.out.println("The plugin has been disabled. Plugin ID = " + plugin.getID());
+			}
 		}
 	}
 
-	static class PlaceSnowCover implements HothRunnable
+	static class PlaceSnowCover extends HothRunnable
 	{
-		private final World world;
-		private final Position[][] snowcover;
-
+		private static final long serialVersionUID = -8662915904475816785L;
+		private Position[][] snowcover;
+		
 		public PlaceSnowCover(World world, Position[][] snowcover)
 		{
-			this.world = world;
+			this.setName("PlaceSnowCover");
+			this.setWorld(world);
 			this.snowcover = snowcover;
+			this.setPlugin(null);
 		}
 		
-		public String getName() {
-			return "PlaceSnowCover";
-		}
-
 		public String getParameterString() {
 			return "";
 		}
@@ -42,6 +48,8 @@ public class SnowGenerator
 		@Override
 		public void run()
 		{	
+			World world = this.getWorld();
+			
 			for(int z=0;z<16;z++)
 			{
 				for(int x=0;x<16;x++)
@@ -50,7 +58,7 @@ public class SnowGenerator
 					int ry = this.snowcover[z][x].y;
 					int rz = this.snowcover[z][x].z;
 
-					Block block = this.world.getBlockAt(rx, ry, rz);
+					Block block = world.getBlockAt(rx, ry, rz);
 					
 					if(block.getType().equals(Material.SNOW))
 					{

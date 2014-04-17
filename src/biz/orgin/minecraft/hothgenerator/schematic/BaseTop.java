@@ -4,6 +4,7 @@ import biz.orgin.minecraft.hothgenerator.HothUtils;
 
 public class BaseTop implements Schematic
 {
+	private static final long serialVersionUID = 8669098351956972550L;
 	public static Schematic instance = new BaseTop();
 	private static int WIDTH = 11;
 	private static int LENGTH = 11;

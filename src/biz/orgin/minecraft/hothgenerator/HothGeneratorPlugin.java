@@ -54,8 +54,17 @@ public class HothGeneratorPlugin extends JavaPlugin
 	
 	private FileConfiguration config;
 	
+	private long id = System.currentTimeMillis();
+	
+	public long getID()
+	{
+		return this.id;
+	}
+	
     public void onEnable()
     { 
+    	HothGenerator.setPlugin(this);
+    	
     	this.blockPlaceManager = new BlockPlaceManager(this);
     	this.blockBreakManager = new BlockBreakManager(this);
     	this.toolUseManager = new ToolUseManager(this);
@@ -99,6 +108,8 @@ public class HothGeneratorPlugin extends JavaPlugin
     	{
     		this.taskManager.resume();
     	}
+    	
+    	this.logMessage("HothGenerator plugin loaded with ID: " + this.getID(), true);
     }
     
     public void onDisable()
@@ -420,6 +431,8 @@ public class HothGeneratorPlugin extends JavaPlugin
  	
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id)
 	{
+		this.logMessage("Got getDefaultWorldGenerator() call, my ID is: " + this.getID());
+		
 		if (id != null && !id.isEmpty())
 		{
 			try
@@ -430,14 +443,14 @@ public class HothGeneratorPlugin extends JavaPlugin
 				{
 					height = 256;
 				}
-				return new HothGenerator(this, height);
+				return new HothGenerator(height);
 			}
 			catch (NumberFormatException e)
 			{
 				
 			}
 		}
-		return new HothGenerator(this);
+		return new HothGenerator();
 	}
 	
 	public static int maxHeight(World world, int size)

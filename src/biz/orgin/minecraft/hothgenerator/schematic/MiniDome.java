@@ -4,6 +4,7 @@ import biz.orgin.minecraft.hothgenerator.HothUtils;
 
 public class MiniDome implements Schematic
 {
+	private static final long serialVersionUID = -2013578535979559612L;
 	public static Schematic instance = new MiniDome();
 	private static int WIDTH = 17;
 	private static int LENGTH = 17;

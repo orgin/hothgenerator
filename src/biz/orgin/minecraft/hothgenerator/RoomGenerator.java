@@ -1,5 +1,6 @@
 package biz.orgin.minecraft.hothgenerator;
 
+import java.io.Serializable;
 import java.util.Random;
 import java.util.Vector;
 
@@ -13,8 +14,9 @@ import biz.orgin.minecraft.hothgenerator.schematic.*;
  * @author orgin
  *
  */
-public class RoomGenerator
+public class RoomGenerator implements Serializable
 {
+	private static final long serialVersionUID = 3055903657231641702L;
 	/**
 	 * Maximum number of rooms in a cluster
 	 */
@@ -102,7 +104,7 @@ public class RoomGenerator
 				populator.decorateRoom(cluster, start); // Decorate start room and all children
 	
 				// Place the cluster into the world
-				plugin.addTask(new PlaceCluster(plugin, world, cluster));
+				plugin.addTask(new PlaceCluster(world, cluster));
 			}
 		}
 	}
@@ -337,8 +339,12 @@ public class RoomGenerator
 		}
 	}
 	
-	private class Cluster
+	private class Cluster implements Serializable
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -7272682457180248443L;
 		public int[][] randomDirections = new int[][]
 				{
 				{4,1,5,2,3,0},
@@ -480,21 +486,17 @@ public class RoomGenerator
 		}
 	}
 	
-	static class PlaceCluster implements HothRunnable
+	static class PlaceCluster extends HothRunnable
 	{
-		private final World world;
-		private final Cluster cluster;
-		private final HothGeneratorPlugin plugin;
+		private static final long serialVersionUID = 3277078006521966210L;
+		private Cluster cluster;
 
-		public PlaceCluster(HothGeneratorPlugin plugin, World world, Cluster cluster)
+		public PlaceCluster(World world, Cluster cluster)
 		{
-			this.world = world;
+			this.setName("PlaceCluster");
+			this.setWorld(world);
+			this.setPlugin(null);
 			this.cluster = cluster;
-			this.plugin = plugin;
-		}
-
-		public String getName() {
-			return "PlaceCluster";
 		}
 
 		public String getParameterString() {
@@ -504,9 +506,12 @@ public class RoomGenerator
 		@Override
 		public void run()
 		{
-			RoomGenerator.renderRoom(this.plugin, this.world, this.cluster.rooms);
+			World world = this.getWorld();
+			HothGeneratorPlugin plugin = this.getPlugin();
 
-			this.plugin.logMessage("Placing maze at " + this.cluster.rooms.x + "," + this.cluster.rooms.y + "," + this.cluster.rooms.z, true);
+			RoomGenerator.renderRoom(plugin, world, this.cluster.rooms);
+
+			plugin.logMessage("Placing maze at " + this.cluster.rooms.x + "," + this.cluster.rooms.y + "," + this.cluster.rooms.z, true);
 		}
 	}
 }

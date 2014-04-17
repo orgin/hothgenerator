@@ -1,5 +1,6 @@
 package biz.orgin.minecraft.hothgenerator;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -7,8 +8,11 @@ import java.util.Random;
  * @author orgin
  *
  */
-public class Room
+public class Room implements Serializable
 {
+
+	private static final long serialVersionUID = -3608697687316409041L;
+
 	/**
 	 * Used to define which exit that points to the parent room. Exits must
 	 * always be rendered from the originating room. An exit with the DUMMY

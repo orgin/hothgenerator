@@ -4,6 +4,7 @@ import biz.orgin.minecraft.hothgenerator.HothUtils;
 
 public class DoorNS implements Schematic
 {
+	private static final long serialVersionUID = 299532124330599474L;
 	public static Schematic instance = new DoorNS();
 	private static int WIDTH = 3;
 	private static int LENGTH = 1;

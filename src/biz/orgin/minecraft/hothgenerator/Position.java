@@ -1,13 +1,16 @@
 package biz.orgin.minecraft.hothgenerator;
 
+import java.io.Serializable;
+
 /**
  * Simple class for holding coordinates. Uses a custom hasCode for
  * quick lookup in a set. Used mainly by the CavePopulator.
  * @author orgin
  *
  */
-public class Position
+public class Position implements Serializable
 {
+	private static final long serialVersionUID = 8446813743059526736L;
 	public int x,y,z;
 	public int type;
 	public byte data;

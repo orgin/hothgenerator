@@ -29,41 +29,39 @@ public class GardenGenerator
 			if(place==37)
 			{
 				//Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceGarden(plugin, world, random, chunkX, chunkZ));
-				plugin.addTask(new PlaceGarden(plugin, world, random, chunkX, chunkZ));
+				plugin.addTask(new PlaceGarden(world, random, chunkX, chunkZ));
 			}	
 		}
 	}
 
-	static class PlaceGarden implements HothRunnable
+	static class PlaceGarden extends HothRunnable
 	{
-		private final HothGeneratorPlugin plugin;
-		private final World world;
-		private final Random random;
-		private final int chunkx;
-		private final int chunkz;
-
-		public PlaceGarden(HothGeneratorPlugin plugin, World world, Random random, int chunkx, int chunkz)
+		private static final long serialVersionUID = -1968688856754270141L;
+		private Random random;
+		private int chunkx;
+		private int chunkz;
+		
+		public PlaceGarden(World world, Random random, int chunkx, int chunkz)
 		{
-			this.plugin = plugin;
-			this.world = world;
+			this.setName("PlaceGarden");
+			this.setWorld(world);
+			this.setPlugin(null);
 			this.random = random;
 			this.chunkx = chunkx;
 			this.chunkz = chunkz;
-		}
-
-		public String getName() {
-			return "PlaceGarden";
 		}
 
 		public String getParameterString() {
 			return "chunkx=" + chunkx + " chunkz=" + chunkz;
 		}
 
-
 		@Override
 		public void run()
 		{
-			int surfaceOffset = this.plugin.getWorldSurfaceoffset();
+			World world = this.getWorld();
+			HothGeneratorPlugin plugin = this.getPlugin();
+
+			int surfaceOffset = plugin.getWorldSurfaceoffset();
 
 			int x = random.nextInt(16) + this.chunkx * 16;
 			int z = random.nextInt(16) + this.chunkz * 16;
@@ -85,7 +83,7 @@ public class GardenGenerator
 			
 			HothUtils.placeSchematic(plugin, world, garden, x, y, z, 2, 10);
 
-			this.plugin.logMessage("Placing garden at " + x + "," + y + "," + z, true);
+			plugin.logMessage("Placing garden at " + x + "," + y + "," + z, true);
 		}
 
 	}

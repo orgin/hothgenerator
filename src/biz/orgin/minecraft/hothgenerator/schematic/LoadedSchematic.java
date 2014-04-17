@@ -13,6 +13,7 @@ import biz.orgin.minecraft.hothgenerator.LootGenerator;
 
 public class LoadedSchematic implements Schematic
 {
+	private static final long serialVersionUID = 399844744818570056L;
 	private int width;
 	private int length;
 	private int height;

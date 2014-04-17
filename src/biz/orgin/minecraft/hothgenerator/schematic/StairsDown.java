@@ -4,6 +4,7 @@ import biz.orgin.minecraft.hothgenerator.HothUtils;
 
 public class StairsDown implements Schematic
 {
+	private static final long serialVersionUID = 5251257574535992845L;
 	public static Schematic instance = new StairsDown();
 	private static int WIDTH = 5;
 	private static int LENGTH = 5;

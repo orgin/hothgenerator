@@ -4,6 +4,7 @@ import biz.orgin.minecraft.hothgenerator.HothUtils;
 
 public class GreyGarden implements Schematic
 {
+	private static final long serialVersionUID = -818436865214157141L;
 	public static Schematic instance = new GreyGarden();
 	private static int WIDTH = 9;
 	private static int LENGTH = 9;

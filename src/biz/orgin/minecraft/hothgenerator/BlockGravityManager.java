@@ -74,7 +74,14 @@ public class BlockGravityManager  implements Listener
 			{
 				byte data = DataManager.getData(block);
 				
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DropBlock(world, block, material, data));
+				try
+				{
+					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DropBlock(world, block, material, data));
+				}
+				catch(Exception e)
+				{
+					plugin.logMessage("Exception when trying to register DropBlock task. You probably need to restart your server.", true);
+				}
 			}
 		}
 	}

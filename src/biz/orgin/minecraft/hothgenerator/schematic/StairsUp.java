@@ -4,6 +4,7 @@ import biz.orgin.minecraft.hothgenerator.HothUtils;
 
 public class StairsUp implements Schematic
 {
+	private static final long serialVersionUID = -4879133278272178437L;
 	public static Schematic instance = new StairsUp();
 	private static int WIDTH = 5;
 	private static int LENGTH = 5;
