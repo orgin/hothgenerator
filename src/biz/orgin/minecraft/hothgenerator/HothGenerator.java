@@ -187,7 +187,14 @@ public class HothGenerator extends ChunkGenerator
 				double clay = 1+this.noiseGenerator.noise(rx, rz, 3, 9)*5;
 				for(int i=3;i< (int)(clay);i++)
 				{
-					HothUtils.setPos(chunk, x,y,z, Material.CLAY);
+					if(i==3)
+					{
+						HothUtils.setPos(chunk, x,y,z, Material.HARD_CLAY);
+					}
+					else
+					{
+						HothUtils.setPos(chunk, x,y,z, Material.CLAY);
+					}
 					y++;
 				}
 				

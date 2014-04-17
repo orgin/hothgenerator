@@ -1,11 +1,18 @@
 package biz.orgin.minecraft.hothgenerator;
 
 import org.bukkit.DyeColor;
+import org.bukkit.GrassSpecies;
 import org.bukkit.Material;
+import org.bukkit.SandstoneType;
+import org.bukkit.TreeSpecies;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.material.Leaves;
+import org.bukkit.material.LongGrass;
 import org.bukkit.material.MaterialData;
+import org.bukkit.material.Mushroom;
+import org.bukkit.material.Sandstone;
 import org.bukkit.material.Stairs;
 import org.bukkit.material.Wool;
 
@@ -28,6 +35,125 @@ public class DataManager
 		{
 			// No bukkit api for handling snow and snow heights so using deprecated function for this.
 			block.setData(data, applyPhysics);
+		}
+		else if(material.equals(Material.SAND))
+		{
+			// No bukkit api for handling sand and sand types so using deprecated function for this.
+			block.setData(data, applyPhysics);
+		}
+		else if(material.equals(Material.HUGE_MUSHROOM_1) || material.equals(Material.HUGE_MUSHROOM_2))
+		{
+			BlockState state = block.getState();
+			Mushroom mushroom = (Mushroom)state.getData();
+			switch(data)
+			{
+				case 1:
+				mushroom.setFacePainted(BlockFace.UP, true);
+				mushroom.setFacePainted(BlockFace.WEST, true);
+				mushroom.setFacePainted(BlockFace.NORTH, true);
+				break;
+				case 2:
+				mushroom.setFacePainted(BlockFace.UP, true);
+				mushroom.setFacePainted(BlockFace.NORTH, true);
+				break;
+				case 3:
+				mushroom.setFacePainted(BlockFace.UP, true);
+				mushroom.setFacePainted(BlockFace.NORTH, true);
+				mushroom.setFacePainted(BlockFace.EAST, true);
+				break;
+				case 4:
+				mushroom.setFacePainted(BlockFace.UP, true);
+				mushroom.setFacePainted(BlockFace.WEST, true);
+				break;
+				case 5:
+				mushroom.setFacePainted(BlockFace.UP, true);
+				break;
+				case 6:
+				mushroom.setFacePainted(BlockFace.UP, true);
+				mushroom.setFacePainted(BlockFace.EAST, true);
+				break;
+				case 7:
+				mushroom.setFacePainted(BlockFace.UP, true);
+				mushroom.setFacePainted(BlockFace.SOUTH, true);
+				mushroom.setFacePainted(BlockFace.WEST, true);
+				break;
+				case 8:
+				mushroom.setFacePainted(BlockFace.UP, true);
+				mushroom.setFacePainted(BlockFace.SOUTH, true);
+				break;
+				case 9:
+				mushroom.setFacePainted(BlockFace.UP, true);
+				mushroom.setFacePainted(BlockFace.SOUTH, true);
+				mushroom.setFacePainted(BlockFace.EAST, true);
+				break;
+				case 10:
+				mushroom.setStem();
+				mushroom.setFacePainted(BlockFace.NORTH, true);
+				mushroom.setFacePainted(BlockFace.EAST, true);
+				mushroom.setFacePainted(BlockFace.SOUTH, true);
+				mushroom.setFacePainted(BlockFace.WEST, true);
+				break;
+				case 14:
+				mushroom.setFacePainted(BlockFace.NORTH, true);
+				mushroom.setFacePainted(BlockFace.EAST, true);
+				mushroom.setFacePainted(BlockFace.SOUTH, true);
+				mushroom.setFacePainted(BlockFace.WEST, true);
+				mushroom.setFacePainted(BlockFace.UP, true);
+				mushroom.setFacePainted(BlockFace.DOWN, true);
+				break;
+				case 15:
+				mushroom.setStem();
+				mushroom.setFacePainted(BlockFace.NORTH, true);
+				mushroom.setFacePainted(BlockFace.EAST, true);
+				mushroom.setFacePainted(BlockFace.SOUTH, true);
+				mushroom.setFacePainted(BlockFace.WEST, true);
+				mushroom.setFacePainted(BlockFace.UP, true);
+				mushroom.setFacePainted(BlockFace.DOWN, true);
+				break;
+			}
+			state.update();
+		}
+		else if(material.equals(Material.SANDSTONE))
+		{
+			BlockState state = block.getState();
+			Sandstone sandstone = (Sandstone)state.getData();
+			switch(data)
+			{
+				case 0: sandstone.setType(SandstoneType.CRACKED); break;
+				case 1: sandstone.setType(SandstoneType.GLYPHED); break;
+				case 2: sandstone.setType(SandstoneType.SMOOTH); break;
+				default: sandstone.setType(SandstoneType.CRACKED); break;
+			}
+			state.update();
+		}
+		else if(material.equals(Material.LEAVES))
+		{
+			BlockState state = block.getState();
+			Leaves leaves = (Leaves)state.getData();
+			switch(data)
+			{
+				case 0: leaves.setSpecies(TreeSpecies.GENERIC); break;
+				case 1: leaves.setSpecies(TreeSpecies.REDWOOD); break;
+				case 2: leaves.setSpecies(TreeSpecies.BIRCH); break;
+				case 3: leaves.setSpecies(TreeSpecies.JUNGLE); break;
+				case 4: leaves.setSpecies(TreeSpecies.ACACIA); break;
+				case 5: leaves.setSpecies(TreeSpecies.REDWOOD); break;
+				default: leaves.setSpecies(TreeSpecies.GENERIC); break;
+			}
+			state.update();
+		}
+		else if(material.equals(Material.LONG_GRASS))
+		{
+			BlockState state = block.getState();
+			LongGrass longgrass = (LongGrass)state.getData();
+			switch(data)
+			{
+				case 0: longgrass.setSpecies(GrassSpecies.DEAD); break;
+				case 1: longgrass.setSpecies(GrassSpecies.NORMAL); break;
+				case 2: longgrass.setSpecies(GrassSpecies.FERN_LIKE); break;
+				default: longgrass.setSpecies(GrassSpecies.DEAD); break;
+			}
+			state.update();
 		}
 		else if(material.equals(Material.WOOL))
 		{
