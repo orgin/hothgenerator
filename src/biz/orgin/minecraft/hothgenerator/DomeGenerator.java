@@ -160,6 +160,7 @@ public class DomeGenerator
 							}
 							else if(type.equals(Material.SAND) // Make dirty floor
 									|| type.equals(Material.SANDSTONE)
+									|| type.equals(Material.HARD_CLAY)
 									|| type.equals(Material.CLAY)
 									|| type.equals(Material.GRAVEL))
 							{

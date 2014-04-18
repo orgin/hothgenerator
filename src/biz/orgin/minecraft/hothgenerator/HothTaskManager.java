@@ -27,7 +27,7 @@ public class HothTaskManager
 	
 	public void addTask(HothRunnable task, boolean prioritized)
 	{
-		task.setPrioritized(true);
+		task.setPrioritized(prioritized);
 		this.taskList.add(task);
 	}
 
@@ -152,7 +152,10 @@ public class HothTaskManager
 			{
 				try
 				{
-					this.plugin.debugMessage("Executing task: " + task.getName() + " with parameters: " + task.getParameterString());
+					if(!task.isPrioritized())
+					{
+						this.plugin.debugMessage("Executing task: " + task.getName() + " with parameters: " + task.getParameterString());
+					}
 					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, task);
 					taskList.remove(task);
 				}

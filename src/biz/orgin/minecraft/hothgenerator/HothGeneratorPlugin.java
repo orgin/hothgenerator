@@ -131,9 +131,16 @@ public class HothGeneratorPlugin extends JavaPlugin
     	List<World> worlds = this.getServer().getWorlds();
     	for(int i=0;i<worlds.size();i++)
     	{
-    		if(this.isHothWorld(worlds.get(i)))
+			World world = worlds.get(i);
+    		if(this.isHothWorld(world))
     		{
-    			this.getServer().unloadWorld(worlds.get(i), true);
+    			List<Player> players = world.getPlayers();
+    			for(int j=0;j<players.size();j++)
+    			{
+    				Player player = players.get(j);
+    				player.kickPlayer("Server reloading");
+    			}
+    			this.getServer().unloadWorld(world, true);
     		}
     	}
 

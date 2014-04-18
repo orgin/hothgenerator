@@ -13,7 +13,7 @@ public abstract class HothRunnable implements Runnable, Serializable
 	private World world;
 	private HothGeneratorPlugin plugin;
 	private int staleCtr = 0;
-	private boolean prioritized;
+	private boolean prioritized = false;
 	
 	public String getName()
 	{
