@@ -25,7 +25,7 @@ public class HothUtils
 	
 	private static IntSet delays = new IntSet(new int[] {  // Block types to defer until infrastructure is made.
 			50,75,76,6,32,37,38,39,40,51,55,26,
-			59,31,63,65,66,96,69,77,106,83,115,
+			59,31,63,65,66,96,69,77,78,106,83,115,
 			93,94,127,131,132,141,142,143,78,64});
 
 	public static void placeSchematic(Plugin plugin, World world, Schematic schematic, int x, int y, int z, int lootMin, int lootMax)

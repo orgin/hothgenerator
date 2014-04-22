@@ -75,13 +75,17 @@ public class CustomGenerator
 				LoadedSchematic schematic = schematics.elementAt(i);
 				
 				int rarity = schematic.getRarity();
-				int rnd = schematic.getRandom();
 				
-				int place = random.nextInt(rarity);
-				if(place==rnd)
+				if(rarity>0)
 				{
-					plugin.addTask(new PlaceCustom(schematic, world, new Random(randomLong), chunkX, chunkZ));
-				}	
+					int rnd = schematic.getRandom();
+					
+					int place = random.nextInt(rarity);
+					if(place==rnd)
+					{
+						plugin.addTask(new PlaceCustom(schematic, world, new Random(randomLong), chunkX, chunkZ));
+					}		
+				}
 			}
 		}
 	}

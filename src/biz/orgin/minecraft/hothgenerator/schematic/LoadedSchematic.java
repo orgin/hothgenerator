@@ -203,9 +203,9 @@ public class LoadedSchematic implements Schematic
 								throw new IOException("RARITY contains illegal characters: " + value);
 							}
 							
-							if(this.rarity<1)
+							if(this.rarity<0)
 							{
-								throw new IOException("RARITY must be 1 or more, was: " + value);
+								throw new IOException("RARITY must be 0 or more, was: " + value);
 							}
 						}
 						else if(key.equals("RANDOM"))
@@ -333,11 +333,11 @@ public class LoadedSchematic implements Schematic
 		{
 			throw new IOException("TYPE was not defined properly");
 		}
-		if(this.rarity==0)
+		if(this.rarity<0)
 		{
 			throw new IOException("RARITY was not defined properly");
 		}
-		if(this.random==-1 || random>=this.rarity)
+		if(this.random==-1 || random>=this.rarity && this.rarity>0)
 		{
 			throw new IOException("RANDOM was not defined properly. Must be below RARITY.");
 		}

@@ -14,7 +14,7 @@ public class SpikeGenerator {
 
 		if(rarity!=0)
 		{
-			int place = random.nextInt(250*rarity);
+			int place = random.nextInt(500*rarity);
 
 			if(place==45)
 			{

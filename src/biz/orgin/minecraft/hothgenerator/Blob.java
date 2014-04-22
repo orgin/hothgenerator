@@ -72,9 +72,15 @@ public class Blob
 	public void instantiate()
 	{
 		Position[] blocks = this.primary.toArray(new Position[0]);
-		this.finishBlob(blocks);
+		if(blocks.length>0)
+		{
+			this.finishBlob(blocks);
+		}
 		blocks = this.secondary.toArray(new Position[0]);
-		this.finishBlob(blocks);
+		if(blocks.length>0)
+		{
+			this.finishBlob(blocks);
+		}
 	}
 	
 	private void finishBlob(Position[] blocks)
