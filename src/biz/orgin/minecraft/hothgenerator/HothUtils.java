@@ -1,21 +1,17 @@
 package biz.orgin.minecraft.hothgenerator;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
-import biz.orgin.minecraft.hothgenerator.schematic.LoadedSchematic;
 import biz.orgin.minecraft.hothgenerator.schematic.RotatedSchematic;
 import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
 
@@ -26,28 +22,6 @@ import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
  */
 public class HothUtils
 {
-	public static void main(String artgs[])
-	{
-		File file = new File("/home/orgin/minecraft/bukkit/plugins/HothGenerator/custom/skeleton.sm");
-		File ofile = new File("/home/orgin/minecraft/bukkit/plugins/HothGenerator/custom/skeleton.java");
-		
-		try
-		{
-			LoadedSchematic schematic = new LoadedSchematic(file);
-			String string = HothUtils.schematicToString(schematic);
-			System.out.println(string);
-			
-			FileWriter writer = new FileWriter(ofile);
-			writer.write(string);
-			writer.flush();
-			
-		}
-		catch(Exception e)
-		{
-			System.out.println(e);
-		}
-	}
-	
 	
 	private static IntSet delays = new IntSet(new int[] {  // Block types to defer until infrastructure is made.
 			50,75,76,6,32,37,38,39,40,51,55,26,
@@ -68,7 +42,7 @@ public class HothUtils
 	{
 		HothUtils.placeSchematic(plugin, world, schematic, x, y, z, lootMin, lootMax, lootGenerator, false);
 	}
-
+	
 	public static void placeSchematic(Plugin plugin, World world, Schematic schematic, int x, int y, int z, int lootMin, int lootMax, LootGenerator lootGenerator, boolean darken)
 	{
 		int height = schematic.getHeight();
@@ -137,26 +111,9 @@ public class HothUtils
 						else if(type==54) // Chest, set correct rotation and add some random loot
 						{
 							block.setType(Material.CHEST);
+							DataManager.setData(block, data, false);
 							Chest chest = (Chest)block.getState();
-							org.bukkit.material.Chest cst = null;
-							switch(data)
-							{
-							default:
-							case 0:
-								cst = new org.bukkit.material.Chest(BlockFace.NORTH);
-								break;
-							case 1:
-								cst = new org.bukkit.material.Chest(BlockFace.SOUTH);
-								break;
-							case 2:
-								cst = new org.bukkit.material.Chest(BlockFace.WEST);
-								break;
-							case 3:
-								cst = new org.bukkit.material.Chest(BlockFace.EAST);
-								break;
-							}
-							
-							chest.setData(cst);
+
 							Inventory inv = chest.getInventory();
 							lootGenerator.getLootInventory(inv, lootMin, lootMax);
 							chest.update(true);
@@ -238,11 +195,11 @@ public class HothUtils
 	{
 		Schematic result = null;
 		
-		if(direction==0) // North
+		if(direction==2) // North
 		{
 			result = schematic;
 		}
-		else if(direction==1) // South
+		else if(direction==0) // South
 		{
 			int[][][] source = schematic.getMatrix();
 			
@@ -262,7 +219,7 @@ public class HothUtils
 						int data = source[y][length-z-1][width-x-1+width];
 						
 						matrix[y][z][x] = type;
-						matrix[y][z][x+width] = HothUtils.rotateData(type, data, 1);
+						matrix[y][z][x+width] = HothUtils.rotateData(type, data, direction);
 								
 					}
 				}
@@ -270,7 +227,7 @@ public class HothUtils
 			
 			result = new RotatedSchematic(name, width, length, height, matrix);
 		}
-		else if(direction==2) // West
+		else if(direction==1) // West
 		{
 			int[][][] source = schematic.getMatrix();
 			
@@ -290,7 +247,7 @@ public class HothUtils
 						int data = source[y][x][length-z-1 + length];// source[y][length-z-1][x+width];
 						
 						matrix[y][z][x] = type;
-						matrix[y][z][x+width] = HothUtils.rotateData(type, data, 2);
+						matrix[y][z][x+width] = HothUtils.rotateData(type, data, direction);
 								
 					}
 				}
@@ -318,7 +275,7 @@ public class HothUtils
 						int data = source[y][width-x-1][z+length];// source[y][length-z-1][x+width];
 						
 						matrix[y][z][x] = type;
-						matrix[y][z][x+width] = HothUtils.rotateData(type, data, 3);
+						matrix[y][z][x+width] = HothUtils.rotateData(type, data, direction);
 								
 					}
 				}
@@ -331,65 +288,169 @@ public class HothUtils
 		
 	}
 	
+	/**
+	 * Rotates the data value for the specified type to a new direction.
+	 * Something pointing east rotated to the east will point south and so forth.
+	 * @param type The type to rotate
+	 * @param data The data value to rotate
+	 * @param rot The direction to rotate teh data
+	 * @return The new direction
+	 */
 	public static int rotateData(int type, int data, int rot)
 	{
-		if(type==50)  // torch
+		if(type==53 || type==67 || type==108 || type==109 || type==114 || type==128 || type==134 || type==135 || type==136
+				 || type==156 || type==163 || type==164) // Stairs
 		{
+			int upside = data & 0x04;
+			int direction = data & 0x03;
 			switch(rot)
 			{
-			case 1:
-				switch(data)
+			case 0: // south
+				switch(direction)
 				{
-				case 1: return 2; // N
-				case 2: return 1; // S
-				case 3: return 4; // W
-				case 4: return 3; // E
+				case 0: return 1 | upside; // E -> W 
+				case 1: return 0 | upside; // W -> E
+				case 2: return 3 | upside; // S -> N
+				case 3: return 2 | upside; // N -> S
 				}
-			case 2:
-				switch(data)
+			case 2: // north
+				switch(direction)
 				{
-				case 1: return 4; // N
-				case 2: return 3; // S
-				case 3: return 1; // W
-				case 4: return 2; // E
+				case 0: return 0 | upside; // E -> E 
+				case 1: return 1 | upside; // W -> W
+				case 2: return 2 | upside; // S -> S
+				case 3: return 3 | upside; // N -> N
 				}
-			case 3:
-				switch(data)
+			case 1: // west
+				switch(direction)
 				{
-				case 1: return 3; // N
-				case 2: return 4; // S
-				case 3: return 2; // W
-				case 4: return 1; // E
+				case 0: return 3 | upside; // E -> N
+				case 1: return 2 | upside; // W -> S
+				case 2: return 0 | upside; // S -> E
+				case 3: return 1 | upside; // N -> W
+				}
+			case 3: // east
+				switch(direction)
+				{
+				case 0: return 2 | upside; // E -> S
+				case 1: return 3 | upside; // W -> N
+				case 2: return 1 | upside; // S -> W
+				case 3: return 0 | upside; // N -> E
 				}
 			}
 		}
-		else if(type==54) // chest
+		else if(type==86 || type==91) // pumpkins
+		{
+			int direction = data & 0x03;
+			switch(rot)
+			{
+			case 0: // south
+				switch(direction)
+				{
+				case 0: return 2; // N -> S 
+				case 1: return 3; // E -> W
+				case 2: return 0; // S -> N
+				case 3: return 1; // W -> E
+				}
+			case 2: // north
+				switch(direction)
+				{
+				case 0: return 0; // N -> N 
+				case 1: return 1; // E -> E
+				case 2: return 2; // S -> S
+				case 3: return 3; // W -> W
+				}
+			case 1: // west
+				switch(direction)
+				{
+				case 0: return 3; // N -> W
+				case 1: return 0; // E -> N
+				case 2: return 1; // S -> E
+				case 3: return 2; // W -> S
+				}
+			case 3: // east
+				switch(direction)
+				{
+				case 0: return 1; // N -> E
+				case 1: return 2; // E -> S
+				case 2: return 3; // S -> W
+				case 3: return 0; // W -> N
+				}
+			}
+		}
+		else if(type==50)  // torch
 		{
 			switch(rot)
 			{
-			case 1:
+			case 2: // North
 				switch(data)
 				{
-				case 0: return 1; // N
-				case 1: return 0; // S
-				case 2: return 3; // W
-				case 3: return 2; // E
+				case 1: return 1; // W -> W
+				case 2: return 2; // E -> E
+				case 3: return 3; // N -> N
+				case 4: return 4; // S -> S
 				}
-			case 2:
+			case 0: // South
 				switch(data)
 				{
-				case 0: return 2; // N
-				case 1: return 3; // S
-				case 2: return 1; // W
-				case 3: return 0; // E
+				case 1: return 2; // W -> E
+				case 2: return 1; // E -> W
+				case 3: return 4; // N -> S
+				case 4: return 3; // S -> N
 				}
-			case 3:
+			case 1: // West
 				switch(data)
 				{
-				case 0: return 3; // N
-				case 1: return 2; // S
-				case 2: return 0; // W
-				case 3: return 1; // E
+				case 1: return 4; // W -> S
+				case 2: return 3; // E -> N
+				case 3: return 1; // N -> W
+				case 4: return 2; // S -> E
+				}
+			case 3: // East
+				switch(data)
+				{
+				case 1: return 3; // W -> N
+				case 2: return 4; // E -> S
+				case 3: return 2; // N -> E
+				case 4: return 1; // S -> W
+				}
+			}
+		}
+		else if(type==54 || type==23 || type==158 || type==61 || type==130 || type==62) // chest, enderchest, furnace, dropper etc
+		{
+			switch(rot)
+			{
+			case 2: // North
+				switch(data)
+				{
+				case 2: return 2; // N
+				case 3: return 3; // S
+				case 4: return 4; // W
+				case 5: return 5; // E
+				}
+			case 0: // South
+				switch(data)
+				{
+				case 2: return 3; // N -> S
+				case 3: return 2; // S -> N
+				case 4: return 5; // W -> E
+				case 5: return 4; // E -> W
+				}
+			case 1: // West
+				switch(data)
+				{
+				case 2: return 4; // N -> W
+				case 3: return 5; // S -> E
+				case 4: return 3; // W -> S
+				case 5: return 2; // E -> N
+				}
+			case 3: // East
+				switch(data)
+				{
+				case 2: return 5; // N -> E
+				case 3: return 4; // S -> W
+				case 4: return 2; // W -> N
+				case 5: return 3; // E -> S
 				}
 			}
 		}
@@ -397,6 +458,30 @@ public class HothUtils
 		
 		
 		return data;
+	}
+	
+	public static Blob getUndoBlob(HothGeneratorPlugin plugin, World world, Schematic schematic, int x, int y, int z)
+	{
+		Blob blob = new Blob(plugin, world, "Undo");
+		int height = schematic.getHeight();
+		int length = schematic.getLength();
+		int width = schematic.getWidth();
+		
+		for(int yy=0;yy<height;yy++)
+		{
+			for(int zz=0;zz<length;zz++)
+			{
+				for(int xx=0;xx<width;xx++)
+				{
+					Block block = world.getBlockAt(x+xx, y-yy, z+zz);
+					int type = MaterialManager.toID(block.getType());
+					Position position = new Position(x+xx, y-yy, z+zz, type);
+					position.blockState = block.getState();
+					blob.addPosition(position);
+				}
+			}
+		}
+		return blob;
 	}
 	
 	public static String schematicToString(Schematic schematic)

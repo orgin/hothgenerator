@@ -21,7 +21,7 @@ public class Decor7 implements Schematic
 		},
 		{   // Layer 1
 			{ -1, -1, -1,   0, 0, 0},
-			{ -1, 54, -1,   0, 0, 0},
+			{ -1, 54, -1,   0, 3, 0},
 			{ -1, -1, -1,   0, 0, 0}
 		},
 		{   // Layer 2

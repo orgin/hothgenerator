@@ -21,6 +21,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import biz.orgin.minecraft.hothgenerator.schematic.LoadedSchematic;
+import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
+
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 import com.sk89q.worldedit.bukkit.selections.Selection;
@@ -53,6 +56,8 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private HothTaskManager taskManager;
 	
 	private FileConfiguration config;
+	
+	private UndoBuffer undoBuffer;
 	
 	private long id = System.currentTimeMillis();
 	
@@ -108,6 +113,8 @@ public class HothGeneratorPlugin extends JavaPlugin
     	{
     		this.taskManager.resume();
     	}
+    	
+    	this.undoBuffer = new UndoBuffer();
     	
     	this.logMessage("HothGenerator plugin loaded with ID: " + this.getID(), true);
     }
@@ -391,6 +398,159 @@ public class HothGeneratorPlugin extends JavaPlugin
     					this.sendMessage(sender, "Usage: /hothregion flag [region] [flag] <value>");
     				}
     				return true;
+    			}
+    		}
+    	}
+    	else if(cmd.getName().equalsIgnoreCase("hothpaste"))
+    	{
+    		if(args.length>1 && sender instanceof Player && CustomGenerator.schematics!=null)
+    		{
+    			Player player = (Player)sender;
+    			Location loc = player.getLocation();
+    			World world = player.getWorld();
+    			int x = loc.getBlockX();
+    			int y = loc.getBlockY();
+    			int z = loc.getBlockZ();
+
+    			String method = args[0].toLowerCase();
+
+				int direction = -1;
+				String directionStr = "south";
+				if(args.length>2)
+				{
+					directionStr = args[2].toLowerCase();
+					if(directionStr.equals("south"))
+					{
+						direction = 0;
+					}
+					else if(directionStr.equals("west"))
+					{
+						direction = 1;
+					}
+					else if(directionStr.equals("north"))
+					{
+						direction = 2;
+					}
+					else if(directionStr.equals("east"))
+					{
+						direction = 3;
+					}
+				}
+				else
+				{
+					direction = 0;
+				}
+				
+				if(direction!=-1)
+				{
+
+					if(method.equals("ext"))
+					{
+
+						String schematic = args[1].toLowerCase();
+
+						boolean found = false;
+
+						for(int i=0;i<CustomGenerator.schematics.size() && found == false;i++)
+						{
+							LoadedSchematic lschem = CustomGenerator.schematics.elementAt(i);
+							if(lschem.getName().toLowerCase().equals(schematic))
+							{
+								LoadedSchematic schem = lschem.cloneRotate(direction);
+								this.sendMessage(sender, "&bPlacing " + schematic + " at " + x + "," + y + "," + z + " direction: " + directionStr);
+								this.undoBuffer.pushBlob(player.getName(), HothUtils.getUndoBlob(this, world, schem, x, y, z));
+								HothUtils.placeSchematic(this, world, schem, x, y, z, lschem.getLootMin(), lschem.getLootMax());
+
+								found = true;
+							}
+						}
+
+						if(!found)
+						{
+							this.sendMessage(sender, "&cCould not find schematic: " + schematic);
+						}
+
+						return true;
+					}
+					else if(method.equals("int"))
+					{
+						String schematic = args[1].toLowerCase();
+
+						boolean found = false;
+
+						for(int i=0;i<InternalSchematics.schematics.length && found == false;i++)
+						{
+							Schematic lschem = InternalSchematics.schematics[i];
+							if(lschem.getName().toLowerCase().equals(schematic))
+							{
+								Schematic schem = HothUtils.rotateSchematic(direction, lschem);
+								this.sendMessage(sender, "&bPlacing " + schematic + " at " + x + "," + y + "," + z + " direction = " + directionStr);
+								this.undoBuffer.pushBlob(player.getName(), HothUtils.getUndoBlob(this, world, schem, x, y, z));
+								HothUtils.placeSchematic(this, world, schem, x, y, z, 2, 10);
+
+								found = true;
+							}
+						}
+
+						if(!found)
+						{
+							this.sendMessage(sender, "&cCould not find schematic: " + schematic);
+						}
+
+
+						return true;
+					}
+				}
+    		}
+    	}
+    	else if(cmd.getName().equalsIgnoreCase("hothundo"))
+    	{
+    		if(sender instanceof Player)
+    		{
+    			Player player = (Player)sender;
+    			String name = player.getName();
+    			
+    			Blob blob = this.undoBuffer.popBlob(name);
+    			if(blob!=null)
+    			{
+    				this.sendMessage(player, "&bUndo schedueled");
+    				blob.instantiate();
+    			}
+    			else
+    			{
+    				this.sendMessage(player, "&bUndo buffer is empty");
+    			}
+    			
+    			return true;
+    		}
+
+    	}
+    	else if(cmd.getName().equalsIgnoreCase("hothlist"))
+    	{
+    		if(args.length>0 && sender instanceof Player && CustomGenerator.schematics!=null && InternalSchematics.schematics!=null)
+    		{
+    			String mode = args[0];
+    			if(mode.equals("int"))
+    			{
+    				this.sendMessage(sender, "&bInternal scematics:");
+    				for(int i=0;i<InternalSchematics.schematics.length;i++)
+    				{
+    					Schematic schematic = InternalSchematics.schematics[i];
+    					
+    					this.sendMessage(sender, "&b " + schematic.getName());
+    				}
+        			return true;
+    			}
+    			else if(mode.equals("ext"))
+    			{
+    				this.sendMessage(sender, "&bExternal scematics:");
+    				for(int i=0;i<CustomGenerator.schematics.size();i++)
+    				{
+    					Schematic schematic = CustomGenerator.schematics.elementAt(i);
+    					
+    					this.sendMessage(sender, "&b " + schematic.getName());
+    				}
+        			return true;
     			}
     		}
     	}

@@ -26,6 +26,21 @@ commands:
       usage: /hothregion [info|flag|remove] [parameters...]
       permission: hothgenerator.hothregion
       permission-message: You don't have permission to use the hothregion command
+   hothpaste:
+      description: Paste a schematic into the world
+      usage: /hothpaste [int|ext] schematic [north|east|south|west]
+      permission: hothgenerator.hothpaste
+      permission-message: You don't have permission to use the hothpaste command
+   hothundo:
+      description: Undo the last schematic paste
+      usage: /hothundo
+      permission: hothgenerator.hothundo
+      permission-message: You don't have permission to use the hothundo command
+   hothlist:
+      description: List all available schematics
+      usage: /hothlist [int|ext]
+      permission: hothgenerator.hothlist
+      permission-message: You don't have permission to use the hothlist command
    hothinfo:
       description: Shows some information about the plugin
       usage: /hothinfo
@@ -39,6 +54,9 @@ permissions:
             hothgenerator.hothexport: true
             hothgenerator.hothsavell: true
             hothgenerator.hothregion: true
+            hothgenerator.hothpaste: true
+            hothgenerator.hothundo: true
+            hothgenerator.hothlist: true
             hothgenerator.hothinfo: true
     hothgenerator.hothreload:
         description: Reload the hoth configuration.
@@ -51,6 +69,15 @@ permissions:
         default: op
     hothgenerator.hothregion:
         description: Access the hoth region commands
+        default: op
+    hothgenerator.hothpaste:
+        description: Paste a schematic into the world
+        default: op
+    hothgenerator.hothundo:
+        description: Undo the last schematic paste
+        default: op
+    hothgenerator.hothlist:
+        description: List all available schematics
         default: op
     hothgenerator.hothinfo:
         description: Shows some information about the plugin

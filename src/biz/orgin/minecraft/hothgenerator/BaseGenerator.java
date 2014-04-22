@@ -23,12 +23,14 @@ public class BaseGenerator {
 	
 	private static Schematic[][] rooms = new Schematic[][]
 			{
-				{ BaseRoom1.instance, BaseRoom1.instance.rotate(1), BaseRoom1.instance.rotate(2),  BaseRoom1.instance.rotate(3)},  
-				{ BaseRoom2.instance, BaseRoom2.instance.rotate(1), BaseRoom2.instance.rotate(2),  BaseRoom2.instance.rotate(3)},  
-				{ BaseRoom3.instance, BaseRoom3.instance.rotate(1), BaseRoom3.instance.rotate(2),  BaseRoom3.instance.rotate(3)},  
-				{ BaseRoom4.instance, BaseRoom4.instance.rotate(1), BaseRoom4.instance.rotate(2),  BaseRoom4.instance.rotate(3)}, 
-				{ BaseRoom5.instance, BaseRoom5.instance.rotate(1), BaseRoom5.instance.rotate(2),  BaseRoom5.instance.rotate(3)},  
-				{ BaseRoom6.instance, BaseRoom6.instance.rotate(1), BaseRoom6.instance.rotate(2),  BaseRoom6.instance.rotate(3)}  
+		
+				// South				        West							North							East
+				{ BaseRoom1.instance.rotate(0), BaseRoom1.instance.rotate(1), BaseRoom1.instance.rotate(2),  BaseRoom1.instance.rotate(3)},  
+				{ BaseRoom2.instance.rotate(0), BaseRoom2.instance.rotate(1), BaseRoom2.instance.rotate(2),  BaseRoom2.instance.rotate(3)},  
+				{ BaseRoom3.instance.rotate(0), BaseRoom3.instance.rotate(1), BaseRoom3.instance.rotate(2),  BaseRoom3.instance.rotate(3)},  
+				{ BaseRoom4.instance.rotate(0), BaseRoom4.instance.rotate(1), BaseRoom4.instance.rotate(2),  BaseRoom4.instance.rotate(3)}, 
+				{ BaseRoom5.instance.rotate(0), BaseRoom5.instance.rotate(1), BaseRoom5.instance.rotate(2),  BaseRoom5.instance.rotate(3)},  
+				{ BaseRoom6.instance.rotate(0), BaseRoom6.instance.rotate(1), BaseRoom6.instance.rotate(2),  BaseRoom6.instance.rotate(3)}  
 			};
 	
 	private static int roomCnt = BaseGenerator.rooms.length;
@@ -153,8 +155,8 @@ public class BaseGenerator {
 					int rooms = random.nextInt(16);
 					if((rooms&0x1)!=0) // North
 					{
-						Schematic roomN = BaseGenerator.rooms[this.getRandomRoom(plugin)][0];
-						HothUtils.placeSchematic(plugin, world, roomN, px, py, pz-9, 2, 10);
+						Schematic roomN = BaseGenerator.rooms[this.getRandomRoom(plugin)][2];
+						HothUtils.placeSchematic(plugin, world, roomN, px, py , pz-9, 2, 10);
 					}
 					else
 					{
@@ -163,8 +165,8 @@ public class BaseGenerator {
 					}
 					if((rooms&0x2)!=0) // South
 					{
-						Schematic roomN = BaseGenerator.rooms[this.getRandomRoom(plugin)][1];
-						HothUtils.placeSchematic(plugin, world, roomN, px, py, pz+6, 2, 10);
+						Schematic roomS = BaseGenerator.rooms[this.getRandomRoom(plugin)][0];
+						HothUtils.placeSchematic(plugin, world, roomS, px, py , pz+6, 2, 10);
 					}
 					else
 					{
@@ -173,8 +175,8 @@ public class BaseGenerator {
 					}
 					if((rooms&0x4)!=0) // West
 					{
-						Schematic roomW = BaseGenerator.rooms[this.getRandomRoom(plugin)][2];
-						HothUtils.placeSchematic(plugin, world, roomW, px-9, py, pz, 2, 10);
+						Schematic roomW = BaseGenerator.rooms[this.getRandomRoom(plugin)][1];
+						HothUtils.placeSchematic(plugin, world, roomW, px-9, py , pz, 2, 10);
 					}
 					else
 					{
@@ -184,7 +186,7 @@ public class BaseGenerator {
 					if((rooms&0x8)!=0) // East
 					{
 						Schematic roomE = BaseGenerator.rooms[this.getRandomRoom(plugin)][3];
-						HothUtils.placeSchematic(plugin, world, roomE, px+6, py, pz, 2, 10);
+						HothUtils.placeSchematic(plugin, world, roomE, px+6, py , pz, 2, 10);
 					}
 					else
 					{

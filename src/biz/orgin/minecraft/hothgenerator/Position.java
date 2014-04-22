@@ -2,6 +2,8 @@ package biz.orgin.minecraft.hothgenerator;
 
 import java.io.Serializable;
 
+import org.bukkit.block.BlockState;
+
 /**
  * Simple class for holding coordinates. Uses a custom hasCode for
  * quick lookup in a set. Used mainly by the CavePopulator.
@@ -17,6 +19,7 @@ public class Position implements Serializable
 	public int lootMin;
 	public int lootMax;
 	public LootGenerator lootGenerator;
+	public BlockState blockState;
 	
 	public Position(int x, int y, int z, int type)
 	{
@@ -28,6 +31,7 @@ public class Position implements Serializable
 		this.lootMin = 0;
 		this.lootMax = 0;
 		this.lootGenerator = null;
+		this.blockState = null;
 
 	}
 
@@ -41,6 +45,7 @@ public class Position implements Serializable
 		this.lootMin = 0;
 		this.lootMax = 0;
 		this.lootGenerator = null;
+		this.blockState = null;
 	}
 
 	public Position()
@@ -53,6 +58,7 @@ public class Position implements Serializable
 		this.lootMin = 0;
 		this.lootMax = 0;
 		this.lootGenerator = null;
+		this.blockState = null;
 	}
 
 	@Override

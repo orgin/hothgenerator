@@ -18,8 +18,7 @@ import biz.orgin.minecraft.hothgenerator.schematic.LoadedSchematic;
  */
 public class CustomGenerator
 {
-	private static Vector<LoadedSchematic> schematics = null;
-	
+	public static Vector<LoadedSchematic> schematics = null;
 
 	public static void load(HothGeneratorPlugin plugin)
 	{

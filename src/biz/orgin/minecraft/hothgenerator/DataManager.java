@@ -7,6 +7,7 @@ import org.bukkit.SandstoneType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
 import org.bukkit.material.LongGrass;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Mushroom;
@@ -33,6 +34,30 @@ public class DataManager
 		{
 			// No bukkit api for handling snow and snow heights so using deprecated function for this.
 			block.setData(data, applyPhysics);
+		}
+		else if(material.equals(Material.CHEST))
+		{
+			Chest chest = (Chest)block.getState();
+			org.bukkit.material.Chest cst = null;
+			switch(data)
+			{
+			default:
+			case 2:
+				cst = new org.bukkit.material.Chest(BlockFace.NORTH);
+				break;
+			case 3:
+				cst = new org.bukkit.material.Chest(BlockFace.SOUTH);
+				break;
+			case 4:
+				cst = new org.bukkit.material.Chest(BlockFace.WEST);
+				break;
+			case 5:
+				cst = new org.bukkit.material.Chest(BlockFace.EAST);
+				break;
+			}
+			
+			chest.setData(cst);
+			chest.update();
 		}
 		else if(material.equals(Material.SAND))
 		{

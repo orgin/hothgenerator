@@ -45,6 +45,40 @@ public class DomeGenerator
 			}	
 		}
 	}
+	
+	static class PlaceMiniDome extends HothRunnable
+	{
+
+		private static final long serialVersionUID = 1500323696570562431L;
+
+		private int x;
+		private int y;
+		private int z;
+		
+
+		@Override
+		public String getParameterString() {
+			return "x=" + this.x + " y= " + this.y + " z=" + this.z;
+		}
+
+		public PlaceMiniDome(World world, int x, int y, int z)
+		{
+			this.setName("PlaceMiniDome");
+			this.setWorld(world);
+			this.setPlugin(null);
+			this.x = x;
+			this.y = y;
+			this.z = z;
+
+		}
+		
+		@Override
+		public void run() {
+			HothGeneratorPlugin plugin = this.getPlugin();
+			World world = this.getWorld();
+			HothUtils.placeSchematic(plugin, world, MiniDome.instance, this.x, this.y, this.z, 2, 10);
+		}
+	}
 
 	static class PlaceDome extends HothRunnable
 	{
@@ -185,7 +219,8 @@ public class DomeGenerator
 			// Next place the internal dome
 			if(plugin.isStructureDomesPlaceminidome())
 			{
-				HothUtils.placeSchematic(plugin, world, MiniDome.instance, sx-8, sy+8, sz-8, 2, 10);
+				//HothUtils.placeSchematic(plugin, world, MiniDome.instance, sx-8, sy+8, sz-8, 2, 10);
+				plugin.addTask(new PlaceMiniDome(world, sx-8, sy+8, sz-8));
 			}
 			
 			// Next grow some alien plants

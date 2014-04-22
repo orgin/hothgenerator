@@ -27,7 +27,6 @@ public class HothGenerator extends ChunkGenerator
 	public static void setPlugin(HothGeneratorPlugin plugin)
 	{
 		HothGenerator.plugin = plugin;
-		System.out.println("HotheGenerator got a new plugin with id: " + plugin.getID());
 	}
 	
 	public static HothGeneratorPlugin getPlugin()
@@ -40,7 +39,6 @@ public class HothGenerator extends ChunkGenerator
 		//this.plugin = plugin;
 		this.height = 256;
 		this.noiseGenerator = null;
-		System.out.println("HothGenerator() constructor was called");
 	}
 	
 	public HothGenerator(int height)
@@ -48,7 +46,6 @@ public class HothGenerator extends ChunkGenerator
 		//this.plugin = plugin;
 		this.height = height;
 		this.noiseGenerator = null;
-		System.out.println("HothGeneator(int height) constructor was called");
 	}
 	
 	@Override
