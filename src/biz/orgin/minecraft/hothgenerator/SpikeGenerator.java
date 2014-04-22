@@ -81,6 +81,13 @@ public class SpikeGenerator {
 
 			return 0; // Default to x
 		}
+		
+		private void addPos(Blob blob, int x, int y, int z, int type)
+		{
+			blob.addPosition(new Position(x,y,z,type));
+			blob.addPosition(new Position(x,y+1,z,type));
+			blob.addPosition(new Position(x,y-1,z,type));
+		}
 
 		@Override
 		public void run()
@@ -174,15 +181,18 @@ public class SpikeGenerator {
 								double currz = startz + diffz * currx;
 								if(Math.abs(((stopx-startx)/2)-currx)> ((stopx-startx)*0.2))
 								{
-									blob.addPosition(new Position((int)Math.round(startx+currx), (int)Math.round(y1+curry), (int)Math.round(currz), iceID));
+									this.addPos(blob, (int)Math.round(startx+currx), (int)Math.round(y1+curry), (int)Math.round(currz), iceID);
+									//blob.addPosition(new Position((int)Math.round(startx+currx), (int)Math.round(y1+curry), (int)Math.round(currz), iceID));
 								}
 								if(Math.abs(((stopx-startx)/2)-currx)< ((stopx-startx)*0.3))
 								{
-									blob.addPosition(new Position((int)Math.round(startx+currx), (int)Math.round(y1+curry)+1, (int)Math.round(currz), iceID));
+									this.addPos(blob, (int)Math.round(startx+currx), (int)Math.round(y1+curry)+1, (int)Math.round(currz), iceID);
+									//blob.addPosition(new Position((int)Math.round(startx+currx), (int)Math.round(y1+curry)+1, (int)Math.round(currz), iceID));
 								}
 								if(Math.abs(((stopx-startx)/2)-currx)< ((stopx-startx)*0.1))
 								{
-									blob.addPosition(new Position((int)Math.round(startx+currx), (int)Math.round(y1+curry)+2, (int)Math.round(currz), iceID));
+									this.addPos(blob, (int)Math.round(startx+currx), (int)Math.round(y1+curry)+2, (int)Math.round(currz), iceID);
+									//blob.addPosition(new Position((int)Math.round(startx+currx), (int)Math.round(y1+curry)+2, (int)Math.round(currz), iceID));
 								}
 							}
 						}
@@ -208,15 +218,18 @@ public class SpikeGenerator {
 								double currx = startx + diffx * currz;
 								if(Math.abs(((stopx-startx)/2)-currx)> ((stopx-startx)*0.2))
 								{
-									blob.addPosition(new Position((int)Math.round(currx), (int)Math.round(y1+curry), (int)Math.round(startz+currz), iceID));
+									this.addPos(blob, (int)Math.round(currx), (int)Math.round(y1+curry), (int)Math.round(startz+currz), iceID);
+									//blob.addPosition(new Position((int)Math.round(currx), (int)Math.round(y1+curry), (int)Math.round(startz+currz), iceID));
 								}
 								if(Math.abs(((stopx-startx)/2)-currx)< ((stopx-startx)*0.3))
 								{
-									blob.addPosition(new Position((int)Math.round(currx), (int)Math.round(y1+curry)+1, (int)Math.round(startz+currz), iceID));
+									this.addPos(blob, (int)Math.round(currx), (int)Math.round(y1+curry)+1, (int)Math.round(startz+currz), iceID);
+									//blob.addPosition(new Position((int)Math.round(currx), (int)Math.round(y1+curry)+1, (int)Math.round(startz+currz), iceID));
 								}
 								if(Math.abs(((stopx-startx)/2)-currx)< ((stopx-startx)*0.1))
 								{
-									blob.addPosition(new Position((int)Math.round(currx), (int)Math.round(y1+curry)+2, (int)Math.round(startz+currz), iceID));
+									this.addPos(blob, (int)Math.round(currx), (int)Math.round(y1+curry)+2, (int)Math.round(startz+currz), iceID);
+									//blob.addPosition(new Position((int)Math.round(currx), (int)Math.round(y1+curry)+2, (int)Math.round(startz+currz), iceID));
 								}
 							}
 						}
