@@ -75,15 +75,31 @@ public class LootGenerator implements Serializable
 			new Loot(Material.WHEAT,           (byte)0x00, 1, 4,  5), //Wheat
 			new Loot(Material.POTATO_ITEM,     (byte)0x00, 1, 2,  5), //Potato
 			new Loot(Material.CARROT_ITEM,     (byte)0x00, 1, 2,  5), //Carrot
-			new Loot(Material.SAPLING,         (byte)0x04, 1, 4,  5), //Acacia sapling
+			new Loot(Material.SAPLING,         (byte)0x04, 4, 8,  5), //Acacia sapling
 			new Loot(Material.SAPLING,         (byte)0x05, 1, 4,  5), //Dark oak sapling
+			new Loot(Material.PUMPKIN_PIE,     (byte)0x00, 1, 5, 50), //Pumpkin pie
+			new Loot(Material.RED_ROSE,        (byte)0x00, 1,25,  5), //Red rose
+			new Loot(Material.RED_ROSE,        (byte)0x01, 1,25,  5), //Blue orchid
+			new Loot(Material.RED_ROSE,        (byte)0x02, 1,25,  5), //Allium
+			new Loot(Material.RED_ROSE,        (byte)0x03, 1,25,  5), //Azure Bluet
+			new Loot(Material.RED_ROSE,        (byte)0x04, 1,25,  5), //Red tulip
+			new Loot(Material.RED_ROSE,        (byte)0x05, 1,25,  5), //Orange tulip
+			new Loot(Material.RED_ROSE,        (byte)0x06, 1,25,  5), //White tulip
+			new Loot(Material.RED_ROSE,        (byte)0x07, 1,25,  5), //Pink tulip
+			new Loot(Material.RED_ROSE,        (byte)0x08, 1,25,  5), //Oxeye daisy
+			new Loot(Material.DOUBLE_PLANT,    (byte)0x00, 1,25,  5), //Sun flower
+			new Loot(Material.DOUBLE_PLANT,    (byte)0x01, 1,25,  5), //Lilac
+			new Loot(Material.DOUBLE_PLANT,    (byte)0x02, 1,25,  5), //Double tallgrass
+			new Loot(Material.DOUBLE_PLANT,    (byte)0x03, 1,25,  5), //Large fern
+			new Loot(Material.DOUBLE_PLANT,    (byte)0x04, 1,25,  5), //Rose bush
+			new Loot(Material.DOUBLE_PLANT,    (byte)0x05, 1,25,  5), //Peony
 			
-			new Loot(Material.MONSTER_EGG,     (byte)90, 1, 4,  3),  //Pig egg
-			new Loot(Material.MONSTER_EGG,     (byte)91, 1, 4,  3),  //Sheep
-			new Loot(Material.MONSTER_EGG,     (byte)92, 1, 4,  3),  //Cow
-			new Loot(Material.MONSTER_EGG,     (byte)93, 1, 4,  3),  //Chicken
-			new Loot(Material.MONSTER_EGG,     (byte)95, 1, 4,  3),  //Wolf
-			new Loot(Material.MONSTER_EGG,     (byte)98, 1, 4,  3),  //Ocelot
+			new Loot(Material.MONSTER_EGG,     (byte) 90, 1, 4,  3),  //Pig egg
+			new Loot(Material.MONSTER_EGG,     (byte) 91, 1, 4,  3),  //Sheep
+			new Loot(Material.MONSTER_EGG,     (byte) 92, 1, 4,  3),  //Cow
+			new Loot(Material.MONSTER_EGG,     (byte) 93, 1, 4,  3),  //Chicken
+			new Loot(Material.MONSTER_EGG,     (byte) 95, 1, 4,  3),  //Wolf
+			new Loot(Material.MONSTER_EGG,     (byte) 98, 1, 4,  3),  //Ocelot
 			new Loot(Material.MONSTER_EGG,     (byte)100, 1, 4,  3)   //Horse
 		}
 	);
