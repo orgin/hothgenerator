@@ -36,14 +36,12 @@ public class HothGenerator extends ChunkGenerator
 	
 	public HothGenerator()
 	{
-		//this.plugin = plugin;
 		this.height = 256;
 		this.noiseGenerator = null;
 	}
 	
 	public HothGenerator(int height)
 	{
-		//this.plugin = plugin;
 		this.height = height;
 		this.noiseGenerator = null;
 	}

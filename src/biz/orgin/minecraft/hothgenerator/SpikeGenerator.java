@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 
 public class SpikeGenerator {
 
@@ -82,11 +83,23 @@ public class SpikeGenerator {
 			return 0; // Default to x
 		}
 		
-		private void addPos(Blob blob, int x, int y, int z, int type)
+		private void addPos(World world, Blob blob, int x, int y, int z, int type)
 		{
-			blob.addPosition(new Position(x,y,z,type));
-			blob.addPosition(new Position(x,y+1,z,type));
-			blob.addPosition(new Position(x,y-1,z,type));
+			Block block = world.getBlockAt(x, y, z);
+			if(!block.getType().equals(Material.STONE))
+			{
+				blob.addPosition(new Position(x,y,z,type));
+			}
+			block = world.getBlockAt(x, y+1, z);
+			if(!block.getType().equals(Material.STONE))
+			{
+				blob.addPosition(new Position(x,y+1,z,type));
+			}
+			block = world.getBlockAt(x, y-1, z);
+			if(!block.getType().equals(Material.STONE))
+			{
+				blob.addPosition(new Position(x,y-1,z,type));
+			}
 		}
 
 		@Override
@@ -181,15 +194,15 @@ public class SpikeGenerator {
 								double currz = startz + diffz * currx;
 								if(Math.abs(((stopx-startx)/2)-currx)> ((stopx-startx)*0.2))
 								{
-									this.addPos(blob, (int)Math.round(startx+currx), (int)Math.round(y1+curry), (int)Math.round(currz), iceID);
+									this.addPos(world, blob, (int)Math.round(startx+currx), (int)Math.round(y1+curry), (int)Math.round(currz), iceID);
 								}
 								if(Math.abs(((stopx-startx)/2)-currx)< ((stopx-startx)*0.3))
 								{
-									this.addPos(blob, (int)Math.round(startx+currx), (int)Math.round(y1+curry)+1, (int)Math.round(currz), iceID);
+									this.addPos(world, blob, (int)Math.round(startx+currx), (int)Math.round(y1+curry)+1, (int)Math.round(currz), iceID);
 								}
 								if(Math.abs(((stopx-startx)/2)-currx)< ((stopx-startx)*0.1))
 								{
-									this.addPos(blob, (int)Math.round(startx+currx), (int)Math.round(y1+curry)+2, (int)Math.round(currz), iceID);
+									this.addPos(world, blob, (int)Math.round(startx+currx), (int)Math.round(y1+curry)+2, (int)Math.round(currz), iceID);
 								}
 							}
 						}
@@ -215,15 +228,15 @@ public class SpikeGenerator {
 								double currx = startx + diffx * currz;
 								if(Math.abs(((stopx-startx)/2)-currx)> ((stopx-startx)*0.2))
 								{
-									this.addPos(blob, (int)Math.round(currx), (int)Math.round(y1+curry), (int)Math.round(startz+currz), iceID);
+									this.addPos(world, blob, (int)Math.round(currx), (int)Math.round(y1+curry), (int)Math.round(startz+currz), iceID);
 								}
 								if(Math.abs(((stopx-startx)/2)-currx)< ((stopx-startx)*0.3))
 								{
-									this.addPos(blob, (int)Math.round(currx), (int)Math.round(y1+curry)+1, (int)Math.round(startz+currz), iceID);
+									this.addPos(world, blob, (int)Math.round(currx), (int)Math.round(y1+curry)+1, (int)Math.round(startz+currz), iceID);
 								}
 								if(Math.abs(((stopx-startx)/2)-currx)< ((stopx-startx)*0.1))
 								{
-									this.addPos(blob, (int)Math.round(currx), (int)Math.round(y1+curry)+2, (int)Math.round(startz+currz), iceID);
+									this.addPos(world, blob, (int)Math.round(currx), (int)Math.round(y1+curry)+2, (int)Math.round(startz+currz), iceID);
 								}
 							}
 						}

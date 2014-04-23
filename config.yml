@@ -99,7 +99,8 @@ hothworlds:
 #  rules.spawn.neutral.mobs - Comma separated list of which neutral mobs to
 #                             spawn.
 #                             Currently supported neutral mobs:
-#                              chicken,cow,mushroom_cow,ocelot,pig,sheep,wolf
+#                              chicken,cow,mushroom_cow,ocelot,pig,sheep,wolf,
+#                              horse
 hoth:
   debug: false
   iteminfotool: false

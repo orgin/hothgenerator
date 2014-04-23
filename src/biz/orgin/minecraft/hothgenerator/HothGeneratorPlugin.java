@@ -115,8 +115,6 @@ public class HothGeneratorPlugin extends JavaPlugin
     	}
     	
     	this.undoBuffer = new UndoBuffer();
-    	
-    	this.logMessage("HothGenerator plugin loaded with ID: " + this.getID(), true);
     }
     
     public void onDisable()
@@ -600,8 +598,6 @@ public class HothGeneratorPlugin extends JavaPlugin
  	
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id)
 	{
-		this.logMessage("Got getDefaultWorldGenerator() call, my ID is: " + this.getID());
-		
 		if (id != null && !id.isEmpty())
 		{
 			try
