@@ -75,8 +75,8 @@ public class LootGenerator implements Serializable
 			new Loot(Material.WHEAT,           (byte)0x00, 1, 4,  5), //Wheat
 			new Loot(Material.POTATO_ITEM,     (byte)0x00, 1, 2,  5), //Potato
 			new Loot(Material.CARROT_ITEM,     (byte)0x00, 1, 2,  5), //Carrot
-			new Loot(Material.SAPLING,         (byte)0x04, 4, 8,  5), //Acacia sapling
-			new Loot(Material.SAPLING,         (byte)0x05, 1, 4,  5), //Dark oak sapling
+			new Loot(Material.SAPLING,         (byte)0x04, 1, 4,  5), //Acacia sapling
+			new Loot(Material.SAPLING,         (byte)0x05, 4, 8,  5), //Dark oak sapling
 			new Loot(Material.PUMPKIN_PIE,     (byte)0x00, 1, 5, 50), //Pumpkin pie
 			new Loot(Material.RED_ROSE,        (byte)0x00, 1,25,  5), //Red rose
 			new Loot(Material.RED_ROSE,        (byte)0x01, 1,25,  5), //Blue orchid
