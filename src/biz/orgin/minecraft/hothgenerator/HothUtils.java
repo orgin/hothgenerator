@@ -3,9 +3,11 @@ package biz.orgin.minecraft.hothgenerator;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EntityType;
@@ -26,7 +28,7 @@ public class HothUtils
 	private static IntSet delays = new IntSet(new int[] {  // Block types to defer until infrastructure is made.
 			50,75,76,6,32,37,38,39,40,51,55,26,
 			59,31,63,65,66,96,69,77,78,106,83,115,
-			93,94,127,131,132,141,142,143,78,64});
+			93,94,111,127,131,132,140,141,142,143,78,64});
 
 	public static void placeSchematic(Plugin plugin, World world, Schematic schematic, int x, int y, int z, int lootMin, int lootMax)
 	{
@@ -128,9 +130,26 @@ public class HothUtils
 						}
 						else
 						{
-							block.setType(MaterialManager.toMaterial(type));
-							DataManager.setData(block, (byte)data, false);
+							if(data==0)
+							{
+								BlockState state = block.getState();
+								state.setType(MaterialManager.toMaterial(type));
+								state.update(true, false);
+							}
+							else
+							{
+								block.setType(MaterialManager.toMaterial(type));
+								DataManager.setData(block, (byte)data, false);
+							}
 						}
+					}
+					else if(type==-2) // Spawn entity
+					{
+						Block block = world.getBlockAt(x+xx, y-yy, z+zz);
+						block.setType(Material.AIR);
+						byte data = (byte)matrix[yy][zz][xx+width];
+						EntityType entityType = EntityTypeManager.toEntityType(data);
+						world.spawnEntity(new Location(world, x+xx, y-yy, z+zz), entityType);
 					}
 				}
 			}

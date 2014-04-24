@@ -32,7 +32,7 @@ public class BlockPlaceManager implements Listener
 			
 			World world = block.getWorld();
 			
-	  	  	if (this.plugin.isHothWorld(world) && block.isLiquid())
+	  	  	if (this.plugin.isHothWorld(world) && block.isLiquid() && this.plugin.getWorldType(world).equals("hoth"))
 			{
 				if(!this.plugin.canPlaceLiquid(world, block))
 				{

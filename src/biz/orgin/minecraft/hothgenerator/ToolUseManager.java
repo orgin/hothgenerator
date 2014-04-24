@@ -50,7 +50,7 @@ public class ToolUseManager implements Listener
 					player.sendMessage("Item: name = " + block.getType().name() + " type = " + MaterialManager.toID(block.getType()) + ", data = " + DataManager.getData(block));
 				}
 	
-				if(this.plugin.isHothWorld(world))
+				if(this.plugin.isHothWorld(world) && this.plugin.getWorldType(world).equals("hoth"))
 				{
 					if(item.getType().equals(Material.WATER_BUCKET))
 					{

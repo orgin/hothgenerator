@@ -1,6 +1,5 @@
 #
-# List all worlds that should have the hoth environmental rules like
-# ice and snow breaking into blocks and ice freezing when placed
+# List all worlds that should be treated as HothGenerator worlds.
 #
 # Example configuration:
 #
@@ -11,6 +10,19 @@
 hothworlds:
    - hoth
 #
+# You can specify world specific settings for each hoth world here. 
+#
+#   type: [hoth|tatooine]   - world type
+#                               hoth = frozen world
+#                               tatooine = desert world
+#
+# Example configuration:
+#
+#hothworldsdata:
+#  hoth:
+#    type: hoth
+#  tatooine:
+#    type: tatooine
 #
 # --- Advanced options ---
 #
@@ -59,6 +71,12 @@ hothworlds:
 #  structure.mazes.spawner - true/false. Whether bases can have monster
 #                                  spawners
 #  structure.skeletons.rarity  - 0-10. Rarity for skeletons. 0 is off, 1-10 is
+#                                rarity (1 = rare, 10 = very common)
+#  structure.oasis.rarity  - 0-10. Rarity for oasises. 0 is off, 1-10 is
+#                                rarity (1 = rare, 10 = very common)
+#  structure.sandcastle.rarity  - 0-10. Rarity for sandcastless. 0 is off, 1-10
+#                                is rarity (1 = rare, 10 = very common)
+#  structure.village.rarity  - 0-10. Rarity for villages. 0 is off, 1-10 is
 #                                rarity (1 = rare, 10 = very common)
 #  generate.logs - true/false. Whether frozen logs should be generated
 #  generate.caves.rarity - 0-10. Rarity for caves. 0 is off, 1-10 is rarity
@@ -121,10 +139,16 @@ hoth:
   structure.mazes.maxrooms: 32
   structure.mazes.spawner: true
   structure.skeletons.rarity: 2
+  structure.oasis.rarity: 2
+  structure.sandcastle.rarity: 2
+  structure.village.rarity: 2
+  structure.supergarden.rarity: 2
   generate.logs: true
   generate.caves.rarity: 2
   generate.ores: true
   generate.extendedore: false
+  generate.cactuses: true
+  generate.shrubs: true
   rules.dropice: true
   rules.droppackedice: true
   rules.dropsnow: true

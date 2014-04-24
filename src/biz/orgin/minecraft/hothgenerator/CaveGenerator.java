@@ -7,6 +7,7 @@ import java.util.Set;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 
 /**
  * A general cave generator. Generates simple twisting strands of empty caves.
@@ -73,7 +74,8 @@ public class CaveGenerator {
 		{
 			World world = this.getWorld();
 			HothGeneratorPlugin plugin = this.getPlugin();
-			Position[] snake = startCave(world, this.random, x, y, z).toArray(new Position[0]);
+			String type = plugin.getWorldType(world);
+			Position[] snake = startCave(type, world, this.random, x, y, z).toArray(new Position[0]);
 			finishCave(plugin, world, snake);
 		}
 	}
@@ -109,7 +111,7 @@ public class CaveGenerator {
 	}
 
 	
-	private static Set<Position> startCave(World world, Random random, int blockX, int blockY, int blockZ)
+	private static Set<Position> startCave(String worldType, World world, Random random, int blockX, int blockY, int blockZ)
 	{
 		Set<Position> caveBlocks = new HashSet<Position>();
 	
@@ -168,11 +170,19 @@ public class CaveGenerator {
 								{
 									airHits++;
 								}
-								else if(type == MaterialManager.toID(Material.SNOW_BLOCK) ||
+								else if(
+										(worldType.equals("hoth") && (
+										type == MaterialManager.toID(Material.SNOW_BLOCK) ||
 										type == MaterialManager.toID(Material.PACKED_ICE) ||
 										type == MaterialManager.toID(Material.ICE) ||
 										type == MaterialManager.toID(Material.SNOW) ||
-										type == MaterialManager.toID(Material.STONE))
+										type == MaterialManager.toID(Material.STONE)))
+										||
+										(worldType.equals("tatooine") && (
+										type == MaterialManager.toID(Material.SAND) ||
+										type == MaterialManager.toID(Material.SANDSTONE) ||
+										type == MaterialManager.toID(Material.STONE)))
+										)
 								{
 									block.x = blockX + x;
 									block.y = blockY + y;
@@ -225,6 +235,7 @@ public class CaveGenerator {
 		{
 			World world = this.getWorld();
 			HothGeneratorPlugin plugin = this.getPlugin();
+			String worldType = plugin.getWorldType(world);
 			
 			Position[] blocks = this.blocks;
 			int start = this.start;
@@ -236,15 +247,35 @@ public class CaveGenerator {
 				
 				Block block = world.getBlockAt(pos.x, pos.y, pos.z);
 				Material type = block.getType();
-				if (!block.isEmpty() &&
-					(type.equals(Material.SNOW_BLOCK) ||
-					 type.equals(Material.PACKED_ICE) ||
-					 type.equals(Material.STONE) ||
-					 type.equals(Material.ICE) ||
-					 type.equals(Material.SNOW) ))
+				if(worldType.equals("hoth"))
 				{
-					block.setType(Material.AIR);
-				}				
+					if (!block.isEmpty() &&
+						(type.equals(Material.SNOW_BLOCK) ||
+						 type.equals(Material.PACKED_ICE) ||
+						 type.equals(Material.STONE) ||
+						 type.equals(Material.ICE) ||
+						 type.equals(Material.SNOW) ))
+					{
+						//block.setType(Material.AIR);
+						BlockState blockState = block.getState();
+						blockState.setType(Material.AIR);
+						blockState.update(true, false);
+						block.setType(Material.AIR);
+					}				
+				}
+				else if(worldType.equals("tatooine"))
+				{
+					if (!block.isEmpty() &&
+						(type.equals(Material.SAND) ||
+						 type.equals(Material.SANDSTONE) ||
+						 type.equals(Material.STONE) ))
+					{
+						//block.setType(Material.AIR);
+						BlockState blockState = block.getState();
+						blockState.setType(Material.AIR);
+						blockState.update(true, false);
+					}				
+				}
 			}
 			if(start+count < blocks.length)
 			{

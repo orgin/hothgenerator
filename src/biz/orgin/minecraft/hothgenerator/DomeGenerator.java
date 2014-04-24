@@ -5,6 +5,7 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 
 import biz.orgin.minecraft.hothgenerator.schematic.MiniDome;
 
@@ -122,7 +123,9 @@ public class DomeGenerator
 							Material type = block.getType();
 							if(type.equals(Material.AIR))
 							{
-								block.setType(MaterialManager.toMaterial(DomeGenerator.PLANTTOPID)); // Glowstone
+								BlockState blockState = block.getState();
+								blockState.setType(MaterialManager.toMaterial(DomeGenerator.PLANTTOPID)); // Glowstone
+								blockState.update(true, false);
 							}
 						}
 
@@ -138,6 +141,12 @@ public class DomeGenerator
 			HothGeneratorPlugin plugin = this.getPlugin();
 			World world = this.getWorld();
 			
+			// Make sure that domes aren't generated in a non hoth type world.
+			if(!plugin.getWorldType(world).equals("tatooine"))
+			{
+				return;
+			}
+
 			int surfaceOffset = plugin.getWorldSurfaceoffset();
 			
 			int sx = this.chunkx*16 + random.nextInt(16);
@@ -177,7 +186,9 @@ public class DomeGenerator
 									|| type.equals(Material.CLAY)
 									|| type.equals(Material.GRAVEL))
 							{
-								block.setType(Material.GLASS);
+								BlockState blockState = block.getState();
+								blockState.setType(Material.GLASS);
+								blockState.update(true, false);
 							}
 						}
 						else if(dist<radius) // Inside dome
@@ -190,7 +201,9 @@ public class DomeGenerator
 									|| type.equals(Material.SNOW)
 									|| type.equals(Material.LOG))
 							{
-								block.setType(Material.AIR);
+								BlockState blockState = block.getState();
+								blockState.setType(Material.AIR);
+								blockState.update(true, false);
 							}
 							else if(type.equals(Material.SAND) // Make dirty floor
 									|| type.equals(Material.SANDSTONE)
@@ -198,15 +211,17 @@ public class DomeGenerator
 									|| type.equals(Material.CLAY)
 									|| type.equals(Material.GRAVEL))
 							{
+								BlockState blockState = block.getState();
 								int glow = this.random.nextInt(40);
 								if(glow==5)
 								{
-									block.setType(MaterialManager.toMaterial(DomeGenerator.FLOORRANDOMID)); // Glowstone
+									blockState.setType(MaterialManager.toMaterial(DomeGenerator.FLOORRANDOMID)); // Glowstone
 								}
 								else
 								{
-									block.setType(MaterialManager.toMaterial(DomeGenerator.FLOORID)); // Dirt
+									blockState.setType(MaterialManager.toMaterial(DomeGenerator.FLOORID)); // Dirt
 								}
+								blockState.update(true, false);
 							}
 						}
 						else
@@ -219,7 +234,6 @@ public class DomeGenerator
 			// Next place the internal dome
 			if(plugin.isStructureDomesPlaceminidome())
 			{
-				//HothUtils.placeSchematic(plugin, world, MiniDome.instance, sx-8, sy+8, sz-8, 2, 10);
 				plugin.addTask(new PlaceMiniDome(world, sx-8, sy+8, sz-8));
 			}
 			
@@ -269,7 +283,9 @@ public class DomeGenerator
 						}
 						else if(type.equals(Material.AIR)) // Only place blocks in the air
 						{
-							block.setType(MaterialManager.toMaterial(DomeGenerator.PLANTSTEMID)); // Default is sponge
+							BlockState blockState = block.getState();
+							blockState.setType(MaterialManager.toMaterial(DomeGenerator.PLANTSTEMID)); // Default is sponge
+							blockState.update(true, false);
 						}
 						
 						growx1 = growx1 + growx1*growx2; // Slope magic

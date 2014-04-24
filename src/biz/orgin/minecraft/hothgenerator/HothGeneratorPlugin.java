@@ -565,6 +565,13 @@ public class HothGeneratorPlugin extends JavaPlugin
     		this.sendMessage(sender, "&b" + description);
     		this.sendMessage(sender, "&b" + website);
     		
+    		if(sender instanceof Player)
+    		{
+    			Player player = (Player)sender;
+    			World world = player.getWorld();
+    			this.sendMessage(sender, "&bWorld: " + world.getName() + " type: " + this.getWorldType(world));
+    		}
+
     		String author = "";
     		
     		for(String authr : authors)
@@ -656,6 +663,31 @@ public class HothGeneratorPlugin extends JavaPlugin
 		}
 		
 		return false;
+	}
+	
+	public String getWorldType(World world)
+	{
+		List<String> list = this.config.getStringList("hothworlds");
+		String name = world.getName().toLowerCase();
+		
+		for(int i=0;i<list.size();i++)
+		{
+			String worldName = list.get(i);
+			if(worldName.equals(name))
+			{
+				String type = this.config.getString("hothworldsdata." + worldName + ".type", "hoth");
+				if(type.equals("hoth") || type.equals("tatooine"))
+				{
+					return type;
+				}
+				else
+				{
+					return "hoth";
+				}
+			}
+		}
+		
+		return "hoth";
 	}
 	
 	/**
@@ -881,7 +913,46 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 	
+	public int getStructureOasisRarity()
+	{
+		int result = this.config.getInt("hoth.structure.oasis.rarity", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
 	
+	public int getStructureSandCastleRarity()
+	{
+		int result = this.config.getInt("hoth.structure.sandcastle.rarity", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+
+	public int getStructureVillageRarity()
+	{
+		int result = this.config.getInt("hoth.structure.village.rarity", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+
+	public int getStructureSuperGardenRarity()
+	{
+		int result = this.config.getInt("hoth.structure.supergarden.rarity", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+
 	public boolean isGenerateLogs()
 	{
 		return this.config.getBoolean("hoth.generate.logs", true);
@@ -905,6 +976,16 @@ public class HothGeneratorPlugin extends JavaPlugin
 	public boolean isGenerateExtendedOre()
 	{
 		return this.config.getBoolean("hoth.generate.extendedore", false);
+	}
+
+	public boolean isGenerateCactuses()
+	{
+		return this.config.getBoolean("hoth.generate.cactuses", true);
+	}
+
+	public boolean isGenerateShrubs()
+	{
+		return this.config.getBoolean("hoth.generate.shrubs", true);
 	}
 
 	public boolean isRulesDropice(Location location)

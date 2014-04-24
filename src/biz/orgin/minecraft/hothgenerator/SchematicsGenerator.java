@@ -22,43 +22,111 @@ public class SchematicsGenerator
 {
 	private static LoadedSchematic skeleton = null;
 	private static LoadedSchematic skeleton2 = null;
-	private static LoadedSchematic[][] schematics = new LoadedSchematic[2][4];
+	private static LoadedSchematic oasis = null;
+	private static LoadedSchematic sandcastle = null;
+	private static LoadedSchematic supergarden = null;
+	private static LoadedSchematic[][] schematicsHoth = new LoadedSchematic[2][4];
+	private static LoadedSchematic[][] schematicsTatooine = new LoadedSchematic[5][4];
 	
 	public static void generateSchematics(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
 		try
 		{
+			String type = plugin.getWorldType(world);
+			
 			if(SchematicsGenerator.skeleton==null)
 			{
 				SchematicsGenerator.skeleton = new LoadedSchematic(plugin.getResource("schematics/skeleton.sm"),"skeleton");
 				SchematicsGenerator.skeleton.setRarity(plugin.getStructureSkeletonsRarity()*SchematicsGenerator.skeleton.getRarity()/2);
 				SchematicsGenerator.skeleton.setRandom(plugin.getStructureSkeletonsRarity()*SchematicsGenerator.skeleton.getRandom()/2);
-				SchematicsGenerator.schematics[0][0] = SchematicsGenerator.skeleton;
-				SchematicsGenerator.schematics[0][1] = SchematicsGenerator.skeleton.cloneRotate(1);
-				SchematicsGenerator.schematics[0][2] = SchematicsGenerator.skeleton.cloneRotate(2);
-				SchematicsGenerator.schematics[0][3] = SchematicsGenerator.skeleton.cloneRotate(3);
+				SchematicsGenerator.oasis = new LoadedSchematic(plugin.getResource("schematics/oasis.sm"),"oasis");
+				SchematicsGenerator.oasis.setRarity(plugin.getStructureOasisRarity()*SchematicsGenerator.oasis.getRarity()/2);
+				SchematicsGenerator.oasis.setRandom(plugin.getStructureOasisRarity()*SchematicsGenerator.oasis.getRandom()/2);
+				SchematicsGenerator.sandcastle = new LoadedSchematic(plugin.getResource("schematics/sandcastle.sm"),"sandcastle");
+				SchematicsGenerator.sandcastle.setRarity(plugin.getStructureSandCastleRarity()*SchematicsGenerator.sandcastle.getRarity()/2);
+				SchematicsGenerator.sandcastle.setRandom(plugin.getStructureSandCastleRarity()*SchematicsGenerator.sandcastle.getRandom()/2);
+				SchematicsGenerator.supergarden = new LoadedSchematic(plugin.getResource("schematics/supergarden.sm"),"supergarden");
+				SchematicsGenerator.supergarden.setRarity(plugin.getStructureSuperGardenRarity()*SchematicsGenerator.supergarden.getRarity()/2);
+				SchematicsGenerator.supergarden.setRandom(plugin.getStructureSuperGardenRarity()*SchematicsGenerator.supergarden.getRandom()/2);
+
+				SchematicsGenerator.schematicsHoth[0][0] = SchematicsGenerator.skeleton.cloneRotate(0);
+				SchematicsGenerator.schematicsHoth[0][1] = SchematicsGenerator.skeleton.cloneRotate(1);
+				SchematicsGenerator.schematicsHoth[0][2] = SchematicsGenerator.skeleton.cloneRotate(2);
+				SchematicsGenerator.schematicsHoth[0][3] = SchematicsGenerator.skeleton.cloneRotate(3);
 				
 				SchematicsGenerator.skeleton2 = SchematicsGenerator.skeleton.cloneRotate(0);
 				SchematicsGenerator.skeleton2.setType(1);
-				SchematicsGenerator.schematics[1][0] = SchematicsGenerator.skeleton2;
-				SchematicsGenerator.schematics[1][1] = SchematicsGenerator.skeleton2.cloneRotate(1);
-				SchematicsGenerator.schematics[1][2] = SchematicsGenerator.skeleton2.cloneRotate(2);
-				SchematicsGenerator.schematics[1][3] = SchematicsGenerator.skeleton2.cloneRotate(3);
+				SchematicsGenerator.schematicsHoth[1][0] = SchematicsGenerator.skeleton2.cloneRotate(0);
+				SchematicsGenerator.schematicsHoth[1][1] = SchematicsGenerator.skeleton2.cloneRotate(1);
+				SchematicsGenerator.schematicsHoth[1][2] = SchematicsGenerator.skeleton2.cloneRotate(2);
+				SchematicsGenerator.schematicsHoth[1][3] = SchematicsGenerator.skeleton2.cloneRotate(3);
+				
+				SchematicsGenerator.schematicsTatooine[0][0] = SchematicsGenerator.schematicsHoth[0][0];
+				SchematicsGenerator.schematicsTatooine[0][1] = SchematicsGenerator.schematicsHoth[0][1];
+				SchematicsGenerator.schematicsTatooine[0][2] = SchematicsGenerator.schematicsHoth[0][2];
+				SchematicsGenerator.schematicsTatooine[0][3] = SchematicsGenerator.schematicsHoth[0][3];
+
+				SchematicsGenerator.schematicsTatooine[1][0] = SchematicsGenerator.schematicsHoth[1][0];
+				SchematicsGenerator.schematicsTatooine[1][1] = SchematicsGenerator.schematicsHoth[1][1];
+				SchematicsGenerator.schematicsTatooine[1][2] = SchematicsGenerator.schematicsHoth[1][2];
+				SchematicsGenerator.schematicsTatooine[1][3] = SchematicsGenerator.schematicsHoth[1][3];
+
+				SchematicsGenerator.schematicsTatooine[2][0] = SchematicsGenerator.oasis.cloneRotate(0);
+				SchematicsGenerator.schematicsTatooine[2][1] = SchematicsGenerator.oasis.cloneRotate(1);
+				SchematicsGenerator.schematicsTatooine[2][2] = SchematicsGenerator.oasis.cloneRotate(2);
+				SchematicsGenerator.schematicsTatooine[2][3] = SchematicsGenerator.oasis.cloneRotate(3);
+				
+				SchematicsGenerator.schematicsTatooine[3][0] = SchematicsGenerator.sandcastle.cloneRotate(0);
+				SchematicsGenerator.schematicsTatooine[3][1] = SchematicsGenerator.sandcastle.cloneRotate(1);
+				SchematicsGenerator.schematicsTatooine[3][2] = SchematicsGenerator.sandcastle.cloneRotate(2);
+				SchematicsGenerator.schematicsTatooine[3][3] = SchematicsGenerator.sandcastle.cloneRotate(3);
+
+				SchematicsGenerator.schematicsTatooine[4][0] = SchematicsGenerator.supergarden;
+				SchematicsGenerator.schematicsTatooine[4][1] = SchematicsGenerator.supergarden;
+				SchematicsGenerator.schematicsTatooine[4][2] = SchematicsGenerator.supergarden;
+				SchematicsGenerator.schematicsTatooine[4][3] = SchematicsGenerator.supergarden;
 			}
 			
-			for(int i=0;i<schematics.length;i++)
+			if(type.equals("hoth"))
 			{
-				Random newRandom = new Random(random.nextLong());
-				
-				LoadedSchematic schematic = schematics[i][newRandom.nextInt(4)];
-				int rarity = schematic.getRarity();
-				if(rarity!=0)
+				for(int i=0;i<schematicsHoth.length;i++)
 				{
-					int rnd = schematic.getRandom();
+					Random newRandom = new Random(random.nextLong());
 					
-					if(rnd==newRandom.nextInt(rarity))
+					LoadedSchematic schematic = schematicsHoth[i][newRandom.nextInt(4)];
+					int rarity = schematic.getRarity();
+					if(rarity!=0)
 					{
-						plugin.addTask(new PlaceSchematic(world, newRandom, chunkX, chunkZ, schematic));
+						int rnd = schematic.getRandom();
+						
+						if(rnd==newRandom.nextInt(rarity))
+						{
+							plugin.addTask(new PlaceSchematic(world, newRandom, chunkX, chunkZ, schematic));
+						}
+					}
+				}
+			}
+			else if(type.equals("tatooine"))
+			{
+				for(int i=0;i<schematicsTatooine.length;i++)
+				{
+					Random newRandom = new Random(random.nextLong());
+					
+					LoadedSchematic schematic = schematicsTatooine[i][newRandom.nextInt(4)];
+					if(schematic==null)
+					{
+						System.out.println("schematic i=" + i + " was null!");
+						break;
+					}
+					int rarity = schematic.getRarity();
+					if(rarity!=0)
+					{
+						int rnd = schematic.getRandom();
+						
+						if(rnd==newRandom.nextInt(rarity))
+						{
+							plugin.addTask(new PlaceSchematic(world, newRandom, chunkX, chunkZ, schematic));
+						}
 					}
 				}
 			}

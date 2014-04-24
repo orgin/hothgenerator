@@ -110,7 +110,7 @@ public class MobSpawnManager
 				for(int i=0;i<worlds.size();i++)
 				{
 					World world = worlds.get(i);
-					if(this.plugin.isHothWorld(world))
+					if(this.plugin.isHothWorld(world) && this.plugin.getWorldType(world).equals("hoth"))
 					{
 						this.spawnMobs(world);
 					}
