@@ -103,14 +103,19 @@ hothworlds:
 #  rules.limitslime - true/false. Whether slime can only spawn in the stone
 #                     layer. 
 #  rules.snowgravity - true/false. Whether gravity is applied to snow blocks.
-#  rules.freeze.period - Positive integer value. Seconds between freeze damage
-#                        checks. 0 = no freezing (global off).
+#  rules.environment.period - Positive integer value. Seconds between
+#                        environment damage checks. 0 = no damage (global off)
 #  rules.freeze.damage - Positive integer value. Damage taken when freezing.
 #                        0 = no damage
 #  rules.freeze.stormdamage - Positive integer value. Extra damage taken
 #                             during storms. 0 = no damage
 #  rules.freeze.message - Message sent when freezing
-#
+#  rules.heat.damage - Positive integer value. Damage taken when overheated.
+#                        0 = no damage
+#  rules.heat.message1 - Message sent when moving into water
+#  rules.heat.message2 - Message sent when getting thirsty
+#  rules.heat.message3 - Message sent when very thirsty
+#  rules.heat.message4 - Message sent when taking heat damage
 #  rules.spawn.neutral.on - true/false. turn on or off the hothgenerator's own
 #                           neutral mob spawning.
 #  rules.spawn.neutral.rarity - Rarity of neutral mob spawns 1-10 
@@ -159,10 +164,15 @@ hoth:
   rules.stopmelt: true
   rules.limitslime: true
   rules.snowgravity: false
-  rules.freeze.period: 0
+  rules.environment.period: 0
   rules.freeze.damage: 2
   rules.freeze.stormdamage: 1
   rules.freeze.message: "&bYou are freezing. Find shelter!"
+  rules.heat.damage: 2
+  rules.heat.message1: "&6The water removes your thirst."
+  rules.heat.message2: "&6Your are starting to feel thirsty."
+  rules.heat.message3: "&6Your feel very thirsty."
+  rules.heat.message4: "&6You are exhausted from the heat. Find water or shelter!"
   rules.spawn.neutral.on: true
   rules.spawn.neutral.rarity: 2
-  rules.spawn.neutral.mobs: chicken,cow,mushroom_cow,ocelot,pig,sheep,wolf
+  rules.spawn.neutral.mobs: chicken,cow,mushroom_cow,ocelot,pig,sheep,wolf,horse

@@ -49,7 +49,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private StructureGrowManager structureGrowManager;
 	private BlockSpreadManager blockSpreadManager;
 	private CreatureSpawnManager creatureSpawnManager;
-	private PlayerFreezeManager playerFreezeManager;
+	private PlayerEnvironmentManager playerFreezeManager;
 	private BlockGravityManager blockGravityManager;
 	private RegionManager regionManager;
 	private MobSpawnManager mobSpawnManager;
@@ -103,7 +103,7 @@ public class HothGeneratorPlugin extends JavaPlugin
     	
     	this.regionManager.load();
 
-    	this.playerFreezeManager = new PlayerFreezeManager(this);
+    	this.playerFreezeManager = new PlayerEnvironmentManager(this);
     	this.mobSpawnManager = new MobSpawnManager(this);
     	if(this.taskManager==null)
     	{
@@ -197,7 +197,7 @@ public class HothGeneratorPlugin extends JavaPlugin
         	{
         		this.playerFreezeManager.stop();
         	}
-    		this.playerFreezeManager = new PlayerFreezeManager(this);
+    		this.playerFreezeManager = new PlayerEnvironmentManager(this);
 
     		if(this.mobSpawnManager!=null)
         	{
@@ -456,7 +456,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 							{
 								LoadedSchematic schem = lschem.cloneRotate(direction);
 								this.sendMessage(sender, "&bPlacing " + schematic + " at " + x + "," + y + "," + z + " direction: " + directionStr);
-								this.undoBuffer.pushBlob(player.getName(), HothUtils.getUndoBlob(this, world, schem, x, y, z));
+								this.undoBuffer.pushBlob(player.getUniqueId(), HothUtils.getUndoBlob(this, world, schem, x, y, z));
 								HothUtils.placeSchematic(this, world, schem, x, y, z, lschem.getLootMin(), lschem.getLootMax());
 
 								found = true;
@@ -483,7 +483,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 							{
 								Schematic schem = HothUtils.rotateSchematic(direction, lschem);
 								this.sendMessage(sender, "&bPlacing " + schematic + " at " + x + "," + y + "," + z + " direction = " + directionStr);
-								this.undoBuffer.pushBlob(player.getName(), HothUtils.getUndoBlob(this, world, schem, x, y, z));
+								this.undoBuffer.pushBlob(player.getUniqueId(), HothUtils.getUndoBlob(this, world, schem, x, y, z));
 								HothUtils.placeSchematic(this, world, schem, x, y, z, 2, 10);
 
 								found = true;
@@ -506,9 +506,8 @@ public class HothGeneratorPlugin extends JavaPlugin
     		if(sender instanceof Player)
     		{
     			Player player = (Player)sender;
-    			String name = player.getName();
     			
-    			Blob blob = this.undoBuffer.popBlob(name);
+    			Blob blob = this.undoBuffer.popBlob(player.getUniqueId());
     			if(blob!=null)
     			{
     				this.sendMessage(player, "&bUndo schedueled");
@@ -1038,9 +1037,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.regionManager.getBoolean("snowgravity", location, this.config.getBoolean("hoth.rules.snowgravity", false));
 	}
 
-	public int getRulesFreezePeriod()
+	public int getRulesEnvironmentPeriod()
 	{
-	    int period = this.config.getInt("hoth.rules.freeze.period", 0);
+	    int period = this.config.getInt("hoth.rules.environment.period", 0);
 
 	    if(period<0)
 	    {
@@ -1075,6 +1074,36 @@ public class HothGeneratorPlugin extends JavaPlugin
 	}
 	
 	
+	public int getRulesHeatDamage(Location location)
+	{
+	    int damage = this.regionManager.getInt("heat.damage", location, this.config.getInt("hoth.rules.heat.damage", 2));
+	    if(damage<0)
+	    {
+	    	damage = 2;
+	    }
+	    return damage;
+	}
+
+	public String getRulesHeatMessage1(Location location)
+	{
+		return this.regionManager.get("heat.message1", location, this.config.getString("hoth.rules.heat.message1", "&6The water removes your thirst."));
+	}
+
+	public String getRulesHeatMessage2(Location location)
+	{
+		return this.regionManager.get("heat.message2", location, this.config.getString("hoth.rules.heat.message2", "&6Your are starting to feel thirsty."));
+	}
+
+	public String getRulesHeatMessage3(Location location)
+	{
+		return this.regionManager.get("heat.message3", location, this.config.getString("hoth.rules.heat.message3", "&6Your feel very thirsty."));
+	}
+
+	public String getRulesHeatMessage4(Location location)
+	{
+		return this.regionManager.get("heat.message4", location, this.config.getString("hoth.rules.heat.message4", "&6You are exhausted from the heat. Find water or shelter!"));
+	}
+
 	public int getRulesSpawnNeutralRarity(Location location)
 	{
 	    int rarity = this.regionManager.getInt("spawn.neutral.rarity", location, this.config.getInt("hoth.rules.spawn.neutral.rarity", 2));

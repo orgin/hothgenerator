@@ -4,27 +4,28 @@ import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
+import java.util.UUID;
 
 public class UndoBuffer
 {
-	private Map<String, Buffer> buffers;
+	private Map<UUID, Buffer> buffers;
 	
 	public UndoBuffer()
 	{
-		this.buffers = new HashMap<String, Buffer>();
+		this.buffers = new HashMap<UUID, Buffer>();
 	}
 
-	public void pushBlob(String player, Blob blob)
+	public void pushBlob(UUID uuid, Blob blob)
 	{
 		Buffer buffer;
-		if(this.buffers.containsKey(player))
+		if(this.buffers.containsKey(uuid))
 		{
-			buffer = this.buffers.get(player);
+			buffer = this.buffers.get(uuid);
 		}
 		else
 		{
 			buffer = new Buffer();
-			this.buffers.put(player, buffer);
+			this.buffers.put(uuid, buffer);
 		}
 		
 		buffer.pushBlob(blob);
@@ -35,17 +36,17 @@ public class UndoBuffer
 	 * @param player Name of player
 	 * @return A Blob from the stack associated with the player name
 	 */
-	public Blob popBlob(String player)
+	public Blob popBlob(UUID uuid)
 	{
 		Buffer buffer;
-		if(this.buffers.containsKey(player))
+		if(this.buffers.containsKey(uuid))
 		{
-			buffer = this.buffers.get(player);
+			buffer = this.buffers.get(uuid);
 		}
 		else
 		{
 			buffer = new Buffer();
-			this.buffers.put(player, buffer);
+			this.buffers.put(uuid, buffer);
 		}
 		
 		return buffer.popBlob();
