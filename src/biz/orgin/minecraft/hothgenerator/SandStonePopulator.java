@@ -9,16 +9,17 @@ import org.bukkit.generator.BlockPopulator;
 
 public class SandStonePopulator extends BlockPopulator
 {
-	private static int[] iterations = new int[] { 8,  8, 10,  4,  2};
-	private static int[] amount =     new int[] {32, 32, 32,  8,  8};
+	private static int[] iterations = new int[] { 8,  8, 10,  4,  2, 8};
+	private static int[] amount =     new int[] {32, 32, 32,  8,  8, 32};
 	private static Material[] type =       new Material[] {
 		Material.DIRT,         // 80
 		Material.GRAVEL,       // 80
 		Material.SAND,         // 80
 		Material.CLAY,         // 80
-		Material.HARD_CLAY};   // 80
-	private static byte[] data =     new byte[] {0, 0, 0, 0, 0};
-	private static int[] maxHeight = new int[] {80, 80, 80, 80, 80};
+		Material.HARD_CLAY,    // 80
+		Material.STONE};       // 64
+	private static byte[] data =     new byte[] {0, 0, 0, 0, 0, 0};
+	private static int[] maxHeight = new int[] {80, 80, 80, 80, 80, 64};
 	private static Material REPLACE = Material.SANDSTONE;
 
 	@SuppressWarnings("unused")

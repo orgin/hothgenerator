@@ -475,10 +475,12 @@ public class HothGeneratorPlugin extends JavaPlugin
 						String schematic = args[1].toLowerCase();
 
 						boolean found = false;
+						
+						List<Schematic> schematics = InternalSchematics.getSchematics(this);
 
-						for(int i=0;i<InternalSchematics.schematics.length && found == false;i++)
+						for(int i=0;i<schematics.size() && found == false;i++)
 						{
-							Schematic lschem = InternalSchematics.schematics[i];
+							Schematic lschem = schematics.get(i);
 							if(lschem.getName().toLowerCase().equals(schematic))
 							{
 								Schematic schem = HothUtils.rotateSchematic(direction, lschem);
@@ -524,15 +526,16 @@ public class HothGeneratorPlugin extends JavaPlugin
     	}
     	else if(cmd.getName().equalsIgnoreCase("hothlist"))
     	{
-    		if(args.length>0 && sender instanceof Player && CustomGenerator.schematics!=null && InternalSchematics.schematics!=null)
+    		if(args.length>0 && sender instanceof Player && CustomGenerator.schematics!=null)
     		{
     			String mode = args[0];
     			if(mode.equals("int"))
     			{
     				this.sendMessage(sender, "&bInternal scematics:");
-    				for(int i=0;i<InternalSchematics.schematics.length;i++)
+					List<Schematic> schematics = InternalSchematics.getSchematics(this);
+    				for(int i=0;i<schematics.size();i++)
     				{
-    					Schematic schematic = InternalSchematics.schematics[i];
+    					Schematic schematic = schematics.get(i);
     					
     					this.sendMessage(sender, "&b " + schematic.getName());
     				}
