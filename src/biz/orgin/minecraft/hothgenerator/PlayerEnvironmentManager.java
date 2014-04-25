@@ -86,17 +86,18 @@ public class PlayerEnvironmentManager
 					}
 					else if(this.plugin.getWorldType(world).equals("tatooine"))
 					{
-						this.dry(world);
+						this.heat(world);
 					}
 				}
 			}
 		}
 		
 		/**
-		 * Finds all players on the specified world and applies dry damage.
+		 * Finds all players on the specified world and applies heat damage.
 		 * @param world
 		 */
-		private void dry(World world)		{
+		private void heat(World world)
+		{
 			
 			List<Player> players = world.getPlayers();
 			Iterator<Player> iterator = players.iterator();
@@ -118,66 +119,73 @@ public class PlayerEnvironmentManager
 				{
 					Location location = player.getLocation();
 					int damage = this.plugin.getRulesHeatDamage(location);
-					String message1 = this.plugin.getRulesHeatMessage1(location);
-					String message2 = this.plugin.getRulesHeatMessage2(location);
-					String message3 = this.plugin.getRulesHeatMessage3(location);
-					String message4 = this.plugin.getRulesHeatMessage4(location);
 					
-					Block block = world.getBlockAt(location.getBlockX(), location.getBlockY()+1, location.getBlockZ());
-					Block block2 = world.getBlockAt(location.getBlockX(), location.getBlockY(), location.getBlockZ());
-					
-					if(thirst!=100 && (block2.getType().equals(Material.WATER) || block2.getType().equals(Material.STATIONARY_WATER)))
+					if(damage>0)
 					{
-						thirst = 100;
-						plugin.sendMessage(player, message1); // The water removes your thirst.
-					}
-					else
-					{
-						// Dry damage happens during the day if exposed to the sky
-						if(block.getLightFromSky() > 10)
+						String message1 = this.plugin.getRulesHeatMessage1(location);
+						String message2 = this.plugin.getRulesHeatMessage2(location);
+						String message3 = this.plugin.getRulesHeatMessage3(location);
+						String message4 = this.plugin.getRulesHeatMessage4(location);
+						
+						Block block = world.getBlockAt(location.getBlockX(), location.getBlockY()+1, location.getBlockZ());
+						Block block2 = world.getBlockAt(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+						
+						if(block2.getType().equals(Material.WATER) || block2.getType().equals(Material.STATIONARY_WATER))
 						{
-							thirst = thirst - 5;
-
-							if(thirst == 50)
+							if(thirst!=100)
 							{
-								plugin.sendMessage(player, message2); // Your are starting to feel thirsty.
-							}
-							
-							if(thirst == 25)
-							{
-								plugin.sendMessage(player, message3); // Your feel very thirsty.
+								thirst = 100;
+								plugin.sendMessage(player, message1); // The water removes your thirst.
 							}
 						}
 						else
 						{
-							thirst = thirst + 5;
-						}
-
-
-						// Apply damage to player
-						if(thirst<=0)
-						{
-							double oldDamage = player.getHealth();
-							if(oldDamage - damage <= 0)
+							// Dry damage happens during the day if exposed to the sky
+							if(block.getLightFromSky() > 10 && block.getLightLevel() > 10)
 							{
-								thirst = 100; // Player is going to die, reset thirst 
+								thirst = thirst - 2;
+	
+								if(thirst == 50)
+								{
+									plugin.sendMessage(player, message2); // Your are starting to feel thirsty.
+								}
+	
+								if(thirst == 25)
+								{
+									plugin.sendMessage(player, message3); // Your feel very thirsty.
+								}
 							}
-							
-							plugin.sendMessage(player, message4); // You are exhausted from the heat. Find water or shelter!
-							player.damage(damage);
+							else
+							{
+								thirst = thirst + 10;
+							}
+	
+	
+							// Apply damage to player
+							if(thirst<=0)
+							{
+								double oldDamage = player.getHealth();
+								if(oldDamage - damage <= 0)
+								{
+									thirst = 100; // Player is going to die, reset thirst 
+								}
+	
+								plugin.sendMessage(player, message4); // You are exhausted from the heat. Find water or shelter!
+								player.damage(damage);
+							}
 						}
+
+						if(thirst>100)
+						{
+							thirst = 100;
+						}
+						else if(thirst<0)
+						{
+							thirst = 0;
+						}
+	
+						this.thirsts.put(uuid, new Integer(thirst));
 					}
-					
-					if(thirst>100)
-					{
-						thirst = 100;
-					}
-					else if(thirst<0)
-					{
-						thirst = 0;
-					}
-					
-					this.thirsts.put(uuid, new Integer(thirst));
 				}
 			}
 		}
