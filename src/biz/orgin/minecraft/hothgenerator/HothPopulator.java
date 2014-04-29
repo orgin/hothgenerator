@@ -18,13 +18,13 @@ import org.bukkit.material.Tree;
  * @author orgin
  *
  */
-public class LogPopulator extends BlockPopulator
+public class HothPopulator extends BlockPopulator
 {
 	@SuppressWarnings("unused")
 	private int height;
 	private HothGeneratorPlugin plugin;
 
-	public LogPopulator(int height)
+	public HothPopulator(int height)
 	{
 		this.plugin = HothGenerator.getPlugin();
 		this.height = height;

@@ -1029,7 +1029,7 @@ public class HothGenerator extends ChunkGenerator
 			else  // Default to Hoth
 			{
 				List<BlockPopulator> list = new ArrayList<BlockPopulator>(1);
-				list.add(new LogPopulator(this.height));
+				list.add(new HothPopulator(this.height));
 				return list;
 			}
 	}
