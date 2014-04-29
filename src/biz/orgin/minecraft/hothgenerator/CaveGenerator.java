@@ -182,6 +182,11 @@ public class CaveGenerator {
 										type == MaterialManager.toID(Material.SAND) ||
 										type == MaterialManager.toID(Material.SANDSTONE) ||
 										type == MaterialManager.toID(Material.STONE)))
+										||
+										(worldType.equals("dagobah") && (
+										type == MaterialManager.toID(Material.DIRT) ||
+										type == MaterialManager.toID(Material.GRASS) ||
+										type == MaterialManager.toID(Material.STONE)))
 										)
 								{
 									block.x = blockX + x;
@@ -256,7 +261,6 @@ public class CaveGenerator {
 						 type.equals(Material.ICE) ||
 						 type.equals(Material.SNOW) ))
 					{
-						//block.setType(Material.AIR);
 						BlockState blockState = block.getState();
 						blockState.setType(Material.AIR);
 						blockState.update(true, false);
@@ -270,11 +274,22 @@ public class CaveGenerator {
 						 type.equals(Material.SANDSTONE) ||
 						 type.equals(Material.STONE) ))
 					{
-						//block.setType(Material.AIR);
 						BlockState blockState = block.getState();
 						blockState.setType(Material.AIR);
 						blockState.update(true, false);
 					}				
+				}
+				else if(worldType.equals("dagobah"))
+				{
+					if (!block.isEmpty() &&
+							(type.equals(Material.DIRT) ||
+							 type.equals(Material.GRASS) ||
+							 type.equals(Material.STONE) ))
+						{
+							BlockState blockState = block.getState();
+							blockState.setType(Material.AIR);
+							blockState.update(true, false);
+						}				
 				}
 			}
 			if(start+count < blocks.length)

@@ -678,7 +678,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 			if(worldName.equals(name))
 			{
 				String type = this.config.getString("hothworldsdata." + worldName + ".type", "hoth");
-				if(type.equals("hoth") || type.equals("tatooine"))
+				if(type.equals("hoth") || type.equals("tatooine") || type.equals("dagobah"))
 				{
 					return type;
 				}
