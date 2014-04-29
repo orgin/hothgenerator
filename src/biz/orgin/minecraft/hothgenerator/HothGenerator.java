@@ -1015,16 +1015,15 @@ public class HothGenerator extends ChunkGenerator
 			if(type.equals("tatooine"))
 			{
 				List<BlockPopulator> list = new ArrayList<BlockPopulator>(1);
-				list.add(new SandStonePopulator(this.height));
-				list.add(new ShrubPopulator(this.height));
-				list.add(new CactusPopulator(this.height)); // Must be the last populator. Sets biome.
+				list.add(new TatooineOrePopulator(this.height));
+				list.add(new TatooinePopulator(this.height)); // Must be the last populator. Sets biome.
 				return list;
 			}
 			else if(type.equals("dagobah"))
 			{
 				List<BlockPopulator> list = new ArrayList<BlockPopulator>(1);
-				list.add(new DirtPopulator(this.height));
-				list.add(new SwampPopulator(this.height)); // Must be the last populator. Sets biome.
+				list.add(new DagobahOrePopulator(this.height));
+				list.add(new DagobahPopulator(this.height)); // Must be the last populator. Sets biome.
 				return list;
 			}
 			else  // Default to Hoth

@@ -7,29 +7,27 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.generator.BlockPopulator;
 
-public class DirtPopulator extends BlockPopulator
+public class TatooineOrePopulator extends BlockPopulator
 {
-	private static int[] iterations = new int[] { 8,  8,  4,  4,  4,  8,  8};
-	private static int[] amount =     new int[] {32, 32,  8,  8, 18, 32, 32};
+	private static int[] iterations = new int[] { 8,  8, 10,  4,  2, 8};
+	private static int[] amount =     new int[] {32, 32, 32,  8,  8, 32};
 	private static Material[] type =       new Material[] {
+		Material.DIRT,         // 80
 		Material.GRAVEL,       // 80
 		Material.SAND,         // 80
-		Material.CLAY,         // 64
-		Material.HARD_CLAY,    // 64
-		Material.STONE,        // 70
-		Material.AIR,          // 80
-		Material.WATER         // 80
-		};       // 64
-	private static byte[] data =     new byte[] {0, 0, 0, 0, 0, 0, 0};
-	private static int[] maxHeight = new int[] {80, 80, 64, 64, 70, 80, 80};
-	private static Material REPLACE = Material.DIRT;
+		Material.CLAY,         // 80
+		Material.HARD_CLAY,    // 80
+		Material.STONE};       // 64
+	private static byte[] data =     new byte[] {0, 0, 0, 0, 0, 0};
+	private static int[] maxHeight = new int[] {80, 80, 80, 80, 80, 64};
+	private static Material REPLACE = Material.SANDSTONE;
 
 	@SuppressWarnings("unused")
 	private int height;
 	@SuppressWarnings("unused")
 	private HothGeneratorPlugin plugin;
 
-	public DirtPopulator(int height)
+	public TatooineOrePopulator(int height)
 	{
 		this.plugin = HothGenerator.getPlugin();
 		this.height = height;
@@ -91,7 +89,7 @@ public class DirtPopulator extends BlockPopulator
 			}
 
 			Block block = chunk.getBlock(dx, dy, dz);
-			if(block.getType().equals(DirtPopulator.REPLACE))
+			if(block.getType().equals(TatooineOrePopulator.REPLACE))
 			{
 				block.setType(type);
 				DataManager.setData(block, data, false);

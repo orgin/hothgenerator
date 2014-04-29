@@ -9,13 +9,13 @@ import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.generator.BlockPopulator;
 
-public class ShrubPopulator extends BlockPopulator
+public class TatooinePopulator extends BlockPopulator
 {
 	@SuppressWarnings("unused")
 	private int height;
 	private HothGeneratorPlugin plugin;
 
-	public ShrubPopulator(int height)
+	public TatooinePopulator(int height)
 	{
 		this.plugin = HothGenerator.getPlugin();
 		this.height = height;
@@ -30,10 +30,86 @@ public class ShrubPopulator extends BlockPopulator
 		int rx = x * 16;
 		int rz = z * 16;
 		
-		// Logs
+		// Cactuses
+		if(this.plugin.isGenerateCactuses())
+		{
+			this.placeCactuses(world, rx, rz, random);
+		}
+		
+		// Shrubs
 		if(this.plugin.isGenerateShrubs())
 		{
 			this.placeShrubs(world, rx, rz, random);
+		}
+		
+		// Set biome for proper weather effect
+		for(int i=0;i<16;i++)
+		{
+			for(int j=0;j<16;j++)
+			{
+				world.setBiome(rx+j, rz+i, Biome.DESERT);
+			}
+		}
+	}
+	
+	private void placeCactuses(World world, int rx, int rz, Random random)
+	{
+		for(int i=0;i<random.nextInt(32);i++)
+		{
+			int x = random.nextInt(15);
+			int z = random.nextInt(15);
+
+			int ran = 0;
+			
+			Biome biome = world.getBiome(rx+x, rz+z);
+			
+			if(biome.equals(Biome.EXTREME_HILLS))
+			{
+				ran = random.nextInt(16);
+			}
+			else if(biome.equals(Biome.FOREST) || biome.equals(Biome.FOREST_HILLS))
+			{
+				ran = random.nextInt(3);
+			}
+			else if(biome.equals(Biome.PLAINS))
+			{
+				ran = random.nextInt(10);
+			}
+			else if(biome.equals(Biome.JUNGLE) || biome.equals(Biome.JUNGLE_HILLS))
+			{
+				ran = random.nextInt(2);
+			}
+			else if(biome.equals(Biome.SWAMPLAND))
+			{
+				ran = random.nextInt(8);
+			}
+			else if(biome.equals(Biome.TAIGA) || biome.equals(Biome.TAIGA_HILLS))
+			{
+				ran = random.nextInt(20);
+			}
+			else if(biome.equals(Biome.ROOFED_FOREST) || biome.equals(Biome.ROOFED_FOREST_MOUNTAINS))
+			{
+				ran = random.nextInt(6);
+			}			
+			else if(biome.equals(Biome.DESERT))
+			{
+				ran = random.nextInt(100);
+			}			
+			
+			if(ran == 1)
+			{
+				Block block = world.getHighestBlockAt(rx+x, rz+z);
+				block = world.getBlockAt(rx+x, block.getY()-1, rz+z);
+				if(block.getType().equals(Material.SAND))
+				{
+					int y = block.getY();
+					for(int j=1;j<2+random.nextInt(4);j++)
+					{
+						block = world.getBlockAt(rx+x, y+j, rz+z);
+						block.setType(Material.CACTUS);
+					}
+				}
+			}
 		}
 	}
 	
@@ -92,4 +168,5 @@ public class ShrubPopulator extends BlockPopulator
 			}
 		}
 	}
+
 }
