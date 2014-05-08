@@ -10,51 +10,6 @@ import org.bukkit.util.noise.PerlinNoiseGenerator;
  */
 public class NoiseGenerator 
 {
-	public static void main(String[] args)
-	{
-		NoiseGenerator gen = new NoiseGenerator((int)System.currentTimeMillis());
-		double value, min = 0.5, max = 0.5;
-		int octaves = 4;
-		int zoom = 1;
-		int ctr = 0;
-		
-		for(octaves=1;octaves<11;octaves++)
-		{
-		
-			min = 0.5;
-			max = 0.5;
-			ctr = 0;
-			for(int x=-100;x<100;x++)
-			{
-				gen = new NoiseGenerator((int)System.currentTimeMillis() + octaves*256 + x);
-				
-				for(int y=0;y<256;y++)
-				{
-					for(int z=-100;z<100;z++)
-					{
-						value = gen.noise(x*1000, y, z*1000, octaves, zoom);
-						if(value<min)
-						{
-							min = value;
-						}
-						
-						if(value>max)
-						{
-							max = value;
-						}
-						
-						ctr++;
-					}
-				}
-			}
-			
-			System.out.println("Samples: " + ctr + " Octaves: " + octaves + " Zoom: " + zoom);
-			System.out.println("Min: " + min);
-			System.out.println("Max: " + max);
-		}
-	}
-	
-	
 	private PerlinNoiseGenerator generator;
 	
 	public NoiseGenerator(int seed)

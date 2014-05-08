@@ -136,7 +136,7 @@ public class BaseGenerator {
 			
 			if(safePlace)
 			{
-				plugin.logMessage("Placing base at " + sx + "," + sy + "," + sz, true);
+				plugin.logMessage("Placing base at " + world.getName() + "," + sx + "," + sy + "," + sz, true);
 				
 				HothUtils.placeSchematic(plugin, world, BaseTop.instance, sx-5, sy+11, sz-5, 2, 10);
 				world.spawnEntity(new Location(world, sx+5, sy+5, sz+5), EntityType.VILLAGER);
@@ -198,7 +198,7 @@ public class BaseGenerator {
 			}
 			else
 			{
-				plugin.logMessage("Failed to place base at " + sx + "," + sy + "," + sz, true);
+				plugin.logMessage("Failed to place base at " + world.getName() + "," + sx + "," + sy + "," + sz, true);
 			}
 			
 			

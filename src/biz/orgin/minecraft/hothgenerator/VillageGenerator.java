@@ -123,6 +123,8 @@ public class VillageGenerator {
 						HothUtils.placeSchematic(plugin, world, schematic, x-hw, y, z-hl, schematic.getLootMin(), schematic.getLootMax(), generator);
 					}
 					
+					plugin.logMessage("Placing village at " + world.getName() + "," + x + "," + y + "," + z, true);
+					
 					// Then huts
 					for(int i=0;i<VillageGenerator.hutPositions.length;i++)
 					{

@@ -12,9 +12,10 @@ hothworlds:
 #
 # You can specify world specific settings for each hoth world here. 
 #
-#   type: [hoth|tatooine]   - world type
+#   type: [hoth|tatooine|dagobah]   - world type
 #                               hoth = frozen world
 #                               tatooine = desert world
+#                               dagobah = swamp world
 #
 # Example configuration:
 #

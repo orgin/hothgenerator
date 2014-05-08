@@ -342,7 +342,9 @@ public class HothGenerator extends ChunkGenerator
 				}
 				
 			}
+
 		}
+		
 		
 		// Add structures and such
 		GardenGenerator.generateGarden(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
@@ -363,6 +365,12 @@ public class HothGenerator extends ChunkGenerator
 	
 	public byte[][] generateBlockSectionsTatooine(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
 	{
+		int mSTONE_id = MaterialManager.toID(Material.STONE);
+		int mSANDSTONE_id = MaterialManager.toID(Material.SANDSTONE);
+		int mSAND_id = MaterialManager.toID(Material.SAND);
+		Material mAIR = Material.AIR;
+		Material mLAVA = Material.LAVA;
+		
 		if(this.noiseGenerator==null)
 		{
 			this.noiseGenerator = new NoiseGenerator(world);
@@ -578,7 +586,36 @@ public class HothGenerator extends ChunkGenerator
 				{
 					HothUtils.setPos(chunk, x,y,z, Material.SAND);
 					y++;
-				}				
+				}
+				
+				// Cave layer
+				double a = this.noiseGenerator.noise(rx, rz, 2, 60)*8;
+				for(int i=4;i<128+surfaceOffset;i++)
+				{
+					double d = this.noiseGenerator.noise(rx, i, rz, 4, 8)*16;
+					
+					if(i>(96+surfaceOffset))
+					{
+						a = a + 8  * (((i+surfaceOffset)-32.0)/32.0); // fade out the higher we go
+					}
+					if(d>(a+10))
+					{
+						int old = HothUtils.getPos(chunk, x,i,z);
+						if( old == mSTONE_id
+						 || old == mSANDSTONE_id 
+						 || old == mSAND_id
+								)
+						
+						if(i<12)
+						{
+							HothUtils.setPos(chunk, x,i,z, mLAVA);
+						}
+						else
+						{
+							HothUtils.setPos(chunk, x,i,z, mAIR);
+						}
+					}
+				}
 				
 				
 				// LAVA Layer
@@ -642,16 +679,27 @@ public class HothGenerator extends ChunkGenerator
 		//BaseGenerator.generateBase(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		SchematicsGenerator.generateSchematics(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		CustomGenerator.generateCustom(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		CaveGenerator.generateCaves(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		//CaveGenerator.generateCaves(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		//SpikeGenerator.generateSpikes(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		VillageGenerator.generateVillage(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		//SnowGenerator.generateSnowCover(HothGenerator.plugin, world, snowcover);
 
+		HothUtils.replaceTop(chunk, (byte)mSANDSTONE_id, (byte)mSTONE_id, (byte)mSAND_id, this.height);
+		
 		return chunk;
 	}
 	
 	public byte[][] generateBlockSectionsDagobah(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
 	{
+		DagobahOrePopulator orePopulator = new DagobahOrePopulator(this.height);
+		
+		int mSTONE_id = MaterialManager.toID(Material.STONE);
+		int mDIRT_id = MaterialManager.toID(Material.DIRT);
+		int mGRASS_id = MaterialManager.toID(Material.GRASS);
+		int mAIR_id = MaterialManager.toID(Material.AIR);
+		Material mAIR = Material.AIR;
+		Material mLAVA = Material.LAVA;
+		
 		if(this.noiseGenerator==null)
 		{
 			this.noiseGenerator = new NoiseGenerator(world);
@@ -707,7 +755,11 @@ public class HothGenerator extends ChunkGenerator
 				}
 				else if(biome.equals(Biome.MUSHROOM_ISLAND))
 				{
-					factor = 1.5f;
+					factor = 2.0f;
+				}
+				else if(biome.equals(Biome.MUSHROOM_SHORE))
+				{
+					factor = 1.0f;
 				}
 				else if(biome.equals(Biome.PLAINS))
 				{
@@ -836,16 +888,7 @@ public class HothGenerator extends ChunkGenerator
 				// Inject stone mountains
 				double domountain = this.noiseGenerator.noise(rx, rz, 4, 336)*20;
 				double mfactor = 0.0f;
-				/*
-				if(domountain>13)
-				{
-					mfactor = 1.0f;
-				}
-				else if (domountain>10)
-				{
-					mfactor = (domountain-16)*0.5;
-				}
-				*/
+
 				if(domountain>10.0)
 				{
 					mfactor = (domountain-10.0)/10.0;
@@ -873,7 +916,14 @@ public class HothGenerator extends ChunkGenerator
 				{
 					if(i==(int)(snowblocks + (dicey - (int)dicey))-1)
 					{
-						HothUtils.setPos(chunk, x,y,z, Material.GRASS);
+						if(biome.equals(Biome.MUSHROOM_ISLAND) || biome.equals(Biome.MUSHROOM_SHORE))
+						{
+							HothUtils.setPos(chunk, x,y,z, Material.MYCEL);
+						}
+						else
+						{
+							HothUtils.setPos(chunk, x,y,z, Material.GRASS);
+						}
 					}
 					else
 					{
@@ -883,19 +933,37 @@ public class HothGenerator extends ChunkGenerator
 					y++;
 				}	
 
-				// Global water level
-				int wy = y;
-				for(;wy<68+surfaceOffset;wy++)
+				// Cave layer
+				double a = this.noiseGenerator.noise(rx, rz, 2, 150)*4;
+				a = a + this.noiseGenerator.noise(rx, rz, 2, 43)*4;
+				for(int i=4;i<128+surfaceOffset;i++)
 				{
-					HothUtils.setPos(chunk, x,wy,z, Material.STATIONARY_WATER);
+					//double a = this.noiseGenerator.noise(rx, i, rz, 4, 50)*8;
+					double d = this.noiseGenerator.noise(rx, i, rz, 4, 10)*16;
 					
-					double lily = 1+this.noiseGenerator.noise(rx, rz, 4, 17)*100;
-					if(random.nextInt((int)lily) == 1)
+					if(i>(96+surfaceOffset))
 					{
-						HothUtils.setPos(chunk, x,wy+1,z, Material.WATER_LILY);
+						a = a + 8  * (((i+surfaceOffset)-32.0)/32.0); // fade out the higher we go
+					}
+					if(d>(a+8))
+					{
+						int old = HothUtils.getPos(chunk, x,i,z);
+						if( old == mSTONE_id
+						 || old == mDIRT_id 
+						 || old == mGRASS_id
+								)
+						
+						if(i<12)
+						{
+							HothUtils.setPos(chunk, x,i,z, mLAVA);
+						}
+						else
+						{
+							HothUtils.setPos(chunk, x,i,z, mAIR);
+						}
 					}
 				}
-				
+
 				// Sediment layer
 				if(y<68)
 				{
@@ -978,21 +1046,38 @@ public class HothGenerator extends ChunkGenerator
 					}
 				}
 				
+				// Global water level
+				int wy = 67;
+				boolean doLily = false;
+				while(HothUtils.getPos(chunk, x,wy,z)==mAIR_id)
+				{
+					doLily = true;
+					HothUtils.setPos(chunk, x,wy,z, Material.STATIONARY_WATER);
+					wy--;
+				}
+
+				if(doLily)
+				{
+					double lily = 1+this.noiseGenerator.noise(rx, rz, 4, 17)*100;
+					if(random.nextInt((int)lily) == 1)
+					{
+						HothUtils.setPos(chunk, x,68,z, Material.WATER_LILY);
+					}
+				}
+
 			}
 		}
 		
+		orePopulator.populateWater(new Random(random.nextLong()), chunk, surfaceOffset);
+
 		// Add structures and such
-		//GardenGenerator.generateGarden(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		//RoomGenerator.generateRooms(world, HothGenerator.plugin, new Random(random.nextLong()), chunkx, chunkz);
-		//OreGenerator.generateOres(HothGenerator.plugin, world, chunk, new Random(random.nextLong()) , chunkx, chunkz);
-		//DomeGenerator.generateDome(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		//BaseGenerator.generateBase(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		GardenGenerator.generateGarden(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		RoomGenerator.generateRooms(world, HothGenerator.plugin, new Random(random.nextLong()), chunkx, chunkz);
+		OreGenerator.generateOres(HothGenerator.plugin, world, chunk, new Random(random.nextLong()) , chunkx, chunkz);
 		//SchematicsGenerator.generateSchematics(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		//CustomGenerator.generateCustom(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		CaveGenerator.generateCaves(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		//SpikeGenerator.generateSpikes(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		//VillageGenerator.generateVillage(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		//SnowGenerator.generateSnowCover(HothGenerator.plugin, world, snowcover);
+		CustomGenerator.generateCustom(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		
+		HothUtils.replaceTop(chunk, (byte)mDIRT_id, (byte)mSTONE_id, (byte)mGRASS_id, this.height);
 
 		return chunk;
 	}
@@ -1015,6 +1100,7 @@ public class HothGenerator extends ChunkGenerator
 			if(type.equals("tatooine"))
 			{
 				List<BlockPopulator> list = new ArrayList<BlockPopulator>(1);
+				list.add(new TatooineSarlaccPopulator(this.height));
 				list.add(new TatooineOrePopulator(this.height));
 				list.add(new TatooinePopulator(this.height)); // Must be the last populator. Sets biome.
 				return list;
@@ -1022,6 +1108,13 @@ public class HothGenerator extends ChunkGenerator
 			else if(type.equals("dagobah"))
 			{
 				List<BlockPopulator> list = new ArrayList<BlockPopulator>(1);
+				list.add(new DagobahGrassPopulator(this.height));
+				list.add(new DagobahTemplePopulator(this.height));
+				list.add(new DagobahTreeHutPopulator(this.height));
+				list.add(new DagobahRootPopulator(this.height));
+				list.add(new DagobahSmallTreePopulator(this.height));
+				list.add(new DagobahHugeTreePopulator(this.height));
+				list.add(new DagobahSpiderForestPopulator(this.height));
 				list.add(new DagobahOrePopulator(this.height));
 				list.add(new DagobahPopulator(this.height)); // Must be the last populator. Sets biome.
 				return list;
@@ -1029,7 +1122,7 @@ public class HothGenerator extends ChunkGenerator
 			else  // Default to Hoth
 			{
 				List<BlockPopulator> list = new ArrayList<BlockPopulator>(1);
-				list.add(new HothPopulator(this.height));
+				list.add(new HothPopulator(this.height)); // Must be the last populator. Sets biome.
 				return list;
 			}
 	}

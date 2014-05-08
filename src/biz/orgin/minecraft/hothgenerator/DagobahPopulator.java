@@ -39,7 +39,10 @@ public class DagobahPopulator extends BlockPopulator
 			for(int j=0;j<16;j++)
 			{
 				Biome biome = world.getBiome(rx+j, rz+i);
-				if(!biome.equals(Biome.RIVER) && !biome.equals(Biome.FROZEN_RIVER))
+				if(!biome.equals(Biome.RIVER)
+						&& !biome.equals(Biome.FROZEN_RIVER)
+						&& !biome.equals(Biome.MUSHROOM_ISLAND)
+						&& !biome.equals(Biome.MUSHROOM_SHORE))
 				{
 					world.setBiome(rx+j, rz+i, Biome.SWAMPLAND);
 				}

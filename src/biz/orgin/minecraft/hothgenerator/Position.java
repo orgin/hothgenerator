@@ -34,6 +34,19 @@ public class Position implements Serializable
 		this.blockState = null;
 
 	}
+	
+	public Position(BlockState state)
+	{
+		this.x = state.getX();
+		this.y = state.getY();
+		this.z = state.getZ();
+		this.type = 0;
+		this.data = 0;
+		this.lootMin = 0;
+		this.lootMax = 0;
+		this.lootGenerator = null;
+		this.blockState = state;
+	}
 
 	public Position(int x, int y, int z)
 	{

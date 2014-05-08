@@ -46,6 +46,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private ToolUseManager toolUseManager;
 	private BlockMeltManager blockMeltManager;
 	private BlockGrowManager blockGrowManager;
+	private BlockFormManager blockFormManager;
 	private StructureGrowManager structureGrowManager;
 	private BlockSpreadManager blockSpreadManager;
 	private CreatureSpawnManager creatureSpawnManager;
@@ -53,6 +54,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private BlockGravityManager blockGravityManager;
 	private RegionManager regionManager;
 	private MobSpawnManager mobSpawnManager;
+	private DagobahSpiderForestManager spiderForestManager = null;
 	private HothTaskManager taskManager;
 	
 	private FileConfiguration config;
@@ -75,6 +77,7 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.toolUseManager = new ToolUseManager(this);
     	this.blockMeltManager = new BlockMeltManager(this);
     	this.blockGrowManager = new BlockGrowManager(this);
+    	this.blockFormManager = new BlockFormManager(this);
     	this.structureGrowManager = new StructureGrowManager(this);
     	this.blockSpreadManager = new BlockSpreadManager(this);
     	this.creatureSpawnManager = new CreatureSpawnManager(this);
@@ -86,11 +89,11 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.getServer().getPluginManager().registerEvents(this.toolUseManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockMeltManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockGrowManager, this);
+    	this.getServer().getPluginManager().registerEvents(this.blockFormManager, this);
     	this.getServer().getPluginManager().registerEvents(this.structureGrowManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockSpreadManager, this);
     	this.getServer().getPluginManager().registerEvents(this.creatureSpawnManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockGravityManager, this);
-    	
     	
 		this.saveDefaultConfig();
     	this.config = this.getConfig();
@@ -105,6 +108,10 @@ public class HothGeneratorPlugin extends JavaPlugin
 
     	this.playerFreezeManager = new PlayerEnvironmentManager(this);
     	this.mobSpawnManager = new MobSpawnManager(this);
+    	if(this.spiderForestManager==null)
+    	{
+    		this.spiderForestManager = new DagobahSpiderForestManager(this);
+    	}
     	if(this.taskManager==null)
     	{
     		this.taskManager = new HothTaskManager(this);
@@ -124,6 +131,10 @@ public class HothGeneratorPlugin extends JavaPlugin
     		this.playerFreezeManager.stop();
     	}
     	if(this.mobSpawnManager!=null)
+    	{
+    		this.mobSpawnManager.stop();
+    	}
+    	if(this.spiderForestManager!=null)
     	{
     		this.mobSpawnManager.stop();
     	}
@@ -249,6 +260,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	       					if(rSelector!=null && rSelector instanceof CuboidRegionSelector)
 	       					{
 	       						ExportManager.export(this, world, (CuboidRegionSelector)rSelector, sender, args[0], maskid);
+	       						CustomGenerator.load(this);
 	       					}
 							else
 							{
@@ -742,6 +754,16 @@ public class HothGeneratorPlugin extends JavaPlugin
 		}
 		
 		return -1;
+	}
+	
+	public void addSpiderForest(World world, int x, int y, int z, int size)
+	{
+    	if(this.spiderForestManager==null)
+    	{
+    		this.spiderForestManager = new DagobahSpiderForestManager(this);
+    	}
+
+		this.spiderForestManager.add(world, x, y, z, size);
 	}
 	
 	/**

@@ -511,7 +511,7 @@ public class RoomGenerator implements Serializable
 
 			RoomGenerator.renderRoom(plugin, world, this.cluster.rooms);
 
-			plugin.logMessage("Placing maze at " + this.cluster.rooms.x + "," + this.cluster.rooms.y + "," + this.cluster.rooms.z, true);
+			plugin.logMessage("Placing maze at " + world.getName() + "," + this.cluster.rooms.x + "," + this.cluster.rooms.y + "," + this.cluster.rooms.z, true);
 		}
 	}
 }

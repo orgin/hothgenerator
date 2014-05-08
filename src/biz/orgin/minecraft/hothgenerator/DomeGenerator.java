@@ -153,7 +153,7 @@ public class DomeGenerator
 			int sz = this.chunkz*16 + random.nextInt(16);
 			int sy = 26 + surfaceOffset;
 			
-			plugin.logMessage("Placing Dome at " + sx + "," + sy + "," + sz,true);
+			plugin.logMessage("Placing Dome at " + world.getName() + "," + sx + "," + sy + "," + sz,true);
 
 			int radius = 46;
 

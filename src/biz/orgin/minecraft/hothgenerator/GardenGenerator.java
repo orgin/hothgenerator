@@ -83,7 +83,7 @@ public class GardenGenerator
 			
 			HothUtils.placeSchematic(plugin, world, garden, x, y, z, 2, 10);
 
-			plugin.logMessage("Placing garden at " + x + "," + y + "," + z, true);
+			plugin.logMessage("Placing garden at " + world.getName() + "," + x + "," + y + "," + z, true);
 		}
 
 	}

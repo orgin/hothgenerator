@@ -95,16 +95,17 @@ public class ExportManager
 					int length = Math.abs(z2-z1)+1;
 					int height = Math.abs(y2-y1)+1;
 					
-					writer.write("ENABLED: false\n");
+					writer.write("ENABLED: true\n");
 					writer.write("WIDTH: " + width + "\n");
 					writer.write("LENGTH: " + length + "\n");
 					writer.write("HEIGHT: " + height + "\n");
-					writer.write("TYPE: [Edit]\n");
-					writer.write("RARITY: [Edit]\n");
-					writer.write("RANDOM: [Edit]\n");
-					writer.write("LOOT: [Edit]\n");
-					writer.write("LOOTMIN: [Edit]\n");
-					writer.write("LOOTMAX: [Edit]\n");
+					writer.write("TYPE: 0\n");
+					writer.write("YOFFSET: 0\n");
+					writer.write("RARITY: 0\n");
+					writer.write("RANDOM: 0\n");
+					writer.write("LOOT: \n");
+					writer.write("LOOTMIN: 0\n");
+					writer.write("LOOTMAX: 1\n");
 					writer.write("MATRIX:\n");
 					
 					StringBuffer mySB1 = new StringBuffer();

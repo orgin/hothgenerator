@@ -53,6 +53,8 @@ public class InternalSchematics {
 				InternalSchematics.schematics.add(new LoadedSchematic(plugin.getResource("schematics/sandcastle.sm"),"sandcastle"));
 				InternalSchematics.schematics.add(new LoadedSchematic(plugin.getResource("schematics/skeleton.sm"),"skeleton"));
 				InternalSchematics.schematics.add(new LoadedSchematic(plugin.getResource("schematics/supergarden.sm"),"supergarden"));
+				InternalSchematics.schematics.add(new LoadedSchematic(plugin.getResource("schematics/swamptemple.sm"),"swamptemple"));
+				InternalSchematics.schematics.add(new LoadedSchematic(plugin.getResource("schematics/treehut.sm"),"treehut"));
 				InternalSchematics.schematics.add(new LoadedSchematic(plugin.getResource("schematics/villagecenter.sm"),"villagecenter"));
 				InternalSchematics.schematics.add(new LoadedSchematic(plugin.getResource("schematics/villagehut1.sm"),"villagehut1"));
 				InternalSchematics.schematics.add(new LoadedSchematic(plugin.getResource("schematics/villagehut2.sm"),"villagehut2"));

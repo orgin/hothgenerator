@@ -242,7 +242,7 @@ public class SpikeGenerator {
 						}
 					}
 
-					plugin.logMessage("Placing spike at " + x3 + "," + y3 + "," + z3, true);
+					plugin.logMessage("Placing spike at " + world.getName() + "," + x3 + "," + y3 + "," + z3, true);
 
 				}
 				else if(method == 2) // z

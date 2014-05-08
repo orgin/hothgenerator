@@ -28,7 +28,7 @@ public class HothUtils
 	private static IntSet delays = new IntSet(new int[] {  // Block types to defer until infrastructure is made.
 			50,75,76,6,32,37,38,39,40,51,55,26,
 			59,31,63,65,66,96,69,77,78,106,83,115,
-			93,94,111,127,131,132,140,141,142,143,78,64});
+			93,94,111,127,131,132,140,141,142,143,171,78,64});
 
 	public static void placeSchematic(Plugin plugin, World world, Schematic schematic, int x, int y, int z, int lootMin, int lootMax)
 	{
@@ -108,7 +108,7 @@ public class HothUtils
 								spawner.setSpawnedType(EntityTypeManager.toEntityType(data));
 							}
 							
-							spawner.update(true);
+							spawner.update(true, false);
 						}
 						else if(type==54) // Chest, set correct rotation and add some random loot
 						{
@@ -118,7 +118,7 @@ public class HothUtils
 
 							Inventory inv = chest.getInventory();
 							lootGenerator.getLootInventory(inv, lootMin, lootMax);
-							chest.update(true);
+							chest.update(true, false);
 
 						}
 						else if(HothUtils.delays.contains(type)) // Torches and such, delay for later
@@ -148,8 +148,16 @@ public class HothUtils
 						Block block = world.getBlockAt(x+xx, y-yy, z+zz);
 						block.setType(Material.AIR);
 						byte data = (byte)matrix[yy][zz][xx+width];
+						
 						EntityType entityType = EntityTypeManager.toEntityType(data);
-						world.spawnEntity(new Location(world, x+xx, y-yy, z+zz), entityType);
+						try
+						{
+							world.spawnEntity(new Location(world, x+xx, y-yy, z+zz), entityType);
+						}
+						catch(Exception e)
+						{
+							// Failed to spawn entity. Generator not ready yet?
+						}
 					}
 				}
 			}
@@ -203,6 +211,52 @@ public class HothUtils
 		
 		return HothUtils.getBlock(chunk[sub], x,rely,z);
 
+	}
+	
+	public static void replaceTop(byte[][] chunk, byte from1, byte from2, byte to, int maxy)
+	{
+		for(int x=0;x<16;x++)
+		{
+			for(int z=0;z<16;z++)
+			{
+				int y = HothUtils.getMaxY(chunk, x, z, maxy);
+				if(y>0)
+				{
+					byte old = HothUtils.getPos(chunk, x, y, z);
+					if(old==from1 || old==from2)
+					{
+						HothUtils.setPos(chunk, x, y, z, to);
+					}
+				}
+			}
+		}
+	}
+	
+	private static int getMaxY(byte[][] chunk, int x, int z, int maxy)
+	{
+		for(int i=(maxy-1);i>0;i--)
+		{
+			int type = HothUtils.getRawPos(chunk, x, i, z); 
+			if(type!=-1 && type!=0)
+			{
+				return i;
+			}
+		}
+		
+		return 0;
+	}
+	
+	private static int getRawPos(byte[][] chunk, int x, int y, int z)
+	{
+		int sub = y/16;
+		int rely = y-(sub*16);
+		
+		if(chunk[sub]==null)
+		{
+			return -1;
+		}
+		
+		return HothUtils.getBlock(chunk[sub], x,rely,z);
 	}
 
 	public static byte getBlock(byte[] subchunk, int x, int y, int z)
@@ -473,6 +527,127 @@ public class HothUtils
 				}
 			}
 		}
+		else if(type==106) // Vines
+		{
+			switch(rot)
+			{
+			case 2: // North
+				switch(data)
+				{
+				case 1: return 1; // N
+				case 2: return 2; // E
+				case 4: return 4; // S
+				case 8: return 8; // W
+				}
+			case 0: // South
+				switch(data)
+				{
+				case 1: return 4; // N -> S
+				case 2: return 8; // E -> W
+				case 4: return 1; // S -> N
+				case 8: return 2; // W -> E
+				}
+			case 1: // West
+				switch(data)
+				{
+				case 1: return 8; // N -> W
+				case 2: return 1; // E -> N
+				case 4: return 2; // S -> E
+				case 8: return 4; // W -> S
+				}
+			case 3: // East
+				switch(data)
+				{
+				case 1: return 2; // N -> E
+				case 2: return 4; // E -> S
+				case 4: return 8; // S -> W
+				case 8: return 1; // W -> N
+				}
+			}
+		}
+		else if(type==26) // Bed
+		{
+			int part = data & 0x08;
+			int dir = data &0x07;
+			
+			switch(rot)
+			{
+			case 2: // North
+				switch(dir)
+				{
+				case 0: return 0 | part; // N
+				case 1: return 1 | part; // E
+				case 2: return 2 | part; // S
+				case 3: return 3 | part; // W
+				}
+			case 0: // South
+				switch(dir)
+				{
+				case 0: return 2 | part; // N -> S
+				case 1: return 3 | part; // E -> W
+				case 2: return 0 | part; // S -> N
+				case 3: return 1 | part; // W -> E
+				}
+			case 1: // West
+				switch(dir)
+				{
+				case 0: return 3 | part; // N -> W
+				case 1: return 0 | part; // E -> N
+				case 2: return 1 | part; // S -> E
+				case 3: return 2 | part; // W -> S
+				}
+			case 3: // East
+				switch(dir)
+				{
+				case 0: return 1 | part; // N -> E
+				case 1: return 2 | part; // E -> S
+				case 2: return 3 | part; // S -> W
+				case 3: return 0 | part; // W -> N
+				}
+			}
+		}
+		else if(type==17 || type==162) // Logs
+		{
+			int typ = data & 0x03;
+			int dir = data &0x0c;
+			
+			switch(rot)
+			{
+			case 2: // North
+				switch(dir)
+				{
+				case  0: return  0 | typ; // UD -> UD
+				case  4: return  4 | typ; // EW -> EW
+				case  8: return  8 | typ; // NS -> NS
+				case 12: return 12 | typ; // A -> A
+				}
+			case 0: // South
+				switch(dir)
+				{
+				case  0: return  0 | typ; // UD -> UD
+				case  4: return  4 | typ; // EW -> EW
+				case  8: return  8 | typ; // NS -> NS
+				case 12: return 12 | typ; // A -> A
+				}
+			case 1: // West
+				switch(dir)
+				{
+				case  0: return  0 | typ; // UD -> UD
+				case  4: return  8 | typ; // EW -> NS
+				case  8: return  4 | typ; // NS -> EW
+				case 12: return 12 | typ; // A -> A
+				}
+			case 3: // East
+				switch(dir)
+				{
+				case  0: return  0 | typ; // UD -> UD
+				case  4: return  8 | typ; // EW -> NS
+				case  8: return  4 | typ; // NS -> EW
+				case 12: return 12 | typ; // A -> A
+				}
+			}
+		}
+
 			
 		
 		
@@ -567,6 +742,33 @@ public class HothUtils
 		}
 		
 		return result.toString();
+	}
+	
+	public static boolean isTransparent(Block block)
+	{
+		if(block.isEmpty())
+		{
+			return true;
+		}
+		
+		Material type = block.getType();
+		return 
+				type.equals(Material.LONG_GRASS) ||
+				type.equals(Material.RED_MUSHROOM) ||
+				type.equals(Material.BROWN_MUSHROOM) ||
+				type.equals(Material.YELLOW_FLOWER) ||
+				type.equals(Material.RED_ROSE) ||
+				type.equals(Material.SAPLING) ||
+				type.equals(Material.WEB) ||
+				type.equals(Material.TORCH) ||
+				type.equals(Material.REDSTONE_TORCH_ON) ||
+				type.equals(Material.REDSTONE_TORCH_OFF) ||
+				type.equals(Material.GLASS) ||
+				type.equals(Material.VINE) ||
+				type.equals(Material.WATER_LILY) ||
+				type.equals(Material.LEAVES) ||
+				type.equals(Material.DOUBLE_PLANT)
+				;
 	}
 
 }

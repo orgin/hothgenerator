@@ -213,11 +213,11 @@ public class CustomGenerator
 					HothUtils.placeSchematic(plugin, world, schematic, x-hw, y, z+hl, schematic.getLootMin(), schematic.getLootMax(), generator);
 				}
 	
-				plugin.logMessage("Placing " + schematic.getName() + " at " + x + "," + y + "," + z, true);
+				plugin.logMessage("Placing " + schematic.getName() + " at " + world.getName() + "," + x + "," + y + "," + z, true);
 			}
 			else
 			{
-				plugin.logMessage("Failed to place " + this.schematic.getName() + " at " + x + "," + y + "," + z, true);
+				plugin.logMessage("Failed to place " + this.schematic.getName() + " at " + world.getName() + "," + x + "," + y + "," + z, true);
 			}
 		}
 	}

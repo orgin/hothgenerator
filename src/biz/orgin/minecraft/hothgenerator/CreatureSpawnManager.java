@@ -2,7 +2,8 @@ package biz.orgin.minecraft.hothgenerator;
 
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Slime;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -23,7 +24,7 @@ public class CreatureSpawnManager implements Listener
 		this.plugin = plugin;
 	}
 
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onCreatureSpawn(CreatureSpawnEvent event)
 	{
 		if(!event.isCancelled())
@@ -33,11 +34,11 @@ public class CreatureSpawnManager implements Listener
 			
 			if(this.plugin.isHothWorld(world) && this.plugin.isRulesLimitslime(location))
 			{
-				EntityType type = event.getEntityType();
-				
 				int surfaceOffset = this.plugin.getWorldSurfaceoffset();
 				
-				if(type.equals(EntityType.SLIME) && location.getBlockY()>(27 + surfaceOffset) &&
+				LivingEntity entity = event.getEntity();
+				
+				if(entity instanceof Slime && location.getBlockY()>(27 + surfaceOffset) &&
 						event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.NATURAL))
 				{
 					event.setCancelled(true);
