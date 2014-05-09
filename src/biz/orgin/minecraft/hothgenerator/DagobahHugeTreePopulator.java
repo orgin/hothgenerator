@@ -27,12 +27,16 @@ public class DagobahHugeTreePopulator  extends BlockPopulator
 	@Override
 	public void populate(World world, Random random, Chunk chunk)
 	{
-		int rand = random.nextInt(700);
+		int rand = 4;
+		int rarity = plugin.getStructureHugeTreeRarity(); 
 
-		if(rand==4)
+		if(rarity!=0)
 		{
-			this.placeHugeTree(world, random, chunk);
-		}
+			if(rand == random.nextInt((rarity*700/2)))
+			{
+				this.placeHugeTree(world, random, chunk);
+			}	
+		}			
 	}
 	
 	private void placeHugeTree(World world, Random random, Chunk chunk)

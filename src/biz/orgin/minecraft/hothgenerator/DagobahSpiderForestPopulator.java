@@ -41,12 +41,16 @@ public class DagobahSpiderForestPopulator extends BlockPopulator
 			this.lootGenerator = LootGenerator.getLootGenerator();
 		}
 		
-		int rand = random.nextInt(832);
-		
-		if(rand==223)
+		int rand = 223;
+		int rarity = plugin.getStructureSpiderForestRarity(); 
+
+		if(rarity!=0)
 		{
-			this.placeSpiderForest(world, random, chunk);
-		}
+			if(rand == random.nextInt((rarity*832/2)))
+			{
+				this.placeSpiderForest(world, random, chunk);
+			}	
+		}			
 	}
 	
 	private void placeSpiderForest(World world, Random random, Chunk chunk)

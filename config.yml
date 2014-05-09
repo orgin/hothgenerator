@@ -147,10 +147,15 @@ hoth:
   structure.mazes.maxrooms: 32
   structure.mazes.spawner: true
   structure.skeletons.rarity: 2
-  structure.oasis.rarity: 2
   structure.sandcastle.rarity: 2
   structure.village.rarity: 2
   structure.supergarden.rarity: 2
+  structure.oasis.rarity: 2
+  structure.sarlacc.rarity: 2
+  structure.hugetree.rarity: 2
+  structure.spiderforest.rarity: 2
+  structure.swamptemple.rarity: 2
+  structure.treehut.rarity: 2
   generate.logs: true
   generate.caves.rarity: 2
   generate.ores: true

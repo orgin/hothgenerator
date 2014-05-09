@@ -41,12 +41,15 @@ public class TatooineSarlaccPopulator extends BlockPopulator
 		if(this.schematic!=null)
 		{
 			int rand = this.schematic.getRandom();
-			int rarity = this.schematic.getRarity();
-			
-			if(rand==random.nextInt(rarity))
+			int rarity = plugin.getStructureSarlaccRarity();
+
+			if(rarity!=0)
 			{
-				this.placeTreeHut(world, random, chunk);
-			}
+				if(rand == random.nextInt((rarity*this.schematic.getRarity()/2)))
+				{
+					this.placeTreeHut(world, random, chunk);
+				}	
+			}			
 		}
 	}
 	

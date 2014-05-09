@@ -976,6 +976,56 @@ public class HothGeneratorPlugin extends JavaPlugin
 		}
 		return result;
 	}
+	
+	public int getStructureSarlaccRarity()
+	{
+		int result = this.config.getInt("hoth.structure.sarlacc.rarity", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+
+	public int getStructureHugeTreeRarity()
+	{
+		int result = this.config.getInt("structure.hugetree.rarity", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+
+	public int getStructureSpiderForestRarity()
+	{
+		int result = this.config.getInt("structure.spiderforest.rarity", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+
+	public int getStructureSwampTempleRarity()
+	{
+		int result = this.config.getInt("structure.swamptemple.rarity", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+
+	public int getStructureTreeHutRarity()
+	{
+		int result = this.config.getInt("structure.treehut.rarity", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
 
 	public boolean isGenerateLogs()
 	{

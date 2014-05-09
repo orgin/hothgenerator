@@ -46,12 +46,15 @@ public class DagobahTreeHutPopulator extends BlockPopulator
 		if(this.schematics!=null)
 		{
 			int rand = this.schematics[0].getRandom();
-			int rarity = this.schematics[0].getRarity();
-			
-			if(rand==random.nextInt(rarity))
+			int rarity = plugin.getStructureTreeHutRarity(); 
+
+			if(rarity!=0)
 			{
-				this.placeTreeHut(world, random, chunk);
-			}
+				if(rand == random.nextInt((rarity*this.schematics[0].getRarity()/2)))
+				{
+					this.placeTreeHut(world, random, chunk);
+				}	
+			}			
 		}
 	}
 	

@@ -46,16 +46,20 @@ public class DagobahTemplePopulator extends BlockPopulator
 		if(this.schematics!=null)
 		{
 			int rand = this.schematics[0].getRandom();
-			int rarity = this.schematics[0].getRarity();
-			
-			if(rand==random.nextInt(rarity))
+			int rarity = plugin.getStructureSwampTempleRarity();
+
+			if(rarity!=0)
 			{
-				this.placeTreeHut(world, random, chunk);
-			}
-		}
+				if(rand == random.nextInt((rarity*this.schematics[0].getRarity()/2)))
+				{
+					this.placeTemple(world, random, chunk);
+				}	
+			}			
+		}	
+	
 	}
 	
-	private void placeTreeHut(World world, Random random, Chunk chunk)
+	private void placeTemple(World world, Random random, Chunk chunk)
 	{
 		LoadedSchematic schematic = this.schematics[random.nextInt(4)];
 		
