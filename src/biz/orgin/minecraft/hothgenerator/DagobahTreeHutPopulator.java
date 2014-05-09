@@ -68,7 +68,7 @@ public class DagobahTreeHutPopulator extends BlockPopulator
 		// Some kind of bug makes the server throw an exception if you spawn an entity (creature) during world load in a
 		// populator in a world where a plugin has registered a creaturespawn listener. To circumvent this I had
 		// to prevent spawning tree huts too close to the centre of the world.
-		if(Math.sqrt((xx*xx)+(zz*zz))<500)
+		if(Math.sqrt((xx*xx)+(zz*zz))<400)
 		{
 			return;
 		}

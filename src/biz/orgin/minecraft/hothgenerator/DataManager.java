@@ -10,7 +10,6 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.material.LongGrass;
 import org.bukkit.material.MaterialData;
-import org.bukkit.material.Mushroom;
 import org.bukkit.material.Sandstone;
 import org.bukkit.material.Stairs;
 import org.bukkit.material.Wool;
@@ -66,6 +65,11 @@ public class DataManager
 		}
 		else if(material.equals(Material.HUGE_MUSHROOM_1) || material.equals(Material.HUGE_MUSHROOM_2))
 		{
+			// The bukkit api for handling mushroom faces is totally borked, usign deprecated function
+			block.setData(data, applyPhysics);
+			/*
+			System.out.println("======= START");
+			System.out.println("Block: " + block.getType().toString() + " " + block.getData());
 			BlockState state = block.getState();
 			Mushroom mushroom = (Mushroom)state.getData();
 			switch(data)
@@ -73,68 +77,70 @@ public class DataManager
 				case 1:
 				mushroom.setFacePainted(BlockFace.UP, true);
 				mushroom.setFacePainted(BlockFace.WEST, true);
-				mushroom.setFacePainted(BlockFace.NORTH, true);
+				mushroom.setFacePainted(BlockFace.SOUTH, true);
 				break;
 				case 2:
 				mushroom.setFacePainted(BlockFace.UP, true);
-				mushroom.setFacePainted(BlockFace.NORTH, true);
+				mushroom.setFacePainted(BlockFace.WEST, true);
 				break;
 				case 3:
 				mushroom.setFacePainted(BlockFace.UP, true);
 				mushroom.setFacePainted(BlockFace.NORTH, true);
-				mushroom.setFacePainted(BlockFace.EAST, true);
+				mushroom.setFacePainted(BlockFace.WEST, true);
 				break;
 				case 4:
 				mushroom.setFacePainted(BlockFace.UP, true);
-				mushroom.setFacePainted(BlockFace.WEST, true);
+				mushroom.setFacePainted(BlockFace.SOUTH, true);
 				break;
 				case 5:
 				mushroom.setFacePainted(BlockFace.UP, true);
 				break;
 				case 6:
 				mushroom.setFacePainted(BlockFace.UP, true);
-				mushroom.setFacePainted(BlockFace.EAST, true);
+				mushroom.setFacePainted(BlockFace.NORTH, true);
 				break;
 				case 7:
 				mushroom.setFacePainted(BlockFace.UP, true);
 				mushroom.setFacePainted(BlockFace.SOUTH, true);
-				mushroom.setFacePainted(BlockFace.WEST, true);
+				mushroom.setFacePainted(BlockFace.EAST, true);
 				break;
 				case 8:
 				mushroom.setFacePainted(BlockFace.UP, true);
-				mushroom.setFacePainted(BlockFace.SOUTH, true);
+				mushroom.setFacePainted(BlockFace.EAST, true);
 				break;
 				case 9:
 				mushroom.setFacePainted(BlockFace.UP, true);
-				mushroom.setFacePainted(BlockFace.SOUTH, true);
+				mushroom.setFacePainted(BlockFace.NORTH, true);
 				mushroom.setFacePainted(BlockFace.EAST, true);
 				break;
 				case 10:
 				mushroom.setStem();
-				mushroom.setFacePainted(BlockFace.NORTH, true);
-				mushroom.setFacePainted(BlockFace.EAST, true);
-				mushroom.setFacePainted(BlockFace.SOUTH, true);
-				mushroom.setFacePainted(BlockFace.WEST, true);
 				break;
 				case 14:
-				mushroom.setFacePainted(BlockFace.NORTH, true);
 				mushroom.setFacePainted(BlockFace.EAST, true);
-				mushroom.setFacePainted(BlockFace.SOUTH, true);
-				mushroom.setFacePainted(BlockFace.WEST, true);
 				mushroom.setFacePainted(BlockFace.UP, true);
-				mushroom.setFacePainted(BlockFace.DOWN, true);
 				break;
 				case 15:
 				mushroom.setStem();
 				mushroom.setFacePainted(BlockFace.NORTH, true);
 				mushroom.setFacePainted(BlockFace.EAST, true);
-				mushroom.setFacePainted(BlockFace.SOUTH, true);
-				mushroom.setFacePainted(BlockFace.WEST, true);
 				mushroom.setFacePainted(BlockFace.UP, true);
-				mushroom.setFacePainted(BlockFace.DOWN, true);
 				break;
 			}
 			state.update();
+			
+			System.out.println("Mushroom data was: " + data);
+			System.out.println("Mushroom data ended up as: " + state.getRawData());
+			
+			Set<BlockFace> faceSet = mushroom.getPaintedFaces();
+			BlockFace[] faces = faceSet.toArray(new BlockFace[0]);
+			for(int i=0;i<faces.length;i++)
+			{
+				System.out.println(block.getType().name() + " face: " + faces[i].name());
+			}
+			*/
+
+			
 		}
 		else if(material.equals(Material.SANDSTONE))
 		{

@@ -196,6 +196,7 @@ public class DagobahSpiderForestPopulator extends BlockPopulator
 		if(mat.equals(Material.VINE)
 				|| mat.equals(Material.WEB)
 				|| mat.equals(Material.GRASS)
+				|| mat.equals(Material.MYCEL)
 				|| mat.equals(Material.WATER)
 				|| mat.equals(Material.STATIONARY_WATER)
 				|| mat.equals(Material.WATER_LILY)

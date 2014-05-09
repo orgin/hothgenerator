@@ -130,6 +130,11 @@ public class HothUtils
 						}
 						else
 						{
+							if(type==0)
+							{
+								data = 0;
+							}
+							
 							if(data==0)
 							{
 								BlockState state = block.getState();
@@ -489,7 +494,7 @@ public class HothUtils
 				}
 			}
 		}
-		else if(type==54 || type==23 || type==158 || type==61 || type==130 || type==62) // chest, enderchest, furnace, dropper etc
+		else if(type==54 || type==23 || type==158 || type==61 || type==130 || type==62 || type==65) // chest, enderchest, furnace, dropper etc
 		{
 			switch(rot)
 			{
@@ -647,6 +652,81 @@ public class HothUtils
 				}
 			}
 		}
+		else if(type==99 || type==100) // Huge mushrooms
+		{
+			switch(rot)
+			{
+			case 2: // North
+				switch(data)
+				{
+				case  0: return  0;
+				case  1: return  1;
+				case  2: return  2;
+				case  3: return  3;
+				case  4: return  4;
+				case  5: return  5;
+				case  6: return  6;
+				case  7: return  7;
+				case  8: return  8;
+				case  9: return  9;
+				case 10: return 10;
+				case 14: return 14;
+				case 15: return 15;
+				}
+			case 0: // South
+				switch(data)
+				{
+				case  0: return  0;
+				case  1: return  9;
+				case  2: return  8;
+				case  3: return  7;
+				case  4: return  6;
+				case  5: return  5;
+				case  6: return  4;
+				case  7: return  3;
+				case  8: return  2;
+				case  9: return  1;
+				case 10: return 10;
+				case 14: return 14;
+				case 15: return 15;
+				}
+			case 1: // West
+				switch(data)
+				{
+				case  0: return  0;
+				case  1: return  7;
+				case  2: return  4;
+				case  3: return  1;
+				case  4: return  8;
+				case  5: return  5;
+				case  6: return  2;
+				case  7: return  9;
+				case  8: return  6;
+				case  9: return  3;
+				case 10: return 10;
+				case 14: return 14;
+				case 15: return 15;
+				}
+			case 3: // East
+				switch(data)
+				{
+				case  0: return  0;
+				case  1: return  3;
+				case  2: return  6;
+				case  3: return  9;
+				case  4: return  2;
+				case  5: return  5;
+				case  6: return  8;
+				case  7: return  1;
+				case  8: return  4;
+				case  9: return  7;
+				case 10: return 10;
+				case 14: return 14;
+				case 15: return 15;
+				}
+			}
+		}
+
 
 			
 		

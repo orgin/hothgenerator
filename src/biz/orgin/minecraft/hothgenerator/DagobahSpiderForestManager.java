@@ -131,8 +131,6 @@ public class DagobahSpiderForestManager
 			this.coords = new HashSet<SpiderCoord>();
 		}
 		
-		System.out.println("add(" + world.getName() + "," + x + "," + y + "," + z + "," + size);
-		
 		this.coords.add(new SpiderCoord(world.getName(), x, y, z, size));
 		this.save(); // Immediately store the list to keep it consistent
 	}

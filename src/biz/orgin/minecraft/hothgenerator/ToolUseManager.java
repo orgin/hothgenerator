@@ -1,9 +1,13 @@
 package biz.orgin.minecraft.hothgenerator;
 
+import java.util.Set;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -11,6 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Mushroom;
 
 /**
  * Listens to player interaction events, specifically using a
@@ -48,6 +53,17 @@ public class ToolUseManager implements Listener
 				{
 					Block block = event.getClickedBlock();
 					player.sendMessage("Item: name = " + block.getType().name() + " type = " + MaterialManager.toID(block.getType()) + ", data = " + DataManager.getData(block));
+					BlockState state = block.getState();
+					if(block.getType().equals(Material.HUGE_MUSHROOM_1) || block.getType().equals(Material.HUGE_MUSHROOM_2))
+					{
+						Mushroom mushroom = (Mushroom)state.getData();
+						Set<BlockFace> faceSet = mushroom.getPaintedFaces();
+						BlockFace[] faces = faceSet.toArray(new BlockFace[0]);
+						for(int i=0;i<faces.length;i++)
+						{
+							player.sendMessage(block.getType().name() + " face: " + faces[i].name());
+						}
+					}
 				}
 	
 				if(this.plugin.isHothWorld(world) && this.plugin.getWorldType(world).equals("hoth"))

@@ -1108,6 +1108,7 @@ public class HothGenerator extends ChunkGenerator
 			else if(type.equals("dagobah"))
 			{
 				List<BlockPopulator> list = new ArrayList<BlockPopulator>(1);
+				list.add(new DagobahMushroomHutPopulator(this.height));
 				list.add(new DagobahGrassPopulator(this.height));
 				list.add(new DagobahTemplePopulator(this.height));
 				list.add(new DagobahTreeHutPopulator(this.height));

@@ -95,7 +95,7 @@ public class DagobahGrassPopulator extends BlockPopulator
 					int mushroom = random.nextInt(20);
 					if(mushroom==5)
 					{
-						int type = random.nextInt(20);
+						int type = random.nextInt(40);
 						
 						BlockState state = block.getState();
 						if(type%2 == 0)
