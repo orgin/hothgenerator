@@ -99,21 +99,17 @@ public class MobSpawnManager
 		@Override
 		public void run()
 		{
-			// Check if we should spawn anything at all
-			if(this.plugin.isRulesSpawnNeutralOn())
+			Server server = this.plugin.getServer();
+			
+			List<World> worlds = server.getWorlds();
+			
+			// Find all worlds configured as hoth worlds and check if each world has spawn neutral rule
+			for(int i=0;i<worlds.size();i++)
 			{
-				Server server = this.plugin.getServer();
-				
-				List<World> worlds = server.getWorlds();
-				
-				// Find all worlds configured as hoth worlds
-				for(int i=0;i<worlds.size();i++)
+				World world = worlds.get(i);
+				if(this.plugin.isHothWorld(world) && this.plugin.getWorldType(world).equals("hoth") && this.plugin.isRulesSpawnNeutralOn(world))
 				{
-					World world = worlds.get(i);
-					if(this.plugin.isHothWorld(world) && this.plugin.getWorldType(world).equals("hoth"))
-					{
-						this.spawnMobs(world);
-					}
+					this.spawnMobs(world);
 				}
 			}
 		}

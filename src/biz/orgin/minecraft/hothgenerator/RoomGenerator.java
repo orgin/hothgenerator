@@ -78,10 +78,10 @@ public class RoomGenerator implements Serializable
 	 */
 	public static void generateRooms(World world, HothGeneratorPlugin plugin, Random random, int chunkx, int chunkz)
 	{
-		int rarity = plugin.getStructureMazesRarity();
-		RoomGenerator.MINROOMS = plugin.getStructureMazesMinrooms();
-		RoomGenerator.MAXROOMS = plugin.getStructureMazesMaxrooms();
-		RoomGenerator.SPAWNER = plugin.isStructureMazesSpawner();
+		int rarity = plugin.getStructureMazesRarity(world);
+		RoomGenerator.MINROOMS = plugin.getStructureMazesMinrooms(world);
+		RoomGenerator.MAXROOMS = plugin.getStructureMazesMaxrooms(world);
+		RoomGenerator.SPAWNER = plugin.isStructureMazesSpawner(world);
 		
 		if(rarity!=0)
 		{
@@ -89,7 +89,7 @@ public class RoomGenerator implements Serializable
 			int doit = random.nextInt(128*rarity);
 			if(doit == 39)
 			{
-				int surfaceOffset = plugin.getWorldSurfaceoffset();
+				int surfaceOffset = plugin.getWorldSurfaceoffset(world);
 				
 				RoomGenerator populator = new RoomGenerator();
 				

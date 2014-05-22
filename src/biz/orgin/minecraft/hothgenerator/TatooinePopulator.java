@@ -31,13 +31,13 @@ public class TatooinePopulator extends BlockPopulator
 		int rz = z * 16;
 		
 		// Cactuses
-		if(this.plugin.isGenerateCactuses())
+		if(this.plugin.isGenerateCactuses(world))
 		{
 			this.placeCactuses(world, rx, rz, random);
 		}
 		
 		// Shrubs
-		if(this.plugin.isGenerateShrubs())
+		if(this.plugin.isGenerateShrubs(world))
 		{
 			this.placeShrubs(world, rx, rz, random);
 		}

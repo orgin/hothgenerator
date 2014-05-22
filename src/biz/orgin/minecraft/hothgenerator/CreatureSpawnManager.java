@@ -34,7 +34,7 @@ public class CreatureSpawnManager implements Listener
 			
 			if(this.plugin.isHothWorld(world) && this.plugin.isRulesLimitslime(location))
 			{
-				int surfaceOffset = this.plugin.getWorldSurfaceoffset();
+				int surfaceOffset = this.plugin.getWorldSurfaceoffset(world);
 				
 				LivingEntity entity = event.getEntity();
 				

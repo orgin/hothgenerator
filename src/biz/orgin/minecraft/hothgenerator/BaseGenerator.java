@@ -37,7 +37,7 @@ public class BaseGenerator {
 	
 	public static void generateBase(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
-		int rarity = plugin.getStructureBasesRarity();
+		int rarity = plugin.getStructureBasesRarity(world);
 
 		if(rarity!=0)
 		{
@@ -76,7 +76,7 @@ public class BaseGenerator {
 			this.room5s = 0;
 		}
 		
-		public int getRandomRoom(HothGeneratorPlugin plugin)
+		public int getRandomRoom(HothGeneratorPlugin plugin, World world)
 		{
 			boolean done= false;
 			int room = 0;
@@ -86,7 +86,7 @@ public class BaseGenerator {
 				room = random.nextInt(BaseGenerator.roomCnt);
 				if(room==4)
 				{
-					if(this.room5s<2 && plugin.isStructureBasesSpawner())
+					if(this.room5s<2 && plugin.isStructureBasesSpawner(world))
 					{
 						this.room5s++;
 						done = true;
@@ -155,7 +155,7 @@ public class BaseGenerator {
 					int rooms = random.nextInt(16);
 					if((rooms&0x1)!=0) // North
 					{
-						Schematic roomN = BaseGenerator.rooms[this.getRandomRoom(plugin)][2];
+						Schematic roomN = BaseGenerator.rooms[this.getRandomRoom(plugin, world)][2];
 						HothUtils.placeSchematic(plugin, world, roomN, px, py , pz-9, 2, 10);
 					}
 					else
@@ -165,7 +165,7 @@ public class BaseGenerator {
 					}
 					if((rooms&0x2)!=0) // South
 					{
-						Schematic roomS = BaseGenerator.rooms[this.getRandomRoom(plugin)][0];
+						Schematic roomS = BaseGenerator.rooms[this.getRandomRoom(plugin, world)][0];
 						HothUtils.placeSchematic(plugin, world, roomS, px, py , pz+6, 2, 10);
 					}
 					else
@@ -175,7 +175,7 @@ public class BaseGenerator {
 					}
 					if((rooms&0x4)!=0) // West
 					{
-						Schematic roomW = BaseGenerator.rooms[this.getRandomRoom(plugin)][1];
+						Schematic roomW = BaseGenerator.rooms[this.getRandomRoom(plugin, world)][1];
 						HothUtils.placeSchematic(plugin, world, roomW, px-9, py , pz, 2, 10);
 					}
 					else
@@ -185,7 +185,7 @@ public class BaseGenerator {
 					}
 					if((rooms&0x8)!=0) // East
 					{
-						Schematic roomE = BaseGenerator.rooms[this.getRandomRoom(plugin)][3];
+						Schematic roomE = BaseGenerator.rooms[this.getRandomRoom(plugin, world)][3];
 						HothUtils.placeSchematic(plugin, world, roomE, px+6, py , pz, 2, 10);
 					}
 					else

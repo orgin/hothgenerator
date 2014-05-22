@@ -50,7 +50,7 @@ public class VillageGenerator {
 				VillageGenerator.villagehuts[7] = new LoadedSchematic(plugin.getResource("schematics/villagehut8.sm"),"villagehut8");
 			}
 			
-			int rarity = plugin.getStructureVillageRarity();
+			int rarity = plugin.getStructureVillageRarity(world);
 	
 			if(rarity!=0)
 			{

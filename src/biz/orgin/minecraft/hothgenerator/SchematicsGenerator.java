@@ -37,17 +37,9 @@ public class SchematicsGenerator
 			if(SchematicsGenerator.skeleton==null)
 			{
 				SchematicsGenerator.skeleton = new LoadedSchematic(plugin.getResource("schematics/skeleton.sm"),"skeleton");
-				SchematicsGenerator.skeleton.setRarity(plugin.getStructureSkeletonsRarity()*SchematicsGenerator.skeleton.getRarity()/2);
-				SchematicsGenerator.skeleton.setRandom(plugin.getStructureSkeletonsRarity()*SchematicsGenerator.skeleton.getRandom()/2);
 				SchematicsGenerator.oasis = new LoadedSchematic(plugin.getResource("schematics/oasis.sm"),"oasis");
-				SchematicsGenerator.oasis.setRarity(plugin.getStructureOasisRarity()*SchematicsGenerator.oasis.getRarity()/2);
-				SchematicsGenerator.oasis.setRandom(plugin.getStructureOasisRarity()*SchematicsGenerator.oasis.getRandom()/2);
 				SchematicsGenerator.sandcastle = new LoadedSchematic(plugin.getResource("schematics/sandcastle.sm"),"sandcastle");
-				SchematicsGenerator.sandcastle.setRarity(plugin.getStructureSandCastleRarity()*SchematicsGenerator.sandcastle.getRarity()/2);
-				SchematicsGenerator.sandcastle.setRandom(plugin.getStructureSandCastleRarity()*SchematicsGenerator.sandcastle.getRandom()/2);
 				SchematicsGenerator.supergarden = new LoadedSchematic(plugin.getResource("schematics/supergarden.sm"),"supergarden");
-				SchematicsGenerator.supergarden.setRarity(plugin.getStructureSuperGardenRarity()*SchematicsGenerator.supergarden.getRarity()/2);
-				SchematicsGenerator.supergarden.setRandom(plugin.getStructureSuperGardenRarity()*SchematicsGenerator.supergarden.getRandom()/2);
 
 				SchematicsGenerator.schematicsHoth[0][0] = SchematicsGenerator.skeleton.cloneRotate(0);
 				SchematicsGenerator.schematicsHoth[0][1] = SchematicsGenerator.skeleton.cloneRotate(1);
@@ -94,11 +86,33 @@ public class SchematicsGenerator
 					Random newRandom = new Random(random.nextLong());
 					
 					LoadedSchematic schematic = schematicsHoth[i][newRandom.nextInt(4)];
-					int rarity = schematic.getRarity();
+					
+					int rarity = 0;
+					int rnd = 0;
+					String name = schematic.getName();
+					if(name.equals("skeleton"))
+					{
+						rarity = plugin.getStructureSkeletonsRarity(world)*SchematicsGenerator.skeleton.getRarity()/2;
+						rnd = plugin.getStructureSkeletonsRarity(world)*SchematicsGenerator.skeleton.getRandom()/2;
+					}
+					else if(name.equals("oasis"))
+					{
+						rarity = plugin.getStructureOasisRarity(world)*SchematicsGenerator.oasis.getRarity()/2;
+						rnd = plugin.getStructureOasisRarity(world)*SchematicsGenerator.oasis.getRandom()/2;
+					}
+					else if(name.equals("sandcastle"))
+					{
+						rarity = plugin.getStructureSandCastleRarity(world)*SchematicsGenerator.sandcastle.getRarity()/2;
+						rnd = plugin.getStructureSandCastleRarity(world)*SchematicsGenerator.sandcastle.getRandom()/2;
+					}
+					else if(name.equals("supergarden"))
+					{
+						rarity = plugin.getStructureSuperGardenRarity(world)*SchematicsGenerator.supergarden.getRarity()/2;
+						rnd = plugin.getStructureSuperGardenRarity(world)*SchematicsGenerator.supergarden.getRandom()/2;
+					}
+					
 					if(rarity!=0)
 					{
-						int rnd = schematic.getRandom();
-						
 						if(rnd==newRandom.nextInt(rarity))
 						{
 							plugin.addTask(new PlaceSchematic(world, newRandom, chunkX, chunkZ, schematic));
@@ -167,7 +181,7 @@ public class SchematicsGenerator
 			World world = this.getWorld();
 			HothGeneratorPlugin plugin = this.getPlugin();
 			
-			int surfaceOffset = plugin.getWorldSurfaceoffset();
+			int surfaceOffset = plugin.getWorldSurfaceoffset(world);
 			
 			int x = this.random.nextInt(16) + this.chunkx * 16 - this.schematic.getWidth()/2;
 			int z = this.random.nextInt(16) + this.chunkz * 16 - this.schematic.getLength()/2;

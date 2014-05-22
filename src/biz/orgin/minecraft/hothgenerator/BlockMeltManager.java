@@ -34,7 +34,7 @@ public class BlockMeltManager implements Listener
 			{
 				int y = block.getY();
 				
-				int surfaceOffset = this.plugin.getWorldSurfaceoffset();
+				int surfaceOffset = this.plugin.getWorldSurfaceoffset(world);
 				
 				if(y>(26 + surfaceOffset))
 				{

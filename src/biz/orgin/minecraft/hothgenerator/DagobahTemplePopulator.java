@@ -46,7 +46,7 @@ public class DagobahTemplePopulator extends BlockPopulator
 		if(this.schematics!=null)
 		{
 			int rand = this.schematics[0].getRandom();
-			int rarity = plugin.getStructureSwampTempleRarity();
+			int rarity = plugin.getStructureSwampTempleRarity(world);
 
 			if(rarity!=0)
 			{

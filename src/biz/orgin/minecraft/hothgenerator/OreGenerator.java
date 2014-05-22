@@ -49,7 +49,7 @@ public class OreGenerator
 	
 	public static void generateOres(HothGeneratorPlugin plugin, World world, byte[][] chunk, Random random, int chunkx, int chunkz)
 	{
-		if(plugin.isGenerateOres())
+		if(plugin.isGenerateOres(world))
 		{
 			if(!plugin.isGenerateExtendedOre()) // Generate single byte ores in the supplied chunk array
 			{

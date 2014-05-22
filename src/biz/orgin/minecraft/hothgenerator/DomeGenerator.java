@@ -31,11 +31,11 @@ public class DomeGenerator
 	
 	public static void generateDome(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
-		int rarity = plugin.getStructureDomesRarity();
-		DomeGenerator.PLANTSTEMID = plugin.getStructureDomesPlantstem();
-		DomeGenerator.PLANTTOPID = plugin.getStructureDomesPlanttop();
-		DomeGenerator.FLOORID = plugin.getStructureDomesFloor();
-		DomeGenerator.FLOORRANDOMID = plugin.getStructureDomesFloorrandom();
+		int rarity = plugin.getStructureDomesRarity(world);
+		DomeGenerator.PLANTSTEMID = plugin.getStructureDomesPlantstem(world);
+		DomeGenerator.PLANTTOPID = plugin.getStructureDomesPlanttop(world);
+		DomeGenerator.FLOORID = plugin.getStructureDomesFloor(world);
+		DomeGenerator.FLOORRANDOMID = plugin.getStructureDomesFloorrandom(world);
 		
 		if(rarity!=0)
 		{
@@ -147,7 +147,7 @@ public class DomeGenerator
 				return;
 			}
 
-			int surfaceOffset = plugin.getWorldSurfaceoffset();
+			int surfaceOffset = plugin.getWorldSurfaceoffset(world);
 			
 			int sx = this.chunkx*16 + random.nextInt(16);
 			int sz = this.chunkz*16 + random.nextInt(16);
@@ -232,7 +232,7 @@ public class DomeGenerator
 				}
 			}
 			// Next place the internal dome
-			if(plugin.isStructureDomesPlaceminidome())
+			if(plugin.isStructureDomesPlaceminidome(world))
 			{
 				plugin.addTask(new PlaceMiniDome(world, sx-8, sy+8, sz-8));
 			}

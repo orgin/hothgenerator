@@ -121,7 +121,7 @@ public class CustomGenerator
 			HothGeneratorPlugin plugin = this.getPlugin();
 			World world = this.getWorld();
 			
-			int surfaceOffset = plugin.getWorldSurfaceoffset();
+			int surfaceOffset = plugin.getWorldSurfaceoffset(world);
 			
 
 			int x = this.random.nextInt(16) + this.chunkx * 16 - this.schematic.getWidth()/2;

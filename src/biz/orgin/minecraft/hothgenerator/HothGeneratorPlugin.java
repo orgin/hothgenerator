@@ -780,7 +780,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	public boolean canPlaceLiquid(World world, Block block)
 	{
 		int y = block.getY();
-		int surfaceOffset = this.getWorldSurfaceoffset();
+		int surfaceOffset = this.getWorldSurfaceoffset(world);
 		
 		return !(y>(63 + surfaceOffset) || (y>(26 + surfaceOffset) && this.blockIsHighest(world, block)));
 	}
@@ -807,9 +807,59 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.config.getBoolean("hoth.smoothsnow", true);
 	}
 	
-	public int getWorldSurfaceoffset()
+	
+	private int getConfigInt(World world, String tag, int def)
 	{
-		int result =  this.config.getInt("hoth.world.surfaceoffset", 0);
+		String name = world.getName();
+		String worldPath = "hothworldsdata." + name + "." + tag;
+		String defaultPath = "hoth." + tag;
+
+		if(this.config.isSet(worldPath))
+		{
+			return this.config.getInt(worldPath, def);
+		}
+		else
+		{
+			return this.config.getInt(defaultPath, def);
+		}
+	}
+	
+	private boolean getConfigBoolean(World world, String tag, boolean def)
+	{
+		String name = world.getName();
+		String worldPath = "hothworldsdata." + name + "." + tag;
+		String defaultPath = "hoth." + tag;
+
+		if(this.config.isSet(worldPath))
+		{
+			return this.config.getBoolean(worldPath, def);
+		}
+		else
+		{
+			return this.config.getBoolean(defaultPath, def);
+		}
+	}
+
+	private String getConfigString(World world, String tag, String def)
+	{
+		String name = world.getName();
+		String worldPath = "hothworldsdata." + name + "." + tag;
+		String defaultPath = "hoth." + tag;
+
+		if(this.config.isSet(worldPath))
+		{
+			return this.config.getString(worldPath, def);
+		}
+		else
+		{
+			return this.config.getString(defaultPath, def);
+		}
+	}
+
+	public int getWorldSurfaceoffset(World world)
+	{
+		int result = this.getConfigInt(world, "world.surfaceoffset", 0);
+		
 		if(result<0)
 		{
 			result = 0;
@@ -821,9 +871,12 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 
-	public int getStructureSpikesRarity()
+
+	
+	public int getStructureSpikesRarity(World world)
 	{
-		int result = this.config.getInt("hoth.structure.spikes.rarity", 2);
+		int result = this.getConfigInt(world, "structure.spikes.rarity", 2);
+		
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -831,9 +884,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 
-	public int getStructureGardensRarity()
+	public int getStructureGardensRarity(World world)
 	{
-		int result = this.config.getInt("hoth.structure.gardens.rarity", 2);
+		int result = this.getConfigInt(world, "structure.gardens.rarity", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -841,9 +894,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 
-	public int getStructureDomesRarity()
+	public int getStructureDomesRarity(World world)
 	{
-		int result = this.config.getInt("hoth.structure.domes.rarity", 3);
+		int result = this.getConfigInt(world, "structure.domes.rarity", 3);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -851,34 +904,34 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 
-	public int getStructureDomesPlantstem()
+	public int getStructureDomesPlantstem(World world)
 	{
-		return this.config.getInt("hoth.structure.domes.plantstem", 19);
+		return this.getConfigInt(world, "structure.domes.plantstem", 19);
 	}
 
-	public int getStructureDomesPlanttop()
+	public int getStructureDomesPlanttop(World world)
 	{
-		return this.config.getInt("hoth.structure.domes.planttop", 89);
+		return this.getConfigInt(world, "structure.domes.planttop", 89);
 	}
 	
-	public int getStructureDomesFloor()
+	public int getStructureDomesFloor(World world)
 	{
-		return this.config.getInt("hoth.structure.domes.floor", 3);
+		return this.getConfigInt(world, "structure.domes.floor", 3);
 	}
 
-	public int getStructureDomesFloorrandom()
+	public int getStructureDomesFloorrandom(World world)
 	{
-		return this.config.getInt("hoth.structure.domes.floorrandom", 89);
+		return this.getConfigInt(world, "structure.domes.floorrandom", 89);
 	}
 	
-	public boolean isStructureDomesPlaceminidome()
+	public boolean isStructureDomesPlaceminidome(World world)
 	{
-		return this.config.getBoolean("hoth.structure.domes.placeminidome", true);
+		return this.getConfigBoolean(world, "structure.domes.placeminidome", true);
 	}
 
-	public int getStructureBasesRarity()
+	public int getStructureBasesRarity(World world)
 	{
-		int result = this.config.getInt("hoth.structure.bases.rarity", 2);
+		int result = this.getConfigInt(world, "structure.bases.rarity", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -886,14 +939,14 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 
-	public boolean isStructureBasesSpawner()
+	public boolean isStructureBasesSpawner(World world)
 	{
-		return this.config.getBoolean("hoth.structure.bases.spawner", true);
+		return this.getConfigBoolean(world, "structure.bases.spawner", true);
 	}
 
-	public int getStructureMazesRarity()
+	public int getStructureMazesRarity(World world)
 	{
-		int result = this.config.getInt("hoth.structure.mazes.rarity", 2);
+		int result = this.getConfigInt(world, "structure.mazes.rarity", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -901,10 +954,10 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 	
-	public int getStructureMazesMinrooms()
+	public int getStructureMazesMinrooms(World world)
 	{
-		int min = this.config.getInt("hoth.structure.mazes.minrooms", 8);
-		int max = this.config.getInt("hoth.structure.mazes.maxrooms", 32);
+		int min = this.getConfigInt(world, "structure.mazes.minrooms", 8);
+		int max = this.getConfigInt(world, "structure.mazes.maxrooms", 32);
 		
 		if(min>max || min<1 || max<1 || max>100)
 		{
@@ -914,10 +967,10 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return min;
 	}
 
-	public int getStructureMazesMaxrooms()
+	public int getStructureMazesMaxrooms(World world)
 	{
-		int min = this.config.getInt("hoth.structure.mazes.minrooms", 8);
-		int max = this.config.getInt("hoth.structure.mazes.maxrooms", 32);
+		int min = this.getConfigInt(world, "structure.mazes.minrooms", 8);
+		int max = this.getConfigInt(world, "structure.mazes.maxrooms", 32);
 		
 		if(min>max || min<1 || max<1 || max>100)
 		{
@@ -927,14 +980,14 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return max;
 	}
 	
-	public boolean isStructureMazesSpawner()
+	public boolean isStructureMazesSpawner(World world)
 	{
-		return this.config.getBoolean("hoth.structure.mazes.spawner", true);
+		return this.getConfigBoolean(world, "structure.mazes.spawner", true);
 	}
 
-	public int getStructureSkeletonsRarity()
+	public int getStructureSkeletonsRarity(World world)
 	{
-		int result = this.config.getInt("hoth.structure.skeletons.rarity", 2);
+		int result = this.getConfigInt(world, "structure.skeletons.rarity", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -942,9 +995,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 	
-	public int getStructureOasisRarity()
+	public int getStructureOasisRarity(World world)
 	{
-		int result = this.config.getInt("hoth.structure.oasis.rarity", 2);
+		int result = this.getConfigInt(world, "structure.oasis.rarity", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -952,9 +1005,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 	
-	public int getStructureSandCastleRarity()
+	public int getStructureSandCastleRarity(World world)
 	{
-		int result = this.config.getInt("hoth.structure.sandcastle.rarity", 2);
+		int result = this.getConfigInt(world, "structure.sandcastle.rarity", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -962,9 +1015,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 
-	public int getStructureVillageRarity()
+	public int getStructureVillageRarity(World world)
 	{
-		int result = this.config.getInt("hoth.structure.village.rarity", 2);
+		int result = this.getConfigInt(world, "structure.village.rarity", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -972,9 +1025,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 
-	public int getStructureSuperGardenRarity()
+	public int getStructureSuperGardenRarity(World world)
 	{
-		int result = this.config.getInt("hoth.structure.supergarden.rarity", 2);
+		int result = this.getConfigInt(world, "structure.supergarden.rarity", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -982,9 +1035,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 	
-	public int getStructureSarlaccRarity()
+	public int getStructureSarlaccRarity(World world)
 	{
-		int result = this.config.getInt("hoth.structure.sarlacc.rarity", 2);
+		int result = this.getConfigInt(world, "structure.sarlacc.rarity", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -992,9 +1045,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 
-	public int getStructureHugeTreeRarity()
+	public int getStructureHugeTreeRarity(World world)
 	{
-		int result = this.config.getInt("structure.hugetree.rarity", 2);
+		int result = this.getConfigInt(world, "structure.hugetree.rarity", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -1002,9 +1055,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 
-	public int getStructureSpiderForestRarity()
+	public int getStructureSpiderForestRarity(World world)
 	{
-		int result = this.config.getInt("structure.spiderforest.rarity", 2);
+		int result = this.getConfigInt(world, "structure.spiderforest.rarity", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -1012,9 +1065,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 
-	public int getStructureSwampTempleRarity()
+	public int getStructureSwampTempleRarity(World world)
 	{
-		int result = this.config.getInt("structure.swamptemple.rarity", 2);
+		int result = this.getConfigInt(world, "structure.swamptemple.rarity", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -1022,9 +1075,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 
-	public int getStructureTreeHutRarity()
+	public int getStructureTreeHutRarity(World world)
 	{
-		int result = this.config.getInt("structure.treehut.rarity", 2);
+		int result = this.getConfigInt(world, "structure.treehut.rarity", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -1032,14 +1085,14 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 
-	public boolean isGenerateLogs()
+	public boolean isGenerateLogs(World world)
 	{
-		return this.config.getBoolean("hoth.generate.logs", true);
+		return this.getConfigBoolean(world, "generate.logs", true);
 	}
 
-	public int getGenerateCavesRarity()
+	public int getGenerateCavesRarity(World world)
 	{
-		int result = this.config.getInt("hoth.generate.caves.rarity", 2);
+		int result = this.getConfigInt(world, "generate.caves.rarity", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;
@@ -1047,9 +1100,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return result;
 	}
 	
-	public boolean isGenerateOres()
+	public boolean isGenerateOres(World world)
 	{
-		return this.config.getBoolean("hoth.generate.ores", true);
+		return this.getConfigBoolean(world, "generate.ores", true);
 	}
 
 	public boolean isGenerateExtendedOre()
@@ -1057,89 +1110,69 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.config.getBoolean("hoth.generate.extendedore", false);
 	}
 
-	public boolean isGenerateCactuses()
+	public boolean isGenerateCactuses(World world)
 	{
-		return this.config.getBoolean("hoth.generate.cactuses", true);
+		return this.getConfigBoolean(world, "generate.cactuses", true);
 	}
 
-	public boolean isGenerateShrubs()
+	public boolean isGenerateShrubs(World world)
 	{
-		return this.config.getBoolean("hoth.generate.shrubs", true);
+		return this.getConfigBoolean(world, "generate.shrubs", true);
 	}
 
-	public boolean isGenerateMushroomHuts()
+	public boolean isGenerateMushroomHuts(World world)
 	{
-		return this.config.getBoolean("hoth.generate.mushroomhuts", true);
+		return this.getConfigBoolean(world, "generate.mushroomhuts", true);
 	}
 
 	public boolean isRulesDropice(Location location)
 	{
-		return this.regionManager.getBoolean("dropice", location, this.config.getBoolean("hoth.rules.dropice", true));
+		return this.regionManager.getBoolean("dropice", location, this.getConfigBoolean(location.getWorld(), "rules.dropice", true));
 	}
 
 	public boolean isRulesDroppackedice(Location location)
 	{
-		return this.regionManager.getBoolean("droppackedice", location, this.config.getBoolean("hoth.rules.droppackedice", true));
+		return this.regionManager.getBoolean("droppackedice", location, this.getConfigBoolean(location.getWorld(), "rules.droppackedice", true));
 	}
 
 	public boolean isRulesDropsnow(Location location)
 	{
-		return this.regionManager.getBoolean("dropsnow", location, this.config.getBoolean("hoth.rules.dropsnow", true));
+		return this.regionManager.getBoolean("dropsnow", location, this.getConfigBoolean(location.getWorld(), "rules.dropsnow", true));
 	}
 
 	public boolean isRulesFreezewater(Location location)
 	{
-		return this.regionManager.getBoolean("freezewater", location, this.config.getBoolean("hoth.rules.freezewater", true));
+		return this.regionManager.getBoolean("freezewater", location, this.getConfigBoolean(location.getWorld(), "rules.freezewater", true));
 	}
 	
 	public boolean isRulesFreezelava(Location location)
 	{
-		return this.regionManager.getBoolean("freezelava", location, this.config.getBoolean("hoth.rules.freezelava", true));
+		return this.regionManager.getBoolean("freezelava", location, this.getConfigBoolean(location.getWorld(), "rules.freezelava", true));
 	}
 	
 	public boolean isRulesPlantsgrow(Location location)
 	{
-		String type = this.getWorldType(location.getWorld());
-		{
-			if(type.equals("hoth") || type.equals("tatooine"))
-			{
-				return this.regionManager.getBoolean("plantsgrow", location, this.config.getBoolean("hoth.rules.plantsgrow", false));
-			}
-			else
-			{
-				return true;
-			}
-		}
+		return this.regionManager.getBoolean("plantsgrow", location, this.getConfigBoolean(location.getWorld(), "rules.plantsgrow", false));
 	}
 
 	public boolean isRulesGrassspread(Location location)
 	{
-		String type = this.getWorldType(location.getWorld());
-		{
-			if(type.equals("hoth") || type.equals("tatooine"))
-			{
-				return this.regionManager.getBoolean("grassspread", location, this.config.getBoolean("hoth.rules.grassspread", false));
-			}
-			else
-			{
-				return true;
-			}
-		}
+		return this.regionManager.getBoolean("grassspread", location, this.getConfigBoolean(location.getWorld(), "rules.grassspread", false));
 	}
 	
 	public boolean isRulesStopmelt(Location location)
 	{
-		return this.regionManager.getBoolean("stopmelt", location, this.config.getBoolean("hoth.rules.stopmelt", true));
+		return this.regionManager.getBoolean("stopmelt", location, this.getConfigBoolean(location.getWorld(), "rules.stopmelt", true));
 	}
 
 	public boolean isRulesLimitslime(Location location)
 	{
-		return this.regionManager.getBoolean("limitslime", location, this.config.getBoolean("hoth.rules.limitslime", true));
+		return this.regionManager.getBoolean("limitslime", location, this.getConfigBoolean(location.getWorld(), "rules.limitslime", true));
 	}
 	
 	public boolean isRulesSnowgravity(Location location)
 	{
-		return this.regionManager.getBoolean("snowgravity", location, this.config.getBoolean("hoth.rules.snowgravity", false));
+		return this.regionManager.getBoolean("snowgravity", location, this.getConfigBoolean(location.getWorld(), "rules.snowgravity", false));
 	}
 
 	public int getRulesEnvironmentPeriod()
@@ -1155,7 +1188,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 
 	public int getRulesFreezeDamage(Location location)
 	{
-	    int damage = this.regionManager.getInt("freeze.damage", location, this.config.getInt("hoth.rules.freeze.damage", 2));
+	    int damage = this.regionManager.getInt("freeze.damage", location, this.getConfigInt(location.getWorld(), "rules.freeze.damage", 2));
 	    if(damage<0)
 	    {
 	    	damage = 2;
@@ -1165,7 +1198,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 
 	public int getRulesFreezeStormdamage(Location location)
 	{
-	    int damage = this.regionManager.getInt("freeze.stormdamage", location, this.config.getInt("hoth.rules.freeze.stormdamage", 1));
+	    int damage = this.regionManager.getInt("freeze.stormdamage", location, this.getConfigInt(location.getWorld(), "rules.freeze.stormdamage", 1));
 	    if(damage<0)
 	    {
 	    	damage = 2;
@@ -1175,13 +1208,13 @@ public class HothGeneratorPlugin extends JavaPlugin
 
 	public String getRulesFreezeMessage(Location location)
 	{
-		return this.regionManager.get("freeze.message", location, this.config.getString("hoth.rules.freeze.message", "&bYou are freezing. Find shelter!"));
+		return this.regionManager.get("freeze.message", location, this.getConfigString(location.getWorld(), "rules.freeze.message", "&bYou are freezing. Find shelter!"));
 	}
 	
 	
 	public int getRulesHeatDamage(Location location)
 	{
-	    int damage = this.regionManager.getInt("heat.damage", location, this.config.getInt("hoth.rules.heat.damage", 2));
+	    int damage = this.regionManager.getInt("heat.damage", location, this.getConfigInt(location.getWorld(), "rules.heat.damage", 2));
 	    if(damage<0)
 	    {
 	    	damage = 2;
@@ -1191,27 +1224,27 @@ public class HothGeneratorPlugin extends JavaPlugin
 
 	public String getRulesHeatMessage1(Location location)
 	{
-		return this.regionManager.get("heat.message1", location, this.config.getString("hoth.rules.heat.message1", "&6The water removes your thirst."));
+		return this.regionManager.get("heat.message1", location, this.getConfigString(location.getWorld(), "rules.heat.message1", "&6The water removes your thirst."));
 	}
 
 	public String getRulesHeatMessage2(Location location)
 	{
-		return this.regionManager.get("heat.message2", location, this.config.getString("hoth.rules.heat.message2", "&6Your are starting to feel thirsty."));
+		return this.regionManager.get("heat.message2", location, this.getConfigString(location.getWorld(), "rules.heat.message2", "&6Your are starting to feel thirsty."));
 	}
 
 	public String getRulesHeatMessage3(Location location)
 	{
-		return this.regionManager.get("heat.message3", location, this.config.getString("hoth.rules.heat.message3", "&6Your feel very thirsty."));
+		return this.regionManager.get("heat.message3", location, this.getConfigString(location.getWorld(), "rules.heat.message3", "&6Your feel very thirsty."));
 	}
 
 	public String getRulesHeatMessage4(Location location)
 	{
-		return this.regionManager.get("heat.message4", location, this.config.getString("hoth.rules.heat.message4", "&6You are exhausted from the heat. Find water or shelter!"));
+		return this.regionManager.get("heat.message4", location, this.getConfigString(location.getWorld(), "rules.heat.message4", "&6You are exhausted from the heat. Find water or shelter!"));
 	}
 
 	public int getRulesSpawnNeutralRarity(Location location)
 	{
-	    int rarity = this.regionManager.getInt("spawn.neutral.rarity", location, this.config.getInt("hoth.rules.spawn.neutral.rarity", 2));
+	    int rarity = this.regionManager.getInt("spawn.neutral.rarity", location, this.getConfigInt(location.getWorld(), "rules.spawn.neutral.rarity", 2));
 	    if(rarity<1 || rarity>10)
 	    {
 	    	rarity = 2;
@@ -1221,12 +1254,12 @@ public class HothGeneratorPlugin extends JavaPlugin
 	
 	public String getRulesSpawnNeutralMobs(Location location)
 	{
-		return this.regionManager.get("spawn.neutral.mobs", location, this.config.getString("hoth.rules.spawn.neutral.mobs", "chicken,cow,mushroom_cow,ocelot,pig,sheep,wolf"));
+		return this.regionManager.get("spawn.neutral.mobs", location, this.getConfigString(location.getWorld(), "rules.spawn.neutral.mobs", "chicken,cow,mushroom_cow,ocelot,pig,sheep,wolf"));
 	}
 	
-	public boolean isRulesSpawnNeutralOn()
+	public boolean isRulesSpawnNeutralOn(World world)
 	{
-		return this.config.getBoolean("hoth.rules.spawn.neutral.on", true);
+		return this.getConfigBoolean(world, "rules.spawn.neutral.on", true);
 	}
 
 	
