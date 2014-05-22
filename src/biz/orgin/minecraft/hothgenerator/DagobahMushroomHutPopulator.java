@@ -69,7 +69,7 @@ public class DagobahMushroomHutPopulator extends BlockPopulator
 	@Override
 	public void populate(World world, Random random, Chunk chunk)
 	{
-		if(this.schematics!=null)
+		if(this.schematics!=null && this.plugin.isGenerateMushroomHuts())
 		{
 			int rand = 1;
 			int rarity = 3; 

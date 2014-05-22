@@ -59,7 +59,7 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 			Material type = block.getType();
 			if(type.equals(Material.DIRT) || type.equals(Material.GRASS))
 			{
-				this.renderTreeAt(world, random, x, block.getY(), z, 0);
+				this.renderTreeAt(world, random, x, block.getY(), z, 0, true);
 			}
 			else if(type.equals(Material.STATIONARY_WATER)) // Depth 1 water
 			{
@@ -67,7 +67,7 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 				type = block.getType();
 				if(type.equals(Material.DIRT) || type.equals(Material.GRAVEL) || type.equals(Material.SAND) || type.equals(Material.HARD_CLAY))
 				{
-					this.renderTreeAt(world, random, x, block.getY(), z, 1);
+					this.renderTreeAt(world, random, x, block.getY(), z, 1, true);
 				}
 				else if(type.equals(Material.STATIONARY_WATER)) // Depth 2 water
 				{
@@ -75,14 +75,14 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 					type = block.getType();
 					if(type.equals(Material.DIRT) || type.equals(Material.GRAVEL) || type.equals(Material.SAND) || type.equals(Material.HARD_CLAY))
 					{
-						this.renderTreeAt(world, random, x, block.getY(), z, 2);
+						this.renderTreeAt(world, random, x, block.getY(), z, 2, true);
 					}
 				}
 			}
 		}
 	}
 	
-	private int[] probability = new int[]
+	private int[] probability1 = new int[] // For terrain generator
 			{
 				0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 				,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
@@ -91,9 +91,26 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 				,7,7,7,8,8,8,15
 			};
 	
-	private void renderTreeAt(World world, Random random, int x, int y, int z, int heightOffset)
+	private int[] probability2 = new int[] // For player made trees
+			{
+				0,0,0,0
+				,1,1,1,1
+				,2,2,2,2
+				,3,3,4,4,5,5,6,6
+				,7,7,8,8,15
+			};
+
+	public boolean renderTreeAt(World world, Random random, int x, int y, int z, int heightOffset, boolean vines)
 	{
-		int probability = this.probability[random.nextInt(this.probability.length)];
+		int probability;
+		if(vines) // Terrain generated tree
+		{
+			probability = this.probability1[random.nextInt(this.probability1.length)];
+		}
+		else // Assume that this is a player generated tree
+		{
+			probability = this.probability2[random.nextInt(this.probability2.length)];
+		}
 		int height = heightOffset+2+probability;
 		
 		double radians = 2*Math.PI*random.nextDouble();
@@ -128,7 +145,7 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 			tTree.setSpecies(TreeSpecies.GENERIC);
 			tree.add(new Position(state));
 			
-			if(i>0 && ((i<4+heightOffset && height+heightOffset>4) || (i<2+heightOffset && height>3+heightOffset)))
+			if(vines && i>0 && ((i<4+heightOffset && height+heightOffset>4) || (i<2+heightOffset && height>3+heightOffset)))
 			{
 				this.addVinesToLog(world, tree, block);
 			}
@@ -156,7 +173,7 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 					
 					if(j==length-1)
 					{
-						this.addLeaves(world, random, tree, bblock, height/2);
+						this.addLeaves(world, random, tree, bblock, height/2, vines);
 						if(height>7)
 						{
 							this.addCrown(world, random, tree, bblock);
@@ -178,7 +195,7 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 
 			if(i==height-1)
 			{
-				this.addLeaves(world, random, tree, block, height);
+				this.addLeaves(world, random, tree, block, height, vines);
 				if(height>7)
 				{
 					this.addCrown(world, random, tree, block);
@@ -195,7 +212,7 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 
 		}
 		
-		this.renderBlob(world, tree.toArray(), y);
+		return this.renderBlob(world, tree.toArray(), y);
 	}
 	
 	private void addCrown(World world, Random random, HothSet tree, Block block)
@@ -226,7 +243,7 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 		}
 	}
 
-	private void addLeaves(World world, Random random, HothSet tree, Block block, int height)
+	private void addLeaves(World world, Random random, HothSet tree, Block block, int height, boolean vines)
 	{
 		int x = block.getX();
 		int y = block.getY();
@@ -237,27 +254,27 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 			Block t = world.getBlockAt(x, y+1, z);
 			if(HothUtils.isTransparent(t))
 			{
-				this.addLeaf(world, random, tree, t, null, null, 0);
+				this.addLeaf(world, random, tree, t, null, null, 0, vines);
 			}
 			t = world.getBlockAt(x+1, y, z);
 			if(HothUtils.isTransparent(t))
 			{
-				this.addLeaf(world, random, tree, t, BlockFace.EAST, null, 8);
+				this.addLeaf(world, random, tree, t, BlockFace.EAST, null, 8, vines);
 			}
 			t = world.getBlockAt(x-1, y, z);
 			if(HothUtils.isTransparent(t))
 			{
-				this.addLeaf(world, random, tree, t, BlockFace.WEST, null, 8);
+				this.addLeaf(world, random, tree, t, BlockFace.WEST, null, 8, vines);
 			}
 			t = world.getBlockAt(x, y, z+1);
 			if(HothUtils.isTransparent(t))
 			{
-				this.addLeaf(world, random, tree, t, BlockFace.SOUTH, null, 8);
+				this.addLeaf(world, random, tree, t, BlockFace.SOUTH, null, 8, vines);
 			}
 			t = world.getBlockAt(x, y, z-1);
 			if(HothUtils.isTransparent(t))
 			{
-				this.addLeaf(world, random, tree, t, BlockFace.NORTH, null, 8);
+				this.addLeaf(world, random, tree, t, BlockFace.NORTH, null, 8, vines);
 			}
 			
 			if((x+z)%2>0)
@@ -265,22 +282,22 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 				t = world.getBlockAt(x+1, y, z+1);
 				if(HothUtils.isTransparent(t))
 				{
-					this.addLeaf(world, random, tree, t, BlockFace.EAST, BlockFace.SOUTH, 5);
+					this.addLeaf(world, random, tree, t, BlockFace.EAST, BlockFace.SOUTH, 5, vines);
 				}
 				t = world.getBlockAt(x+1, y, z-1);
 				if(HothUtils.isTransparent(t))
 				{
-					this.addLeaf(world, random, tree, t, BlockFace.EAST, BlockFace.NORTH, 5);
+					this.addLeaf(world, random, tree, t, BlockFace.EAST, BlockFace.NORTH, 5, vines);
 				}
 				t = world.getBlockAt(x-1, y, z+1);
 				if(HothUtils.isTransparent(t))
 				{
-					this.addLeaf(world, random, tree, t, BlockFace.WEST, BlockFace.SOUTH, 5);
+					this.addLeaf(world, random, tree, t, BlockFace.WEST, BlockFace.SOUTH, 5, vines);
 				}
 				t = world.getBlockAt(x-1, y, z-1);
 				if(HothUtils.isTransparent(t))
 				{
-					this.addLeaf(world, random, tree, t, BlockFace.WEST, BlockFace.NORTH, 5);
+					this.addLeaf(world, random, tree, t, BlockFace.WEST, BlockFace.NORTH, 5, vines);
 				}
 			}
 		}
@@ -289,21 +306,24 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 			int size = height/2;
 			
 			// ring 1
-			this.addLeafRing(world, random, tree, block, size, size-size*0.3, size);
-			this.addLeafRingVines(world, random, tree, block, size, size-size*0.3, size, 0);
+			this.addLeafRing(world, random, tree, block, size, size-size*0.3, size, vines);
+			if(vines)
+			{
+				this.addLeafRingVines(world, random, tree, block, size, size-size*0.3, size, 0);
+			}
 			// ring 2
 			size = height/2 -1;
 			if(size>0)
 			{
 				block = block.getRelative(BlockFace.UP);
-				this.addLeafRing(world, random, tree, block, size, 0, size);
+				this.addLeafRing(world, random, tree, block, size, 0, size, vines);
 			}
 			// ring 3
 			size = height/2-3;
 			if(size>0)
 			{
 				block = block.getRelative(BlockFace.UP);
-				this.addLeafRing(world, random, tree, block, size-1, 0, size-1);
+				this.addLeafRing(world, random, tree, block, size-1, 0, size-1, vines);
 			}
 		}
 	}
@@ -382,7 +402,7 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 		}
 	}
 	
-	private void addLeafRing(World world, Random random, HothSet tree, Block block, int size, double inner, double outer)
+	private void addLeafRing(World world, Random random, HothSet tree, Block block, int size, double inner, double outer, boolean vines)
 	{
 		int x = block.getX();
 		int y = block.getY();
@@ -397,7 +417,7 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 				if(dist>=inner && dist<=outer)
 				{
 					Block newBlock = world.getBlockAt(i, y, j);
-					this.addLeaf(world, random, tree, newBlock, null, null, 0);
+					this.addLeaf(world, random, tree, newBlock, null, null, 0, vines);
 				}
 				
 			}
@@ -405,7 +425,7 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 		
 	}
 	
-	private void addLeaf(World world, Random random, HothSet tree, Block block, BlockFace face1, BlockFace face2, int vineProbability)
+	private void addLeaf(World world, Random random, HothSet tree, Block block, BlockFace face1, BlockFace face2, int vineProbability, boolean vines)
 	{
 		BlockState state = block.getState();
 		state.setType(Material.LEAVES);
@@ -414,13 +434,16 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 		if(!tree.contains(position))
 		{
 			tree.add(position);
-			if(face1!=null)
+			if(vines)
 			{
-				this.addVinesToLeaf(world, random, tree, block.getRelative(face1), face1, vineProbability);
-			}
-			if(face2!=null)
-			{
-				this.addVinesToLeaf(world, random, tree, block.getRelative(face2), face2, vineProbability);
+				if(face1!=null)
+				{
+					this.addVinesToLeaf(world, random, tree, block.getRelative(face1), face1, vineProbability);
+				}
+				if(face2!=null)
+				{
+					this.addVinesToLeaf(world, random, tree, block.getRelative(face2), face2, vineProbability);
+				}
 			}
 		}
 	}
@@ -513,7 +536,7 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 		}
 	}
 	
-	private void renderBlob(World world, Position[] blob, int y)
+	private boolean renderBlob(World world, Position[] blob, int y)
 	{
 		// Check for free space
 		for(int i=0;i<blob.length;i++)
@@ -527,12 +550,18 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 				{
 					Block block = state.getBlock();
 					Material oldType = block.getType();
-					if(oldType.equals(Material.DIRT)
-							|| oldType.equals(Material.STONE)
-							|| oldType.equals(Material.GRASS)
+					if(!oldType.equals(Material.AIR)
+							&& !oldType.equals(Material.LOG) 
+							&& !oldType.equals(Material.VINE) 
+							&& !oldType.equals(Material.LEAVES) 
+							&& !oldType.equals(Material.LONG_GRASS) 
+							&& !oldType.equals(Material.RED_ROSE) 
+							&& !oldType.equals(Material.YELLOW_FLOWER) 
+							&& !oldType.equals(Material.RED_MUSHROOM) 
+							&& !oldType.equals(Material.BROWN_MUSHROOM) 
 							)
 					{
-						return; // Can't render this tree.
+						return false; // Can't render this tree.
 					}
 				}
 			}
@@ -562,6 +591,8 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 				}
 			}
 		}
+		
+		return true;
 	}
 	
 	

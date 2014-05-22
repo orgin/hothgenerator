@@ -74,13 +74,27 @@ hothworlds:
 #  structure.mazes.spawner - true/false. Whether bases can have monster
 #                                  spawners
 #  structure.skeletons.rarity  - 0-10. Rarity for skeletons. 0 is off, 1-10 is
-#                                rarity (1 = rare, 10 = very common)
+#                                rarity (1 = common, 10 = very rare)
 #  structure.oasis.rarity  - 0-10. Rarity for oasises. 0 is off, 1-10 is
-#                                rarity (1 = rare, 10 = very common)
-#  structure.sandcastle.rarity  - 0-10. Rarity for sandcastless. 0 is off, 1-10
-#                                is rarity (1 = rare, 10 = very common)
+#                                rarity (1 = common, 10 = very rare)
+#  structure.sandcastle.rarity  - 0-10. Rarity for sandcastless. 0 is off,
+#                                 1-10 is rarity (1 = common, 10 = very rare)
 #  structure.village.rarity  - 0-10. Rarity for villages. 0 is off, 1-10 is
-#                                rarity (1 = rare, 10 = very common)
+#                                rarity (1 = common, 10 = very rare)
+#  structure.supergarden.rarity:  - 0-10. Rarity for supergardens. 0 is off,
+#                                  1-10 is rarity (1 = common, 10 = very rare)
+#  structure.oasis.rarity:  - 0-10. Rarity for oasises. 0 is off, 1-10 is
+#                                rarity (1 = common, 10 = very rare)
+#  structure.sarlacc.rarity:  - 0-10. Rarity for sarlaccs. 0 is off, 1-10 is
+#                                rarity (1 = common, 10 = very rare)
+#  structure.hugetree.rarity:  - 0-10. Rarity for hugetrees. 0 is off, 1-10 is
+#                                rarity (1 = common, 10 = very rare)
+#  structure.spiderforest.rarity:  - 0-10. Rarity for spiderforests. 0 is off,
+#                                  1-10 is rarity (1 = common, 10 = very rare)
+#  structure.swamptemple.rarity:  - 0-10. Rarity for swamptemples. 0 is off,
+#                                  1-10 is rarity (1 = common, 10 = very rare)
+#  structure.treehut.rarity:  - 0-10. Rarity for treehuts. 0 is off, 1-10 is
+#                                rarity (1 = common, 10 = very rare)
 #  generate.logs - true/false. Whether frozen logs should be generated
 #  generate.caves.rarity - 0-10. Rarity for caves. 0 is off, 1-10 is rarity
 #                   (1 = rare, 10 = very common)
@@ -88,6 +102,7 @@ hothworlds:
 #  generate.extendedore - true/false. If true then ores can use type id's>255
 #                         and its data value can be set.
 #                         Warning: Extended ores are much slower to generate.
+#  generate.mushroomhuts - true/false. Whether mushroom huts should be generated
 #  rules.dropice - true/false. Whether ice should drop ice blocks when
 #                  destroyed. 
 #  rules.droppackedice - true/false. Whether packed ice should drop packed ice
@@ -162,6 +177,7 @@ hoth:
   generate.extendedore: false
   generate.cactuses: true
   generate.shrubs: true
+  generate.mushroomhuts: true
   rules.dropice: true
   rules.droppackedice: true
   rules.dropsnow: true

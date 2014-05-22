@@ -623,20 +623,25 @@ public class HothGeneratorPlugin extends JavaPlugin
 		{
 			try
 			{
-				int height = 256;
+				int height = this.getHeight();
 				height = Integer.parseInt(id);
 				if (height <= 0)
 				{
-					height = 256;
+					height = this.getHeight();
 				}
 				return new HothGenerator(height);
 			}
 			catch (NumberFormatException e)
 			{
-				
+				return new HothGenerator(this.getHeight());
 			}
 		}
 		return new HothGenerator();
+	}
+	
+	public int getHeight()
+	{
+		return 256;
 	}
 	
 	public static int maxHeight(World world, int size)
@@ -1062,6 +1067,11 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.config.getBoolean("hoth.generate.shrubs", true);
 	}
 
+	public boolean isGenerateMushroomHuts()
+	{
+		return this.config.getBoolean("hoth.generate.mushroomhuts", true);
+	}
+
 	public boolean isRulesDropice(Location location)
 	{
 		return this.regionManager.getBoolean("dropice", location, this.config.getBoolean("hoth.rules.dropice", true));
@@ -1089,12 +1099,32 @@ public class HothGeneratorPlugin extends JavaPlugin
 	
 	public boolean isRulesPlantsgrow(Location location)
 	{
-		return this.regionManager.getBoolean("plantsgrow", location, this.config.getBoolean("hoth.rules.plantsgrow", false));
+		String type = this.getWorldType(location.getWorld());
+		{
+			if(type.equals("hoth") || type.equals("tatooine"))
+			{
+				return this.regionManager.getBoolean("plantsgrow", location, this.config.getBoolean("hoth.rules.plantsgrow", false));
+			}
+			else
+			{
+				return true;
+			}
+		}
 	}
 
 	public boolean isRulesGrassspread(Location location)
 	{
-		return this.regionManager.getBoolean("grassspread", location, this.config.getBoolean("hoth.rules.grassspread", false));
+		String type = this.getWorldType(location.getWorld());
+		{
+			if(type.equals("hoth") || type.equals("tatooine"))
+			{
+				return this.regionManager.getBoolean("grassspread", location, this.config.getBoolean("hoth.rules.grassspread", false));
+			}
+			else
+			{
+				return true;
+			}
+		}
 	}
 	
 	public boolean isRulesStopmelt(Location location)

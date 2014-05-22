@@ -36,7 +36,7 @@ public class HothGenerator extends ChunkGenerator
 	
 	public HothGenerator()
 	{
-		this.height = 256;
+		this.height = HothGenerator.plugin.getHeight();
 		this.noiseGenerator = null;
 	}
 	
