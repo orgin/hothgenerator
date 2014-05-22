@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.bukkit.World;
+
 import biz.orgin.minecraft.hothgenerator.HothUtils;
 import biz.orgin.minecraft.hothgenerator.LootGenerator;
 
@@ -27,6 +29,7 @@ public class LoadedSchematic implements Schematic
 	private String loot;
 	private int lootMin;
 	private int lootMax;
+	private String[] worlds;
 
 	private int[][][] matrix;
 	
@@ -45,6 +48,7 @@ public class LoadedSchematic implements Schematic
 		this.loot = "";
 		this.lootMin = -1;
 		this.lootMax = -1;
+		this.worlds = null;
 		this.matrix = null;
 		
 		this.name = file.getName();
@@ -70,6 +74,7 @@ public class LoadedSchematic implements Schematic
 		this.loot = "";
 		this.lootMin = -1;
 		this.lootMax = -1;
+		this.worlds = null;
 		this.matrix = null;
 		
 		this.name = name;
@@ -266,6 +271,14 @@ public class LoadedSchematic implements Schematic
 							if(this.lootMax<1)
 							{
 								throw new IOException("LOOTMAX must be 1 or more, was: " + value);
+							}
+						}
+						else if(key.equals("WORLDS"))
+						{
+							this.worlds = null;
+							if(!value.equals(""))
+							{
+								this.worlds = value.split(",");
 							}
 						}
 						else if(key.equals("MATRIX"))
@@ -492,6 +505,26 @@ public class LoadedSchematic implements Schematic
 		
 		return mySB.toString();
 	}
+	
+	public boolean hasWorld(World world)
+	{
+		if(this.worlds == null || this.worlds.length == 0)
+		{
+			return true;
+		}
+		
+		String name = world.getName();
+		for(int i=0;i<this.worlds.length;i++)
+		{
+			if(name.equals(this.worlds[i]))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
 
 	public boolean isEnabled() {
 		return enabled;
@@ -503,6 +536,11 @@ public class LoadedSchematic implements Schematic
 
 	public int getLootMax() {
 		return lootMax;
+	}
+	
+	public String[] getWorlds()
+	{
+		return this.worlds;
 	}
 
 	public int getYoffset() {

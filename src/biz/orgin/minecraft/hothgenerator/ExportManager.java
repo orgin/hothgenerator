@@ -106,6 +106,7 @@ public class ExportManager
 					writer.write("LOOT: \n");
 					writer.write("LOOTMIN: 0\n");
 					writer.write("LOOTMAX: 1\n");
+					writer.write("WORLDS: \n");
 					writer.write("MATRIX:\n");
 					
 					StringBuffer mySB1 = new StringBuffer();

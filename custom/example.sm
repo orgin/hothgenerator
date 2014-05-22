@@ -21,7 +21,7 @@
 #  LENGTH: - The length of the schematics in blocks
 #  HEIGHT: - the height of the schematics in blocks
 #  TYPE: - Type of schematics. Decides where it is placed in the world.
-#          0=on surface, 1=in ice layer, 2=in stone layer
+#          0=on surface, 1=in ice/sand/dirt layer, 2=in stone layer
 #  YOFFSET: - Only used if Type is 0. Offsets the schematic from the surface.
 #  RARITY: - Any positive value. The schematic will be inserted in one
 #            per rarity chunk.
@@ -37,6 +37,8 @@
 #          this schematic. Leave blank to use the internal loot list.
 #  LOOTMIN: - Minimum number of stacks a chest in this schematic will contain
 #  LOOTMAX: - Maximum number of stacks a chest in this schematic will contain
+#  WORLDS: - Comma separated list of all worlds in which this schematic should
+#            be generated. Leave blank to generate in all hothgenerator worlds.
 #  MATRIX: - You must enter the schematic block type and data matrix
 #            after this line.
 #            Each line represents all types and data values for a
@@ -66,6 +68,15 @@
 #            The first and last block will not be changed in the world. But the
 #            second will be set to empty.
 #
+#            It is also possible to spawn mobs by setting typeid to -2 and the
+#            data value to the entity id. The block itself will be empty.
+#
+#            Example:
+#            0, -2, 0,  0, 120, 0
+#
+#            A villager will be spawned and the block where it is spawned will
+#            be empty
+#
 # The example below represents a classic minecraft dungeon with two chests and
 # a zombie spawner. Use it to get a grasp of how to enter all rows in a layer
 # and how to enter all layers. Remember that the plugin will ignore any empty
@@ -82,6 +93,7 @@ RANDOM: 23
 LOOT: 
 LOOTMIN: 2
 LOOTMAX: 10
+WORLDS: 
 MATRIX:
 # Layer 0
 #         Type                      Data

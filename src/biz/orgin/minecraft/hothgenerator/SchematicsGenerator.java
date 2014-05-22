@@ -95,21 +95,6 @@ public class SchematicsGenerator
 						rarity = plugin.getStructureSkeletonsRarity(world)*SchematicsGenerator.skeleton.getRarity()/2;
 						rnd = plugin.getStructureSkeletonsRarity(world)*SchematicsGenerator.skeleton.getRandom()/2;
 					}
-					else if(name.equals("oasis"))
-					{
-						rarity = plugin.getStructureOasisRarity(world)*SchematicsGenerator.oasis.getRarity()/2;
-						rnd = plugin.getStructureOasisRarity(world)*SchematicsGenerator.oasis.getRandom()/2;
-					}
-					else if(name.equals("sandcastle"))
-					{
-						rarity = plugin.getStructureSandCastleRarity(world)*SchematicsGenerator.sandcastle.getRarity()/2;
-						rnd = plugin.getStructureSandCastleRarity(world)*SchematicsGenerator.sandcastle.getRandom()/2;
-					}
-					else if(name.equals("supergarden"))
-					{
-						rarity = plugin.getStructureSuperGardenRarity(world)*SchematicsGenerator.supergarden.getRarity()/2;
-						rnd = plugin.getStructureSuperGardenRarity(world)*SchematicsGenerator.supergarden.getRandom()/2;
-					}
 					
 					if(rarity!=0)
 					{
@@ -132,10 +117,28 @@ public class SchematicsGenerator
 						System.out.println("schematic i=" + i + " was null!");
 						break;
 					}
-					int rarity = schematic.getRarity();
+
+					int rarity = 0;
+					int rnd = 0;
+					String name = schematic.getName();
+					if(name.equals("oasis"))
+					{
+						rarity = plugin.getStructureOasisRarity(world)*SchematicsGenerator.oasis.getRarity()/2;
+						rnd = plugin.getStructureOasisRarity(world)*SchematicsGenerator.oasis.getRandom()/2;
+					}
+					else if(name.equals("sandcastle"))
+					{
+						rarity = plugin.getStructureSandCastleRarity(world)*SchematicsGenerator.sandcastle.getRarity()/2;
+						rnd = plugin.getStructureSandCastleRarity(world)*SchematicsGenerator.sandcastle.getRandom()/2;
+					}
+					else if(name.equals("supergarden"))
+					{
+						rarity = plugin.getStructureSuperGardenRarity(world)*SchematicsGenerator.supergarden.getRarity()/2;
+						rnd = plugin.getStructureSuperGardenRarity(world)*SchematicsGenerator.supergarden.getRandom()/2;
+					}
+					
 					if(rarity!=0)
 					{
-						int rnd = schematic.getRandom();
 						
 						if(rnd==newRandom.nextInt(rarity))
 						{

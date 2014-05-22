@@ -74,22 +74,24 @@ public class CustomGenerator
 			{
 				LoadedSchematic schematic = schematics.elementAt(i);
 				
-				int rarity = schematic.getRarity();
-				
-				if(rarity>0)
+				if(schematic.hasWorld(world)) // Check if it's okey to generate the schematic in this world
 				{
-					int rnd = schematic.getRandom();
+					int rarity = schematic.getRarity();
 					
-					int place = random.nextInt(rarity);
-					if(place==rnd)
+					if(rarity>0)
 					{
-						plugin.addTask(new PlaceCustom(schematic, world, new Random(randomLong), chunkX, chunkZ));
-					}		
+						int rnd = schematic.getRandom();
+						
+						int place = random.nextInt(rarity);
+						if(place==rnd)
+						{
+							plugin.addTask(new PlaceCustom(schematic, world, new Random(randomLong), chunkX, chunkZ));
+						}		
+					}
 				}
 			}
 		}
 	}
-
 
 	static class PlaceCustom extends HothRunnable
 	{
