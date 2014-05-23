@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
@@ -850,5 +851,25 @@ public class HothUtils
 				type.equals(Material.DOUBLE_PLANT)
 				;
 	}
+	
+	public static boolean isWatered(Block block)
+	{
+		return	HothUtils.isWater(block.getRelative(BlockFace.NORTH))
+				|| HothUtils.isWater(block.getRelative(BlockFace.EAST))
+				|| HothUtils.isWater(block.getRelative(BlockFace.SOUTH))
+				|| HothUtils.isWater(block.getRelative(BlockFace.WEST))
+				|| HothUtils.isWater(block.getRelative(BlockFace.NORTH_EAST))
+				|| HothUtils.isWater(block.getRelative(BlockFace.NORTH_WEST))
+				|| HothUtils.isWater(block.getRelative(BlockFace.SOUTH_EAST))
+				|| HothUtils.isWater(block.getRelative(BlockFace.SOUTH_WEST))
+				;
+	}
+	
+	public static boolean isWater(Block block)
+	{
+		Material type = block.getType();
+		return type.equals(Material.STATIONARY_WATER) || type.equals(Material.WATER);
+	}
+
 
 }

@@ -1,14 +1,17 @@
 package biz.orgin.minecraft.hothgenerator;
 
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockGrowEvent;
 
 /**
- * BlockGrowEvent listener. Cancels any grow events on a hoth world that is directly exposed to sunlight.
+ * BlockGrowEvent listener. Cancels any growth events on a hoth and tatooine world that is directly exposed to sunlight.
+ * In tatooine things may grow if there's water around the block beneath.
  * @author orgin
  *
  */
@@ -28,17 +31,24 @@ public class BlockGrowManager implements Listener
 		{
 			Block block = event.getBlock();
 			World world = block.getWorld();
+			String type = this.plugin.getWorldType(world);
+			Location location = event.getBlock().getLocation();
 			
-			if(this.plugin.isHothWorld(world) && !this.plugin.isRulesPlantsgrow(block.getLocation()))
+			if(this.plugin.isHothWorld(world) && !this.plugin.isRulesPlantsgrow(block.getLocation())
+					&& (type.equals("hoth") || type.equals("tatooine")))
 			{
-				int maxy = this.plugin.getHighestBlockYAt(world, block.getX(), block.getZ());
+				int maxy = world.getHighestBlockYAt(location);
 	
 				if(maxy==block.getY())
 				{
-					event.setCancelled(true);
-					block.breakNaturally();
+					if(type.equals("hoth") || (type.equals("tatooine") && !HothUtils.isWatered(block.getRelative(BlockFace.DOWN))))
+					{
+						event.setCancelled(true);
+						block.breakNaturally();
+					}
 				}
 			}
 		}
 	}
+	
 }

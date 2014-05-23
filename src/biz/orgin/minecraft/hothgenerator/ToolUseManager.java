@@ -48,6 +48,7 @@ public class ToolUseManager implements Listener
 	
 				Player player = event.getPlayer();
 				ItemStack item = player.getItemInHand();
+				String worldtype = this.plugin.getWorldType(world);
 	
 				if(plugin.isItemInfoTool() && item.getType().equals(Material.CLAY_BALL))
 				{
@@ -66,7 +67,7 @@ public class ToolUseManager implements Listener
 					}
 				}
 	
-				if(this.plugin.isHothWorld(world) && this.plugin.getWorldType(world).equals("hoth"))
+				if(this.plugin.isHothWorld(world) && worldtype.equals("hoth"))
 				{
 					if(item.getType().equals(Material.WATER_BUCKET))
 					{
@@ -97,7 +98,11 @@ public class ToolUseManager implements Listener
 							Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
 						}
 					}
-					else if(item.getType().equals(Material.INK_SACK) && item.getDurability() == 15)
+				}
+				
+				if(this.plugin.isHothWorld(world) && (worldtype.equals("hoth") || worldtype.equals("tatooine")))
+				{
+					if(item.getType().equals(Material.INK_SACK) && item.getDurability() == 15)
 					{
 						Block block = event.getClickedBlock();
 						if(!this.plugin.isRulesPlantsgrow(block.getLocation()))
@@ -105,7 +110,7 @@ public class ToolUseManager implements Listener
 							// User is bonemealing something
 							Material type = block.getType();
 							
-							int maxy = this.plugin.getHighestBlockYAt(world, block.getX(), block.getZ());
+							int maxy = world.getHighestBlockYAt(block.getLocation());
 							
 							if(Math.abs(maxy-block.getY())<2)
 							{
@@ -113,11 +118,22 @@ public class ToolUseManager implements Listener
 									type.equals(Material.POTATO) ||
 									type.equals(Material.PUMPKIN_STEM) ||
 									type.equals(Material.MELON_STEM) ||
-									type.equals(Material.GRASS) ||
 									type.equals(Material.SAPLING) ||
 									type.equals(Material.CROPS)	)
 								{
-									event.setCancelled(true);
+									if(worldtype.equals("hoth") || (worldtype.equals("tatooine") && !HothUtils.isWatered(block.getRelative(BlockFace.DOWN))))
+									{
+										event.setCancelled(true);
+										block.breakNaturally();
+									}
+								}
+								
+								if(type.equals(Material.GRASS))
+								{
+									if(worldtype.equals("hoth") || (worldtype.equals("tatooine") && !HothUtils.isWatered(block)))
+									{
+										event.setCancelled(true);
+									}
 								}
 							}
 						}

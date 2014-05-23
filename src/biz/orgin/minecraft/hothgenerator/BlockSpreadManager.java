@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockSpreadEvent;
 
 /**
- * Prevents grass and mycelium that is exposed to the sky from spreading.
+ * Prevents grass and mycelium that is exposed to the sky from spreading in hoth worlds.
  * Source block will "die" when trying to spread.
  * @author orgin
  *
@@ -34,8 +34,8 @@ public class BlockSpreadManager implements Listener
 			if(this.plugin.isHothWorld(world) && !this.plugin.isRulesGrassspread(block.getLocation()) && this.plugin.getWorldType(world).equals("hoth"))
 			{
 				Block block2 = event.getBlock(); // destination.
-				int maxy = this.plugin.getHighestBlockYAt(world, block.getX(), block.getZ());
-				int maxy2 = this.plugin.getHighestBlockYAt(world, block2.getX(), block2.getZ());
+				int maxy = world.getHighestBlockYAt(block.getLocation());
+				int maxy2 = world.getHighestBlockYAt(block2.getLocation());
 				Material type = block.getType();
 	
 				if(type.equals(Material.GRASS) || type.equals(Material.MYCEL))
@@ -43,7 +43,7 @@ public class BlockSpreadManager implements Listener
 					// Check both source block and destination
 					boolean exposed = Math.abs(maxy-block.getY())<2;
 					boolean exposed2 = Math.abs(maxy2-block2.getY())<2;
-					if(exposed2) // The destinaton is exposed. Cancel spreading
+					if(exposed2) // The destination is exposed. Cancel spreading
 					{
 						event.setCancelled(true);
 					}

@@ -67,7 +67,7 @@ public class InternalSchematics {
 			}
 			catch(IOException e)
 			{
-				System.out.println("Error while loading schematics " + e.getMessage());
+				plugin.getLogger().info("Error while loading schematics " + e.getMessage());
 			}
 		}
 		

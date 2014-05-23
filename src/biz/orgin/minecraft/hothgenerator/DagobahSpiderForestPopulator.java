@@ -46,7 +46,7 @@ public class DagobahSpiderForestPopulator extends BlockPopulator
 
 		if(rarity!=0)
 		{
-			if(rand == random.nextInt((rarity*832/2)))
+			if(rand == random.nextInt((rarity*1132/2)))
 			{
 				this.placeSpiderForest(world, random, chunk);
 			}	

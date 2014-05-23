@@ -15,17 +15,6 @@ public class SnowGenerator
 		if(plugin.isSmoothSnow())
 		{
 			plugin.addTask(new PlaceSnowCover(world, snowcover), true);
-			/*
-			try
-			{
-				//Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new PlaceSnowCover(world, snowcover));
-			}
-			catch(Exception e)
-			{
-				plugin.logMessage("WARNING! Exception while trying to schedule PlaceSnowCover task. You probably need to restart the server", true);
-				if(!plugin.isEnabled())	System.out.println("The plugin has been disabled. Plugin ID = " + plugin.getID());
-			}
-			*/
 		}
 	}
 

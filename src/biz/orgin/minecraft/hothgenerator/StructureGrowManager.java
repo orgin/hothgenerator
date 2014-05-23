@@ -14,7 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.StructureGrowEvent;
 
 /**
- * Prevent trees and mushrooms from growing under open sky in hoth and tatooine.
+ * Prevent trees and mushrooms from growing under open sky in hoth and on unwatered blocks in tatooine.
  * Makes regular trees spawn dagobah trees in dagobah.
  * @author orgin
  *
@@ -38,15 +38,21 @@ public class StructureGrowManager implements Listener
 			
 			Location location = event.getLocation();
 			
+			
 			if(this.plugin.isHothWorld(world))
 			{
-				if(!this.plugin.isRulesPlantsgrow(location))
+				String worldtype = this.plugin.getWorldType(world);
+
+				if(!this.plugin.isRulesPlantsgrow(location) && (worldtype.equals("hoth") || worldtype.equals("tatooine")))
 				{
-					int maxy = this.plugin.getHighestBlockYAt(world, location.getBlockX(), location.getBlockZ());
-		
-					if(Math.abs(maxy-event.getLocation().getY())<2)
+					int maxy = world.getHighestBlockYAt(location);
+					
+					if(Math.abs(maxy-location.getBlockY())<2)
 					{
-						event.setCancelled(true);
+						if(worldtype.equals("hoth") || (worldtype.equals("tatooine") && !HothUtils.isWatered(location.getBlock().getRelative(BlockFace.DOWN))))
+						{
+							event.setCancelled(true);
+						}
 					}
 				}
 				

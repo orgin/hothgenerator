@@ -738,29 +738,6 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return true;
 	}
 	
-	/**
-	 * Get the highest block y value for the given world and coordinate.
-	 * Only air is considered empty.
-	 * @param world
-	 * @param x
-	 * @param z
-	 * @return
-	 */
-	public int getHighestBlockYAt(World world, int x, int z)
-	{
-		int y = world.getMaxHeight();
-		while(y>0)
-		{
-			if(!world.getBlockAt(x, y, z).getType().equals(Material.AIR))
-			{
-				return y;
-			}
-			y--;
-		}
-		
-		return -1;
-	}
-	
 	public void addSpiderForest(World world, int x, int y, int z, int size)
 	{
     	if(this.spiderForestManager==null)
@@ -1240,6 +1217,97 @@ public class HothGeneratorPlugin extends JavaPlugin
 	public String getRulesHeatMessage4(Location location)
 	{
 		return this.regionManager.get("heat.message4", location, this.getConfigString(location.getWorld(), "rules.heat.message4", "&6You are exhausted from the heat. Find water or shelter!"));
+	}
+
+	public int getRulesMosquitoDamage(Location location)
+	{
+	    int damage = this.regionManager.getInt("mosquito.damage", location, this.getConfigInt(location.getWorld(), "rules.mosquito.damage", 1));
+	    if(damage<0)
+	    {
+	    	damage = 1;
+	    }
+	    return damage;
+	}
+	
+	public int getRulesMosquitoRarity(Location location)
+	{
+		int result = this.regionManager.getInt("mosquito.rarity", location, this.getConfigInt(location.getWorld(), "rules.mosquito.rarity", 5));
+		if(result<1 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+
+	public int getRulesMosquitoRunFree(Location location)
+	{
+		int result = this.regionManager.getInt("mosquito.runfree", location, this.getConfigInt(location.getWorld(), "rules.mosquito.runfree", 10));
+		if(result<10 || result>100)
+		{
+			result = 10;
+		}
+		return result;
+	}
+
+	public String getRulesMosquitoMessage1(Location location)
+	{
+		return this.regionManager.get("mosquito.message1", location, this.getConfigString(location.getWorld(), "rules.mosquito.message1", "&2You seem to have lost the mosquito swarm."));
+	}
+
+	public String getRulesMosquitoMessage2(Location location)
+	{
+		return this.regionManager.get("mosquito.message2", location, this.getConfigString(location.getWorld(), "rules.mosquito.message2", "&2You hear some buzzing nearby."));
+	}
+
+	public String getRulesMosquitoMessage3(Location location)
+	{
+		return this.regionManager.get("mosquito.message3", location, this.getConfigString(location.getWorld(), "rules.mosquito.message3", "&2You can see a swarm of huge mosquitos nearby."));
+	}
+
+	public String getRulesMosquitoMessage4(Location location)
+	{
+		return this.regionManager.get("mosquito.message4", location, this.getConfigString(location.getWorld(), "rules.mosquito.message4", "&2Mosquitos are attacking you! Run!!"));
+	}
+	
+	public int getRulesLeechDamage(Location location)
+	{
+	    int damage = this.regionManager.getInt("leech.damage", location, this.getConfigInt(location.getWorld(), "rules.leech.damage", 1));
+	    if(damage<0)
+	    {
+	    	damage = 1;
+	    }
+	    return damage;
+	}
+	
+	
+	public int getRulesLeechRarity(Location location)
+	{
+		int result = this.regionManager.getInt("leech.rarity", location, this.getConfigInt(location.getWorld(), "rules.leech.rarity", 5));
+		if(result<1 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+
+	public String getRulesLeechMessage1(Location location)
+	{
+		return this.regionManager.get("leech.message1", location, this.getConfigString(location.getWorld(), "rules.leech.message1", "&2You manage to remove all leeches."));
+	}
+
+	public String getRulesLeechMessage2(Location location)
+	{
+		return this.regionManager.get("leech.message2", location, this.getConfigString(location.getWorld(), "rules.leech.message2", "&2You notice something moving in the water nearby."));
+	}
+
+	public String getRulesLeechMessage3(Location location)
+	{
+		return this.regionManager.get("leech.message3", location, this.getConfigString(location.getWorld(), "rules.leech.message3", "&2You can see leeches moving in the water."));
+	}
+
+	public String getRulesLeechMessage4(Location location)
+	{
+		return this.regionManager.get("leech.message4", location, this.getConfigString(location.getWorld(), "rules.leech.message4", "&2Leeches are attacking you! Get out of the water!"));
 	}
 
 	public int getRulesSpawnNeutralRarity(Location location)

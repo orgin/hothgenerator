@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -13,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 /**
@@ -54,17 +56,39 @@ public class PlayerEnvironmentManager
 		}
 	}
 	
+	private class MosquitoData
+	{
+		public Location location;  // Location of a mosquito attack
+		public int stage;  // 0=Ok, 1=hear, 2=see, 3=attack
+		public int ctr;
+		
+		public MosquitoData(Location location)
+		{
+			this.location = location;
+			this.stage = 0;
+			this.ctr = 0;
+		}
+	}
+	
 	private class DamagePlayers implements Runnable
 	{
 		HothGeneratorPlugin plugin;
 		
 		private Map<UUID, Integer> thirsts;
+		private Map<UUID, MosquitoData> mosquitos;
+		//private Map<UUID, Integer> leeches;
+		
+		private Random random;
 		
 		
 		public DamagePlayers(HothGeneratorPlugin plugin)
 		{
 			this.plugin = plugin;
 			this.thirsts = new HashMap<UUID, Integer>();
+			this.mosquitos = new HashMap<UUID, MosquitoData>();
+			//this.leeches = new HashMap<UUID, Integer>();
+			
+			this.random = new Random(System.currentTimeMillis());
 		}
 		
 		@Override
@@ -88,10 +112,160 @@ public class PlayerEnvironmentManager
 					{
 						this.heat(world);
 					}
+					else if(this.plugin.getWorldType(world).equals("dagobah"))
+					{
+						this.mosquito(world);
+						this.leech(world);
+					}
 				}
 			}
 		}
 		
+		/**
+		 * Finds all players on the specified world and applies mosquito damage.
+		 * @param world
+		 */
+		private void mosquito(World world)
+		{
+			List<Player> players = world.getPlayers();
+			Iterator<Player> iterator = players.iterator();
+			
+			while(iterator.hasNext())
+			{
+				Player player = iterator.next();
+				UUID uuid = player.getUniqueId();
+				
+				MosquitoData mosquito;
+				
+				
+				if(this.mosquitos.containsKey(uuid))
+				{
+					mosquito = this.mosquitos.get(uuid);
+				}
+				else
+				{
+					mosquito = new MosquitoData(player.getLocation());
+					this.mosquitos.put(uuid, mosquito);
+				}
+				
+				GameMode gm = player.getGameMode();
+				if(!gm.equals(GameMode.CREATIVE))
+				{
+					Location location = player.getLocation();
+					int damage = this.plugin.getRulesMosquitoDamage(location);
+					
+					if(damage>0)
+					{
+						
+						String message1 = this.plugin.getRulesMosquitoMessage1(location);
+						String message2 = this.plugin.getRulesMosquitoMessage2(location);
+						String message3 = this.plugin.getRulesMosquitoMessage3(location);
+						String message4 = this.plugin.getRulesMosquitoMessage4(location);
+						int rarity = this.plugin.getRulesMosquitoRarity(location);
+						int runfree = this.plugin.getRulesMosquitoRunFree(location);
+	
+						Block block = world.getBlockAt(location.getBlockX(), location.getBlockY()+1, location.getBlockZ());
+						Block block2 = world.getBlockAt(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+						
+						Double distance = this.getDistance(location, mosquito.location);
+						
+						if(block.getType().equals(Material.WATER) || block.getType().equals(Material.STATIONARY_WATER) || (mosquito.stage!=0 && distance>runfree))
+						{
+							if(mosquito.stage!=0)
+							{
+								mosquito.stage = 0;
+								plugin.sendMessage(player, message1); // You seem to have lost the mosquito swarm.
+							}
+						}
+						else
+						{
+							switch(mosquito.stage)
+							{
+							case 0: // ok
+								Block block3 = block2.getRelative(BlockFace.DOWN);
+								if(block3.getType().equals(Material.GRASS))
+								{
+									int rand = this.random.nextInt(20*rarity); // attacks are completely random
+									if(rand==1)
+									{
+										mosquito.stage = 1;
+										mosquito.ctr = 0;
+										mosquito.location = player.getLocation();
+										plugin.sendMessage(player, message2); // You hear some buzzing nearby.
+									}
+								}
+								
+								break;
+							case 1: // hear
+								mosquito.ctr++;
+								mosquito.location = this.moveCloser(player.getLocation(), mosquito.location, 0.7);
+								if(mosquito.ctr>5 || this.random.nextInt(20) == 1)
+								{
+									mosquito.stage = 2;
+									mosquito.ctr = 0;
+									plugin.sendMessage(player, message3); // You can see a mosquito swarm nearby.
+								}
+								break;
+							case 2: // see
+								mosquito.ctr++;
+								mosquito.location = this.moveCloser(player.getLocation(), mosquito.location, 0.7);
+								if(mosquito.ctr>3 || this.random.nextInt(10) == 1)
+								{
+									mosquito.stage = 3;
+									mosquito.ctr = 0;
+								}
+								break;
+							case 3: // attack
+								mosquito.location = this.moveCloser(player.getLocation(), mosquito.location, 0.9);
+	
+								double oldDamage = player.getHealth();
+								if(oldDamage - damage <= 0)
+								{
+									mosquito.stage = 0; // Player is going to die, reset stage 
+								}
+	
+								plugin.sendMessage(player, message4); // Mosquitos are attacking you! Run!!!
+								player.damage(damage);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		private Location moveCloser(Location player, Location swarm, double factor)
+		{
+			double dx = player.getX() - swarm.getX();
+			double dy = player.getY() - swarm.getY();
+			double dz = player.getZ() - swarm.getZ();
+			
+			return new Location(swarm.getWorld(), player.getX() + dx*factor, player.getY() + dy*factor, player.getZ() + dz*factor);
+		}
+		
+		private double getDistance(Location player, Location swarm)
+		{
+			if(player.getWorld().equals(swarm.getWorld()))
+			{
+				double dx = player.getX()-swarm.getX();
+				double dy = player.getY()-swarm.getY();
+				double dz = player.getZ()-swarm.getZ();
+				return Math.sqrt(dx*dx + dy*dy + dz*dz);
+			}
+			else
+			{
+				return 9999;
+			}
+		}
+
+		/**
+		 * Finds all players on the specified world and applies leech damage.
+		 * @param world
+		 */
+		private void leech(World world)
+		{
+		}
+
 		/**
 		 * Finds all players on the specified world and applies heat damage.
 		 * @param world

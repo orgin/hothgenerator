@@ -114,7 +114,6 @@ public class SchematicsGenerator
 					LoadedSchematic schematic = schematicsTatooine[i][newRandom.nextInt(4)];
 					if(schematic==null)
 					{
-						System.out.println("schematic i=" + i + " was null!");
 						break;
 					}
 

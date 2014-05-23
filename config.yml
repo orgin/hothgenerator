@@ -29,12 +29,36 @@ hothworlds:
 #
 # --- Advanced options ---
 #
-#  There's no need to change anything of the following unless there's
-#  some game mechanics you really want to change. If you want to play
-#  the hoth world as the author intended, just leave the following as is.
+# There's no need to change anything of the following unless there's
+# some game mechanics you really want to change. If you want to play
+# the worlds as the author intended, just leave the following as is.
 #
 # If you should mess up the config then just stop the server, remove the
 # config file and then start the server again.
+#
+# Almost all options can be overridden per world by placing them in the
+# world specific sections above. This is useful if you want specific
+# rules for each world. Like one hoth world with spikes, and one without.
+#
+# Example: (Do not use this example, use the hothworldsdata section above)
+#
+#hothworldsdata:
+#  hoth1:
+#    type: hoth
+#    structure.spikes.rarity: 2
+#  hoth2:
+#    type: hoth
+#    structure.spikes.rarity: 0
+#
+# Do note that not all options are available for all world types.
+# Some examples:
+#   Ice spikes can only be generated in hoth type worlds
+#   Freeze damage is only available in hoth type worlds
+#   Oasises are only available in tatooine type worlds
+#   Tree huts are only available in dagobah worlds
+#
+# Worldguard regions can also override a lot of these options by using the
+# hothregion command. 
 #
 # Option descriptions:
 #
@@ -121,7 +145,7 @@ hothworlds:
 #  rules.limitslime - true/false. Whether slime can only spawn in the stone
 #                     layer. 
 #  rules.snowgravity - true/false. Whether gravity is applied to snow blocks.
-#  rules.environment.period - Positive integer value. Seconds between
+#  rules.environment.period - Positive integer value. Period between
 #                        environment damage checks. 0 = no damage (global off)
 #  rules.freeze.damage - Positive integer value. Damage taken when freezing.
 #                        0 = no damage
@@ -129,11 +153,28 @@ hothworlds:
 #                             during storms. 0 = no damage
 #  rules.freeze.message - Message sent when freezing
 #  rules.heat.damage - Positive integer value. Damage taken when overheated.
-#                        0 = no damage
+#                        0 = off
 #  rules.heat.message1 - Message sent when moving into water
 #  rules.heat.message2 - Message sent when getting thirsty
 #  rules.heat.message3 - Message sent when very thirsty
 #  rules.heat.message4 - Message sent when taking heat damage
+#  rules.mosquito.damage - Positive integer value. Damage taken from mosquito.
+#                        0 = off
+#  rules.mosquito.rarity - Rarity of mosquito swarms. 1-10
+#                          (1 = common, 10 = very rare)
+#  rules.mosquito.runfree  Distance to run to get free of mosquitos. (10-100)
+#  rules.mosquito.message1 - Message sent when losing the mosquitos
+#  rules.mosquito.message2 - Message sent when hearing mosquitos.
+#  rules.mosquito.message3 - Message sent when seeing mosquitos.
+#  rules.mosquito.message4 - Message sent when attacked by mosquitos.
+#  rules.leech.damage - Positive integer value. Damage taken from mosquito.
+#                        0 = off
+#  rules.leech.rarity - Rarity of leeches. 1-10
+#                          (1 = common, 10 = very rare)
+#  rules.leech.message1 - Message sent when losing the leeches
+#  rules.leech.message2 - Message sent when close to leeches.
+#  rules.leech.message3 - Message sent when seeing leeches.
+#  rules.leech.message4 - Message sent when attacked by leeches.
 #  rules.spawn.neutral.on - true/false. turn on or off the hothgenerator's own
 #                           neutral mob spawning.
 #  rules.spawn.neutral.rarity - Rarity of neutral mob spawns 1-10 
@@ -197,6 +238,19 @@ hoth:
   rules.heat.message2: "&6Your are starting to feel thirsty."
   rules.heat.message3: "&6Your feel very thirsty."
   rules.heat.message4: "&6You are exhausted from the heat. Find water or shelter!"
+  rules.mosquito.damage: 1
+  rules.mosquito.rarity: 5
+  rules.mosquito.runfree: 10
+  rules.mosquito.message1 = "&2You seem to have lost the mosquito swarm.";
+  rules.mosquito.message2 = "&2You hear some buzzing nearby.";
+  rules.mosquito.message3 = "&2You can see a swarm of huge mosquitos nearby.";
+  rules.mosquito.message4 = "&2Mosquitos are attacking you! Run!!";
+  rules.leech.damage: 1
+  rules.leech.rarity: 5
+  rules.leech.message1 = "&2You manage to remove all leeches.";
+  rules.leech.message2 = "&2You notice something moving in the water nearby.";
+  rules.leech.message3 = "&2You can see leeches moving in the water.";
+  rules.leech.message4 = "&2Leeches are attacking you! Get out of the water!";
   rules.spawn.neutral.on: true
   rules.spawn.neutral.rarity: 2
   rules.spawn.neutral.mobs: chicken,cow,mushroom_cow,ocelot,pig,sheep,wolf,horse
