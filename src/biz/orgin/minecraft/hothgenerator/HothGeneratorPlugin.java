@@ -1310,6 +1310,11 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return this.regionManager.get("leech.message4", location, this.getConfigString(location.getWorld(), "rules.leech.message4", "&2Leeches are attacking you! Get out of the water!"));
 	}
 
+	public String getRulesLeechMessage5(Location location)
+	{
+		return this.regionManager.get("leech.message5", location, this.getConfigString(location.getWorld(), "rules.leech.message5", "&2Leeches are sucking you dry, run to shake them off!"));
+	}
+
 	public int getRulesSpawnNeutralRarity(Location location)
 	{
 	    int rarity = this.regionManager.getInt("spawn.neutral.rarity", location, this.getConfigInt(location.getWorld(), "rules.spawn.neutral.rarity", 2));

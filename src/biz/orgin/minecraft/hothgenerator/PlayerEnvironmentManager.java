@@ -56,13 +56,13 @@ public class PlayerEnvironmentManager
 		}
 	}
 	
-	private class MosquitoData
+	private class PlayerData
 	{
 		public Location location;  // Location of a mosquito attack
 		public int stage;  // 0=Ok, 1=hear, 2=see, 3=attack
 		public int ctr;
 		
-		public MosquitoData(Location location)
+		public PlayerData(Location location)
 		{
 			this.location = location;
 			this.stage = 0;
@@ -75,8 +75,8 @@ public class PlayerEnvironmentManager
 		HothGeneratorPlugin plugin;
 		
 		private Map<UUID, Integer> thirsts;
-		private Map<UUID, MosquitoData> mosquitos;
-		//private Map<UUID, Integer> leeches;
+		private Map<UUID, PlayerData> mosquitos;
+		private Map<UUID, PlayerData> leeches;
 		
 		private Random random;
 		
@@ -85,8 +85,8 @@ public class PlayerEnvironmentManager
 		{
 			this.plugin = plugin;
 			this.thirsts = new HashMap<UUID, Integer>();
-			this.mosquitos = new HashMap<UUID, MosquitoData>();
-			//this.leeches = new HashMap<UUID, Integer>();
+			this.mosquitos = new HashMap<UUID, PlayerData>();
+			this.leeches = new HashMap<UUID, PlayerData>();
 			
 			this.random = new Random(System.currentTimeMillis());
 		}
@@ -135,7 +135,7 @@ public class PlayerEnvironmentManager
 				Player player = iterator.next();
 				UUID uuid = player.getUniqueId();
 				
-				MosquitoData mosquito;
+				PlayerData mosquito;
 				
 				
 				if(this.mosquitos.containsKey(uuid))
@@ -144,7 +144,7 @@ public class PlayerEnvironmentManager
 				}
 				else
 				{
-					mosquito = new MosquitoData(player.getLocation());
+					mosquito = new PlayerData(player.getLocation());
 					this.mosquitos.put(uuid, mosquito);
 				}
 				
@@ -264,6 +264,152 @@ public class PlayerEnvironmentManager
 		 */
 		private void leech(World world)
 		{
+			List<Player> players = world.getPlayers();
+			Iterator<Player> iterator = players.iterator();
+			
+			while(iterator.hasNext())
+			{
+				Player player = iterator.next();
+				UUID uuid = player.getUniqueId();
+				
+				PlayerData leech;
+				
+				
+				if(this.leeches.containsKey(uuid))
+				{
+					leech = this.leeches.get(uuid);
+				}
+				else
+				{
+					leech = new PlayerData(player.getLocation());
+					this.leeches.put(uuid, leech);
+				}
+				
+				GameMode gm = player.getGameMode();
+				if(!gm.equals(GameMode.CREATIVE))
+				{
+					Location location = player.getLocation();
+					int damage = this.plugin.getRulesLeechDamage(location);
+					
+					if(damage>0)
+					{
+						String message1 = this.plugin.getRulesLeechMessage1(location);
+						String message2 = this.plugin.getRulesLeechMessage2(location);
+						String message3 = this.plugin.getRulesLeechMessage3(location);
+						String message4 = this.plugin.getRulesLeechMessage4(location);
+						String message5 = this.plugin.getRulesLeechMessage5(location);
+						int rarity = this.plugin.getRulesMosquitoRarity(location);
+	
+						Block block = world.getBlockAt(location.getBlockX(), location.getBlockY()+1, location.getBlockZ());
+						Block block2 = world.getBlockAt(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+						
+						boolean isInWater = HothUtils.isWater(block) || HothUtils.isWater(block2);
+						
+						if(leech.stage!=0 && !leech.location.getWorld().equals(world))
+						{
+							leech.stage = 0;
+							plugin.sendMessage(player, message1);
+						}
+						
+						switch(leech.stage)
+						{
+						case 0: // ok
+							if(isInWater)
+							{
+								int rand = this.random.nextInt(20*rarity); // attacks are completely random
+								if(rand==1)
+								{
+									leech.stage = 1;
+									leech.ctr = 0;
+									leech.location = player.getLocation();
+									plugin.sendMessage(player, message2);
+								}
+							}
+							
+							break;
+						case 1: // something moving
+							if(isInWater)
+							{
+								leech.ctr++;
+								if(leech.ctr>4 || this.random.nextInt(8) == 1)
+								{
+									leech.stage = 2;
+									leech.ctr = 0;
+									plugin.sendMessage(player, message3);
+								}
+							}
+							else
+							{
+								leech.stage = 0;
+							}
+							break;
+						case 2: // see leeches in water
+							if(isInWater)
+							{
+								leech.ctr++;
+								if(leech.ctr>4 || this.random.nextInt(4) == 1)
+								{
+									leech.stage = 3;
+									leech.ctr = 0;
+									leech.ctr = 50;
+								}
+							}
+							else
+							{
+								leech.stage = 0;
+							}
+							break;
+						case 3: // attacked by leeches
+							if(leech.ctr<0)
+							{
+								leech.stage = 0;
+								plugin.sendMessage(player, message1); // Shaked off leeches
+							}
+							else
+							{
+								if(isInWater)
+								{
+									leech.ctr = leech.ctr + 5;
+									if(leech.ctr>100)
+									{
+										leech.ctr = 100;
+									}
+								
+									double oldDamage = player.getHealth();
+									if(oldDamage - damage <= 0)
+									{
+										leech.stage = 0; // Player is going to die, reset stage 
+									}
+		
+									plugin.sendMessage(player, message4); // Under attack, damage and food drop
+									player.damage(damage);
+								}
+								else
+								{
+									if(player.isSprinting())
+									{
+										leech.ctr = leech.ctr - 20;
+									}
+									else
+									{
+										leech.ctr = leech.ctr - 5;
+									}
+									plugin.sendMessage(player, message5); // Under attack, food drop
+								}
+
+								int food = player.getFoodLevel();
+								food = food - damage;
+								if(food<0)
+								{
+									food = 0;
+								}
+								player.setFoodLevel(food);
+							}
+							break;
+						}
+					}
+				}
+			}
 		}
 
 		/**

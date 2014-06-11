@@ -53,6 +53,7 @@ public abstract class RegionManager
 			new FlagValue("leech.message2",       new String[]{"[text]", "[blank]"}),
 			new FlagValue("leech.message3",       new String[]{"[text]", "[blank]"}),
 			new FlagValue("leech.message4",       new String[]{"[text]", "[blank]"}),
+			new FlagValue("leech.message5",       new String[]{"[text]", "[blank]"}),
 			// new FlagValue("spawn.neutral.on",     new String[]{"allow","deny", "[blank]"}), // This is global only
 			new FlagValue("spawn.neutral.rarity", new String[]{"[integer]", "[blank]"}),
 			new FlagValue("spawn.neutral.mobs",   new String[]{"none", "[text]", "[blank]"})

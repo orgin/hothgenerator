@@ -56,6 +56,7 @@ hothworlds:
 #   Freeze damage is only available in hoth type worlds
 #   Oasises are only available in tatooine type worlds
 #   Tree huts are only available in dagobah worlds
+#   .. etc ..
 #
 # Worldguard regions can also override a lot of these options by using the
 # hothregion command. 
@@ -147,6 +148,7 @@ hothworlds:
 #  rules.snowgravity - true/false. Whether gravity is applied to snow blocks.
 #  rules.environment.period - Positive integer value. Period between
 #                        environment damage checks. 0 = no damage (global off)
+#                        2 is recommended.
 #  rules.freeze.damage - Positive integer value. Damage taken when freezing.
 #                        0 = no damage
 #  rules.freeze.stormdamage - Positive integer value. Extra damage taken
@@ -175,6 +177,7 @@ hothworlds:
 #  rules.leech.message2 - Message sent when close to leeches.
 #  rules.leech.message3 - Message sent when seeing leeches.
 #  rules.leech.message4 - Message sent when attacked by leeches.
+#  rules.leech.message5 - Message sent when sucked dry by leeches.
 #  rules.spawn.neutral.on - true/false. turn on or off the hothgenerator's own
 #                           neutral mob spawning.
 #  rules.spawn.neutral.rarity - Rarity of neutral mob spawns 1-10 
@@ -251,6 +254,7 @@ hoth:
   rules.leech.message2 = "&2You notice something moving in the water nearby.";
   rules.leech.message3 = "&2You can see leeches moving in the water.";
   rules.leech.message4 = "&2Leeches are attacking you! Get out of the water!";
+  rules.leech.message5 = "&2Leeches are sucking you dry, run to shake them off!";
   rules.spawn.neutral.on: true
   rules.spawn.neutral.rarity: 2
   rules.spawn.neutral.mobs: chicken,cow,mushroom_cow,ocelot,pig,sheep,wolf,horse
