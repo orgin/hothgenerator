@@ -244,17 +244,17 @@ hoth:
   rules.mosquito.damage: 1
   rules.mosquito.rarity: 5
   rules.mosquito.runfree: 10
-  rules.mosquito.message1 = "&2You seem to have lost the mosquito swarm.";
-  rules.mosquito.message2 = "&2You hear some buzzing nearby.";
-  rules.mosquito.message3 = "&2You can see a swarm of huge mosquitos nearby.";
-  rules.mosquito.message4 = "&2Mosquitos are attacking you! Run!!";
+  rules.mosquito.message1: "&2You seem to have lost the mosquito swarm."
+  rules.mosquito.message2: "&2You hear some buzzing nearby."
+  rules.mosquito.message3: "&2You can see a swarm of huge mosquitos nearby."
+  rules.mosquito.message4: "&2Mosquitos are attacking you! Run!!"
   rules.leech.damage: 1
   rules.leech.rarity: 5
-  rules.leech.message1 = "&2You manage to remove all leeches.";
-  rules.leech.message2 = "&2You notice something moving in the water nearby.";
-  rules.leech.message3 = "&2You can see leeches moving in the water.";
-  rules.leech.message4 = "&2Leeches are attacking you! Get out of the water!";
-  rules.leech.message5 = "&2Leeches are sucking you dry, run to shake them off!";
+  rules.leech.message1: "&2You manage to remove all leeches."
+  rules.leech.message2: "&2You notice something moving in the water nearby."
+  rules.leech.message3: "&2You can see leeches moving in the water."
+  rules.leech.message4: "&2Leeches are attacking you! Get out of the water!"
+  rules.leech.message5: "&2Leeches are sucking you dry, run to shake them off!"
   rules.spawn.neutral.on: true
   rules.spawn.neutral.rarity: 2
   rules.spawn.neutral.mobs: chicken,cow,mushroom_cow,ocelot,pig,sheep,wolf,horse
