@@ -687,14 +687,14 @@ public class HothGeneratorPlugin extends JavaPlugin
 	public String getWorldType(World world)
 	{
 		List<String> list = this.config.getStringList("hothworlds");
-		String name = world.getName().toLowerCase();
+		String name = world.getName();
 		
 		for(int i=0;i<list.size();i++)
 		{
 			String worldName = list.get(i);
 			if(worldName.equals(name))
 			{
-				String type = this.config.getString("hothworldsdata." + worldName + ".type", "hoth");
+				String type = this.config.getString("hothworldsdata." + worldName + ".type", "hoth").toLowerCase();
 				if(type.equals("hoth") || type.equals("tatooine") || type.equals("dagobah"))
 				{
 					return type;
