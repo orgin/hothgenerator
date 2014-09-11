@@ -1,5 +1,5 @@
 name: HothGenerator
-version: 1.17
+version: 1.18
 main: biz.orgin.minecraft.hothgenerator.HothGeneratorPlugin
 load: STARTUP
 description: Generates a really icy world.
@@ -81,5 +81,17 @@ permissions:
         default: op
     hothgenerator.hothinfo:
         description: Shows some information about the plugin
+        default: true
+    hothgenerator.freeze:
+        description: Enables freezing environment effect in hoth.
+        default: true
+    hothgenerator.heat:
+        description: Enables heat environment effect in tatooine.
+        default: true
+    hothgenerator.leech:
+        description: Enables leech environment effect in dagobah.
+        default: true
+    hothgenerator.mosquito:
+        description: Enables mosquito environment effect in dagobah.
         default: true
             

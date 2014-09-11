@@ -30,11 +30,11 @@ public class BlockMeltManager implements Listener
 			Block block = event.getBlock();
 			World world = block.getWorld();
 			
-			if(this.plugin.isHothWorld(world) && this.plugin.isRulesStopmelt(block.getLocation()) && this.plugin.getWorldType(world).equals("hoth"))
+			if(this.plugin.isHothWorld(world) && ConfigManager.isRulesStopmelt(this.plugin, block.getLocation()) && this.plugin.getWorldType(world).equals("hoth"))
 			{
 				int y = block.getY();
 				
-				int surfaceOffset = this.plugin.getWorldSurfaceoffset(world);
+				int surfaceOffset = ConfigManager.getWorldSurfaceoffset(this.plugin, world);
 				
 				if(y>(26 + surfaceOffset))
 				{

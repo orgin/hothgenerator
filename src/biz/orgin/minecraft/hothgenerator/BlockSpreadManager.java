@@ -31,7 +31,7 @@ public class BlockSpreadManager implements Listener
 			Block block = event.getSource();
 			World world = block.getWorld();
 			
-			if(this.plugin.isHothWorld(world) && !this.plugin.isRulesGrassspread(block.getLocation()) && this.plugin.getWorldType(world).equals("hoth"))
+			if(this.plugin.isHothWorld(world) && !ConfigManager.isRulesGrassspread(this.plugin, block.getLocation()) && this.plugin.getWorldType(world).equals("hoth"))
 			{
 				Block block2 = event.getBlock(); // destination.
 				int maxy = world.getHighestBlockYAt(block.getLocation());

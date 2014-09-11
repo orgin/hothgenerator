@@ -21,7 +21,7 @@ public class CaveGenerator {
 
 	public static void generateCaves(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
-		int rarity = plugin.getGenerateCavesRarity(world);
+		int rarity = ConfigManager.getGenerateCavesRarity(plugin, world);
 		
 		if(rarity!=0)
 		{

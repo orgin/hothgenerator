@@ -40,7 +40,7 @@ public class HothPopulator extends BlockPopulator
 		int rz = z * 16;
 		
 		// Logs
-		if(this.plugin.isGenerateLogs(world))
+		if(ConfigManager.isGenerateLogs(this.plugin, world))
 		{
 			this.placeLogs(world, rx, rz, random);
 		}
@@ -86,7 +86,7 @@ public class HothPopulator extends BlockPopulator
 	
 	private void placeLogs(World world, int rx, int rz, Random random)
 	{
-		int surfaceOffset = this.plugin.getWorldSurfaceoffset(world);
+		int surfaceOffset = ConfigManager.getWorldSurfaceoffset(this.plugin, world);
 		int cnt = random.nextInt(32);
 		
 		for(int i=0;i<cnt;i++)

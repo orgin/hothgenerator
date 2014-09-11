@@ -107,7 +107,7 @@ public class MobSpawnManager
 			for(int i=0;i<worlds.size();i++)
 			{
 				World world = worlds.get(i);
-				if(this.plugin.isHothWorld(world) && this.plugin.getWorldType(world).equals("hoth") && this.plugin.isRulesSpawnNeutralOn(world))
+				if(this.plugin.isHothWorld(world) && this.plugin.getWorldType(world).equals("hoth") && ConfigManager.isRulesSpawnNeutralOn(this.plugin, world))
 				{
 					this.spawnMobs(world);
 				}
@@ -175,14 +175,14 @@ public class MobSpawnManager
 								Location location = new Location(world, x, y+1, z);
 								
 								// Check if mobs of this type is allowed at this location
-								String allowedMobs = this.plugin.getRulesSpawnNeutralMobs(location);
+								String allowedMobs = ConfigManager.getRulesSpawnNeutralMobs(this.plugin, location);
 								String[] mobs = allowedMobs.split(",");
 								
 								for(int m=0;m<mobs.length;m++)
 								{
 									if(mobs[m].equals(MobSpawnManager.mobNames[i]))
 									{
-										int test = this.random.nextInt(1000 * this.plugin.getRulesSpawnNeutralRarity(location));
+										int test = this.random.nextInt(1000 * ConfigManager.getRulesSpawnNeutralRarity(this.plugin, location));
 										int prob = (int)(MobSpawnManager.probability[i]*10);
 										
 										if( test < prob)

@@ -34,7 +34,7 @@ public class BlockGrowManager implements Listener
 			String type = this.plugin.getWorldType(world);
 			Location location = event.getBlock().getLocation();
 			
-			if(this.plugin.isHothWorld(world) && !this.plugin.isRulesPlantsgrow(block.getLocation())
+			if(this.plugin.isHothWorld(world) && !ConfigManager.isRulesPlantsgrow(this.plugin, block.getLocation())
 					&& (type.equals("hoth") || type.equals("tatooine")))
 			{
 				int maxy = world.getHighestBlockYAt(location);

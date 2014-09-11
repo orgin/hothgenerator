@@ -41,7 +41,7 @@ public class BlockPlaceManager implements Listener
 					if(type.equals(Material.WATER) ||
 						type.equals(Material.WATER_BUCKET))
 					{
-						if(this.plugin.isRulesFreezewater(block.getLocation()))
+						if(ConfigManager.isRulesFreezewater(this.plugin, block.getLocation()))
 						{
 							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.WATER, Material.ICE);
 							plugin.addTask(th);
@@ -50,7 +50,7 @@ public class BlockPlaceManager implements Listener
 					else if(type.equals(Material.LAVA) ||
 						type.equals(Material.LAVA_BUCKET))
 					{
-						if(this.plugin.isRulesFreezelava(block.getLocation()))
+						if(ConfigManager.isRulesFreezelava(this.plugin, block.getLocation()))
 						{
 							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.LAVA, Material.STONE);
 							plugin.addTask(th);

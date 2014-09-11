@@ -11,7 +11,7 @@ public class SpikeGenerator {
 
 	public static void generateSpikes(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
-		int rarity = plugin.getStructureSpikesRarity(world);
+		int rarity = ConfigManager.getStructureSpikesRarity(plugin, world);
 
 		if(rarity!=0)
 		{
@@ -111,7 +111,7 @@ public class SpikeGenerator {
 			Blob blob = new Blob(plugin, world, this.getName());
 			int iceID = MaterialManager.toID(Material.PACKED_ICE);
 
-			int surfaceOffset = this.getPlugin().getWorldSurfaceoffset(world);
+			int surfaceOffset = ConfigManager.getWorldSurfaceoffset(plugin, world);
 
 			double basex1 = random.nextInt(24) + this.chunkx * 16;
 			double basez1 = random.nextInt(24) + this.chunkz * 16;

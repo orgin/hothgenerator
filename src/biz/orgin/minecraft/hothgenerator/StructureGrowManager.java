@@ -43,7 +43,7 @@ public class StructureGrowManager implements Listener
 			{
 				String worldtype = this.plugin.getWorldType(world);
 
-				if(!this.plugin.isRulesPlantsgrow(location) && (worldtype.equals("hoth") || worldtype.equals("tatooine")))
+				if(!ConfigManager.isRulesPlantsgrow(this.plugin, location) && (worldtype.equals("hoth") || worldtype.equals("tatooine")))
 				{
 					int maxy = world.getHighestBlockYAt(location);
 					

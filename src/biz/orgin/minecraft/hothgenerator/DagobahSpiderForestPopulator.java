@@ -42,7 +42,7 @@ public class DagobahSpiderForestPopulator extends BlockPopulator
 		}
 		
 		int rand = 223;
-		int rarity = plugin.getStructureSpiderForestRarity(world); 
+		int rarity = ConfigManager.getStructureSpiderForestRarity(this.plugin, world); 
 
 		if(rarity!=0)
 		{

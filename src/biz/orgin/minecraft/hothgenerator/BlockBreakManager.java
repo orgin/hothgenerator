@@ -81,7 +81,7 @@ public class BlockBreakManager implements Listener
 				// Ice breaking
 				if (gotPermsICE && this.plugin.isHothWorld(world) && block.getType().equals(Material.ICE) && this.plugin.getWorldType(world).equals("hoth"))
 				{
-					if(this.plugin.isRulesDropice(block.getLocation()))
+					if(ConfigManager.isRulesDropice(this.plugin, block.getLocation()))
 					{
 						block.setType(Material.AIR);
 						ItemStack iceStack = new ItemStack(Material.ICE);
@@ -92,7 +92,7 @@ public class BlockBreakManager implements Listener
 				// Snow block breaking
 				else if (gotPermsSNOWBLOCK && this.plugin.isHothWorld(world) && block.getType().equals(Material.SNOW_BLOCK) && this.plugin.getWorldType(world).equals("hoth"))
 				{
-					if(this.plugin.isRulesDropsnow(block.getLocation()))
+					if(ConfigManager.isRulesDropsnow(this.plugin, block.getLocation()))
 					{
 						block.setType(Material.AIR);
 						ItemStack snowStack = new ItemStack(Material.SNOW_BLOCK);
@@ -103,7 +103,7 @@ public class BlockBreakManager implements Listener
 				// Packed ice breaking
 				if (gotPermsPACKEDICE && this.plugin.isHothWorld(world) && block.getType().equals(Material.PACKED_ICE) && this.plugin.getWorldType(world).equals("hoth"))
 				{
-					if(this.plugin.isRulesDroppackedice(block.getLocation()))
+					if(ConfigManager.isRulesDroppackedice(this.plugin, block.getLocation()))
 					{
 						block.setType(Material.AIR);
 						ItemStack iceStack = new ItemStack(Material.PACKED_ICE);

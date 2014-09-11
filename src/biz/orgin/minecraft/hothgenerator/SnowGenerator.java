@@ -12,7 +12,7 @@ public class SnowGenerator
 
 	public static void generateSnowCover(HothGeneratorPlugin plugin, World world, Position[][] snowcover)
 	{
-		if(plugin.isSmoothSnow())
+		if(ConfigManager.isSmoothSnow(plugin))
 		{
 			plugin.addTask(new PlaceSnowCover(world, snowcover), true);
 		}

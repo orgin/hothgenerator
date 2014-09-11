@@ -33,7 +33,7 @@ public class BlockGravityManager  implements Listener
 			Block block = event.getBlock();
 			
 			World world = block.getWorld();
-			if(plugin.isHothWorld(world) && this.plugin.isRulesSnowgravity(block.getLocation()))
+			if(plugin.isHothWorld(world) && ConfigManager.isRulesSnowgravity(this.plugin, block.getLocation()))
 			{
 				this.applyGravityToBlock(world, block, false);
 			}
@@ -52,7 +52,7 @@ public class BlockGravityManager  implements Listener
 			int z = block.getZ();
 			
 			World world = block.getWorld();
-			if(plugin.isHothWorld(world) && this.plugin.isRulesSnowgravity(block.getLocation()))
+			if(plugin.isHothWorld(world) && ConfigManager.isRulesSnowgravity(this.plugin, block.getLocation()))
 			{
 				this.applyGravityToBlock(world, world.getBlockAt(x, y+1, z), true);
 			}

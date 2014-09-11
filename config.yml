@@ -122,7 +122,7 @@ hothworlds:
 #                                rarity (1 = common, 10 = very rare)
 #  generate.logs - true/false. Whether frozen logs should be generated
 #  generate.caves.rarity - 0-10. Rarity for caves. 0 is off, 1-10 is rarity
-#                   (1 = rare, 10 = very common)
+#                   (1 = common, 10 = very rare)
 #  generate.ores - true/false. Whether frozen logs should be generated
 #  generate.extendedore - true/false. If true then ores can use type id's>255
 #                         and its data value can be set.

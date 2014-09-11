@@ -20,7 +20,7 @@ public class GardenGenerator
 	
 	public static void generateGarden(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
-		int rarity = plugin.getStructureGardensRarity(world);
+		int rarity = ConfigManager.getStructureGardensRarity(plugin, world);
 		
 		if(rarity!=0)
 		{
@@ -61,7 +61,7 @@ public class GardenGenerator
 			World world = this.getWorld();
 			HothGeneratorPlugin plugin = this.getPlugin();
 
-			int surfaceOffset = plugin.getWorldSurfaceoffset(world);
+			int surfaceOffset = ConfigManager.getWorldSurfaceoffset(plugin, world);
 
 			int x = random.nextInt(16) + this.chunkx * 16;
 			int z = random.nextInt(16) + this.chunkz * 16;

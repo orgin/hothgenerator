@@ -50,7 +50,7 @@ public class ToolUseManager implements Listener
 				ItemStack item = player.getItemInHand();
 				String worldtype = this.plugin.getWorldType(world);
 	
-				if(plugin.isItemInfoTool() && item.getType().equals(Material.CLAY_BALL))
+				if(ConfigManager.isItemInfoTool(this.plugin) && item.getType().equals(Material.CLAY_BALL))
 				{
 					Block block = event.getClickedBlock();
 					player.sendMessage("Item: name = " + block.getType().name() + " type = " + MaterialManager.toID(block.getType()) + ", data = " + DataManager.getData(block));
@@ -74,7 +74,7 @@ public class ToolUseManager implements Listener
 						Block block = event.getClickedBlock();
 						block = block.getRelative(event.getBlockFace());
 
-						if(this.plugin.isRulesFreezewater(block.getLocation()) && !this.plugin.canPlaceLiquid(world, block))
+						if(ConfigManager.isRulesFreezewater(this.plugin, block.getLocation()) && !this.plugin.canPlaceLiquid(world, block))
 						{
 							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.WATER, Material.ICE);
 							try
@@ -92,7 +92,7 @@ public class ToolUseManager implements Listener
 						Block block = event.getClickedBlock();
 						block = block.getRelative(event.getBlockFace());
 
-						if(this.plugin.isRulesFreezelava(block.getLocation()) && !this.plugin.canPlaceLiquid(world, block))
+						if(ConfigManager.isRulesFreezelava(this.plugin, block.getLocation()) && !this.plugin.canPlaceLiquid(world, block))
 						{
 							BlockPlacerThread th = new BlockPlacerThread(world, block.getX(), block.getY(), block.getZ(), Material.LAVA, Material.STONE);
 							Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);
@@ -105,7 +105,7 @@ public class ToolUseManager implements Listener
 					if(item.getType().equals(Material.INK_SACK) && item.getDurability() == 15)
 					{
 						Block block = event.getClickedBlock();
-						if(!this.plugin.isRulesPlantsgrow(block.getLocation()))
+						if(!ConfigManager.isRulesPlantsgrow(this.plugin, block.getLocation()))
 						{
 							// User is bonemealing something
 							Material type = block.getType();
@@ -137,7 +137,6 @@ public class ToolUseManager implements Listener
 								}
 							}
 						}
-	
 					}
 				}
 			}

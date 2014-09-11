@@ -73,7 +73,7 @@ public class HothGenerator extends ChunkGenerator
 			this.noiseGenerator = new NoiseGenerator(world);
 		}
 		
-		int surfaceOffset = HothGenerator.plugin.getWorldSurfaceoffset(world);
+		int surfaceOffset = ConfigManager.getWorldSurfaceoffset(HothGenerator.plugin, world);
 		
 		Random localRand = new Random(chunkx*chunkz);
 		Position[][] snowcover = new Position[16][16];
@@ -376,7 +376,7 @@ public class HothGenerator extends ChunkGenerator
 			this.noiseGenerator = new NoiseGenerator(world);
 		}
 		
-		int surfaceOffset = HothGenerator.plugin.getWorldSurfaceoffset(world);
+		int surfaceOffset = ConfigManager.getWorldSurfaceoffset(HothGenerator.plugin, world);
 		
 		Random localRand = new Random(chunkx*chunkz);
 		
@@ -705,7 +705,7 @@ public class HothGenerator extends ChunkGenerator
 			this.noiseGenerator = new NoiseGenerator(world);
 		}
 		
-		int surfaceOffset = HothGenerator.plugin.getWorldSurfaceoffset(world);
+		int surfaceOffset = ConfigManager.getWorldSurfaceoffset(HothGenerator.plugin, world);
 		
 		Random localRand = new Random(chunkx*chunkz);
 		
@@ -1132,7 +1132,7 @@ public class HothGenerator extends ChunkGenerator
 	public Location getFixedSpawnLocation(World world, Random random)
 	{
 		
-		int y = 65 + HothGenerator.plugin.getWorldSurfaceoffset(world);
+		int y = 65 + ConfigManager.getWorldSurfaceoffset(HothGenerator.plugin, world);
 		if(this.height<=66)
 		{
 			y = (this.height/2)+1;

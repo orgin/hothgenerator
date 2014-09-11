@@ -49,9 +49,9 @@ public class OreGenerator
 	
 	public static void generateOres(HothGeneratorPlugin plugin, World world, byte[][] chunk, Random random, int chunkx, int chunkz)
 	{
-		if(plugin.isGenerateOres(world))
+		if(ConfigManager.isGenerateOres(plugin, world))
 		{
-			if(!plugin.isGenerateExtendedOre()) // Generate single byte ores in the supplied chunk array
+			if(!ConfigManager.isGenerateExtendedOre(plugin)) // Generate single byte ores in the supplied chunk array
 			{
 				for (int i = 0; i < type.length; i++)
 				{
@@ -237,7 +237,7 @@ public class OreGenerator
 							}
 							
 							// Check if there is a violation of extended ore
-							if(!plugin.isGenerateExtendedOre() && ore.typeID>255)
+							if(!ConfigManager.isGenerateExtendedOre(plugin) && ore.typeID>255)
 							{
 								plugin.debugMessage("ERROR: Type ID to large, generate.extendedore is false " + row);
 							}

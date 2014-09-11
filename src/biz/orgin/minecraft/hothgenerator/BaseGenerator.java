@@ -37,7 +37,7 @@ public class BaseGenerator {
 	
 	public static void generateBase(HothGeneratorPlugin plugin, World world, Random random, int chunkX, int chunkZ)
 	{
-		int rarity = plugin.getStructureBasesRarity(world);
+		int rarity = ConfigManager.getStructureBasesRarity(plugin, world);
 
 		if(rarity!=0)
 		{
@@ -86,7 +86,7 @@ public class BaseGenerator {
 				room = random.nextInt(BaseGenerator.roomCnt);
 				if(room==4)
 				{
-					if(this.room5s<2 && plugin.isStructureBasesSpawner(world))
+					if(this.room5s<2 && ConfigManager.isStructureBasesSpawner(plugin, world))
 					{
 						this.room5s++;
 						done = true;
