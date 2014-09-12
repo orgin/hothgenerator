@@ -16,6 +16,8 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 /**
  * Handles giving players damage when exposed to the cold.
@@ -149,7 +151,7 @@ public class PlayerEnvironmentManager
 				}
 				
 				GameMode gm = player.getGameMode();
-				if(!gm.equals(GameMode.CREATIVE) && PermissionManager.hasMosquitoPermission(player))
+				if(!gm.equals(GameMode.CREATIVE) && PermissionManager.hasMosquitoPermission(player) && !this.hasEnvironmentSuit(player))
 				{
 					Location location = player.getLocation();
 					int damage = ConfigManager.getRulesMosquitoDamage(this.plugin, location);
@@ -231,6 +233,12 @@ public class PlayerEnvironmentManager
 						}
 					}
 				}
+				else
+				{
+					// reset mosquitos
+					mosquito = new PlayerData(player.getLocation());
+					this.mosquitos.put(uuid, mosquito);
+				}
 			}
 		}
 		
@@ -286,7 +294,7 @@ public class PlayerEnvironmentManager
 				}
 				
 				GameMode gm = player.getGameMode();
-				if(!gm.equals(GameMode.CREATIVE) && PermissionManager.hasLeechPermission(player))
+				if(!gm.equals(GameMode.CREATIVE) && PermissionManager.hasLeechPermission(player) && !this.hasEnvironmentSuit(player))
 				{
 					Location location = player.getLocation();
 					int damage = ConfigManager.getRulesLeechDamage(this.plugin, location);
@@ -409,6 +417,12 @@ public class PlayerEnvironmentManager
 						}
 					}
 				}
+				else
+				{
+					// reset leeches
+					leech = new PlayerData(player.getLocation());
+					this.leeches.put(uuid, leech);
+				}
 			}
 		}
 
@@ -435,7 +449,7 @@ public class PlayerEnvironmentManager
 				}
 				
 				GameMode gm = player.getGameMode();
-				if(!gm.equals(GameMode.CREATIVE) && PermissionManager.hasHeatPermission(player))
+				if(!gm.equals(GameMode.CREATIVE) && PermissionManager.hasHeatPermission(player) && !this.hasEnvironmentSuit(player))
 				{
 					Location location = player.getLocation();
 					int damage = ConfigManager.getRulesHeatDamage(this.plugin, location);
@@ -507,6 +521,10 @@ public class PlayerEnvironmentManager
 						this.thirsts.put(uuid, new Integer(thirst));
 					}
 				}
+				else
+				{
+					this.thirsts.put(uuid, 100); // reset thirst
+				}
 			}
 		}
 		
@@ -526,7 +544,7 @@ public class PlayerEnvironmentManager
 				int realDamage = 0;
 				Player player = iterator.next();
 				GameMode gm = player.getGameMode();
-				if(!gm.equals(GameMode.CREATIVE) && PermissionManager.hasFreezePermission(player))
+				if(!gm.equals(GameMode.CREATIVE) && PermissionManager.hasFreezePermission(player) && !this.hasEnvironmentSuit(player))
 				{
 					Location location = player.getLocation();
 					int damage = ConfigManager.getRulesFreezeDamage(this.plugin, location);
@@ -554,6 +572,54 @@ public class PlayerEnvironmentManager
 						player.damage(realDamage);
 					}
 				}
+			}
+		}
+		
+		/**
+		 * Check if a player is wearing a full set of armour with displaynames starting with "Environment"
+		 * @param player
+		 * @return
+		 */
+		private boolean hasEnvironmentSuit(Player player)
+		{
+			if(ConfigManager.getRulesEnvironmentSuit(this.plugin, player.getLocation()))
+			{
+				PlayerInventory inv = player.getInventory();
+				ItemStack helmet = inv.getHelmet();
+				ItemStack chestplate = inv.getChestplate();
+				ItemStack leggings = inv.getLeggings();
+				ItemStack boots = inv.getBoots();
+				String helmetS = "";
+				String chestplateS = "";
+				String leggingsS = "";
+				String bootsS = "";
+				
+				if(helmet!=null && helmet.hasItemMeta())
+				{
+					helmetS = helmet.getItemMeta().getDisplayName();
+				}
+				
+				if(chestplate!=null && chestplate.hasItemMeta())
+				{
+					chestplateS = chestplate.getItemMeta().getDisplayName();
+				}
+				if(leggings!=null && leggings.hasItemMeta())
+				{
+					leggingsS = leggings.getItemMeta().getDisplayName();
+				}
+				if(boots!=null && boots.hasItemMeta())
+				{
+					bootsS = boots.getItemMeta().getDisplayName();
+				}
+				
+				return helmetS.startsWith("Environment") &&
+						chestplateS.startsWith("Environment") &&
+						leggingsS.startsWith("Environment") &&
+						bootsS.startsWith("Environment");
+			}
+			else
+			{
+				return false; // pretend that the player does not have the suit by default
 			}
 		}
 	}

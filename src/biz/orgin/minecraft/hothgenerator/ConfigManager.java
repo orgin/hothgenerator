@@ -400,6 +400,11 @@ public class ConfigManager
 	    return period;
 	}
 
+	public static boolean getRulesEnvironmentSuit(HothGeneratorPlugin plugin, Location location)
+	{
+		return plugin.getRegionManager().getBoolean("environment.suit", location, ConfigManager.getConfigBoolean(plugin, location.getWorld(), "rules.environment.suit", false));
+	}
+
 	public static int getRulesFreezeDamage(HothGeneratorPlugin plugin, Location location)
 	{
 	    int damage = plugin.getRegionManager().getInt("freeze.damage", location, ConfigManager.getConfigInt(plugin, location.getWorld(), "rules.freeze.damage", 2));

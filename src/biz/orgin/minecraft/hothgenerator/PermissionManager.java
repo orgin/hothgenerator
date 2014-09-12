@@ -39,15 +39,6 @@ public class PermissionManager
 			pdef = PermissionDefault.FALSE;
 		}
 		
-		boolean result = player.hasPermission(new Permission(permission, pdef));
-		if(result)
-		{
-			player.sendMessage(player.getDisplayName() + " has permission " + permission);
-		}
-		else
-		{
-			player.sendMessage(player.getDisplayName() + " does not have permission " + permission);
-		}
-		return true;
+		return player.hasPermission(new Permission(permission, pdef));
 	}
 }

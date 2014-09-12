@@ -32,6 +32,7 @@ public abstract class RegionManager
 			new FlagValue("limitslime",           new String[]{"allow","deny", "[blank]"}),	
 			new FlagValue("snowgravity",          new String[]{"allow","deny", "[blank]"}),	
 			//new FlagValue("environment.period",      new String[]{"[integer]"}), // This is global only
+			new FlagValue("environment.suit",     new String[]{"allow","deny", "[blank]"}),
 			new FlagValue("freeze.damage",        new String[]{"[integer]", "[blank]"}),
 			new FlagValue("freeze.stormdamage",   new String[]{"[integer]", "[blank]"}),
 			new FlagValue("freeze.message",       new String[]{"[text]", "[blank]"}),
