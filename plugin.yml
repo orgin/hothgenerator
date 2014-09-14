@@ -67,7 +67,7 @@ commands:
       permission: hothgenerator.hothsetworldflag
       permission-message: You don't have permission to use the hothsetworldflag command
    hothworldinfo:
-      description: Prints information about a hoth world
+      description: Prints information about a hoth world or lists all hoth worlds
       usage: /hothworldinfo world
       permission: hothgenerator.hothworldinfo
       permission-message: You don't have permission to use the hothworldinfo command
@@ -114,19 +114,19 @@ permissions:
         default: op
     hothgenerator.hothaddworld:
         description: Add a new world to the configuration
-        default: true
+        default: op
     hothgenerator.hothdelworld:
         description: Delete a world from the configuration
-        default: true
+        default: op
     hothgenerator.hothsetworldtype:
         description: Set the world type
-        default: true
+        default: op
     hothgenerator.hothsetworldflag:
         description: Set a flag for a hoth world
-        default: true
+        default: op
     hothgenerator.hothworldinfo:
-        description: Set a flag for a hoth world
-        default: true
+        description: Prints information about a hoth world or lists all hoth worlds
+        default: op
     hothgenerator.freeze:
         description: Enables freezing environment effect in hoth.
         default: true
