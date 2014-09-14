@@ -104,7 +104,7 @@ public class ConfigManager
 		String worldPath = "hothworldsdata." + name + "." + tag;
 		String defaultPath = "hoth." + tag;
 
-		if(plugin.getConfig().isSet(worldPath))
+		if(plugin.getWorldConfig().isSet(worldPath))
 		{
 			return plugin.getWorldConfig().getInt(worldPath, def);
 		}
@@ -120,7 +120,7 @@ public class ConfigManager
 		String worldPath = "hothworldsdata." + name + "." + tag;
 		String defaultPath = "hoth." + tag;
 
-		if(plugin.getConfig().isSet(worldPath))
+		if(plugin.getWorldConfig().isSet(worldPath))
 		{
 			return plugin.getWorldConfig().getBoolean(worldPath, def);
 		}
@@ -136,7 +136,7 @@ public class ConfigManager
 		String worldPath = "hothworldsdata." + name + "." + tag;
 		String defaultPath = "hoth." + tag;
 
-		if(plugin.getConfig().isSet(worldPath))
+		if(plugin.getWorldConfig().isSet(worldPath))
 		{
 			return plugin.getWorldConfig().getString(worldPath, def);
 		}
@@ -909,7 +909,7 @@ public class ConfigManager
 		if(value.equals(""))
 		{
 			config.set("hothworldsdata." + world.toLowerCase() + "." + flag.toLowerCase(), null);
-			plugin.sendMessage(sender, "&bRemoved " + flag + " from " + world);
+			plugin.sendMessage(sender, "&bRemoved " + flag + " flag from " + world);
 		}
 		else
 		{
@@ -930,7 +930,7 @@ public class ConfigManager
 			else
 			{
 			}
-			plugin.sendMessage(sender, "&bAdded " + flag + " with value " + value + " to " + world);
+			plugin.sendMessage(sender, "&b" + flag + " was set to " + value + " in " + world);
 		}
 		
 		plugin.saveWorldConfig();
