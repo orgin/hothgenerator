@@ -1,31 +1,28 @@
 #
-# List all worlds that should be treated as HothGenerator worlds.
+# All world configuration has been moved into worldConfig.yml 
+# You do not need to edit the worldConfig.yml file manually.
 #
-# Example configuration:
+# Instead you can configure it using these commands:
 #
-# hothworlds:
-#   - hoth
-#   - myiceworld
+# Add a new world to the configuration:
 #
-hothworlds:
-   - hoth
+# /hothaddworld worldname [hoth|tatooine|dagobah]
 #
-# You can specify world specific settings for each hoth world here. 
+# Delete a world from the configuration
 #
-#   type: [hoth|tatooine|dagobah]   - world type
-#                               hoth = frozen world
-#                               tatooine = desert world
-#                               dagobah = swamp world
+# /hothdelworld worldname
 #
-# Example configuration:
+# Change the world type of a hoth world
 #
-#hothworldsdata:
-#  hoth:
-#    type: hoth
-#  tatooine:
-#    type: tatooine
-#  dagobah:
-#    type: dagobah
+# /hothsetworldtype worldname [hoth|tatooine|dagobah]
+#
+# Set a flag for a hoth world
+#
+# /hothsetworldflag world flag value
+#
+# Prints information about a hoth world. Exclude worldname for a list of worlds
+#
+# /hothworldinfo worldname
 #
 # --- Advanced options ---
 #
@@ -36,21 +33,11 @@ hothworlds:
 # If you should mess up the config then just stop the server, remove the
 # config file and then start the server again.
 #
-# Almost all options can be overridden per world by placing them in the
-# world specific sections above. This is useful if you want specific
-# rules for each world. Like one hoth world with spikes, and one without.
+# Almost all options can be overridden per world by using the /hothsetworldflag
+# command. This is useful if you want specific rules for each world. Like one hoth
+# world with spikes, and one without.
 #
-# Example: (Do not use this example, use the hothworldsdata section above)
-#
-#hothworldsdata:
-#  hoth1:
-#    type: hoth
-#    structure.spikes.rarity: 2
-#  hoth2:
-#    type: hoth
-#    structure.spikes.rarity: 0
-#
-# Do note that not all options are available for all world types.
+# Do note that not all options are valid for all world types.
 # Some examples:
 #   Ice spikes can only be generated in hoth type worlds
 #   Freeze damage is only available in hoth type worlds

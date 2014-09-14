@@ -45,7 +45,32 @@ commands:
       description: Shows some information about the plugin
       usage: /hothinfo
       permission: hothgenerator.hothinfo
-      permission-message: You don't have permission to use the hothinfocommand
+      permission-message: You don't have permission to use the hothinfo command
+   hothaddworld:
+      description: Add a new world to the configuration
+      usage: /hothaddworld worldname [hoth|tatooine|dagobah]
+      permission: hothgenerator.hothaddworld
+      permission-message: You don't have permission to use the hothaddworld command
+   hothdelworld:
+      description: Delete a world from the configuration
+      usage: /hothdelworld worldname
+      permission: hothgenerator.hothdelworld
+      permission-message: You don't have permission to use the hothdelworld command
+   hothsetworldtype:
+      description: Set the world type
+      usage: /hothsetworldtype worldname [hoth|tatooine|dagobah]
+      permission: hothgenerator.hothsetworldtype
+      permission-message: You don't have permission to use the hothsetworldtype command
+   hothsetworldflag:
+      description: Set a flag for a hoth world
+      usage: /hothsetworldflag world flag value
+      permission: hothgenerator.hothsetworldflag
+      permission-message: You don't have permission to use the hothsetworldflag command
+   hothworldinfo:
+      description: Prints information about a hoth world
+      usage: /hothworldinfo world
+      permission: hothgenerator.hothworldinfo
+      permission-message: You don't have permission to use the hothworldinfo command
 permissions:
     hothgenerator.*:
         description: Gives access to all hothgenerator commands
@@ -58,6 +83,11 @@ permissions:
             hothgenerator.hothundo: true
             hothgenerator.hothlist: true
             hothgenerator.hothinfo: true
+            hothgenerator.hothaddworld: true
+            hothgenerator.hothdelworld: true
+            hothgenerator.hothsetworldtype: true
+            hothgenerator.hothsetworldflag: true
+            hothgenerator.hothworldinfo: true
     hothgenerator.hothreload:
         description: Reload the hoth configuration.
         default: op
@@ -80,7 +110,22 @@ permissions:
         description: List all available schematics
         default: op
     hothgenerator.hothinfo:
-        description: Shows some information about the plugin
+        description: Prints information about a hoth world
+        default: op
+    hothgenerator.hothaddworld:
+        description: Add a new world to the configuration
+        default: true
+    hothgenerator.hothdelworld:
+        description: Delete a world from the configuration
+        default: true
+    hothgenerator.hothsetworldtype:
+        description: Set the world type
+        default: true
+    hothgenerator.hothsetworldflag:
+        description: Set a flag for a hoth world
+        default: true
+    hothgenerator.hothworldinfo:
+        description: Set a flag for a hoth world
         default: true
     hothgenerator.freeze:
         description: Enables freezing environment effect in hoth.

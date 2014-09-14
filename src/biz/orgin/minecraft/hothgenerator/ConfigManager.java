@@ -1,10 +1,86 @@
 package biz.orgin.minecraft.hothgenerator;
 
+import java.util.List;
+
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public class ConfigManager
 {
+	
+	private static FlagValue[] validWorldFlags = new FlagValue[] {
+		new FlagValue("world.surfaceoffset",          new String[]{"[integer]", "[blank]"}, 0, 127, Integer.class),
+		new FlagValue("structure.spikes.rarity",      new String[]{"[integer]", "[blank]"}, 0, 10, Integer.class),
+		new FlagValue("structure.gardens.rarity",     new String[]{"[integer]", "[blank]"}, 0, 10, Integer.class),
+		new FlagValue("structure.domes.rarity",       new String[]{"[integer]", "[blank]"}, 0, 10, Integer.class),
+		new FlagValue("structure.domes.plantstem",    new String[]{"[integer]", "[blank]"}, 0, 255, Integer.class),
+		new FlagValue("structure.domes.planttop",     new String[]{"[integer]", "[blank]"}, 0, 255, Integer.class),
+		new FlagValue("structure.domes.floor",        new String[]{"[integer]", "[blank]"}, 0, 255, Integer.class),
+		new FlagValue("structure.domes.floorrandom",  new String[]{"[integer]", "[blank]"}, 0, 255, Integer.class),
+		new FlagValue("structure.domes.placeminidome",new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("structure.bases.rarity",       new String[]{"[integer]", "[blank]"}, 0, 10, Integer.class),
+		new FlagValue("structure.bases.spawner",      new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("structure.mazes.rarity",       new String[]{"[integer]", "[blank]"}, 0, 10, Integer.class),
+		new FlagValue("structure.mazes.minrooms",     new String[]{"[integer]", "[blank]"}, 1, 100, Integer.class),
+		new FlagValue("structure.mazes.maxrooms",     new String[]{"[integer]", "[blank]"}, 1, 100, Integer.class),
+		new FlagValue("structure.mazes.spawner",      new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("structure.skeletons.rarity",   new String[]{"[integer]", "[blank]"}, 0, 10, Integer.class),
+		new FlagValue("structure.oasis.rarity",       new String[]{"[integer]", "[blank]"}, 0, 10, Integer.class),
+		new FlagValue("structure.sandcastle.rarity",  new String[]{"[integer]", "[blank]"}, 0, 10, Integer.class),
+		new FlagValue("structure.village.rarity",     new String[]{"[integer]", "[blank]"}, 0, 10, Integer.class),
+		new FlagValue("structure.supergarden.rarity", new String[]{"[integer]", "[blank]"}, 0, 10, Integer.class),
+		new FlagValue("structure.sarlacc.rarity",     new String[]{"[integer]", "[blank]"}, 0, 10, Integer.class),
+		new FlagValue("structure.hugetree.rarity",    new String[]{"[integer]", "[blank]"}, 0, 10, Integer.class),
+		new FlagValue("structure.spiderforest.rarity",new String[]{"[integer]", "[blank]"}, 0, 10, Integer.class),
+		new FlagValue("structure.swamptemple.rarity", new String[]{"[integer]", "[blank]"}, 0, 10, Integer.class),
+		new FlagValue("structure.treehut.rarity",     new String[]{"[integer]", "[blank]"}, 0, 10, Integer.class),
+		new FlagValue("generate.logs",                new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("generate.caves.rarity",        new String[]{"[integer]", "[blank]"}, 0, 10, Integer.class),
+		new FlagValue("generate.ores",                new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("hoth.generate.extendedore",    new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("generate.cactuses",            new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("generate.shrubs",              new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("generate.mushroomhuts",        new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("rules.dropice",                new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("rules.droppackedice",          new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("rules.dropsnow",               new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("rules.freezewater",            new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("rules.freezelava",             new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("rules.plantsgrow",             new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("rules.grassspread",            new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("rules.stopmelt",               new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("rules.limitslime",             new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("rules.snowgravity",            new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("rules.environment.suit",       new String[]{"allow","deny", "[blank]"}, Boolean.class),
+		new FlagValue("rules.freeze.damage",          new String[]{"[integer]", "[blank]"}, 0, 255, Integer.class),
+		new FlagValue("rules.freeze.stormdamage",     new String[]{"[integer]", "[blank]"}, 0, 255, Integer.class),
+		new FlagValue("rules.freeze.message",         new String[]{"[text]", "[blank]"}, String.class),
+		new FlagValue("rules.heat.damage",            new String[]{"[integer]", "[blank]"}, 0, 255, Integer.class),
+		new FlagValue("rules.heat.message1",          new String[]{"[text]", "[blank]"}, String.class),
+		new FlagValue("rules.heat.message2",          new String[]{"[text]", "[blank]"}, String.class),
+		new FlagValue("rules.heat.message3",          new String[]{"[text]", "[blank]"}, String.class),
+		new FlagValue("rules.heat.message4",          new String[]{"[text]", "[blank]"}, String.class),
+		new FlagValue("rules.mosquito.damage",        new String[]{"[integer]", "[blank]"}, 0, 255, Integer.class),
+		new FlagValue("rules.mosquito.rarity",        new String[]{"[integer]", "[blank]"}, 1, 10, Integer.class),
+		new FlagValue("rules.mosquito.runfree",       new String[]{"[integer]", "[blank]"}, 10, 100, Integer.class),
+		new FlagValue("rules.mosquito.message1",      new String[]{"[text]", "[blank]"}, String.class),
+		new FlagValue("rules.mosquito.message2",      new String[]{"[text]", "[blank]"}, String.class),
+		new FlagValue("rules.mosquito.message3",      new String[]{"[text]", "[blank]"}, String.class),
+		new FlagValue("rules.mosquito.message4",      new String[]{"[text]", "[blank]"}, String.class),
+		new FlagValue("rules.leech.damage",           new String[]{"[integer]", "[blank]"}, 0, 255, Integer.class),
+		new FlagValue("rules.leech.rarity",           new String[]{"[integer]", "[blank]"}, 1, 10, Integer.class),
+		new FlagValue("rules.leech.message1",         new String[]{"[text]", "[blank]"}, String.class),
+		new FlagValue("rules.leech.message2",         new String[]{"[text]", "[blank]"}, String.class),
+		new FlagValue("rules.leech.message3",         new String[]{"[text]", "[blank]"}, String.class),
+		new FlagValue("rules.leech.message4",         new String[]{"[text]", "[blank]"}, String.class),
+		new FlagValue("rules.leech.message5",         new String[]{"[text]", "[blank]"}, String.class),
+		new FlagValue("rules.spawn.neutral.rarity",   new String[]{"[integer]", "[blank]"}, 1, 10, Integer.class),
+		new FlagValue("rules.spawn.neutral.mobs",     new String[]{"[text]", "[blank]"}, String.class),
+		new FlagValue("rules.spawn.neutral.on",       new String[]{"allow","deny", "[blank]"}, Boolean.class)
+		};
+
 	
 	public static boolean isDebug(HothGeneratorPlugin plugin)
 	{
@@ -30,7 +106,7 @@ public class ConfigManager
 
 		if(plugin.getConfig().isSet(worldPath))
 		{
-			return plugin.getConfig().getInt(worldPath, def);
+			return plugin.getWorldConfig().getInt(worldPath, def);
 		}
 		else
 		{
@@ -46,7 +122,7 @@ public class ConfigManager
 
 		if(plugin.getConfig().isSet(worldPath))
 		{
-			return plugin.getConfig().getBoolean(worldPath, def);
+			return plugin.getWorldConfig().getBoolean(worldPath, def);
 		}
 		else
 		{
@@ -62,7 +138,7 @@ public class ConfigManager
 
 		if(plugin.getConfig().isSet(worldPath))
 		{
-			return plugin.getConfig().getString(worldPath, def);
+			return plugin.getWorldConfig().getString(worldPath, def);
 		}
 		else
 		{
@@ -609,5 +685,392 @@ public class ConfigManager
 	
 	
 	/* Config - End */
+
+	/* World configuration - Start */
+	public static boolean addWorld(HothGeneratorPlugin plugin, CommandSender sender, String worldName, String type)
+	{
+		if(!type.equals("hoth") && !type.equals("tatooine") && !type.equals("dagobah"))
+		{
+			plugin.sendMessage(sender, "&bInvalid world type : " + type);
+			return false;
+		}
+		
+		if(plugin.isHothWorld(worldName))
+		{
+			plugin.sendMessage(sender, "&bWorld " + worldName + " already exists");
+			return false;
+		}
+		
+		FileConfiguration config = plugin.getWorldConfig();
+		List<String> list = config.getStringList("hothworlds");
+		list.add(worldName.toLowerCase());
+		config.set("hothworlds", list);
+		config.set("hothworldsdata." + worldName.toLowerCase() + ".type", type.toLowerCase());
+		
+		plugin.saveWorldConfig();
+		plugin.sendMessage(sender, "&bAdded world " + worldName.toLowerCase() + " of type " + type.toLowerCase());
+		return true;
+	}
+
+	public static boolean delWorld(HothGeneratorPlugin plugin, CommandSender sender, String worldName)
+	{
+		if(!plugin.isHothWorld(worldName))
+		{
+			plugin.sendMessage(sender, "&bThere is no such hoth world: " + worldName);
+			return false;
+		}
+		
+		FileConfiguration config = plugin.getWorldConfig();
+		List<String> list = config.getStringList("hothworlds");
+		list.remove(worldName.toLowerCase());
+		config.set("hothworlds", list);
+		config.set("hothworldsdata." + worldName.toLowerCase(), null);
+		
+		plugin.saveWorldConfig();
+		plugin.sendMessage(sender, "&bRemoved world " + worldName.toLowerCase());
+		return true;
+	}
+/* World configuration - End */
+	
+	private static class FlagValue
+	{
+		public String flag;
+		public String[] values;
+		public int min;
+		public int max;
+		@SuppressWarnings("rawtypes")
+		public Class type;
+		
+		@SuppressWarnings("rawtypes")
+		public FlagValue(String flag, String[] values, Class type)
+		{
+			this.flag = flag;
+			this.values = values;
+			this.min = Integer.MIN_VALUE;
+			this.max = Integer.MAX_VALUE;
+			this.type = type;
+		}
+
+		@SuppressWarnings("rawtypes")
+		public FlagValue(String flag, String[] values, int min, int max, Class type)
+		{
+			this.flag = flag;
+			this.values = values;
+			this.min = min;
+			this.max = max;
+			this.type = type;
+		}
+
+	}
+
+	public static boolean printWorldList(HothGeneratorPlugin plugin, CommandSender sender)
+	{
+		FileConfiguration config = plugin.getWorldConfig();
+		List<String> list = config.getStringList("hothworlds");
+		
+		if(list!=null)
+		{
+			plugin.sendMessage(sender, "&bHoth worlds:");
+			for(int i=0;i<list.size();i++)
+			{
+				String item = list.get(i).toLowerCase();
+				String type = config.getString("hothworldsdata." + item + ".type","hoth");
+				
+				if(plugin.getServer().getWorld(item)==null)
+				{
+					plugin.sendMessage(sender, "&bWorld: " + item + "  Type: " + type + "  Status: Not loaded.");
+				}
+				else
+				{
+					plugin.sendMessage(sender, "&bWorld: " + item + "  Type: " + type + "  Status: Loaded.");
+				}
+
+			}
+		}
+		else
+		{
+			plugin.sendMessage(sender, "&bThere are no defined hoth worlds.");
+		}
+		
+		return true;
+
+	}
+	
+	public static boolean printWorldInfo(HothGeneratorPlugin plugin, CommandSender sender, String world)
+	{
+		if(!plugin.isHothWorld(world.toLowerCase()))
+		{
+			plugin.sendMessage(sender, "&b" + world + " is not a hoth world.");
+			return false;
+		}
+		
+		FileConfiguration config = plugin.getWorldConfig();
+		
+		String type = plugin.getWorldConfig().getString("hothworldsdata." + world + ".type","hoth");
+		plugin.sendMessage(sender, "&bWorld: " + world + "  Type: " + type);
+
+		World _world = plugin.getServer().getWorld(world);
+		if(_world!=null)
+		{
+			plugin.sendMessage(sender, "&bStatus: Loaded.");
+			plugin.sendMessage(sender, "&bOnline Players: " + _world.getPlayers().size());
+		}
+		else
+		{
+			plugin.sendMessage(sender, "&bStatus: Not loaded");
+		}
+		
+		plugin.sendMessage(sender, "&bFlags:");
+		
+		int ctr = 0;
+		for(int i=0;i<ConfigManager.validWorldFlags.length;i++)
+		{
+			FlagValue flag = ConfigManager.validWorldFlags[i];
+			@SuppressWarnings("rawtypes")
+			Class _type = flag.type;
+			
+			String flagName = "hothworldsdata." + world + "." + flag.flag;
+			
+			if(config.isSet(flagName))
+			{
+				ctr++;
+				
+				if(_type.equals(Integer.class))
+				{
+					int value = config.getInt(flagName);
+					plugin.sendMessage(sender, "&b" + flag.flag + ": " + value);
+				}
+				else if(_type.equals(Boolean.class))
+				{
+					boolean value = config.getBoolean(flagName);
+					plugin.sendMessage(sender, "&b" + flag.flag + ": " + value);
+				}
+				else if(_type.equals(String.class))
+				{
+					String value = config.getString(flagName);
+					plugin.sendMessage(sender, "&b" + flag.flag + ": " + value);
+				}
+			}
+		}
+		
+		if(ctr==0)
+		{
+			plugin.sendMessage(sender, "&bNone");
+		}
+		
+		return true;
+	}
+
+	public static boolean setWorldType(HothGeneratorPlugin plugin, CommandSender sender, String world, String type)
+	{
+		if(!plugin.isHothWorld(world.toLowerCase()))
+		{
+			plugin.sendMessage(sender, "&b" + world + " is not a hoth world.");
+			return false;
+		}
+		
+		if(!type.equals("hoth") && !type.equals("tatooine") && !type.equals("dagobah"))
+		{
+			plugin.sendMessage(sender, "&bInvalid world type : " + type);
+			return false;
+		}
+		
+		FileConfiguration config = plugin.getWorldConfig();
+		config.set("hothworldsdata." + world.toLowerCase() + ".type", type.toLowerCase());
+
+		plugin.saveWorldConfig();
+		plugin.sendMessage(sender, "&b" + world + " set to " + type);
+		
+
+		return true;
+	}
+
+	public static boolean setWorldFlag(HothGeneratorPlugin plugin, CommandSender sender, String world, String flag, String value)
+	{
+		if(!plugin.isHothWorld(world.toLowerCase()))
+		{
+			plugin.sendMessage(sender, "&b" + world + " is not a hoth world.");
+			return false;
+		}
+		
+		if(!ConfigManager.isValidWorldFlag(flag.toLowerCase()))
+		{
+			plugin.sendMessage(sender, "&bInvalid flag: " + flag);
+			return false;
+		}
+		
+		if(!ConfigManager.isValidWorldFlagValue(flag.toLowerCase(), value))
+		{
+			plugin.sendMessage(sender, "&bInvalid value: " + value);
+			return false;
+		}
+		
+		FileConfiguration config = plugin.getWorldConfig();
+		if(value.equals(""))
+		{
+			config.set("hothworldsdata." + world.toLowerCase() + "." + flag.toLowerCase(), null);
+			plugin.sendMessage(sender, "&bRemoved " + flag + " from " + world);
+		}
+		else
+		{
+			@SuppressWarnings("rawtypes")
+			Class type = ConfigManager.getFlagClass(flag.toLowerCase());
+			if(type.equals(Integer.class))
+			{
+				config.set("hothworldsdata." + world.toLowerCase() + "." + flag.toLowerCase(), new Integer(value));
+			}
+			else if(type.equals(Boolean.class))
+			{
+				config.set("hothworldsdata." + world.toLowerCase() + "." + flag.toLowerCase(), new Boolean(value.toLowerCase().equals("allow")));
+			}
+			else if(type.equals(String.class))
+			{
+				config.set("hothworldsdata." + world.toLowerCase() + "." + flag.toLowerCase(), value);
+			}
+			else
+			{
+			}
+			plugin.sendMessage(sender, "&bAdded " + flag + " with value " + value + " to " + world);
+		}
+		
+		plugin.saveWorldConfig();
+
+		return true;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	private static Class getFlagClass(String flag)
+	{
+		for(int i=0;i<ConfigManager.validWorldFlags.length;i++)
+		{
+			FlagValue _flag = ConfigManager.validWorldFlags[i];
+			
+			if(flag.equals(_flag.flag))
+			{
+				return _flag.type;
+			}
+		}
+		
+		return Object.class;
+	}
+	
+	/**
+	 * Check if the specified flag is a valid flag
+	 * @param flag
+	 * @return
+	 */
+	public static boolean isValidWorldFlag(String flag)
+	{
+		for(int i=0;i<ConfigManager.validWorldFlags.length;i++)
+		{
+			if(flag.equals(validWorldFlags[i].flag))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public static void main(String[] args)
+	{
+		boolean result = false;
+		result = ConfigManager.isValidWorldFlagValue("world.surfaceoffset", "10");
+		System.out.println("Result: " + result);
+		result = ConfigManager.isValidWorldFlagValue("world.surfaceoffset", "");
+		System.out.println("Result: " + result);
+		result = ConfigManager.isValidWorldFlagValue("world.surfaceoffset", "sfdbjh kasfjh 10");
+		System.out.println("Result: " + result);
+		result = ConfigManager.isValidWorldFlagValue("world.surfaceoffset", "-1");
+		System.out.println("Result: " + result);
+		result = ConfigManager.isValidWorldFlagValue("world.surfaceoffset", "0");
+		System.out.println("Result: " + result);
+		result = ConfigManager.isValidWorldFlagValue("world.surfaceoffset", "5000");
+		System.out.println("Result: " + result);
+	}
+	
+	private static boolean addBoolean(boolean old, boolean add)
+	{
+		if(old==true)
+		{
+			return true;
+		}
+		
+		if(add==true)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Check if the specified value is valid for this flag
+	 * @param flag
+	 * @param value
+	 * @return
+	 */
+	public static boolean isValidWorldFlagValue(String flag, String value)
+	{
+		for(int i=0;i<ConfigManager.validWorldFlags.length;i++)
+		{
+			if(flag.equals(ConfigManager.validWorldFlags[i].flag))
+			{
+				boolean result = false;
+				
+				for(int j=0;j<ConfigManager.validWorldFlags[i].values.length;j++)
+				{
+					String _value = ConfigManager.validWorldFlags[i].values[j];
+					if(_value.equals("[blank]"))
+					{
+						if(value.equals(""))
+						{
+							result = ConfigManager.addBoolean(result, true);
+						}
+					}
+					else if(_value.equals("[integer]"))
+					{
+						try
+						{
+							int val = Integer.parseInt(value);
+							
+							if(val<validWorldFlags[i].min || val>validWorldFlags[i].max)
+							{
+								result = ConfigManager.addBoolean(result, false);
+							}
+							else
+							{
+								result = ConfigManager.addBoolean(result, true);
+							}
+						}
+						catch(NumberFormatException e)
+						{
+							result = ConfigManager.addBoolean(result, false);
+						}
+					}
+					else if(_value.equals("[text]"))
+					{
+						result = ConfigManager.addBoolean(result, true);
+					}
+					else
+					{
+						if(_value.equals(value.toLowerCase()))
+						{
+							result = ConfigManager.addBoolean(result, true);
+						}
+					}
+
+					if(result)
+					{
+						return true;
+					}
+				}
+				
+				
+			}
+		}
+		
+		return false;
+	}
 
 }

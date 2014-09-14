@@ -1,6 +1,7 @@
 
 package biz.orgin.minecraft.hothgenerator;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -15,6 +16,7 @@ import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.Plugin;
@@ -58,6 +60,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private HothTaskManager taskManager;
 	
 	private FileConfiguration config;
+	private FileConfiguration worldConfig;
 	
 	private UndoBuffer undoBuffer;
 	
@@ -97,16 +100,9 @@ public class HothGeneratorPlugin extends JavaPlugin
     	
 		this.saveDefaultConfig();
     	this.config = this.getConfig();
-    	//
-    	try
-    	{
-    		this.config.save("testconf.yml");
-    	}
-    	catch(IOException e)
-    	{
-    		
-    	}
-    	//
+    	
+    	this.loadWorldConfig();
+
     	LootGenerator.load(this);
     	CustomGenerator.load(this);
     	OreGenerator.load(this);
@@ -204,6 +200,7 @@ public class HothGeneratorPlugin extends JavaPlugin
     		this.saveDefaultConfig(); // In case the file has been deleted
     		this.reloadConfig();
     		this.config = this.getConfig();
+    		this.loadWorldConfig();
     		
     		LootGenerator.load(this);
     		CustomGenerator.load(this);
@@ -609,6 +606,63 @@ public class HothGeneratorPlugin extends JavaPlugin
 
     		this.sendMessage(sender, "&bCreated by: " + author);
     	}
+    	else if(cmd.getName().equalsIgnoreCase("hothaddworld"))
+    	{
+    		if(args.length==2)
+    		{
+    			String worldName = args[0];
+    			String type = args[1];
+    			return ConfigManager.addWorld(this, sender, worldName.toLowerCase(), type.toLowerCase());
+    		}
+    	}
+    	else if(cmd.getName().equalsIgnoreCase("hothdelworld"))
+    	{
+    		if(args.length==1)
+    		{
+    			String worldName = args[0];
+    			return ConfigManager.delWorld(this, sender, worldName.toLowerCase());
+    		}
+    	}
+    	else if(cmd.getName().equalsIgnoreCase("hothsetworldtype"))
+    	{
+			if(args.length==2)
+			{
+				String world = args[0].toLowerCase();
+				String type = args[1].toLowerCase();
+				
+				return ConfigManager.setWorldType(this, sender, world, type);
+			}
+    		
+    	}
+    	else if(cmd.getName().equalsIgnoreCase("hothsetworldflag"))
+    	{
+			if(args.length>1)
+			{
+				String world = args[0].toLowerCase();
+				String flag = args[1].toLowerCase();
+
+				String value = "";
+				for(int i=2;i<args.length;i++)
+				{
+					value = value + args[i] + " ";
+				}
+				value = value.trim();
+				
+				return ConfigManager.setWorldFlag(this, sender, world, flag, value);
+			}
+    	}
+    	else if(cmd.getName().equalsIgnoreCase("hothworldinfo"))
+    	{
+    		if(args.length==0)
+    		{
+				return ConfigManager.printWorldList(this, sender);
+    		}
+    		else if(args.length==1)
+			{
+				String world = args[0].toLowerCase();
+				return ConfigManager.printWorldInfo(this, sender, world);
+			}
+    	}
     	return false;
     }
     
@@ -674,7 +728,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	 */
 	public boolean isHothWorld(World world)
 	{
-		List<String> list = this.config.getStringList("hothworlds");
+		List<String> list = this.worldConfig.getStringList("hothworlds");
 		
 		if(list!=null)
 		{
@@ -690,13 +744,33 @@ public class HothGeneratorPlugin extends JavaPlugin
 				}
 			}
 		}
-		
 		return false;
 	}
-	
+
+	public boolean isHothWorld(String world)
+	{
+		List<String> list = this.worldConfig.getStringList("hothworlds");
+		
+		if(list!=null)
+		{
+			String current = world.toLowerCase();
+			
+			for(int i=0;i<list.size();i++)
+			{
+				String item = list.get(i).toLowerCase();
+				
+				if(item.equals(current))
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	public String getWorldType(World world)
 	{
-		List<String> list = this.config.getStringList("hothworlds");
+		List<String> list = this.worldConfig.getStringList("hothworlds");
 		String name = world.getName();
 		
 		for(int i=0;i<list.size();i++)
@@ -704,7 +778,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 			String worldName = list.get(i);
 			if(worldName.equals(name))
 			{
-				String type = this.config.getString("hothworldsdata." + worldName + ".type", "hoth").toLowerCase();
+				String type = this.worldConfig.getString("hothworldsdata." + worldName + ".type", "hoth").toLowerCase();
 				if(type.equals("hoth") || type.equals("tatooine") || type.equals("dagobah"))
 				{
 					return type;
@@ -819,6 +893,70 @@ public class HothGeneratorPlugin extends JavaPlugin
 			this.getLogger().info("Failed to write to log file " + HothGeneratorPlugin.LOGFILE);
 		}
 		
+	}
+	
+	public void loadWorldConfig()
+	{
+		this.worldConfig = new YamlConfiguration();
+
+		File configFile = this.getWorldConfigFile();
+		
+		if(configFile.exists())
+		{
+			try
+			{
+				this.worldConfig.load(configFile);
+			}
+			catch (Exception e)
+			{
+				this.debugMessage("Could not open worldConfig file! : " );
+				e.printStackTrace();
+			}
+		}
+		else
+		{
+			// See if there is a section in the normal config that we can read. This makes sure that
+			// we copy the old world list to the new config file instead of messign up everyone's server.
+			Object section = this.config.get("hothworlds");
+			if(section!=null)
+			{
+				this.worldConfig.set("hothworlds", section);
+			}
+			
+			section = this.config.get("hothworldsdata");
+			if(section!=null)
+			{
+				this.worldConfig.set("hothworldsdata", section);
+			}
+			
+			this.saveWorldConfig();
+		}
+		
+	}
+	
+	public void saveWorldConfig()
+	{
+		File configFile = this.getWorldConfigFile();
+
+		try
+		{
+			this.worldConfig.save(configFile);
+		}
+		catch (IOException e)
+		{
+			this.debugMessage("Failed to save worldConfig file! : " );
+			e.printStackTrace();
+		}
+	}
+	
+	private File getWorldConfigFile()
+	{
+		return new File(this.getDataFolder().getAbsolutePath() + "/" + "worldConfig.yml");
+	}
+
+	public FileConfiguration getWorldConfig()
+	{
+		return this.worldConfig;
 	}
 	
 	public RegionManager getRegionManager()
