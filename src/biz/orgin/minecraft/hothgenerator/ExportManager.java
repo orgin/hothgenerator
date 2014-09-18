@@ -173,6 +173,8 @@ public class ExportManager
 			{
 				plugin.sendMessage(sender, "ERROR: Selected region is just one level high");
 			}
+			
+			writer.close();
 		}
 		catch(IOException e)
 		{
