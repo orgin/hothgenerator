@@ -145,6 +145,8 @@ public class LootGenerator implements Serializable
 			writer.write("\n");
 		}
 		writer.flush();
+		
+		writer.close();
 	}
 	
 	
@@ -225,6 +227,7 @@ public class LootGenerator implements Serializable
 				String[] data = row.split(",");
 				if(data.length!=6)
 				{
+					reader.close();
 					throw new IOException("Error reading from " + generator.name + " wrong number of parameters: " + row);
 				}
 				
@@ -240,32 +243,38 @@ public class LootGenerator implements Serializable
 				}
 				catch(Exception e)
 				{
+					reader.close();
 					throw new IOException("Error reading from " + generator.name + " invalid parameters: " + row);
 				}
 				
 				Material material = MaterialManager.toMaterial(materialID);
 				if(material==null)
 				{
+					reader.close();
 					throw new IOException("Error reading from " + generator.name + " Unknow materialID: " + row);
 				}
 				
 				if(dataVal<0)
 				{
+					reader.close();
 					throw new IOException("Error reading from " + generator.name + " data value below 0: " + row);
 				}
 				
 				if(min<0)
 				{
+					reader.close();
 					throw new IOException("Error reading from " + generator.name + " min value below 0: " + row);
 				}
 				
 				if(max<min)
 				{
+					reader.close();
 					throw new IOException("Error reading from " + generator.name + " max value below min: " + row);
 				}
 				
 				if(probability>100 || probability<1)
 				{
+					reader.close();
 					throw new IOException("Error reading from " + generator.name + " invalid probability: " + row);
 				}
 				
@@ -273,6 +282,8 @@ public class LootGenerator implements Serializable
 				lootVector.add(newLoot);
 			}
 		}
+		
+		reader.close();
 		
 		generator.loot = lootVector.toArray(new Loot[lootVector.size()]);
 		return generator;

@@ -441,6 +441,8 @@ public abstract class RegionManager
 								}
 							}
 						}
+						
+						reader.close();
 		
 					}
 				}
@@ -490,6 +492,7 @@ public abstract class RegionManager
 				}
 				
 				writer.flush();
+				writer.close();
 			}
 			catch(IOException e)
 			{

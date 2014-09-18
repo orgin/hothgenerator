@@ -219,6 +219,7 @@ public class OreGenerator
 						String[] cols = row.split(",");
 						if(cols.length!=6)
 						{
+							reader.close();
 							throw new IOException("Wrong number of parameters: " + row);
 						}
 						
@@ -233,6 +234,7 @@ public class OreGenerator
 							
 							if(ore.typeID<0 || ore.data<0 || ore.iterations<0 || ore.amount<0 || ore.maxHeight<0 || ore.data>255)
 							{
+								reader.close();
 								throw new IOException("Invalid parameters: " + row);
 							}
 							
@@ -248,11 +250,14 @@ public class OreGenerator
 						}
 						catch(Exception e)
 						{
+							reader.close();
 							throw new IOException("Invalid parameters: " + row);
 						}
 						
 					}
 				}
+				
+				reader.close();
 				
 				int types[] = new int[ores.size()];
 				int data[] = new int[ores.size()];
