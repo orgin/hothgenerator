@@ -18,6 +18,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * Handles giving players damage when exposed to the cold.
@@ -596,20 +597,35 @@ public class PlayerEnvironmentManager
 				
 				if(helmet!=null && helmet.hasItemMeta())
 				{
-					helmetS = helmet.getItemMeta().getDisplayName();
+					ItemMeta meta = helmet.getItemMeta();
+					if(meta.hasDisplayName())
+					{
+						helmetS = meta.getDisplayName();
+					}
 				}
-				
 				if(chestplate!=null && chestplate.hasItemMeta())
 				{
-					chestplateS = chestplate.getItemMeta().getDisplayName();
+					ItemMeta meta = chestplate.getItemMeta();
+					if(meta.hasDisplayName())
+					{
+						chestplateS = meta.getDisplayName();
+					}
 				}
 				if(leggings!=null && leggings.hasItemMeta())
 				{
-					leggingsS = leggings.getItemMeta().getDisplayName();
+					ItemMeta meta = leggings.getItemMeta();
+					if(meta.hasDisplayName())
+					{
+						leggingsS = meta.getDisplayName();
+					}
 				}
 				if(boots!=null && boots.hasItemMeta())
 				{
-					bootsS = boots.getItemMeta().getDisplayName();
+					ItemMeta meta = boots.getItemMeta();
+					if(meta.hasDisplayName())
+					{
+						bootsS = meta.getDisplayName();
+					}
 				}
 				
 				return helmetS.startsWith("Environment") &&
