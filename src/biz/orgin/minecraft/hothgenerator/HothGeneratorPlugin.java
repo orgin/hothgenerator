@@ -29,8 +29,6 @@ import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 import com.sk89q.worldedit.bukkit.selections.Selection;
-import com.sk89q.worldedit.regions.CuboidRegionSelector;
-import com.sk89q.worldedit.regions.RegionSelector;
 
 /**
  * Main plugin class
@@ -262,17 +260,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 	       				if(selection!=null && selection instanceof CuboidSelection)
 	       				{
 	       					CuboidSelection cSelection = (CuboidSelection)selection;
-	        					
-	       					RegionSelector rSelector = cSelection.getRegionSelector();
-	       					if(rSelector!=null && rSelector instanceof CuboidRegionSelector)
-	       					{
-	       						ExportManager.export(this, world, (CuboidRegionSelector)rSelector, sender, args[0], maskid);
-	       						CustomGenerator.load(this);
-	       					}
-							else
-							{
-								this.sendMessage(sender, "&cERROR: Selected region is not cuboid");
-							}
+	        				
+       						ExportManager.export(this, world, cSelection, sender, args[0], maskid);
+       						CustomGenerator.load(this);
 						}
 						else
 						{

@@ -4,15 +4,16 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.command.CommandSender;
 
-import com.sk89q.worldedit.Vector;
-import com.sk89q.worldedit.regions.CuboidRegion;
-import com.sk89q.worldedit.regions.CuboidRegionSelector;
+//import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
+//import com.sk89q.worldedit.regions.CuboidRegion;
 
 /**
  * Used to export a selected region into a schematics file
@@ -22,7 +23,7 @@ import com.sk89q.worldedit.regions.CuboidRegionSelector;
 public class ExportManager
 {
 	
-	public static void export(HothGeneratorPlugin plugin, World world, CuboidRegionSelector rSelector, CommandSender sender, String filename, int maskid)
+	public static void export(HothGeneratorPlugin plugin, World world, CuboidSelection cSelection, CommandSender sender, String filename, int maskid)
 	{
 		File dataFolder = plugin.getDataFolder();
 		String path = dataFolder.getAbsolutePath() + "/custom";
@@ -46,10 +47,8 @@ public class ExportManager
 
 			FileWriter writer = new FileWriter(file);
 			
-			
-			CuboidRegion cRegion = (CuboidRegion)rSelector.getRegion();
-			Vector pos1 = cRegion.getPos1();
-			Vector pos2 = cRegion.getPos2();
+			Location pos1 = cSelection.getMinimumPoint();
+			Location pos2 = cSelection.getMaximumPoint();
 
 			int t = 0;
 
