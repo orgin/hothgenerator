@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.Vector;
 
+import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -31,8 +32,8 @@ import org.bukkit.block.Block;
  */
 public class OreGenerator
 {
-	private static int[] iterations = new int[] {10, 10, 20, 20, 2, 8, 1, 1, 1};
-	private static int[] amount =     new int[] {32, 32, 16,  8, 8, 7, 7, 6, 6};
+	private static int[] iterations = new int[] {10, 10, 20, 20, 2, 8, 1, 1, 1, 8, 8, 8};
+	private static int[] amount =     new int[] {32, 32, 16,  8, 8, 7, 7, 6, 6,32,32,32};
 	private static int[] type =       new int[] {
 		MaterialManager.toID(Material.DIRT),         // 60
 		MaterialManager.toID(Material.GRAVEL),       // 26
@@ -42,12 +43,15 @@ public class OreGenerator
 		MaterialManager.toID(Material.REDSTONE_ORE), // 16
 		MaterialManager.toID(Material.DIAMOND_ORE),  // 16
 		MaterialManager.toID(Material.LAPIS_ORE),    // 26
-		MaterialManager.toID(Material.EMERALD_ORE)}; // 128
-	private static int[] data =     new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
-	private static int[] maxHeight = new int[] {60, 26, 128, 128, 26, 16, 16,	26, 128};
+		MaterialManager.toID(Material.EMERALD_ORE),  // 128
+		MaterialManager.toID(Material.STONE),        // 128 - GRANITE
+		MaterialManager.toID(Material.STONE),        // 128 - DIORITE
+		MaterialManager.toID(Material.STONE)};       // 32 - ANDESITE
+	private static int[] data =     new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 5};
+	private static int[] maxHeight = new int[] {60, 26, 128, 128, 26, 16, 16, 26, 128, 128, 64, 32};
 	private static int REPLACE = MaterialManager.toID(Material.STONE);
 	
-	public static void generateOres(HothGeneratorPlugin plugin, World world, byte[][] chunk, Random random, int chunkx, int chunkz)
+	public static void generateOres(HothGeneratorPlugin plugin, World world, short[][] chunk, Random random, int chunkx, int chunkz)
 	{
 		if(ConfigManager.isGenerateOres(plugin, world))
 		{
@@ -65,7 +69,7 @@ public class OreGenerator
 			}
 			else // Schedule a delayed task to generate ores with typeID and data values
 			{
-				plugin.addTask(new PlaceOre(world, random, chunkx, chunkz));
+				plugin.addTask(new PlaceOre(world, random, chunkx, chunkz), true);
 			}
 		}
 	}
@@ -80,7 +84,7 @@ public class OreGenerator
 	 * @param amount
 	 * @param type
 	 */
-	private static void vein(byte[][] chunk, Random random, int originX,
+	private static void vein(short[][] chunk, Random random, int originX,
 			int originY, int originZ, int amount, int type)
 	{
 
@@ -120,7 +124,7 @@ public class OreGenerator
 				continue;
 			}
 
-			byte oldtype = HothUtils.getPos(chunk, dx, dy, dz);
+			short oldtype = HothUtils.getPos(chunk, dx, dy, dz);
 			if(oldtype == REPLACE)
 			{
 				HothUtils.setPos(chunk, dx, dy, dz, type);
@@ -142,9 +146,11 @@ public class OreGenerator
 	 * @param typeID
 	 * @param dataValue
 	 */
+	@SuppressWarnings("deprecation")
 	private static void extendedVein(World world, int chunkx, int chunkz, Random random, int originX,
 			int originY, int originZ, int amount, int typeID, int dataValue)
 	{
+		Chunk chunk = world.getChunkAt(chunkz, chunkx);
 
 		int dx = originX;
 		int dy = originY;
@@ -182,12 +188,13 @@ public class OreGenerator
 				continue;
 			}
 
-			Block block = world.getBlockAt(chunkx*16 + dx, dy, chunkz*16 + dz);
+			Block block = chunk.getBlock(dx, dy, dz);
 			int oldTypeID = MaterialManager.toID(block.getType());
 			if(oldTypeID == REPLACE)
 			{
-				block.setType(MaterialManager.toMaterial(typeID));
-				DataManager.setData(block, (byte)dataValue, false);
+				//block.setType(MaterialManager.toMaterial(typeID));
+				//DataManager.setData(block, (byte)dataValue, false);
+				block.setTypeIdAndData(typeID, (byte)dataValue, false);
 			}
 		}
 	}
@@ -322,7 +329,6 @@ public class OreGenerator
 		public String getParameterString() {
 			return "chunkx=" + this.chunkx + " chunkz=" + this.chunkz;
 		}
-
 
 		@Override
 		public void run()

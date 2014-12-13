@@ -580,7 +580,14 @@ public class HothGeneratorPlugin extends JavaPlugin
     		{
     			Player player = (Player)sender;
     			World world = player.getWorld();
-    			this.sendMessage(sender, "&bWorld: " + world.getName() + " type: " + this.getWorldType(world));
+    			if(this.isHothWorld(world))
+    			{
+        			this.sendMessage(sender, "&bWorld: " + world.getName() + " type: " + this.getWorldType(world));
+    			}
+    			else
+    			{
+        			this.sendMessage(sender, "&bWorld: " + world.getName() + " type: &cUNKNOWN");
+    			}
     		}
 
     		String author = "";

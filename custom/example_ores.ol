@@ -29,3 +29,6 @@ REDSTONE_ORE, 73, 0,  8,  7,  16
 DIAMOND_ORE,  56, 0,  1,  7,  16
 LAPIS_ORE,    21, 0,  1,  6,  26
 EMERALD_ORE, 129, 0,  1,  6, 128
+GRANITE,       1, 1,  8, 32, 128
+DIORITE,       1, 3,  8, 32,  64
+ANDESITE,      1, 5,  8, 32,  32

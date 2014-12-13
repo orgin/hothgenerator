@@ -102,7 +102,7 @@ public class DagobahOrePopulator extends BlockPopulator
 		}
 	}
 	
-	public void populateWater(Random random, byte[][] chunk, int surfaceOffset)
+	public void populateWater(Random random, short[][] chunk, int surfaceOffset)
 	{
 		for (int j = 0; j < 8; j++)
 		{
@@ -113,7 +113,7 @@ public class DagobahOrePopulator extends BlockPopulator
 	}
 
 	
-	private void waterVein(byte[][] chunk, Random random, int originX,
+	private void waterVein(short[][] chunk, Random random, int originX,
 			int originY, int originZ, Material type)
 	{
 		int amount = 16;
@@ -159,7 +159,7 @@ public class DagobahOrePopulator extends BlockPopulator
 				continue;
 			}
 
-			byte oldType = HothUtils.getPos(chunk, dx, dy, dz);
+			short oldType = HothUtils.getPos(chunk, dx, dy, dz);
 			if(oldType == DIRT_id || oldType == STONE_id || oldType == GRASS_id)
 			{
 				HothUtils.setPos(chunk, dx, dy, dz, type);

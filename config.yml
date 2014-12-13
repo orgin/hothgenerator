@@ -145,7 +145,7 @@ hoth:
 #
 # generate.extendedore - true/false. If true then ores can use type id's>255 and its data value can be set.
 #                        Warning: Extended ores are much slower to generate!
-  generate.extendedore: false
+  generate.extendedore: true
 #
 # generate.cactuses - true/false. Whether cactuses should be generated
   generate.cactuses: true

@@ -23,7 +23,7 @@ public class HothGenerator extends ChunkGenerator
 	private int height;
 	
 	private NoiseGenerator noiseGenerator;
-
+	
 	public static void setPlugin(HothGeneratorPlugin plugin)
 	{
 		HothGenerator.plugin = plugin;
@@ -48,25 +48,25 @@ public class HothGenerator extends ChunkGenerator
 	
 
 	@Override
-	public byte[][] generateBlockSections(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
+	public short[][] generateExtBlockSections(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
 	{
 		String worldType = HothGenerator.plugin.getWorldType(world);
 		
 		if(worldType.equals("tatooine"))
 		{
-			return this.generateBlockSectionsTatooine(world, random, chunkx, chunkz, biomes);
+			return this.generateExtBlockSectionsTatooine(world, random, chunkx, chunkz, biomes);
 		}
 		else if(worldType.equals("dagobah"))
 		{
-			return this.generateBlockSectionsDagobah(world, random, chunkx, chunkz, biomes);
+			return this.generateExtBlockSectionsDagobah(world, random, chunkx, chunkz, biomes);
 		}
 		else // Default to Hoth
 		{
-			return this.generateBlockSectionsHoth(world, random, chunkx, chunkz, biomes);
+			return this.generateExtBlockSectionsHoth(world, random, chunkx, chunkz, biomes);
 		}
 	}
 		
-	public byte[][] generateBlockSectionsHoth(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
+	public short[][] generateExtBlockSectionsHoth(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
 	{
 		if(this.noiseGenerator==null)
 		{
@@ -79,7 +79,7 @@ public class HothGenerator extends ChunkGenerator
 		Position[][] snowcover = new Position[16][16];
 		
 		int vsegs = HothGeneratorPlugin.maxHeight(world, height) / 16;
-		byte[][] chunk = new byte[vsegs][];
+		short[][] chunk = new short[vsegs][];
 		
 		for(int z=0;z<16;z++)
 		{
@@ -246,7 +246,6 @@ public class HothGenerator extends ChunkGenerator
 					HothUtils.setPos(chunk, x,y,z, Material.ICE);
 				}
 				
-				
 				// Inject stone mountains
 				double domountain = this.noiseGenerator.noise(rx, rz, 4, 236)*20;
 				double mfactor = 0.0f;
@@ -340,9 +339,7 @@ public class HothGenerator extends ChunkGenerator
 						}
 					}
 				}
-				
 			}
-
 		}
 		
 		
@@ -357,13 +354,13 @@ public class HothGenerator extends ChunkGenerator
 		CaveGenerator.generateCaves(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		SpikeGenerator.generateSpikes(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		//VillageGenerator.generateVillage(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		SnowGenerator.generateSnowCover(HothGenerator.plugin, world, snowcover);
+	//	SnowGenerator.generateSnowCover(HothGenerator.plugin, world, snowcover);
 
 		return chunk;
 	}
 	
 	
-	public byte[][] generateBlockSectionsTatooine(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
+	public short[][] generateExtBlockSectionsTatooine(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
 	{
 		int mSTONE_id = MaterialManager.toID(Material.STONE);
 		int mSANDSTONE_id = MaterialManager.toID(Material.SANDSTONE);
@@ -381,7 +378,7 @@ public class HothGenerator extends ChunkGenerator
 		Random localRand = new Random(chunkx*chunkz);
 		
 		int vsegs = HothGeneratorPlugin.maxHeight(world, height) / 16;
-		byte[][] chunk = new byte[vsegs][];
+		short[][] chunk = new short[vsegs][];
 		
 		for(int z=0;z<16;z++)
 		{
@@ -689,7 +686,7 @@ public class HothGenerator extends ChunkGenerator
 		return chunk;
 	}
 	
-	public byte[][] generateBlockSectionsDagobah(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
+	public short[][] generateExtBlockSectionsDagobah(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
 	{
 		DagobahOrePopulator orePopulator = new DagobahOrePopulator(this.height);
 		
@@ -710,7 +707,7 @@ public class HothGenerator extends ChunkGenerator
 		Random localRand = new Random(chunkx*chunkz);
 		
 		int vsegs = HothGeneratorPlugin.maxHeight(world, height) / 16;
-		byte[][] chunk = new byte[vsegs][];
+		short[][] chunk = new short[vsegs][];
 		
 		for(int z=0;z<16;z++)
 		{
