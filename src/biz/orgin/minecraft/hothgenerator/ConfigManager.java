@@ -7,6 +7,8 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import biz.orgin.minecraft.hothgenerator.WorldType.InvalidWorldTypeException;
+
 public class ConfigManager
 {
 	
@@ -689,27 +691,31 @@ public class ConfigManager
 	/* World configuration - Start */
 	public static boolean addWorld(HothGeneratorPlugin plugin, CommandSender sender, String worldName, String type)
 	{
-		if(!type.equals("hoth") && !type.equals("tatooine") && !type.equals("dagobah"))
+		try
+		{
+			WorldType worldType = WorldType.getType(type);
+		
+			if(plugin.isHothWorld(worldName))
+			{
+				plugin.sendMessage(sender, "&bWorld " + worldName + " already exists");
+				return false;
+			}
+			
+			FileConfiguration config = plugin.getWorldConfig();
+			List<String> list = config.getStringList("hothworlds");
+			list.add(worldName.toLowerCase());
+			config.set("hothworlds", list);
+			config.set("hothworldsdata." + worldName.toLowerCase() + ".type", worldType.toString());
+			
+			plugin.saveWorldConfig();
+			plugin.sendMessage(sender, "&bAdded world " + worldName.toLowerCase() + " of type " + worldType.toString());
+			return true;
+		}
+		catch(InvalidWorldTypeException e)
 		{
 			plugin.sendMessage(sender, "&bInvalid world type : " + type);
 			return false;
 		}
-		
-		if(plugin.isHothWorld(worldName))
-		{
-			plugin.sendMessage(sender, "&bWorld " + worldName + " already exists");
-			return false;
-		}
-		
-		FileConfiguration config = plugin.getWorldConfig();
-		List<String> list = config.getStringList("hothworlds");
-		list.add(worldName.toLowerCase());
-		config.set("hothworlds", list);
-		config.set("hothworldsdata." + worldName.toLowerCase() + ".type", type.toLowerCase());
-		
-		plugin.saveWorldConfig();
-		plugin.sendMessage(sender, "&bAdded world " + worldName.toLowerCase() + " of type " + type.toLowerCase());
-		return true;
 	}
 
 	public static boolean delWorld(HothGeneratorPlugin plugin, CommandSender sender, String worldName)
@@ -865,22 +871,26 @@ public class ConfigManager
 	{
 		if(!plugin.isHothWorld(world.toLowerCase()))
 		{
-			plugin.sendMessage(sender, "&b" + world + " is not a hoth world.");
+			plugin.sendMessage(sender, "&b" + world + " is not configured as a HothGenerator world.");
 			return false;
 		}
 		
-		if(!type.equals("hoth") && !type.equals("tatooine") && !type.equals("dagobah"))
+		try
+		{
+			WorldType worldType = WorldType.getType(type);
+
+			FileConfiguration config = plugin.getWorldConfig();
+			config.set("hothworldsdata." + world.toLowerCase() + ".type", worldType.toString());
+
+			plugin.saveWorldConfig();
+			plugin.sendMessage(sender, "&b" + world + " set to " + worldType.toString());
+		
+		}
+		catch(InvalidWorldTypeException e)
 		{
 			plugin.sendMessage(sender, "&bInvalid world type : " + type);
 			return false;
 		}
-		
-		FileConfiguration config = plugin.getWorldConfig();
-		config.set("hothworldsdata." + world.toLowerCase() + ".type", type.toLowerCase());
-
-		plugin.saveWorldConfig();
-		plugin.sendMessage(sender, "&b" + world + " set to " + type);
-		
 
 		return true;
 	}

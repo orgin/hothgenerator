@@ -32,7 +32,7 @@ public class SchematicsGenerator
 	{
 		try
 		{
-			String type = plugin.getWorldType(world);
+			WorldType worldType = plugin.getWorldType(world);
 			
 			if(SchematicsGenerator.skeleton==null)
 			{
@@ -79,7 +79,7 @@ public class SchematicsGenerator
 				SchematicsGenerator.schematicsTatooine[4][3] = SchematicsGenerator.supergarden;
 			}
 			
-			if(type.equals("hoth"))
+			if(worldType == WorldType.HOTH)
 			{
 				for(int i=0;i<schematicsHoth.length;i++)
 				{
@@ -105,7 +105,7 @@ public class SchematicsGenerator
 					}
 				}
 			}
-			else if(type.equals("tatooine"))
+			else if(worldType == WorldType.TATOOINE)
 			{
 				for(int i=0;i<schematicsTatooine.length;i++)
 				{

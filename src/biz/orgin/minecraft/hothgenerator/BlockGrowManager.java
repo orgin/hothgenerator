@@ -31,17 +31,17 @@ public class BlockGrowManager implements Listener
 		{
 			Block block = event.getBlock();
 			World world = block.getWorld();
-			String type = this.plugin.getWorldType(world);
+			WorldType worldType = this.plugin.getWorldType(world);
 			Location location = event.getBlock().getLocation();
 			
 			if(this.plugin.isHothWorld(world) && !ConfigManager.isRulesPlantsgrow(this.plugin, block.getLocation())
-					&& (type.equals("hoth") || type.equals("tatooine")))
+					&& (worldType == WorldType.HOTH || worldType == WorldType.TATOOINE))
 			{
 				int maxy = world.getHighestBlockYAt(location);
 	
 				if(maxy==block.getY())
 				{
-					if(type.equals("hoth") || (type.equals("tatooine") && !HothUtils.isWatered(block.getRelative(BlockFace.DOWN))))
+					if(worldType == WorldType.HOTH || (worldType == WorldType.TATOOINE && !HothUtils.isWatered(block.getRelative(BlockFace.DOWN))))
 					{
 						event.setCancelled(true);
 						block.breakNaturally();

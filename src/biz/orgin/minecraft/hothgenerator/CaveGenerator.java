@@ -74,8 +74,8 @@ public class CaveGenerator {
 		{
 			World world = this.getWorld();
 			HothGeneratorPlugin plugin = this.getPlugin();
-			String type = plugin.getWorldType(world);
-			Position[] snake = startCave(type, world, this.random, x, y, z).toArray(new Position[0]);
+			WorldType worldType = plugin.getWorldType(world);
+			Position[] snake = startCave(worldType, world, this.random, x, y, z).toArray(new Position[0]);
 			finishCave(plugin, world, snake);
 		}
 	}
@@ -111,7 +111,7 @@ public class CaveGenerator {
 	}
 
 	
-	private static Set<Position> startCave(String worldType, World world, Random random, int blockX, int blockY, int blockZ)
+	private static Set<Position> startCave(WorldType worldType, World world, Random random, int blockX, int blockY, int blockZ)
 	{
 		Set<Position> caveBlocks = new HashSet<Position>();
 	
@@ -171,19 +171,19 @@ public class CaveGenerator {
 									airHits++;
 								}
 								else if(
-										(worldType.equals("hoth") && (
+										(worldType == WorldType.HOTH && (
 										type == MaterialManager.toID(Material.SNOW_BLOCK) ||
 										type == MaterialManager.toID(Material.PACKED_ICE) ||
 										type == MaterialManager.toID(Material.ICE) ||
 										type == MaterialManager.toID(Material.SNOW) ||
 										type == MaterialManager.toID(Material.STONE)))
 										||
-										(worldType.equals("tatooine") && (
+										(worldType == WorldType.TATOOINE && (
 										type == MaterialManager.toID(Material.SAND) ||
 										type == MaterialManager.toID(Material.SANDSTONE) ||
 										type == MaterialManager.toID(Material.STONE)))
 										||
-										(worldType.equals("dagobah") && (
+										(worldType == WorldType.DAGOBAH && (
 										type == MaterialManager.toID(Material.DIRT) ||
 										type == MaterialManager.toID(Material.GRASS) ||
 										type == MaterialManager.toID(Material.STONE)))
@@ -240,7 +240,7 @@ public class CaveGenerator {
 		{
 			World world = this.getWorld();
 			HothGeneratorPlugin plugin = this.getPlugin();
-			String worldType = plugin.getWorldType(world);
+			WorldType worldType = plugin.getWorldType(world);
 			
 			Position[] blocks = this.blocks;
 			int start = this.start;
@@ -252,7 +252,7 @@ public class CaveGenerator {
 				
 				Block block = world.getBlockAt(pos.x, pos.y, pos.z);
 				Material type = block.getType();
-				if(worldType.equals("hoth"))
+				if(worldType == WorldType.HOTH)
 				{
 					if (!block.isEmpty() &&
 						(type.equals(Material.SNOW_BLOCK) ||
@@ -267,7 +267,7 @@ public class CaveGenerator {
 						block.setType(Material.AIR);
 					}				
 				}
-				else if(worldType.equals("tatooine"))
+				else if(worldType == WorldType.TATOOINE)
 				{
 					if (!block.isEmpty() &&
 						(type.equals(Material.SAND) ||
@@ -279,7 +279,7 @@ public class CaveGenerator {
 						blockState.update(true, false);
 					}				
 				}
-				else if(worldType.equals("dagobah"))
+				else if(worldType == WorldType.DAGOBAH)
 				{
 					if (!block.isEmpty() &&
 							(type.equals(Material.DIRT) ||

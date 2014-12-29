@@ -50,18 +50,18 @@ public class HothGenerator extends ChunkGenerator
 	@Override
 	public short[][] generateExtBlockSections(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
 	{
-		String worldType = HothGenerator.plugin.getWorldType(world);
+		WorldType worldType = HothGenerator.plugin.getWorldType(world);
 		
-		if(worldType.equals("tatooine"))
+		switch(worldType)
 		{
+		case TATOOINE:
 			return this.generateExtBlockSectionsTatooine(world, random, chunkx, chunkz, biomes);
-		}
-		else if(worldType.equals("dagobah"))
-		{
+		case DAGOBAH:
 			return this.generateExtBlockSectionsDagobah(world, random, chunkx, chunkz, biomes);
-		}
-		else // Default to Hoth
-		{
+		case MUSTAFAR:
+			return this.generateExtBlockSectionsMustafar(world, random, chunkx, chunkz, biomes);
+		case HOTH:
+		default: // Default to hoth chunks
 			return this.generateExtBlockSectionsHoth(world, random, chunkx, chunkz, biomes);
 		}
 	}
@@ -1079,6 +1079,114 @@ public class HothGenerator extends ChunkGenerator
 		return chunk;
 	}
 	
+	public short[][] generateExtBlockSectionsMustafar(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
+	{
+		//DagobahOrePopulator orePopulator = new DagobahOrePopulator(this.height);
+		
+		if(this.noiseGenerator==null)
+		{
+			this.noiseGenerator = new NoiseGenerator(world);
+		}
+		
+		@SuppressWarnings("unused")
+		int surfaceOffset = ConfigManager.getWorldSurfaceoffset(HothGenerator.plugin, world);
+		
+		Random localRand = new Random(chunkx*chunkz);
+		
+		int vsegs = HothGeneratorPlugin.maxHeight(world, height) / 16;
+		short[][] chunk = new short[vsegs][];
+		
+		for(int z=0;z<16;z++)
+		{
+			for(int x=0;x<16;x++)
+			{
+				@SuppressWarnings("unused")
+				int rx = chunkx*16 + x;
+				@SuppressWarnings("unused")
+				int rz = chunkz*16 + z;
+				
+				Biome biome = biomes.getBiome(x, z);
+				@SuppressWarnings("unused")
+				float factor = 1.0f;
+				if(biome.equals(Biome.DESERT_HILLS))
+				{
+					factor = 2.0f;
+				}
+				else if(biome.equals(Biome.EXTREME_HILLS))
+				{
+					factor = 3.0f;
+				}
+				else if(biome.equals(Biome.FOREST_HILLS))
+				{
+					factor = 2.5f;
+				}
+				else if(biome.equals(Biome.ICE_MOUNTAINS))
+				{
+					factor = 3.0f;
+				}
+				else if(biome.equals(Biome.ICE_PLAINS))
+				{
+					factor = 0.5f;
+				}
+				else if(biome.equals(Biome.FROZEN_OCEAN))
+				{
+					factor = 1.3f;
+				}
+				else if(biome.equals(Biome.FROZEN_RIVER))
+				{
+					factor = 0.3f;
+				}
+				else if(biome.equals(Biome.JUNGLE_HILLS))
+				{
+					factor = 1.6f;
+				}
+				else if(biome.equals(Biome.MUSHROOM_ISLAND))
+				{
+					factor = 2.0f;
+				}
+				else if(biome.equals(Biome.MUSHROOM_SHORE))
+				{
+					factor = 1.0f;
+				}
+				else if(biome.equals(Biome.PLAINS))
+				{
+					factor = 0.5f;
+				}
+				else if(biome.equals(Biome.RIVER))
+				{
+					factor = 0.1f;
+				}
+				else if(biome.equals(Biome.SMALL_MOUNTAINS))
+				{
+					factor = 2.8f;
+				}
+				else if(biome.equals(Biome.TAIGA_HILLS))
+				{
+					factor = 2.0f;
+				}
+				// BEDROCK Layer
+				int y = 0;
+				HothUtils.setPos(chunk, x,y,z,Material.BEDROCK);
+				HothUtils.setPos(chunk, x,y+1,z, getBedrockMaterial(localRand, (int)(256*0.9f))); // 90%
+				HothUtils.setPos(chunk, x,y+2,z, getBedrockMaterial(localRand, (int)(256*0.7f))); // 70%
+				HothUtils.setPos(chunk, x,y+3,z, getBedrockMaterial(localRand, (int)(256*0.5f))); // 50%
+				HothUtils.setPos(chunk, x,y+4,z, getBedrockMaterial(localRand, (int)(256*0.3f))); // 30%
+				HothUtils.setPos(chunk, x,y+5,z, getBedrockMaterial(localRand, (int)(256*0.2f))); // 20%
+			}
+		}
+		
+		//orePopulator.populateWater(new Random(random.nextLong()), chunk, surfaceOffset);
+
+		// Add structures and such
+		// GardenGenerator.generateGarden(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		// RoomGenerator.generateRooms(world, HothGenerator.plugin, new Random(random.nextLong()), chunkx, chunkz);
+		// OreGenerator.generateOres(HothGenerator.plugin, world, chunk, new Random(random.nextLong()) , chunkx, chunkz);
+		// SchematicsGenerator.generateSchematics(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		// CustomGenerator.generateCustom(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		
+		return chunk;
+	}
+
 	private Material getBedrockMaterial(Random localRand, int limit)
 	{
 		int ran = localRand.nextInt() & 0xff;
@@ -1092,9 +1200,11 @@ public class HothGenerator extends ChunkGenerator
 	@Override
 	public List<BlockPopulator> getDefaultPopulators(World world)
 	{
-			String type = HothGenerator.getPlugin().getWorldType(world);
+			WorldType worldType = HothGenerator.getPlugin().getWorldType(world);
 			
-			if(type.equals("tatooine"))
+			switch(worldType)
+			{
+			case TATOOINE:
 			{
 				List<BlockPopulator> list = new ArrayList<BlockPopulator>(1);
 				list.add(new TatooineSarlaccPopulator(this.height));
@@ -1102,7 +1212,7 @@ public class HothGenerator extends ChunkGenerator
 				list.add(new TatooinePopulator(this.height)); // Must be the last populator. Sets biome.
 				return list;
 			}
-			else if(type.equals("dagobah"))
+			case DAGOBAH:
 			{
 				List<BlockPopulator> list = new ArrayList<BlockPopulator>(1);
 				list.add(new DagobahMushroomHutPopulator(this.height));
@@ -1117,12 +1227,19 @@ public class HothGenerator extends ChunkGenerator
 				list.add(new DagobahPopulator(this.height)); // Must be the last populator. Sets biome.
 				return list;
 			}
-			else  // Default to Hoth
+			case MUSTAFAR:
+			{
+				List<BlockPopulator> list = new ArrayList<BlockPopulator>(1);
+				return list;
+			}
+			case HOTH:
+			default: // default to hoth
 			{
 				List<BlockPopulator> list = new ArrayList<BlockPopulator>(1);
 				list.add(new HothPopulator(this.height)); // Must be the last populator. Sets biome.
 				return list;
 			}
+		}
 	}
 
 	@Override

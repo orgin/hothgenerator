@@ -48,7 +48,7 @@ public class ToolUseManager implements Listener
 	
 				Player player = event.getPlayer();
 				ItemStack item = player.getItemInHand();
-				String worldtype = this.plugin.getWorldType(world);
+				WorldType worldtype = this.plugin.getWorldType(world);
 	
 				if(ConfigManager.isItemInfoTool(this.plugin) && item.getType().equals(Material.CLAY_BALL))
 				{
@@ -67,7 +67,7 @@ public class ToolUseManager implements Listener
 					}
 				}
 	
-				if(this.plugin.isHothWorld(world) && worldtype.equals("hoth"))
+				if(this.plugin.isHothWorld(world) && worldtype == WorldType.HOTH)
 				{
 					if(item.getType().equals(Material.WATER_BUCKET))
 					{
@@ -100,7 +100,7 @@ public class ToolUseManager implements Listener
 					}
 				}
 				
-				if(this.plugin.isHothWorld(world) && (worldtype.equals("hoth") || worldtype.equals("tatooine")))
+				if(this.plugin.isHothWorld(world) && (worldtype == WorldType.HOTH || worldtype == WorldType.TATOOINE))
 				{
 					if(item.getType().equals(Material.INK_SACK) && item.getDurability() == 15)
 					{
@@ -121,7 +121,7 @@ public class ToolUseManager implements Listener
 									type.equals(Material.SAPLING) ||
 									type.equals(Material.CROPS)	)
 								{
-									if(worldtype.equals("hoth") || (worldtype.equals("tatooine") && !HothUtils.isWatered(block.getRelative(BlockFace.DOWN))))
+									if(worldtype == WorldType.HOTH || (worldtype == WorldType.TATOOINE && !HothUtils.isWatered(block.getRelative(BlockFace.DOWN))))
 									{
 										event.setCancelled(true);
 										block.breakNaturally();
@@ -130,7 +130,7 @@ public class ToolUseManager implements Listener
 								
 								if(type.equals(Material.GRASS))
 								{
-									if(worldtype.equals("hoth") || (worldtype.equals("tatooine") && !HothUtils.isWatered(block)))
+									if(worldtype == WorldType.HOTH || (worldtype == WorldType.TATOOINE && !HothUtils.isWatered(block)))
 									{
 										event.setCancelled(true);
 									}

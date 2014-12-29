@@ -23,6 +23,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import biz.orgin.minecraft.hothgenerator.WorldType.InvalidWorldTypeException;
 import biz.orgin.minecraft.hothgenerator.schematic.LoadedSchematic;
 import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
 
@@ -765,7 +766,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 		return false;
 	}
 
-	public String getWorldType(World world)
+	public WorldType getWorldType(World world)
 	{
 		List<String> list = this.worldConfig.getStringList("hothworlds");
 		String name = world.getName();
@@ -776,18 +777,19 @@ public class HothGeneratorPlugin extends JavaPlugin
 			if(worldName.equals(name))
 			{
 				String type = this.worldConfig.getString("hothworldsdata." + worldName + ".type", "hoth").toLowerCase();
-				if(type.equals("hoth") || type.equals("tatooine") || type.equals("dagobah"))
+				try
 				{
-					return type;
+					WorldType worldType = WorldType.getType(type);
+					return worldType;
 				}
-				else
+				catch(InvalidWorldTypeException e)
 				{
-					return "hoth";
+					return WorldType.HOTH;
 				}
 			}
 		}
 		
-		return "hoth";
+		return WorldType.HOTH;
 	}
 	
 	/**

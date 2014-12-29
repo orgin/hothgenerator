@@ -41,22 +41,22 @@ public class StructureGrowManager implements Listener
 			
 			if(this.plugin.isHothWorld(world))
 			{
-				String worldtype = this.plugin.getWorldType(world);
+				WorldType worldtype = this.plugin.getWorldType(world);
 
-				if(!ConfigManager.isRulesPlantsgrow(this.plugin, location) && (worldtype.equals("hoth") || worldtype.equals("tatooine")))
+				if(!ConfigManager.isRulesPlantsgrow(this.plugin, location) && (worldtype == WorldType.HOTH || worldtype == WorldType.TATOOINE))
 				{
 					int maxy = world.getHighestBlockYAt(location);
 					
 					if(Math.abs(maxy-location.getBlockY())<2)
 					{
-						if(worldtype.equals("hoth") || (worldtype.equals("tatooine") && !HothUtils.isWatered(location.getBlock().getRelative(BlockFace.DOWN))))
+						if(worldtype == WorldType.HOTH || (worldtype == WorldType.TATOOINE && !HothUtils.isWatered(location.getBlock().getRelative(BlockFace.DOWN))))
 						{
 							event.setCancelled(true);
 						}
 					}
 				}
 				
-				if(!event.isCancelled() && this.plugin.getWorldType(world).equals("dagobah"))
+				if(!event.isCancelled() && worldtype == WorldType.DAGOBAH)
 				{
 					TreeType type = event.getSpecies();
 					

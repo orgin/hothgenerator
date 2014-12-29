@@ -24,12 +24,12 @@ public class BlockFormManager implements Listener
 		{
 			Block block = event.getBlock();
 			World world = block.getWorld();
-			String worldType = this.plugin.getWorldType(world);
+			WorldType worldType = this.plugin.getWorldType(world);
 			Material newType = event.getNewState().getType();
 			
 			// Prevent snow from forming in tatooine and dagobah worlds
 			
-			if(newType.equals(Material.SNOW) && (worldType.equals("tatooine") || worldType.equals("dagobah")))
+			if(newType.equals(Material.SNOW) && (worldType == WorldType.TATOOINE || worldType == WorldType.DAGOBAH))
 			{
 				event.setCancelled(true);
 			}
