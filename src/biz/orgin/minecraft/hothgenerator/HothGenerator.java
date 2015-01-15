@@ -1082,13 +1082,16 @@ public class HothGenerator extends ChunkGenerator
 	public short[][] generateExtBlockSectionsMustafar(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
 	{
 		//DagobahOrePopulator orePopulator = new DagobahOrePopulator(this.height);
+
+		int mSTONE_id = MaterialManager.toID(Material.STONE);
+		int mLAVA_id = MaterialManager.toID(Material.LAVA);
+		int mAIR_id = MaterialManager.toID(Material.AIR);
 		
 		if(this.noiseGenerator==null)
 		{
 			this.noiseGenerator = new NoiseGenerator(world);
 		}
 		
-		@SuppressWarnings("unused")
 		int surfaceOffset = ConfigManager.getWorldSurfaceoffset(HothGenerator.plugin, world);
 		
 		Random localRand = new Random(chunkx*chunkz);
@@ -1100,78 +1103,160 @@ public class HothGenerator extends ChunkGenerator
 		{
 			for(int x=0;x<16;x++)
 			{
-				@SuppressWarnings("unused")
 				int rx = chunkx*16 + x;
-				@SuppressWarnings("unused")
 				int rz = chunkz*16 + z;
 				
-				Biome biome = biomes.getBiome(x, z);
-				@SuppressWarnings("unused")
-				float factor = 1.0f;
-				if(biome.equals(Biome.DESERT_HILLS))
-				{
-					factor = 2.0f;
-				}
-				else if(biome.equals(Biome.EXTREME_HILLS))
-				{
-					factor = 3.0f;
-				}
-				else if(biome.equals(Biome.FOREST_HILLS))
-				{
-					factor = 2.5f;
-				}
-				else if(biome.equals(Biome.ICE_MOUNTAINS))
-				{
-					factor = 3.0f;
-				}
-				else if(biome.equals(Biome.ICE_PLAINS))
-				{
-					factor = 0.5f;
-				}
-				else if(biome.equals(Biome.FROZEN_OCEAN))
-				{
-					factor = 1.3f;
-				}
-				else if(biome.equals(Biome.FROZEN_RIVER))
-				{
-					factor = 0.3f;
-				}
-				else if(biome.equals(Biome.JUNGLE_HILLS))
-				{
-					factor = 1.6f;
-				}
-				else if(biome.equals(Biome.MUSHROOM_ISLAND))
-				{
-					factor = 2.0f;
-				}
-				else if(biome.equals(Biome.MUSHROOM_SHORE))
-				{
-					factor = 1.0f;
-				}
-				else if(biome.equals(Biome.PLAINS))
-				{
-					factor = 0.5f;
-				}
-				else if(biome.equals(Biome.RIVER))
-				{
-					factor = 0.1f;
-				}
-				else if(biome.equals(Biome.SMALL_MOUNTAINS))
-				{
-					factor = 2.8f;
-				}
-				else if(biome.equals(Biome.TAIGA_HILLS))
-				{
-					factor = 2.0f;
-				}
+				// Lava level calculation
+				double ll = this.noiseGenerator.noise(rx, rz, 2, 635)*36;
+				int lavaLevel = 64 + surfaceOffset + ((int)ll) - 18;
+
 				// BEDROCK Layer
 				int y = 0;
 				HothUtils.setPos(chunk, x,y,z,Material.BEDROCK);
-				HothUtils.setPos(chunk, x,y+1,z, getBedrockMaterial(localRand, (int)(256*0.9f))); // 90%
-				HothUtils.setPos(chunk, x,y+2,z, getBedrockMaterial(localRand, (int)(256*0.7f))); // 70%
-				HothUtils.setPos(chunk, x,y+3,z, getBedrockMaterial(localRand, (int)(256*0.5f))); // 50%
-				HothUtils.setPos(chunk, x,y+4,z, getBedrockMaterial(localRand, (int)(256*0.3f))); // 30%
-				HothUtils.setPos(chunk, x,y+5,z, getBedrockMaterial(localRand, (int)(256*0.2f))); // 20%
+				HothUtils.setPos(chunk, x,y+1,z, getBedrockMaterial(localRand, (int)(256*0.9f), Material.LAVA)); // 90%
+				HothUtils.setPos(chunk, x,y+2,z, getBedrockMaterial(localRand, (int)(256*0.7f), Material.LAVA)); // 70%
+				HothUtils.setPos(chunk, x,y+3,z, getBedrockMaterial(localRand, (int)(256*0.5f), Material.LAVA)); // 50%
+				HothUtils.setPos(chunk, x,y+4,z, getBedrockMaterial(localRand, (int)(256*0.3f), Material.LAVA)); // 30%
+				HothUtils.setPos(chunk, x,y+5,z, getBedrockMaterial(localRand, (int)(256*0.2f), Material.LAVA)); // 20%
+				
+				// Solid lava layer
+				for(y=6;y<10;y++)
+				{
+					HothUtils.setPos(chunk, x,y,z,Material.LAVA);
+				}
+				
+				// Smooth lava layer
+				for(y=10;y<16;y++)
+				{
+					// DIRT Layer
+					double h = this.noiseGenerator.noise(rx, rz, 8, 11)*6;
+					if(y-10>h)
+					{
+						HothUtils.setPos(chunk,  x, y, z,  Material.STONE);
+					}
+					else
+					{
+						HothUtils.setPos(chunk,  x, y, z,  Material.LAVA);
+					}
+				}
+				
+				// Bulk layer
+				for(y=16;y<64+surfaceOffset-20;y++)
+				{
+					HothUtils.setPos(chunk,  x, y, z,  Material.STONE);
+				}
+				
+				// Surface level
+				double ml1 = this.noiseGenerator.noise(rx, rz, 2, 236)*16;
+				double ml2 = this.noiseGenerator.noise(rx, rz, 2, 33)*8;
+				double ml3 = this.noiseGenerator.noise(rx, rz, 2, 22)*12;
+				double ml4 = this.noiseGenerator.noise(rx, rz, 2, 7)*16 * this.noiseGenerator.noise(rx, rz, 2, 125);
+				// - add some noise
+				double fn1 = this.noiseGenerator.noise(rx, rz, 2, 235);
+				double fn2 = fn1 * this.noiseGenerator.noise(rx, rz, 2, 3) * 4;
+				
+				int ml = (int)(ml1+ml2+ml3+ml4+fn2);
+				for(int j=0;j<ml;j++)
+				{
+					HothUtils.setPos(chunk,  x, y+j, z,  Material.STONE);
+				}
+				
+				// Inject stone mountains at lava level summits
+				double domountain = this.noiseGenerator.noise(rx, rz, 4, 635)*20;
+				double mfactor = 0.0f;
+
+				if(domountain>10.0)
+				{
+					mfactor = (domountain-10.0)/10.0;
+				}
+					
+				if(mfactor>0)
+				{
+					double mountain = this.noiseGenerator.noise(rx, rz, 4, 87)*104; // bulk of the mountain
+					mountain = mountain + this.noiseGenerator.noise(rx, rz, 8, 50)*49; // Add a bit more noise
+					mountain = mountain + this.noiseGenerator.noise(rx, rz, 8, 4)*7; // Add a bit more noise
+					for(int i=0;i<(int)(mountain*mfactor);i++)
+					{
+						HothUtils.setPos(chunk, x,i+26 + surfaceOffset,z, Material.STONE);
+						
+						if(i+26+surfaceOffset>y)
+						{
+							y = i+26+surfaceOffset;
+						}
+					}
+				}
+				
+				// River layer
+				double r1 = this.noiseGenerator.noise(rx, rz, 2, 350)*(32+64)-16;
+				double r2 = this.noiseGenerator.noise(rx, rz, 2, 830)*(32+64)-16;
+				
+				double r = r1+r2;
+				
+				if(r>60 && r<76)  // 66 - 70 = lavariver
+				{
+					//double height = (3-Math.abs(68-r))*3;
+					double height = (3-Math.abs(68-r)*Math.abs(68-r))/1.5;
+					int rivy = lavaLevel - (int)height;
+					while(HothUtils.getPos(chunk, x, rivy, z)!=mAIR_id)
+					{
+						HothUtils.setPos(chunk,  x, rivy, z,  Material.AIR);
+						rivy++;
+					}
+				}
+					
+
+				// Global lava level
+				int wy = lavaLevel;
+				while(HothUtils.getPos(chunk, x,wy,z)==mAIR_id || HothUtils.getPos(chunk, x,wy,z) == mLAVA_id)
+				{
+					HothUtils.setPos(chunk, x,wy,z, Material.LAVA);
+					wy--;
+				}
+
+				// Lava tubes layer
+				double a = this.noiseGenerator.noise(rx, rz, 2, 150)*4;
+				a = a + this.noiseGenerator.noise(rx, rz, 2, 43)*4;
+				for(int i=10;i<128+surfaceOffset+16;i++)
+				{
+					double d = this.noiseGenerator.noise(rx, i, rz, 4, 10)*16;
+					
+					if(i>(96+surfaceOffset+16))
+					{
+						a = a + 8  * (((i+surfaceOffset)-32.0)/32.0); // fade out the higher we go
+					}
+					if(d>(a+8))
+					{
+						int old = HothUtils.getPos(chunk, x,i,z);
+						if( old == mSTONE_id
+								)
+						{
+							HothUtils.setPos(chunk, x,i,z, Material.LAVA);
+						}
+					}
+				}
+			
+				// Cave layer
+				a = this.noiseGenerator.noise(rx, rz, 2, 160)*4;
+				a = a + this.noiseGenerator.noise(rx, rz, 2, 42)*4;
+				for(int i=10;i<128+surfaceOffset+16;i++)
+				{
+					double d = this.noiseGenerator.noise(rx, i, rz, 4, 11)*16;
+					
+					if(i>(96+surfaceOffset+16))
+					{
+						a = a + 8  * (((i+surfaceOffset)-32.0)/32.0); // fade out the higher we go
+					}
+					if(d>(a+8))
+					{
+						int old = HothUtils.getPos(chunk, x,i,z);
+						if( old == mSTONE_id
+								)
+						{
+							HothUtils.setPos(chunk, x,i,z, Material.AIR);
+						}
+					}
+				}
+			
 			}
 		}
 		
@@ -1189,10 +1274,16 @@ public class HothGenerator extends ChunkGenerator
 
 	private Material getBedrockMaterial(Random localRand, int limit)
 	{
+		return this.getBedrockMaterial(localRand, limit, Material.STONE);
+	}
+
+	
+	private Material getBedrockMaterial(Random localRand, int limit, Material material)
+	{
 		int ran = localRand.nextInt() & 0xff;
 		if(ran>limit)
 		{
-			return Material.STONE;
+			return material;
 		}
 		return Material.BEDROCK;
 	}
@@ -1230,6 +1321,7 @@ public class HothGenerator extends ChunkGenerator
 			case MUSTAFAR:
 			{
 				List<BlockPopulator> list = new ArrayList<BlockPopulator>(1);
+				list.add(new MustafarLavaFountainPopulator(this.height));
 				return list;
 			}
 			case HOTH:

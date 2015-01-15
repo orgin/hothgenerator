@@ -3,6 +3,7 @@ package biz.orgin.minecraft.hothgenerator;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -100,6 +101,28 @@ public class ToolUseManager implements Listener
 					}
 				}
 				
+				if(this.plugin.isHothWorld(world) && worldtype == WorldType.MUSTAFAR)
+				{
+					if(item.getType().equals(Material.WATER_BUCKET))
+					{
+						Block block = event.getClickedBlock();
+						block = block.getRelative(event.getBlockFace());
+
+						if(ConfigManager.isRulesPlaceWater(this.plugin, block.getLocation()))
+						{
+							WaterPlacerThread th = new WaterPlacerThread(player, block.getLocation());
+							try
+							{
+								Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, th);							}
+							catch(Exception e)
+							{
+								this.plugin.logMessage("Exception while trying to register BlockPlacerThread. You probably need to restart yoru server.", true);
+							}
+						}
+					}
+				}
+
+				
 				if(this.plugin.isHothWorld(world) && (worldtype == WorldType.HOTH || worldtype == WorldType.TATOOINE))
 				{
 					if(item.getType().equals(Material.INK_SACK) && item.getDurability() == 15)
@@ -140,6 +163,57 @@ public class ToolUseManager implements Listener
 					}
 				}
 			}
+		}
+	}
+	
+	private class WaterPlacerThread implements Runnable
+	{
+		@SuppressWarnings("unused")
+		private Player player;
+		private Location location;
+		
+		private WaterPlacerThread(Player player, Location location)
+		{
+			this.player = player;
+			this.location = location;
+		}
+		
+		@Override
+		public void run()
+		{
+			if(!this.tooHot())
+			{
+				Block block = this.location.getBlock();
+				block.setType(Material.WATER);
+			}
+		}
+		
+		private boolean tooHot()
+		{
+			World world = this.location.getWorld();
+			int x = this.location.getBlockX();
+			int y = this.location.getBlockY();
+			int z = this.location.getBlockZ();
+			
+			for(int xx=x-2;xx<x+2;xx++)
+			{
+				for(int zz=z-2;zz<z+2;zz++)
+				{
+					for(int yy=y-2;yy<y+2;yy++)
+					{
+						Block block = world.getBlockAt(xx, yy, zz);
+						Material mat = block.getType();
+						
+						
+						if(mat.equals(Material.LAVA) || mat.equals(Material.STATIONARY_LAVA))
+						{
+							return true;
+						}
+					}
+				}
+			}
+
+			return false;
 		}
 	}
 }

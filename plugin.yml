@@ -48,7 +48,7 @@ commands:
       permission-message: You don't have permission to use the hothinfo command
    hothaddworld:
       description: Add a new world to the configuration
-      usage: /hothaddworld worldname [hoth|tatooine|dagobah]
+      usage: /hothaddworld worldname [hoth|tatooine|dagobah|mustafar]
       permission: hothgenerator.hothaddworld
       permission-message: You don't have permission to use the hothaddworld command
    hothdelworld:
@@ -139,4 +139,8 @@ permissions:
     hothgenerator.mosquito:
         description: Enables mosquito environment effect in dagobah.
         default: true
+    hothgenerator.lavaburn:
+        description: Enables lava burn environment effect in mustafar.
+        default: true
+        
             

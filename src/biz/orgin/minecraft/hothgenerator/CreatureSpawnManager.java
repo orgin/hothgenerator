@@ -32,16 +32,28 @@ public class CreatureSpawnManager implements Listener
 			Location location = event.getLocation();
 			World world = location.getWorld();
 			
-			if(this.plugin.isHothWorld(world) && ConfigManager.isRulesLimitslime(this.plugin, location))
+			if(this.plugin.isHothWorld(world))
 			{
-				int surfaceOffset = ConfigManager.getWorldSurfaceoffset(this.plugin, world);
-				
-				LivingEntity entity = event.getEntity();
-				
-				if(entity instanceof Slime && location.getBlockY()>(27 + surfaceOffset) &&
-						event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.NATURAL))
+				if(ConfigManager.isRulesLimitslime(this.plugin, location))
 				{
-					event.setCancelled(true);
+					int surfaceOffset = ConfigManager.getWorldSurfaceoffset(this.plugin, world);
+					
+					LivingEntity entity = event.getEntity();
+					
+					if(entity instanceof Slime && location.getBlockY()>(27 + surfaceOffset) &&
+							event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.NATURAL))
+					{
+						event.setCancelled(true);
+					}
+				}
+				
+				// Don't allow naturally spawned mobs in mustafar worlds
+				if(this.plugin.getWorldType(world)==WorldType.MUSTAFAR)
+				{
+					if(event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.NATURAL))
+					{
+						event.setCancelled(true);
+					}
 				}
 			}
 		}

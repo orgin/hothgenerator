@@ -45,9 +45,11 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private BlockPlaceManager blockPlaceManager;
 	private BlockBreakManager blockBreakManager;
 	private ToolUseManager toolUseManager;
+	private BuckitUseManager buckitUseManager;
 	private BlockMeltManager blockMeltManager;
 	private BlockGrowManager blockGrowManager;
 	private BlockFormManager blockFormManager;
+	private BlockFromToManager blockFromToManager;
 	private StructureGrowManager structureGrowManager;
 	private BlockSpreadManager blockSpreadManager;
 	private CreatureSpawnManager creatureSpawnManager;
@@ -77,9 +79,11 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.blockPlaceManager = new BlockPlaceManager(this);
     	this.blockBreakManager = new BlockBreakManager(this);
     	this.toolUseManager = new ToolUseManager(this);
+    	this.buckitUseManager = new BuckitUseManager(this);
     	this.blockMeltManager = new BlockMeltManager(this);
     	this.blockGrowManager = new BlockGrowManager(this);
     	this.blockFormManager = new BlockFormManager(this);
+    	this.blockFromToManager = new BlockFromToManager(this);
     	this.structureGrowManager = new StructureGrowManager(this);
     	this.blockSpreadManager = new BlockSpreadManager(this);
     	this.creatureSpawnManager = new CreatureSpawnManager(this);
@@ -89,9 +93,11 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.getServer().getPluginManager().registerEvents(this.blockPlaceManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockBreakManager, this);
     	this.getServer().getPluginManager().registerEvents(this.toolUseManager, this);
+    	this.getServer().getPluginManager().registerEvents(this.buckitUseManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockMeltManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockGrowManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockFormManager, this);
+    	this.getServer().getPluginManager().registerEvents(this.blockFromToManager, this);
     	this.getServer().getPluginManager().registerEvents(this.structureGrowManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockSpreadManager, this);
     	this.getServer().getPluginManager().registerEvents(this.creatureSpawnManager, this);

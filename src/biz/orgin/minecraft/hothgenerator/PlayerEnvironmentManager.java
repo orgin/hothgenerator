@@ -107,18 +107,22 @@ public class PlayerEnvironmentManager
 				World world = worlds.get(i);
 				if(this.plugin.isHothWorld(world))
 				{
-					if(this.plugin.getWorldType(world).equals("hoth"))
+					if(this.plugin.getWorldType(world) == WorldType.HOTH)
 					{
 						this.freeze(world);
 					}
-					else if(this.plugin.getWorldType(world).equals("tatooine"))
+					else if(this.plugin.getWorldType(world) == WorldType.TATOOINE)
 					{
 						this.heat(world);
 					}
-					else if(this.plugin.getWorldType(world).equals("dagobah"))
+					else if(this.plugin.getWorldType(world) == WorldType.DAGOBAH)
 					{
 						this.mosquito(world);
 						this.leech(world);
+					}
+					else if(this.plugin.getWorldType(world) == WorldType.MUSTAFAR)
+					{
+						this.lavaBurn(world);
 					}
 				}
 			}
@@ -576,6 +580,71 @@ public class PlayerEnvironmentManager
 			}
 		}
 		
+		/**
+		 * Finds all players on the specified world and applies lava burn damage.
+		 * @param world
+		 */
+		private void lavaBurn(World world)
+		{
+			List<Player> players = world.getPlayers();
+			Iterator<Player> iterator = players.iterator();
+			
+			while(iterator.hasNext())
+			{
+				Player player = iterator.next();
+				
+				GameMode gm = player.getGameMode();
+				if(!gm.equals(GameMode.CREATIVE) && PermissionManager.hasHeatPermission(player))
+				{
+					Location location = player.getLocation();
+					if(ConfigManager.isRulesLavaBurn(this.plugin, player.getLocation()))
+					{
+						int x = location.getBlockX();
+						int y = location.getBlockY();
+						int z = location.getBlockZ();
+						
+						int cnt = 0;
+						
+						for(int xx=x-3;xx<x+3;xx++)
+						{
+							for(int zz=z-3;zz<z+3;zz++)
+							{
+								for(int yy=y-3;yy<y+3;yy++)
+								{
+									Block block = world.getBlockAt(xx, yy, zz);
+									Material mat = block.getType();
+									
+									
+									if(mat.equals(Material.LAVA) || mat.equals(Material.STATIONARY_LAVA))
+									{
+										cnt ++;
+									}
+								}
+							}
+						}
+
+						if(cnt>0)
+						{
+							int curr = player.getFireTicks();
+							int newTick = 15 + cnt/2 + curr;
+							if(this.hasEnvironmentSuit(player)) // randomly mini burn the player
+							{
+								if(random.nextInt(10)==1)
+								{
+									newTick = cnt/10 + curr + 15;
+									player.setFireTicks(newTick);
+								}
+							}
+							else
+							{
+								player.setFireTicks(newTick);
+							}
+						}
+					}
+				}
+			}
+		}
+
 		/**
 		 * Check if a player is wearing a full set of armour with displaynames starting with "Environment"
 		 * @param player

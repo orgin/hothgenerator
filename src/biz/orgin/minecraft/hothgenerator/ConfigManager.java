@@ -462,6 +462,61 @@ public class ConfigManager
 		return plugin.getRegionManager().getBoolean("limitslime", location, ConfigManager.getConfigBoolean(plugin, location.getWorld(), "rules.limitslime", true));
 	}
 	
+	public static boolean isRulesRFGEnable(HothGeneratorPlugin plugin, Location location)
+	{
+		return plugin.getRegionManager().getBoolean("rfg.enable", location, ConfigManager.getConfigBoolean(plugin, location.getWorld(), "rules.rfg.enable", true));
+	}
+	
+	public static int getRulesRFGCoal(HothGeneratorPlugin plugin, Location location)
+	{
+	    int damage = plugin.getRegionManager().getInt("rfg.coal", location, ConfigManager.getConfigInt(plugin, location.getWorld(), "rules.rfg.coal", 5));
+	    if(damage<0)
+	    {
+	    	damage = 5;
+	    }
+	    return damage;
+	}
+
+	public static int getRulesRFGRedstone(HothGeneratorPlugin plugin, Location location)
+	{
+	    int damage = plugin.getRegionManager().getInt("rfg.redstone", location, ConfigManager.getConfigInt(plugin, location.getWorld(), "rules.rfg.redstone", 10));
+	    if(damage<0)
+	    {
+	    	damage = 10;
+	    }
+	    return damage;
+	}
+	
+	public static String getRulesRFGMessage1(HothGeneratorPlugin plugin, Location location)
+	{
+		return plugin.getRegionManager().get("rfg.message1", location, ConfigManager.getConfigString(plugin, location.getWorld(), "rules.rfg.message1", "&cYou need a Repulser Field Generator piston to extract ore from lava."));
+	}
+
+	public static String getRulesRFGMessage2(HothGeneratorPlugin plugin, Location location)
+	{
+		return plugin.getRegionManager().get("rfg.message2", location, ConfigManager.getConfigString(plugin, location.getWorld(), "rules.rfg.message2", "&cYou need Redstone to power the Repulser Field Generator."));
+	}
+
+	public static String getRulesRFGMessage3(HothGeneratorPlugin plugin, Location location)
+	{
+		return plugin.getRegionManager().get("rfg.message3", location, ConfigManager.getConfigString(plugin, location.getWorld(), "rules.rfg.message3", "&cYou need Coal to power the Repulser Field Generator."));
+	}
+
+	public static String getRulesRFGMessage4(HothGeneratorPlugin plugin, Location location)
+	{
+		return plugin.getRegionManager().get("rfg.message4", location, ConfigManager.getConfigString(plugin, location.getWorld(), "rules.rfg.message4", "&cInventory full."));
+	}
+
+	public static boolean isRulesLavaBurn(HothGeneratorPlugin plugin, Location location)
+	{
+		return plugin.getRegionManager().getBoolean("lavaburn", location, ConfigManager.getConfigBoolean(plugin, location.getWorld(), "rules.lavaburn", true));
+	}
+
+	public static boolean isRulesPlaceWater(HothGeneratorPlugin plugin, Location location)
+	{
+		return plugin.getRegionManager().getBoolean("placewater", location, ConfigManager.getConfigBoolean(plugin, location.getWorld(), "rules.placewater", true));
+	}
+
 	public static boolean isRulesSnowgravity(HothGeneratorPlugin plugin, Location location)
 	{
 		return plugin.getRegionManager().getBoolean("snowgravity", location, ConfigManager.getConfigBoolean(plugin, location.getWorld(), "rules.snowgravity", false));

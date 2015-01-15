@@ -186,6 +186,36 @@ hoth:
 # rules.snowgravity - true/false. Whether gravity is applied to snow blocks.
   rules.snowgravity: false
 #
+# rules.rfg.enable - true/false. Whether it's possible to use a Repulser Field Generator
+  rules.rfg.coal: 5
+#
+# rules.rfg.coal - 0-4096. Number of usages of a Repulser Field Generator per Coal. 0 = infinite
+  rules.rfg.coal: 5
+#
+# rules.rfg.coal - 0-4096. Number of usages of a Repulser Field Generator per Redstone. 0 = infinite
+  rules.rfg.coal: 10
+#
+# rules.rfg.message1 - Message sent when using an empty bucket on lava in mustafar world without a rfg.
+  rules.rfg.message1: "&cYou need a Repulser Field Generator piston to extract ore from lava."
+#
+# rules.rfg.message2 - Message sent when using a rfg without restone in inventory.
+  rules.rfg.message2: "&cYou need Redstone to power the Repulser Field Generator."
+#
+# rules.rfg.message3 - Message sent when using a rfg without coal in inventory.
+  rules.rfg.message3: "&cYou need Coal to power the Repulser Field Generator."
+#
+# rules.rfg.message4 - Message sent when using a rfg without any room in inventory.
+  rules.rfg.message4: "&cInventory full."
+#
+# rules.lavaburn - true/false. Whether lava burns the player when near it in mustafar worlds.
+  rules.lavaburn: true
+#
+# rules.placewater - true/false. Whether a player can place water using a bucket in a mustafar world.
+  rules.placewater: true
+#
+# rules.snowgravity - true/false. Whether gravity is applied to snow blocks.
+  rules.snowgravity: false
+#
 # rules.environment.period - Positive integer value. Period between environment damage checks. 0 = no damage (global off)
 #                            2 is recommended.
   rules.environment.period: 2
