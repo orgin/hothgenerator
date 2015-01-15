@@ -1,5 +1,7 @@
 package biz.orgin.minecraft.hothgenerator;
 
+import java.util.Random;
+
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -22,16 +24,19 @@ import org.bukkit.plugin.Plugin;
 public class BlockBreakManager implements Listener
 {
 	private HothGeneratorPlugin plugin;
+	private Random random;
 	
 	private static Permission EssentialsBuildAll = new Permission("essentials.build.*","",PermissionDefault.TRUE);
 	private static Permission EssentialsBuildBreakAll = new Permission("essentials.build.break.*","",PermissionDefault.TRUE);
 	private static Permission EssentialsBuildBreakICE = new Permission("essentials.build.break." + MaterialManager.toID(Material.ICE),"",PermissionDefault.TRUE);
 	private static Permission EssentialsBuildBreakSNOW_BLOCK = new Permission("essentials.build.break." + MaterialManager.toID(Material.SNOW_BLOCK),"",PermissionDefault.TRUE);
 	private static Permission EssentialsBuildBreakPACKED_ICE = new Permission("essentials.build.break." + MaterialManager.toID(Material.PACKED_ICE),"",PermissionDefault.TRUE);
+	private static Permission EssentialsBuildBreakSTONE = new Permission("essentials.build.break." + MaterialManager.toID(Material.STONE),"",PermissionDefault.TRUE);
 
 	public BlockBreakManager(HothGeneratorPlugin plugin)
 	{
 		this.plugin = plugin;
+		this.random = new Random(System.currentTimeMillis());
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -51,6 +56,7 @@ public class BlockBreakManager implements Listener
 				boolean gotPermsICE = true;
 				boolean gotPermsSNOWBLOCK = true;
 				boolean gotPermsPACKEDICE = true;
+				boolean gotPermsSTONE = true;
 				
 				// Special Essentials permissions check. For some reason Essentials executes its block break event handling
 				// after HothGenerator so the event isn't cancelled properly before executing this method.
@@ -76,10 +82,16 @@ public class BlockBreakManager implements Listener
 					{
 						gotPermsPACKEDICE = false;
 					}
+					if(!player.hasPermission(BlockBreakManager.EssentialsBuildBreakSTONE)
+							|| !player.hasPermission(BlockBreakManager.EssentialsBuildBreakAll)
+							|| !player.hasPermission(BlockBreakManager.EssentialsBuildAll))
+					{
+						gotPermsSTONE = false;
+					}
 				}				
 				
 				// Ice breaking
-				if (gotPermsICE && this.plugin.isHothWorld(world) && block.getType().equals(Material.ICE) && this.plugin.getWorldType(world).equals("hoth"))
+				if (gotPermsICE && this.plugin.isHothWorld(world) && block.getType().equals(Material.ICE) && this.plugin.getWorldType(world) == WorldType.HOTH)
 				{
 					if(ConfigManager.isRulesDropice(this.plugin, block.getLocation()))
 					{
@@ -90,7 +102,7 @@ public class BlockBreakManager implements Listener
 					}
 				}
 				// Snow block breaking
-				else if (gotPermsSNOWBLOCK && this.plugin.isHothWorld(world) && block.getType().equals(Material.SNOW_BLOCK) && this.plugin.getWorldType(world).equals("hoth"))
+				else if (gotPermsSNOWBLOCK && this.plugin.isHothWorld(world) && block.getType().equals(Material.SNOW_BLOCK) && this.plugin.getWorldType(world) == WorldType.HOTH)
 				{
 					if(ConfigManager.isRulesDropsnow(this.plugin, block.getLocation()))
 					{
@@ -101,7 +113,7 @@ public class BlockBreakManager implements Listener
 					}
 				}
 				// Packed ice breaking
-				if (gotPermsPACKEDICE && this.plugin.isHothWorld(world) && block.getType().equals(Material.PACKED_ICE) && this.plugin.getWorldType(world).equals("hoth"))
+				if (gotPermsPACKEDICE && this.plugin.isHothWorld(world) && block.getType().equals(Material.PACKED_ICE) && this.plugin.getWorldType(world) == WorldType.HOTH)
 				{
 					if(ConfigManager.isRulesDroppackedice(this.plugin, block.getLocation()))
 					{
@@ -109,6 +121,25 @@ public class BlockBreakManager implements Listener
 						ItemStack iceStack = new ItemStack(Material.PACKED_ICE);
 						iceStack.setAmount(1);
 						block.getWorld().dropItemNaturally(block.getLocation(), iceStack);
+					}
+				}
+				// Stone breaking
+				if (gotPermsSTONE && this.plugin.isHothWorld(world) && block.getType().equals(Material.STONE) && this.plugin.getWorldType(world) == WorldType.MUSTAFAR)
+				{
+					if(ConfigManager.isRulesLessStone(this.plugin, block.getLocation()))
+					{
+						block.setType(Material.AIR);
+						if(this.random.nextInt(8) == 1)
+						{
+							Material material = Material.STONE;
+							if(this.random.nextInt(4) > 0)
+							{
+								material = Material.COBBLESTONE;
+							}
+							ItemStack iceStack = new ItemStack(material);
+							iceStack.setAmount(1);
+							block.getWorld().dropItemNaturally(block.getLocation(), iceStack);
+						}
 					}
 				}
 			}

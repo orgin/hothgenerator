@@ -517,6 +517,11 @@ public class ConfigManager
 		return plugin.getRegionManager().getBoolean("placewater", location, ConfigManager.getConfigBoolean(plugin, location.getWorld(), "rules.placewater", true));
 	}
 
+	public static boolean isRulesLessStone(HothGeneratorPlugin plugin, Location location)
+	{
+		return plugin.getRegionManager().getBoolean("lessstone", location, ConfigManager.getConfigBoolean(plugin, location.getWorld(), "rules.lessstone", true));
+	}
+
 	public static boolean isRulesSnowgravity(HothGeneratorPlugin plugin, Location location)
 	{
 		return plugin.getRegionManager().getBoolean("snowgravity", location, ConfigManager.getConfigBoolean(plugin, location.getWorld(), "rules.snowgravity", false));

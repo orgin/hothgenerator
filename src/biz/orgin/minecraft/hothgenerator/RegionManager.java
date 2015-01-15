@@ -40,6 +40,7 @@ public abstract class RegionManager
 			new FlagValue("rfg.message4",         new String[]{"[text]", "[blank]"}),	
 			new FlagValue("lavaburn",             new String[]{"allow","deny", "[blank]"}),	
 			new FlagValue("placewater",           new String[]{"allow","deny", "[blank]"}),	
+			new FlagValue("lessstone",            new String[]{"allow","deny", "[blank]"}),	
 			//new FlagValue("environment.period",      new String[]{"[integer]"}), // This is global only
 			new FlagValue("environment.suit",     new String[]{"allow","deny", "[blank]"}),
 			new FlagValue("freeze.damage",        new String[]{"[integer]", "[blank]"}),

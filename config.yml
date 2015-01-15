@@ -213,6 +213,9 @@ hoth:
 # rules.placewater - true/false. Whether a player can place water using a bucket in a mustafar world.
   rules.placewater: true
 #
+# rules.lessstone - true/false. Reduces the amount of blocks you get from breaking stone.
+  rules.lessstone: true
+#
 # rules.snowgravity - true/false. Whether gravity is applied to snow blocks.
   rules.snowgravity: false
 #
