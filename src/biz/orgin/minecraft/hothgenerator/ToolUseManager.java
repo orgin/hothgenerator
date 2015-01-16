@@ -195,11 +195,11 @@ public class ToolUseManager implements Listener
 			int y = this.location.getBlockY();
 			int z = this.location.getBlockZ();
 			
-			for(int xx=x-2;xx<x+2;xx++)
+			for(int xx=x-2;xx<=x+2;xx++)
 			{
-				for(int zz=z-2;zz<z+2;zz++)
+				for(int zz=z-2;zz<=z+2;zz++)
 				{
-					for(int yy=y-2;yy<y+2;yy++)
+					for(int yy=y-2;yy<=y+2;yy++)
 					{
 						Block block = world.getBlockAt(xx, yy, zz);
 						Material mat = block.getType();

@@ -51,11 +51,11 @@ public class BlockFromToManager implements Listener
 		int y = block.getY();
 		int z = block.getZ();
 		
-		for(int xx=x-2;xx<x+2;xx++)
+		for(int xx=x-2;xx<=x+2;xx++)
 		{
-			for(int zz=z-2;zz<z+2;zz++)
+			for(int zz=z-2;zz<=z+2;zz++)
 			{
-				for(int yy=y-2;yy<y+2;yy++)
+				for(int yy=y-2;yy<=y+2;yy++)
 				{
 					Block blck = world.getBlockAt(xx, yy, zz);
 

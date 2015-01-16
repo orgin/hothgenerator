@@ -605,11 +605,11 @@ public class PlayerEnvironmentManager
 						
 						int cnt = 0;
 						
-						for(int xx=x-3;xx<x+3;xx++)
+						for(int xx=x-3;xx<=x+3;xx++)
 						{
-							for(int zz=z-3;zz<z+3;zz++)
+							for(int zz=z-3;zz<=z+3;zz++)
 							{
-								for(int yy=y-3;yy<y+3;yy++)
+								for(int yy=y-3;yy<=y+3;yy++)
 								{
 									Block block = world.getBlockAt(xx, yy, zz);
 									Material mat = block.getType();
