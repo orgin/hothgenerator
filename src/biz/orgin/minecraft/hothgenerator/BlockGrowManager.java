@@ -68,8 +68,8 @@ public class BlockGrowManager implements Listener
 							state.update(true, false);
 							event.setCancelled(true);
 						}
-						else if(material.equals(Material.LONG_GRASS))
-						{	// Don't render logn grass
+						else if(material.equals(Material.LONG_GRASS) || material.equals(Material.DOUBLE_PLANT))
+						{	// Don't render long grass
 							event.setCancelled(true);
 						}
 						else
