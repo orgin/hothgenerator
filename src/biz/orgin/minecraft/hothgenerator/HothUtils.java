@@ -870,5 +870,38 @@ public class HothUtils
 		return type.equals(Material.STATIONARY_WATER) || type.equals(Material.WATER);
 	}
 
+	/**
+	 * Check if there's nearby lava. Within a (size+1)^3 cube
+	 * @param location
+	 * @return true if there's lava inside the cube
+	 */
+	public static boolean isTooHot(Location location, int size)
+	{
+		World world = location.getWorld();
+		int x = location.getBlockX();
+		int y = location.getBlockY();
+		int z = location.getBlockZ();
+		
+		for(int xx=x-size;xx<=x+size;xx++)
+		{
+			for(int zz=z-size;zz<=z+size;zz++)
+			{
+				for(int yy=y-size;yy<=y+size;yy++)
+				{
+					Block block = world.getBlockAt(xx, yy, zz);
+					Material mat = block.getType();
+					
+					
+					if(mat.equals(Material.LAVA) || mat.equals(Material.STATIONARY_LAVA))
+					{
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
 
 }

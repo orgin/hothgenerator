@@ -34,7 +34,7 @@ public class BlockFromToManager implements Listener
 				if(material.equals(Material.WATER) || material.equals(Material.STATIONARY_WATER))
 				{
 					Block to = event.getToBlock();
-					if(this.tooHot(to))
+					if(HothUtils.isTooHot(to.getLocation(),2))
 					{
 						world.playEffect(to.getLocation(), Effect.SMOKE, BlockFace.UP);
 						event.setCancelled(true);
@@ -42,34 +42,6 @@ public class BlockFromToManager implements Listener
 				}
 			}
 		}
-	}
-	
-	private boolean tooHot(Block block)
-	{
-		World world = block.getWorld();
-		int x = block.getX();
-		int y = block.getY();
-		int z = block.getZ();
-		
-		for(int xx=x-2;xx<=x+2;xx++)
-		{
-			for(int zz=z-2;zz<=z+2;zz++)
-			{
-				for(int yy=y-2;yy<=y+2;yy++)
-				{
-					Block blck = world.getBlockAt(xx, yy, zz);
-
-					Material mat = blck.getType();
-					
-					if(mat.equals(Material.LAVA) || mat.equals(Material.STATIONARY_LAVA))
-					{
-						return true;
-					}
-				}
-			}
-		}
-		
-		return false;
 	}
 
 }
