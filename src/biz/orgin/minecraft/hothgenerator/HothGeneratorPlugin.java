@@ -59,6 +59,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private MobSpawnManager mobSpawnManager;
 	private DagobahSpiderForestManager spiderForestManager = null;
 	private HothTaskManager taskManager;
+	private EntityTargetManager entityTargetManager;
 	
 	private FileConfiguration config;
 	private FileConfiguration worldConfig;
@@ -89,6 +90,7 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.creatureSpawnManager = new CreatureSpawnManager(this);
     	this.blockGravityManager = new BlockGravityManager(this);
     	this.regionManager = RegionManagerFactory.getRegionmanager(this);
+    	this.entityTargetManager = new EntityTargetManager(this);
     	
     	this.getServer().getPluginManager().registerEvents(this.blockPlaceManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockBreakManager, this);
@@ -102,6 +104,7 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.getServer().getPluginManager().registerEvents(this.blockSpreadManager, this);
     	this.getServer().getPluginManager().registerEvents(this.creatureSpawnManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockGravityManager, this);
+    	this.getServer().getPluginManager().registerEvents(this.entityTargetManager, this);
     	
 		this.saveDefaultConfig();
     	this.config = this.getConfig();

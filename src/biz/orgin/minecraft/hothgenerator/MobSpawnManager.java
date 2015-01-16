@@ -107,7 +107,7 @@ public class MobSpawnManager
 			for(int i=0;i<worlds.size();i++)
 			{
 				World world = worlds.get(i);
-				if(this.plugin.isHothWorld(world) && this.plugin.getWorldType(world).equals("hoth") && ConfigManager.isRulesSpawnNeutralOn(this.plugin, world))
+				if(this.plugin.isHothWorld(world) && this.plugin.getWorldType(world) == WorldType.HOTH && ConfigManager.isRulesSpawnNeutralOn(this.plugin, world))
 				{
 					this.spawnMobs(world);
 				}
