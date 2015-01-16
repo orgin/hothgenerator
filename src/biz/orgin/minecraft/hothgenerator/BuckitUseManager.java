@@ -149,7 +149,7 @@ public class BuckitUseManager implements Listener
 			WorldType worldType = this.plugin.getWorldType(world);
 			Material bucket = event.getBucket();
 
-			// Repulser Field Generator handling
+			// Repulsor Field Generator handling
 			
 			if(ConfigManager.isRulesRFGEnable(this.plugin, block.getLocation())
 					&& bucket.equals(Material.BUCKET)
@@ -169,7 +169,7 @@ public class BuckitUseManager implements Listener
 					{
 						PlayerInventory inv = player.getInventory();
 
-						// Check player inventory if there is a regular piston named "Repulser Field Generator"
+						// Check player inventory if there is a regular piston named "Repulsor Field Generator"
 						ItemStack items[] = inv.getContents();
 						boolean found = false;
 						for(int i=0;i<items.length;i++)
@@ -185,7 +185,7 @@ public class BuckitUseManager implements Listener
 										if(meta.hasDisplayName())
 										{
 											String displayName = meta.getDisplayName();
-											if(displayName.equals("Repulser Field Generator"))
+											if(displayName.equals("Repulsor Field Generator"))
 											{
 												found = true;
 												break;
@@ -211,19 +211,19 @@ public class BuckitUseManager implements Listener
 								}
 								else
 								{
-									// "You need Coal to power the Repulser Field Generator"
+									// "You need Coal to power the Repulsor Field Generator"
 									player.sendMessage(ConfigManager.getRulesRFGMessage3(this.plugin, block.getLocation()));
 								}
 							}
 							else
 							{
-								// "You need Redstone to power the Repulser Field Generator"
+								// "You need Redstone to power the Repulsor Field Generator"
 								player.sendMessage(ConfigManager.getRulesRFGMessage2(this.plugin, block.getLocation()));
 							}
 						}
 						else
 						{
-							// "You need a Repulser Field Generator piston to extract ore from lava"
+							// "You need a Repulsor Field Generator piston to extract ore from lava"
 							player.sendMessage(ConfigManager.getRulesRFGMessage1(this.plugin, block.getLocation()));
 						}
 					}

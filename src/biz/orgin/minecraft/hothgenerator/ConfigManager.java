@@ -489,17 +489,17 @@ public class ConfigManager
 	
 	public static String getRulesRFGMessage1(HothGeneratorPlugin plugin, Location location)
 	{
-		return plugin.getRegionManager().get("rfg.message1", location, ConfigManager.getConfigString(plugin, location.getWorld(), "rules.rfg.message1", "&cYou need a Repulser Field Generator piston to extract ore from lava."));
+		return plugin.getRegionManager().get("rfg.message1", location, ConfigManager.getConfigString(plugin, location.getWorld(), "rules.rfg.message1", "&cYou need a Repulsor Field Generator piston to extract ore from lava."));
 	}
 
 	public static String getRulesRFGMessage2(HothGeneratorPlugin plugin, Location location)
 	{
-		return plugin.getRegionManager().get("rfg.message2", location, ConfigManager.getConfigString(plugin, location.getWorld(), "rules.rfg.message2", "&cYou need Redstone to power the Repulser Field Generator."));
+		return plugin.getRegionManager().get("rfg.message2", location, ConfigManager.getConfigString(plugin, location.getWorld(), "rules.rfg.message2", "&cYou need Redstone to power the Repulsor Field Generator."));
 	}
 
 	public static String getRulesRFGMessage3(HothGeneratorPlugin plugin, Location location)
 	{
-		return plugin.getRegionManager().get("rfg.message3", location, ConfigManager.getConfigString(plugin, location.getWorld(), "rules.rfg.message3", "&cYou need Coal to power the Repulser Field Generator."));
+		return plugin.getRegionManager().get("rfg.message3", location, ConfigManager.getConfigString(plugin, location.getWorld(), "rules.rfg.message3", "&cYou need Coal to power the Repulsor Field Generator."));
 	}
 
 	public static String getRulesRFGMessage4(HothGeneratorPlugin plugin, Location location)
