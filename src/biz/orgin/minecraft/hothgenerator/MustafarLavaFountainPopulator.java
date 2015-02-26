@@ -62,9 +62,16 @@ public class MustafarLavaFountainPopulator extends BlockPopulator
 			int rx = x + random.nextInt(16) - 8;
 			int rz = z + random.nextInt(16) - 8;
 			
+			// Find highest non empty block. For some reason getHighestBlockAt treats lava as AIR
 			Block block = world.getHighestBlockAt(rx, rz);
+			while(!block.isEmpty())
+			{
+				block = block.getRelative(BlockFace.UP);
+			}
+			block = block.getRelative(BlockFace.DOWN);
 			
-			if(block.getType().equals(Material.LAVA))
+			// Inject the fountain. But only on LAVA.
+			if(block.getType().equals(Material.LAVA) || block.getType().equals(Material.STATIONARY_LAVA))
 			{
 				int height = (int)((double)(3 + random.nextInt(8)) * ll);
 				

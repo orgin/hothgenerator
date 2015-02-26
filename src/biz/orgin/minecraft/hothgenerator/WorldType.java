@@ -8,30 +8,7 @@ public enum WorldType {
  
  private final String name;
  
- public static void main(String[] args)
- {
-	 try
-	 {
-		 WorldType wt = WorldType.getType("tatooine");
-		 System.out.println("wt = " + wt);
-		 if(wt == WorldType.TATOOINE)
-		 {
-			 System.out.println("wt is indeed " + WorldType.TATOOINE);
-		 }
-		 
-		 System.out.println(WorldType.getType("hoth"));
-		 System.out.println(WorldType.getType("tatooine"));
-		 System.out.println(WorldType.getType("dagobah"));
-		 System.out.println(WorldType.getType("mustafar"));
-		 System.out.println(WorldType.getType("earth"));
-	 }
-	 catch(Exception e)
-	 {
-		 e.printStackTrace();
-	 }
- }
- 
- WorldType(String name)
+ private WorldType(String name)
  {
 	 this.name = name;
  }
@@ -39,6 +16,11 @@ public enum WorldType {
  public String toString()
  {
 	 return name;
+ }
+ 
+ public boolean equals(String name)
+ {
+	 return this.name.equals(name);
  }
  
  public static WorldType getType(String type) throws InvalidWorldTypeException
@@ -51,15 +33,23 @@ public enum WorldType {
 		 }
 	 }
 	 
-	 throw new InvalidWorldTypeException();
+	 throw new InvalidWorldTypeException(type + " is not a valid world type");
  }
  
  public static class InvalidWorldTypeException extends Exception
  {
 	private static final long serialVersionUID = 2780389615326711849L;
+	
+	private String message;
 
-	public InvalidWorldTypeException()
+	public InvalidWorldTypeException(String message)
 	{
+		this.message = message;
+	}
+	
+	public String getMessage()
+	{
+		return this.message;
 	}
  }
 }

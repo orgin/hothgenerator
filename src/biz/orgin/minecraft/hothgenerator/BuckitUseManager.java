@@ -212,19 +212,19 @@ public class BuckitUseManager implements Listener
 								else
 								{
 									// "You need Coal to power the Repulsor Field Generator"
-									player.sendMessage(ConfigManager.getRulesRFGMessage3(this.plugin, block.getLocation()));
+									this.plugin.sendMessage(player,ConfigManager.getRulesRFGMessage3(this.plugin, block.getLocation()));
 								}
 							}
 							else
 							{
 								// "You need Redstone to power the Repulsor Field Generator"
-								player.sendMessage(ConfigManager.getRulesRFGMessage2(this.plugin, block.getLocation()));
+								this.plugin.sendMessage(player,ConfigManager.getRulesRFGMessage2(this.plugin, block.getLocation()));
 							}
 						}
 						else
 						{
 							// "You need a Repulsor Field Generator piston to extract ore from lava"
-							player.sendMessage(ConfigManager.getRulesRFGMessage1(this.plugin, block.getLocation()));
+							this.plugin.sendMessage(player,ConfigManager.getRulesRFGMessage1(this.plugin, block.getLocation()));
 						}
 					}
 
@@ -356,7 +356,7 @@ public class BuckitUseManager implements Listener
 			else // If inventory is full then send message and do nothing.
 			{
 				// "Inventory full"
-				player.sendMessage(ConfigManager.getRulesRFGMessage4(plugin, player.getLocation()));
+				plugin.sendMessage(player,ConfigManager.getRulesRFGMessage4(plugin, player.getLocation()));
 			}
 		}
 		

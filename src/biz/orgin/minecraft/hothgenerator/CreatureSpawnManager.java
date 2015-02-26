@@ -73,25 +73,89 @@ public class CreatureSpawnManager implements Listener
 						
 						if(HothUtils.isTooHot(location, 2) && block.getType().equals(Material.STONE))
 						{
-							Entity mite = world.spawnEntity(location, EntityType.ENDERMITE);
-							Endermite m = (Endermite)mite;
-							if(this.random.nextInt(10)==1)
+							int rnd = this.random.nextInt(10);
+							if(rnd==1)
 							{
-								m.setCustomName("Prime Fire beetle");
-								m.setMaxHealth(128.0);
-								m.setHealth(128.0);
+								CreatureSpawnManager.spawnFireBeetle(location, FireBeetleType.PRIME);
+							}
+							else if(rnd<5)
+							{
+								CreatureSpawnManager.spawnFireBeetle(location, FireBeetleType.REGULAR);
 							}
 							else
 							{
-								m.setCustomName("Fire beetle");
-								m.setMaxHealth(32.0);
-								m.setHealth(32);
+								CreatureSpawnManager.spawnFireBeetle(location, FireBeetleType.HATCHLING);
 							}
-							m.setCustomNameVisible(true);
 						}
 					}
 				}
 			}
 		}
+	}
+	
+	public static Endermite spawnFireBeetle(Location location, FireBeetleType fireBeetleType)
+	{
+		World world = location.getWorld();
+		Entity mite = world.spawnEntity(location, EntityType.ENDERMITE);
+		Endermite m = (Endermite)mite;
+		
+		switch(fireBeetleType)
+		{
+		case PRIME:
+			m.setCustomName(FireBeetleType.PRIME.getName());
+			m.setMaxHealth(128.0);
+			m.setHealth(128.0);
+			break;
+		case REGULAR:
+			m.setCustomName(FireBeetleType.REGULAR.getName());
+			m.setMaxHealth(32.0);
+			m.setHealth(32);
+			break;
+		case HATCHLING:
+			m.setCustomName(FireBeetleType.HATCHLING.getName());
+			m.setMaxHealth(8.0);
+			m.setHealth(8);
+			break;
+		}
+
+		m.setCustomNameVisible(true);
+
+		return m;
+	}
+	
+	public static FireBeetleType getFireBeetleType(String type)
+	{
+		 for(FireBeetleType t : FireBeetleType.values())
+		 {
+			 if(t.name.equals(type))
+			 {
+				 return t;
+			 }
+		 }
+		 
+		 return null;
+	}
+	
+	public enum FireBeetleType {
+		 PRIME ("Prime fire beetle"),
+		 REGULAR ("Fire beetle"),
+		 HATCHLING ("Fire beetle hatchling");
+		 
+		 private final String name;
+		 
+		 private FireBeetleType(String name)
+		 {
+			 this.name = name;
+		 }
+		 
+		 public String getName()
+		 {
+			 return this.name;
+		 }
+		 
+		 public String toString()
+		 {
+			 return this.name;
+		 }
 	}
 }

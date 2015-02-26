@@ -142,7 +142,7 @@ public class DomeGenerator
 			World world = this.getWorld();
 			
 			// Make sure that domes aren't generated in a non hoth type world.
-			if(!plugin.getWorldType(world).equals("hoth"))
+			if(plugin.getWorldType(world) != WorldType.HOTH)
 			{
 				return;
 			}

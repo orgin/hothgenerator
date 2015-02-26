@@ -53,7 +53,6 @@ public class HothUtils
 		int width = schematic.getWidth();
 		int[][][] matrix = schematic.getMatrix();
 		
-		//Vector<BlockState> delays = new Vector<BlockState>();
 		Set<Position>delays = new HashSet<Position>();
 		
 		for(int yy=0;yy<height;yy++)

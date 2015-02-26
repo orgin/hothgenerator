@@ -59,6 +59,9 @@ hoth:
 # smoothsnow - true/false. Set to false to turn off the smooth snow cover.
   smoothsnow: true
 #
+# smoothlava - true/false. Set to false to turn off the smooth lava cover.
+  smoothlava: true
+#
 # world.surfaceoffset - 0 or a positive value. Offsets the surface upward from the default of 64 by adding more stone layers.
   world.surfaceoffset: 0
 #
@@ -133,6 +136,9 @@ hoth:
 #
 # structure.treehut.rarity:  - 0-10. Rarity for tree huts. 0 is off, 1-10 is rarity (1 = common, 10 = very rare)
   structure.treehut.rarity: 2
+#
+# structure.mustafarbase.rarity:  - 0-10. Rarity for mustafar bases. 0 is off, 1-10 is rarity (1 = common, 10 = very rare)
+  structure.mustafarbase.rarity: 2
 #
 # generate.logs - true/false. Whether frozen logs should be generated
   generate.logs: true

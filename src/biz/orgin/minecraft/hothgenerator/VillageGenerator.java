@@ -82,7 +82,7 @@ public class VillageGenerator {
 
 		public PlaceVillage(World world, Random random, int chunkx, int chunkz)
 		{
-			this.setName("PlaceBase");
+			this.setName("PlaceVillage");
 			this.setPlugin(null);
 			this.setWorld(world);
 			this.random = random;
@@ -96,7 +96,7 @@ public class VillageGenerator {
 			HothGeneratorPlugin plugin = this.getPlugin();
 			World world = this.getWorld();
 			
-			if(plugin.getWorldType(world).equals("tatooine"))
+			if(plugin.getWorldType(world) == WorldType.TATOOINE)
 			{
 				LoadedSchematic schematic = VillageGenerator.villagecenter;
 				int x = this.chunkx * 16 + this.random.nextInt(15);

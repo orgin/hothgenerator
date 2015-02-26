@@ -99,6 +99,10 @@ public class ConfigManager
 		return plugin.getConfig().getBoolean("hoth.smoothsnow", true);
 	}
 	
+	public static boolean isSmoothLava(HothGeneratorPlugin plugin)
+	{
+		return plugin.getConfig().getBoolean("hoth.smoothlava", true);
+	}
 	
 	private static int getConfigInt(HothGeneratorPlugin plugin, World world, String tag, int def)
 	{
@@ -370,6 +374,16 @@ public class ConfigManager
 	public static int getStructureTreeHutRarity(HothGeneratorPlugin plugin, World world)
 	{
 		int result = ConfigManager.getConfigInt(plugin, world, "structure.treehut.rarity", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+
+	public static int getStructureMustafarBaseRarity(HothGeneratorPlugin plugin, World world)
+	{
+		int result = ConfigManager.getConfigInt(plugin, world, "structure.mustafarbase.rarity", 2);
 		if(result<0 || result>10)
 		{
 			result = 2;

@@ -416,6 +416,13 @@ public class LoadedSchematic implements Schematic
 		return HothUtils.rotateSchematic(direction, this);
 	}
 	
+	public LoadedSchematic cloneRotate(int direction, String name)
+	{
+		
+		LoadedSchematic schem = this.cloneRotate(direction);
+		schem.name = name;
+		return schem;
+	}
 	public LoadedSchematic cloneRotate(int direction)
 	{
 		LoadedSchematic newSchematic = new LoadedSchematic();

@@ -286,9 +286,6 @@ public class HothGenerator extends ChunkGenerator
 				double dval = snowblocks+dicey;
 				snowcover[z][x] = new Position(rx, y, rz, (int) (8.0*(dval-(int)(dval))));
 				HothUtils.setPos(chunk, x,y,z, Material.SNOW);
-
-
-				
 				
 				// LAVA Layer
 				double dolava = this.noiseGenerator.noise(rx, rz, 4, 71)*10;
@@ -342,7 +339,6 @@ public class HothGenerator extends ChunkGenerator
 			}
 		}
 		
-		
 		// Add structures and such
 		GardenGenerator.generateGarden(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		RoomGenerator.generateRooms(world, HothGenerator.plugin, new Random(random.nextLong()), chunkx, chunkz);
@@ -353,8 +349,7 @@ public class HothGenerator extends ChunkGenerator
 		CustomGenerator.generateCustom(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		CaveGenerator.generateCaves(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		SpikeGenerator.generateSpikes(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-		//VillageGenerator.generateVillage(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
-	//	SnowGenerator.generateSnowCover(HothGenerator.plugin, world, snowcover);
+		SnowGenerator.generateSnowCover(HothGenerator.plugin, world, snowcover);
 
 		return chunk;
 	}
@@ -1081,11 +1076,14 @@ public class HothGenerator extends ChunkGenerator
 	
 	public short[][] generateExtBlockSectionsMustafar(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
 	{
-		//DagobahOrePopulator orePopulator = new DagobahOrePopulator(this.height);
+		boolean smoothlava = ConfigManager.isSmoothLava(HothGenerator.plugin);
 
 		int mSTONE_id = MaterialManager.toID(Material.STONE);
 		int mLAVA_id = MaterialManager.toID(Material.LAVA);
 		int mAIR_id = MaterialManager.toID(Material.AIR);
+		
+		Position[][] lavacover = new Position[16][16];
+
 		
 		if(this.noiseGenerator==null)
 		{
@@ -1109,6 +1107,9 @@ public class HothGenerator extends ChunkGenerator
 				// Lava level calculation
 				double ll = this.noiseGenerator.noise(rx, rz, 2, 635)*36;
 				int lavaLevel = 64 + surfaceOffset + ((int)ll) - 18;
+				double dLavaLevel = 64 + surfaceOffset + ll - 18;
+				
+				lavacover[z][x] = new Position(rx, lavaLevel, rz, (int) (8.0*((1 - (dLavaLevel - lavaLevel)))));
 
 				// BEDROCK Layer
 				int y = 0;
@@ -1207,10 +1208,17 @@ public class HothGenerator extends ChunkGenerator
 
 				// Global lava level
 				int wy = lavaLevel;
+				boolean added = false;
 				while(HothUtils.getPos(chunk, x,wy,z)==mAIR_id || HothUtils.getPos(chunk, x,wy,z) == mLAVA_id)
 				{
+					added = true;
 					HothUtils.setPos(chunk, x,wy,z, Material.LAVA);
 					wy--;
+				}
+				// If we have smooth lava then we need an extra layer of lava or else the top layer may vanish
+				if(smoothlava && added && wy>0)
+				{
+					HothUtils.setPos(chunk, x,wy,z, Material.LAVA);
 				}
 
 				// Lava tubes layer
@@ -1260,14 +1268,15 @@ public class HothGenerator extends ChunkGenerator
 			}
 		}
 		
-		//orePopulator.populateWater(new Random(random.nextLong()), chunk, surfaceOffset);
-
 		// Add structures and such
+		MustafarBaseGenerator.generateBase(world, HothGenerator.plugin, new Random(random.nextLong()), chunkx, chunkz);
 		// GardenGenerator.generateGarden(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		// RoomGenerator.generateRooms(world, HothGenerator.plugin, new Random(random.nextLong()), chunkx, chunkz);
 		// OreGenerator.generateOres(HothGenerator.plugin, world, chunk, new Random(random.nextLong()) , chunkx, chunkz);
 		// SchematicsGenerator.generateSchematics(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
 		// CustomGenerator.generateCustom(HothGenerator.plugin, world, new Random(random.nextLong()), chunkx, chunkz);
+		SnowGenerator.generateLavaCover(HothGenerator.plugin, world, lavacover);
+
 		
 		return chunk;
 	}
