@@ -51,7 +51,7 @@ public class EntityDeathManager implements Listener
 					switch(beetleType)
 					{
 					case PRIME:
-						prob = 1;
+						prob = 0;
 						for(int i=0;i<this.random.nextInt(2);i++)
 						{
 							Location pl = location.clone();
@@ -66,7 +66,7 @@ public class EntityDeathManager implements Listener
 						}
 						break;
 					case REGULAR:
-						prob = 2;
+						prob = 1;
 						for(int i=0;i<this.random.nextInt(3);i++)
 						{
 							Location pl = location.clone();
@@ -75,7 +75,7 @@ public class EntityDeathManager implements Listener
 						}
 						break;
 					case HATCHLING:
-						prob = 3;
+						prob = 2;
 						break;
 					default:
 						break;
@@ -83,7 +83,7 @@ public class EntityDeathManager implements Listener
 					
 					
 					// Drop some loot
-					if(this.random.nextInt(prob)==0)
+					if(prob==0 || this.random.nextInt(prob)==0)
 					{
 						ItemStack stack = null;
 						switch(random.nextInt(10))
@@ -95,7 +95,15 @@ public class EntityDeathManager implements Listener
 							stack = new ItemStack(Material.FLINT,1);
 							break;
 						case 3:
-							stack = new ItemStack(Material.PRISMARINE_SHARD,1);
+							int rnd = random.nextInt(10);
+							if(rnd==0)
+							{
+								stack = new ItemStack(Material.PRISMARINE_SHARD,1);
+							}
+							else if(rnd<4)
+							{
+								stack = new ItemStack(Material.PRISMARINE_CRYSTALS,1);
+							}
 							break;
 						case 4:
 							stack = new ItemStack(Material.QUARTZ,1);
