@@ -34,10 +34,9 @@ public class MustafarLavaFountainPopulator extends BlockPopulator
 		int x = chunk.getX()*16;
 		int z = chunk.getZ()*16;
 
-		NoiseGenerator noiseGenerator = new NoiseGenerator(world);
 		
 		// Lava level calculation
-		double ll = noiseGenerator.noise(x, z, 2, 635);
+		double ll = LavaLevelGenerator.getLavaLevelFractionAt(world, x, z);
 
 		int ctr = 0;
 		if(ll>0.9)

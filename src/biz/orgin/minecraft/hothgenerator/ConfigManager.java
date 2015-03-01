@@ -391,6 +391,16 @@ public class ConfigManager
 		return result;
 	}
 
+	public static int getStructureMustafarTempleRarity(HothGeneratorPlugin plugin, World world)
+	{
+		int result = ConfigManager.getConfigInt(plugin, world, "structure.mustafartemple.rarity", 2);
+		if(result<0 || result>10)
+		{
+			result = 2;
+		}
+		return result;
+	}
+
 	public static boolean isGenerateLogs(HothGeneratorPlugin plugin, World world)
 	{
 		return ConfigManager.getConfigBoolean(plugin, world, "generate.logs", true);

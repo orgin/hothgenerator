@@ -493,8 +493,10 @@ public class HothUtils
 				}
 			}
 		}
-		else if(type==54 || type==23 || type==158 || type==61 || type==130 || type==62 || type==65) // chest, enderchest, furnace, dropper etc
+		else if(type==54 || type==23 || type==158 || type==61 || type==130 || type==62 || type==65 || type==33 || type==29) // chest, enderchest, furnace, dropper etc
 		{
+			// 33 - Piston base
+			// 29 - Sticky piston base
 			switch(rot)
 			{
 			case 2: // North
@@ -724,6 +726,48 @@ public class HothUtils
 				case 15: return 15;
 				}
 			}
+		}
+		else if(type==93 || type==94) // Repeater
+		{
+			int delay = data & 0x0c;
+			int dir = data &0x03;
+			
+			switch(rot)
+			{
+			case 2: // North
+				switch(dir)
+				{
+				case 0: return 0 | delay; // N
+				case 1: return 1 | delay; // E
+				case 2: return 2 | delay; // S
+				case 3: return 3 | delay; // W
+				}
+			case 0: // South
+				switch(dir)
+				{
+				case 0: return 2 | delay; // N -> S
+				case 1: return 3 | delay; // E -> W
+				case 2: return 0 | delay; // S -> N
+				case 3: return 1 | delay; // W -> E
+				}
+			case 1: // West
+				switch(dir)
+				{
+				case 0: return 3 | delay; // N -> W
+				case 1: return 0 | delay; // E -> N
+				case 2: return 1 | delay; // S -> E
+				case 3: return 2 | delay; // W -> S
+				}
+			case 3: // East
+				switch(dir)
+				{
+				case 0: return 1 | delay; // N -> E
+				case 1: return 2 | delay; // E -> S
+				case 2: return 3 | delay; // S -> W
+				case 3: return 0 | delay; // W -> N
+				}
+			}
+
 		}
 
 

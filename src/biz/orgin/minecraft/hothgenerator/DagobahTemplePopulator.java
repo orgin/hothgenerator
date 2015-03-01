@@ -35,7 +35,7 @@ public class DagobahTemplePopulator extends BlockPopulator
 		}
 		catch (IOException e)
 		{
-			this.plugin.logMessage("Error while loading treehut.sm: " + e.getMessage());
+			this.plugin.logMessage("Error while loading swamptemple.sm: " + e.getMessage());
 			this.schematics = null;
 		}
 	}

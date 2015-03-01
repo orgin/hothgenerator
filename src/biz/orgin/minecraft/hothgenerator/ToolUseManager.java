@@ -50,6 +50,8 @@ public class ToolUseManager implements Listener
 				Player player = event.getPlayer();
 				ItemStack item = player.getItemInHand();
 				WorldType worldtype = this.plugin.getWorldType(world);
+				
+				System.out.println("Item in hand: " + item.getType());
 	
 				if(ConfigManager.isItemInfoTool(this.plugin) && item.getType().equals(Material.CLAY_BALL))
 				{
@@ -67,6 +69,7 @@ public class ToolUseManager implements Listener
 						}
 					}
 				}
+				
 	
 				if(this.plugin.isHothWorld(world) && worldtype == WorldType.HOTH)
 				{

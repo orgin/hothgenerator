@@ -1087,7 +1087,7 @@ public class HothGenerator extends ChunkGenerator
 		
 		if(this.noiseGenerator==null)
 		{
-			this.noiseGenerator = new NoiseGenerator(world);
+			this.noiseGenerator = LavaLevelGenerator.getNoiseGenerator(world);
 		}
 		
 		int surfaceOffset = ConfigManager.getWorldSurfaceoffset(HothGenerator.plugin, world);
@@ -1105,9 +1105,8 @@ public class HothGenerator extends ChunkGenerator
 				int rz = chunkz*16 + z;
 				
 				// Lava level calculation
-				double ll = this.noiseGenerator.noise(rx, rz, 2, 635)*36;
-				int lavaLevel = 64 + surfaceOffset + ((int)ll) - 18;
-				double dLavaLevel = 64 + surfaceOffset + ll - 18;
+				double dLavaLevel = LavaLevelGenerator.getLavaLevelAt(noiseGenerator, rx, rz, surfaceOffset);
+				int lavaLevel = (int)dLavaLevel;
 				
 				lavacover[z][x] = new Position(rx, lavaLevel, rz, (int) (8.0*((1 - (dLavaLevel - lavaLevel)))));
 
@@ -1330,6 +1329,7 @@ public class HothGenerator extends ChunkGenerator
 			case MUSTAFAR:
 			{
 				List<BlockPopulator> list = new ArrayList<BlockPopulator>(1);
+				list.add(new MustafarTemplePopulator(this.height));
 				list.add(new MustafarLavaFountainPopulator(this.height));
 				return list;
 			}
