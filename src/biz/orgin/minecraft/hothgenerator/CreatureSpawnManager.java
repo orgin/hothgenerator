@@ -7,9 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Endermite;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Slime;
 import org.bukkit.event.EventHandler;
@@ -17,6 +14,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+
+import biz.orgin.minecraft.hothgenerator.FireBeetle.FireBeetleType;
 
 /**
  * Prevents slime from spawning above the stone layer
@@ -76,15 +75,15 @@ public class CreatureSpawnManager implements Listener
 							int rnd = this.random.nextInt(10);
 							if(rnd==1)
 							{
-								CreatureSpawnManager.spawnFireBeetle(location, FireBeetleType.PRIME);
+								FireBeetle.spawn(location, FireBeetleType.PRIME);
 							}
 							else if(rnd<5)
 							{
-								CreatureSpawnManager.spawnFireBeetle(location, FireBeetleType.REGULAR);
+								FireBeetle.spawn(location, FireBeetleType.REGULAR);
 							}
 							else
 							{
-								CreatureSpawnManager.spawnFireBeetle(location, FireBeetleType.HATCHLING);
+								FireBeetle.spawn(location, FireBeetleType.HATCHLING);
 							}
 						}
 					}
@@ -93,69 +92,7 @@ public class CreatureSpawnManager implements Listener
 		}
 	}
 	
-	public static Endermite spawnFireBeetle(Location location, FireBeetleType fireBeetleType)
-	{
-		World world = location.getWorld();
-		Entity mite = world.spawnEntity(location, EntityType.ENDERMITE);
-		Endermite m = (Endermite)mite;
-		
-		switch(fireBeetleType)
-		{
-		case PRIME:
-			m.setCustomName(FireBeetleType.PRIME.getName());
-			m.setMaxHealth(128.0);
-			m.setHealth(128.0);
-			break;
-		case REGULAR:
-			m.setCustomName(FireBeetleType.REGULAR.getName());
-			m.setMaxHealth(32.0);
-			m.setHealth(32);
-			break;
-		case HATCHLING:
-			m.setCustomName(FireBeetleType.HATCHLING.getName());
-			m.setMaxHealth(8.0);
-			m.setHealth(8);
-			break;
-		}
 
-		m.setCustomNameVisible(true);
+	
 
-		return m;
-	}
-	
-	public static FireBeetleType getFireBeetleType(String type)
-	{
-		 for(FireBeetleType t : FireBeetleType.values())
-		 {
-			 if(t.name.equals(type))
-			 {
-				 return t;
-			 }
-		 }
-		 
-		 return null;
-	}
-	
-	public enum FireBeetleType {
-		 PRIME ("Prime fire beetle"),
-		 REGULAR ("Fire beetle"),
-		 HATCHLING ("Fire beetle hatchling");
-		 
-		 private final String name;
-		 
-		 private FireBeetleType(String name)
-		 {
-			 this.name = name;
-		 }
-		 
-		 public String getName()
-		 {
-			 return this.name;
-		 }
-		 
-		 public String toString()
-		 {
-			 return this.name;
-		 }
-	}
 }

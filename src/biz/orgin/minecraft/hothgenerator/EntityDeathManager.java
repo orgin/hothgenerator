@@ -14,7 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import biz.orgin.minecraft.hothgenerator.CreatureSpawnManager.FireBeetleType;
+import biz.orgin.minecraft.hothgenerator.FireBeetle.FireBeetleType;
 
 public class EntityDeathManager implements Listener
 {
@@ -41,7 +41,7 @@ public class EntityDeathManager implements Listener
 			{
 				Endermite em = (Endermite)entity;
 				String name = em.getCustomName();
-				FireBeetleType beetleType = CreatureSpawnManager.getFireBeetleType(name);
+				FireBeetleType beetleType = FireBeetle.getFireBeetleType(name);
 				
 				if(beetleType!=null)
 				{
@@ -56,13 +56,13 @@ public class EntityDeathManager implements Listener
 						{
 							Location pl = location.clone();
 							pl.add(this.random.nextDouble(), 0, this.random.nextDouble());
-							CreatureSpawnManager.spawnFireBeetle(pl, FireBeetleType.REGULAR);
+							FireBeetle.spawn(pl, FireBeetleType.REGULAR);
 						}
 						for(int i=0;i<this.random.nextInt(2);i++)
 						{
 							Location pl = location.clone();
 							pl.add(this.random.nextDouble(), 0, this.random.nextDouble());
-							CreatureSpawnManager.spawnFireBeetle(pl, FireBeetleType.HATCHLING);
+							FireBeetle.spawn(pl, FireBeetleType.HATCHLING);
 						}
 						break;
 					case REGULAR:
@@ -71,7 +71,7 @@ public class EntityDeathManager implements Listener
 						{
 							Location pl = location.clone();
 							pl.add(this.random.nextDouble(), 0, this.random.nextDouble());
-							CreatureSpawnManager.spawnFireBeetle(pl, FireBeetleType.HATCHLING);
+							FireBeetle.spawn(pl, FireBeetleType.HATCHLING);
 						}
 						break;
 					case HATCHLING:

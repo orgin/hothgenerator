@@ -773,6 +773,19 @@ public class ConfigManager
 	/* Config - End */
 
 	/* World configuration - Start */
+	public static void addWorld(HothGeneratorPlugin plugin, World world, WorldType worldType)
+	{
+		String worldName = world.getName().toLowerCase();
+		String type = worldType.toString();
+		
+		FileConfiguration config = plugin.getWorldConfig();
+		List<String> list = config.getStringList("hothworlds");
+		list.add(worldName);
+		config.set("hothworlds", list);
+		config.set("hothworldsdata." + worldName + ".type", type);
+		plugin.saveWorldConfig();
+	}
+
 	public static boolean addWorld(HothGeneratorPlugin plugin, CommandSender sender, String worldName, String type)
 	{
 		try
@@ -949,6 +962,15 @@ public class ConfigManager
 		}
 		
 		return true;
+	}
+
+	public static void setWorldType(HothGeneratorPlugin plugin, World world, WorldType worldType)
+	{
+		String worldName = world.getName().toLowerCase();
+		
+		FileConfiguration config = plugin.getWorldConfig();
+		config.set("hothworldsdata." + worldName + ".type", worldType.toString());
+		plugin.saveWorldConfig();
 	}
 
 	public static boolean setWorldType(HothGeneratorPlugin plugin, CommandSender sender, String world, String type)

@@ -46,6 +46,18 @@ public class HothGenerator extends ChunkGenerator
 		this.noiseGenerator = null;
 	}
 	
+	public void forceWorldType(World world, WorldType worldType)
+	{
+		if(!plugin.isHothWorld(world)) // Force this world into a hothgenerator world with given type
+		{
+			ConfigManager.addWorld(HothGenerator.plugin, world, worldType);
+		}
+		
+		if(plugin.getWorldType(world) != worldType) // Force this world into the given type
+		{
+			ConfigManager.setWorldType(HothGenerator.plugin, world, worldType);
+		}
+	}
 
 	@Override
 	public short[][] generateExtBlockSections(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
@@ -1355,5 +1367,4 @@ public class HothGenerator extends ChunkGenerator
 		
 		return new Location(world,8,y,8);
 	}
-
 }

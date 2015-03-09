@@ -51,8 +51,6 @@ public class ToolUseManager implements Listener
 				ItemStack item = player.getItemInHand();
 				WorldType worldtype = this.plugin.getWorldType(world);
 				
-				System.out.println("Item in hand: " + item.getType());
-	
 				if(ConfigManager.isItemInfoTool(this.plugin) && item.getType().equals(Material.CLAY_BALL))
 				{
 					Block block = event.getClickedBlock();

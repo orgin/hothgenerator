@@ -26,6 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import biz.orgin.minecraft.hothgenerator.WorldType.InvalidWorldTypeException;
 import biz.orgin.minecraft.hothgenerator.schematic.LoadedSchematic;
 import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
+import biz.orgin.minecraft.hothgenerator.HothGenerator;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
@@ -54,6 +55,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private BlockSpreadManager blockSpreadManager;
 	private CreatureSpawnManager creatureSpawnManager;
 	private PlayerEnvironmentManager playerFreezeManager;
+	private VolcanoManager volcanoManager;
 	private BlockGravityManager blockGravityManager;
 	private RegionManager regionManager;
 	private MobSpawnManager mobSpawnManager;
@@ -124,6 +126,7 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.regionManager.load();
 
     	this.playerFreezeManager = new PlayerEnvironmentManager(this);
+    	this.volcanoManager = new VolcanoManager(this);
     	this.mobSpawnManager = new MobSpawnManager(this);
     	if(this.spiderForestManager==null)
     	{
@@ -146,6 +149,10 @@ public class HothGeneratorPlugin extends JavaPlugin
     	if(this.playerFreezeManager!=null)
     	{
     		this.playerFreezeManager.stop();
+    	}
+    	if(this.volcanoManager!=null)
+    	{
+    		this.volcanoManager.stop();
     	}
     	if(this.mobSpawnManager!=null)
     	{
@@ -693,24 +700,26 @@ public class HothGeneratorPlugin extends JavaPlugin
  	
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id)
 	{
-		if (id != null && !id.isEmpty())
+		try
 		{
-			try
+			WorldType worldType = WorldType.getType(id);
+			switch(worldType)
 			{
-				int height = this.getHeight();
-				height = Integer.parseInt(id);
-				if (height <= 0)
-				{
-					height = this.getHeight();
-				}
-				return new HothGenerator(height);
-			}
-			catch (NumberFormatException e)
-			{
-				return new HothGenerator(this.getHeight());
+				case TATOOINE:
+					return new TatooineGenerator();
+				case DAGOBAH:
+					return new DagobahGenerator();
+				case MUSTAFAR:
+					return new MustafarGenerator();
+				case HOTH:
+				default:
+					return new HothGenerator();
 			}
 		}
-		return new HothGenerator();
+		catch (InvalidWorldTypeException e)
+		{
+			return new HothGenerator();
+		}
 	}
 	
 	public int getHeight()

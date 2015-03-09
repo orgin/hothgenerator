@@ -67,19 +67,23 @@ public class MustafarBaseGenerator implements Serializable
 				LoadedSchematic esw1 = new LoadedSchematic(plugin.getResource("schematics/mustafar_esw1.sm"),"mustafar_esw1");
 				LoadedSchematic sw1 = new LoadedSchematic(plugin.getResource("schematics/mustafar_sw1.sm"),"mustafar_sw1");
 				LoadedSchematic e1 = new LoadedSchematic(plugin.getResource("schematics/mustafar_e1.sm"),"mustafar_e1");
+				LoadedSchematic e2 = new LoadedSchematic(plugin.getResource("schematics/mustafar_e2.sm"),"mustafar_e2");
 				LoadedSchematic ew1 = new LoadedSchematic(plugin.getResource("schematics/mustafar_ew1.sm"),"mustafar_ew1");
 				LoadedSchematic ew2 = new LoadedSchematic(plugin.getResource("schematics/mustafar_ew2.sm"),"mustafar_ew2");
 				LoadedSchematic ew3 = new LoadedSchematic(plugin.getResource("schematics/mustafar_ew3.sm"),"mustafar_ew3");
 				LoadedSchematic ew4 = new LoadedSchematic(plugin.getResource("schematics/mustafar_ew4.sm"),"mustafar_ew4");
 				walkways[0x0]=null;
-				walkways[0x1]=new LoadedSchematic[1];
+				walkways[0x1]=new LoadedSchematic[2];
 				walkways[0x1][0] = e1.cloneRotate(0, "mustafar_w1");
-				walkways[0x2]=new LoadedSchematic[1];
+				walkways[0x1][1] = e2.cloneRotate(0, "mustafar_w2");
+				walkways[0x2]=new LoadedSchematic[2];
 				walkways[0x2][0] = e1.cloneRotate(3, "mustafar_s1");
+				walkways[0x2][1] = e2.cloneRotate(3, "mustafar_s2");
 				walkways[0x3]=new LoadedSchematic[1];
 				walkways[0x3][0] = sw1;
-				walkways[0x4]=new LoadedSchematic[1];
+				walkways[0x4]=new LoadedSchematic[2];
 				walkways[0x4][0] = e1;
+				walkways[0x4][1] = e2;
 				walkways[0x5]=new LoadedSchematic[4];
 				walkways[0x5][0] = ew1;
 				walkways[0x5][1] = ew2;
@@ -89,8 +93,9 @@ public class MustafarBaseGenerator implements Serializable
 				walkways[0x6][0] = sw1.cloneRotate(1, "mustafar_es1");
 				walkways[0x7]=new LoadedSchematic[1];
 				walkways[0x7][0] = esw1;
-				walkways[0x8]=new LoadedSchematic[1];
+				walkways[0x8]=new LoadedSchematic[2];
 				walkways[0x8][0] = e1.cloneRotate(1, "mustafar_n1");
+				walkways[0x8][1] = e2.cloneRotate(1, "mustafar_n2");
 				walkways[0x9]=new LoadedSchematic[1];
 				walkways[0x9][0] = sw1.cloneRotate(3, "mustafar_wn1");
 				walkways[0xa]=new LoadedSchematic[4];
@@ -329,19 +334,19 @@ public class MustafarBaseGenerator implements Serializable
 				Part south = this.getPart(x, z+1);
 				Part west  = this.getPart(x-1, z);
 				
-				if(north==null && this.random.nextInt(10)>3)
+				if(north==null)
 				{
 					this.add(new Part(PartType.WALKWAY, 0x2, x, z-1));
 				}
-				if(east==null && this.random.nextInt(10)>3)
+				if(east==null)
 				{
 					this.add(new Part(PartType.WALKWAY, 0x1, x+1, z));
 				}
-				if(south==null && this.random.nextInt(10)>3)
+				if(south==null)
 				{
 					this.add(new Part(PartType.WALKWAY, 0x8, x, z+1));
 				}
-				if(west==null && this.random.nextInt(10)>3)
+				if(west==null)
 				{
 					this.add(new Part(PartType.WALKWAY, 0x4, x-1, z));
 				}
@@ -756,8 +761,23 @@ public class MustafarBaseGenerator implements Serializable
 			case LANDING:
 				return landing;
 			case WALKWAY:
+				int direction = part.getDirection();
 				Schematic[] ways = walkways[part.getDirection()];
-				return ways[random.nextInt(ways.length)];
+				if(direction==0x8 || direction==0x4 || direction==0x2 || direction==0x1)
+				{
+					if(random.nextInt(10)>3)
+					{
+						return ways[0];
+					}
+					else
+					{
+						return ways[1];
+					}
+				}
+				else
+				{
+					return ways[random.nextInt(ways.length)];
+				}
 			case MAIN:
 				return mains[random.nextInt(mains.length)];
 			}
