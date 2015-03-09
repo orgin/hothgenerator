@@ -34,10 +34,15 @@ public class HothGenerator extends ChunkGenerator
 		return HothGenerator.plugin;
 	}
 	
+	public HothGenerator(String worldName)
+	{
+		this();
+		this.forceWorldType(worldName, WorldType.HOTH);
+	}
+	
 	public HothGenerator()
 	{
-		this.height = HothGenerator.plugin.getHeight();
-		this.noiseGenerator = null;
+		this(HothGenerator.plugin.getHeight());
 	}
 	
 	public HothGenerator(int height)
@@ -48,14 +53,19 @@ public class HothGenerator extends ChunkGenerator
 	
 	public void forceWorldType(World world, WorldType worldType)
 	{
-		if(!plugin.isHothWorld(world)) // Force this world into a hothgenerator world with given type
+		this.forceWorldType(world.getName(), worldType);
+	}
+
+	public void forceWorldType(String worldName, WorldType worldType)
+	{
+		if(!plugin.isHothWorld(worldName)) // Force this world into a hothgenerator world with given type
 		{
-			ConfigManager.addWorld(HothGenerator.plugin, world, worldType);
+			ConfigManager.addWorld(HothGenerator.plugin, worldName, worldType);
 		}
 		
-		if(plugin.getWorldType(world) != worldType) // Force this world into the given type
+		if(plugin.getWorldType(worldName) != worldType) // Force this world into the given type
 		{
-			ConfigManager.setWorldType(HothGenerator.plugin, world, worldType);
+			ConfigManager.setWorldType(HothGenerator.plugin, worldName, worldType);
 		}
 	}
 
@@ -1311,6 +1321,7 @@ public class HothGenerator extends ChunkGenerator
 	@Override
 	public List<BlockPopulator> getDefaultPopulators(World world)
 	{
+	
 			WorldType worldType = HothGenerator.getPlugin().getWorldType(world);
 			
 			switch(worldType)
@@ -1358,13 +1369,6 @@ public class HothGenerator extends ChunkGenerator
 	@Override
 	public Location getFixedSpawnLocation(World world, Random random)
 	{
-		
-		int y = 65 + ConfigManager.getWorldSurfaceoffset(HothGenerator.plugin, world);
-		if(this.height<=66)
-		{
-			y = (this.height/2)+1;
-		}
-		
-		return new Location(world,8,y,8);
+		return new Location(world,8,world.getHighestBlockYAt(8, 8)+2,8);
 	}
 }

@@ -773,17 +773,21 @@ public class ConfigManager
 	/* Config - End */
 
 	/* World configuration - Start */
-	public static void addWorld(HothGeneratorPlugin plugin, World world, WorldType worldType)
+	public static void addWorld(HothGeneratorPlugin plugin, String worldName, WorldType worldType)
 	{
-		String worldName = world.getName().toLowerCase();
 		String type = worldType.toString();
 		
 		FileConfiguration config = plugin.getWorldConfig();
 		List<String> list = config.getStringList("hothworlds");
 		list.add(worldName);
 		config.set("hothworlds", list);
-		config.set("hothworldsdata." + worldName + ".type", type);
+		config.set("hothworldsdata." + worldName.toLowerCase() + ".type", type);
 		plugin.saveWorldConfig();
+	}
+
+	public static void addWorld(HothGeneratorPlugin plugin, World world, WorldType worldType)
+	{
+		ConfigManager.addWorld(plugin, world.getName(), worldType);
 	}
 
 	public static boolean addWorld(HothGeneratorPlugin plugin, CommandSender sender, String worldName, String type)
@@ -966,10 +970,13 @@ public class ConfigManager
 
 	public static void setWorldType(HothGeneratorPlugin plugin, World world, WorldType worldType)
 	{
-		String worldName = world.getName().toLowerCase();
-		
+		ConfigManager.setWorldType(plugin, world.getName(), worldType);
+	}
+	
+	public static void setWorldType(HothGeneratorPlugin plugin, String worldName, WorldType worldType)
+	{
 		FileConfiguration config = plugin.getWorldConfig();
-		config.set("hothworldsdata." + worldName + ".type", worldType.toString());
+		config.set("hothworldsdata." + worldName.toLowerCase() + ".type", worldType.toString());
 		plugin.saveWorldConfig();
 	}
 

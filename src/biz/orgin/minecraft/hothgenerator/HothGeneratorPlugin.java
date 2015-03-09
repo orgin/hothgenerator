@@ -63,6 +63,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 	private HothTaskManager taskManager;
 	private EntityTargetManager entityTargetManager;
 	private EntityDeathManager entityDeathManager;
+	private EntityDamageManager entityDamageManager;
 	
 	private FileConfiguration config;
 	private FileConfiguration worldConfig;
@@ -95,6 +96,7 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.regionManager = RegionManagerFactory.getRegionmanager(this);
     	this.entityTargetManager = new EntityTargetManager(this);
     	this.entityDeathManager = new EntityDeathManager(this);
+    	this.entityDamageManager = new EntityDamageManager(this);
     	
     	this.getServer().getPluginManager().registerEvents(this.blockPlaceManager, this);
     	this.getServer().getPluginManager().registerEvents(this.blockBreakManager, this);
@@ -110,6 +112,7 @@ public class HothGeneratorPlugin extends JavaPlugin
     	this.getServer().getPluginManager().registerEvents(this.blockGravityManager, this);
     	this.getServer().getPluginManager().registerEvents(this.entityTargetManager, this);
     	this.getServer().getPluginManager().registerEvents(this.entityDeathManager, this);
+    	this.getServer().getPluginManager().registerEvents(this.entityDamageManager, this);
     	
 		this.saveDefaultConfig();
     	this.config = this.getConfig();
@@ -706,12 +709,13 @@ public class HothGeneratorPlugin extends JavaPlugin
 			switch(worldType)
 			{
 				case TATOOINE:
-					return new TatooineGenerator();
+					return new TatooineGenerator(worldName);
 				case DAGOBAH:
-					return new DagobahGenerator();
+					return new DagobahGenerator(worldName);
 				case MUSTAFAR:
-					return new MustafarGenerator();
+					return new MustafarGenerator(worldName);
 				case HOTH:
+					return new HothGenerator(worldName);
 				default:
 					return new HothGenerator();
 			}
@@ -720,6 +724,9 @@ public class HothGeneratorPlugin extends JavaPlugin
 		{
 			return new HothGenerator();
 		}
+		
+		
+		
 	}
 	
 	public int getHeight()
@@ -789,15 +796,20 @@ public class HothGeneratorPlugin extends JavaPlugin
 
 	public WorldType getWorldType(World world)
 	{
+		return this.getWorldType(world.getName());
+	}
+
+	public WorldType getWorldType(String worldName)
+	{
 		List<String> list = this.worldConfig.getStringList("hothworlds");
-		String name = world.getName();
+		String name = worldName.toLowerCase();
 		
 		for(int i=0;i<list.size();i++)
 		{
-			String worldName = list.get(i);
-			if(worldName.equals(name))
+			String _worldName = list.get(i);
+			if(_worldName.equals(name))
 			{
-				String type = this.worldConfig.getString("hothworldsdata." + worldName + ".type", "hoth").toLowerCase();
+				String type = this.worldConfig.getString("hothworldsdata." + _worldName + ".type", "hoth").toLowerCase();
 				try
 				{
 					WorldType worldType = WorldType.getType(type);
@@ -812,7 +824,7 @@ public class HothGeneratorPlugin extends JavaPlugin
 		
 		return WorldType.HOTH;
 	}
-	
+
 	/**
 	 * Check if the given block is the highest at that x,z position.
 	 * Only air blocks are treated as empty.
