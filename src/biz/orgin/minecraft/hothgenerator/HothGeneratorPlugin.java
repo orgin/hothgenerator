@@ -705,7 +705,8 @@ public class HothGeneratorPlugin extends JavaPlugin
 	{
 		try
 		{
-			WorldType worldType = WorldType.getType(id);
+			// See if we can make a world with a hardcoded type
+			WorldType worldType = WorldType.getType(id.toLowerCase());
 			switch(worldType)
 			{
 				case TATOOINE:
@@ -717,33 +718,19 @@ public class HothGeneratorPlugin extends JavaPlugin
 				case HOTH:
 					return new HothGenerator(worldName);
 				default:
-					return new HothGenerator();
+					return new WorldGenerator(worldName); // Non hard coded world type
 			}
 		}
 		catch (InvalidWorldTypeException e)
 		{
-			return new HothGenerator();
+			this.debugMessage("WARNING! You have specified an unknown world type (" + id + ") for " + worldName + ". Defaulting to Hoth type world");
+			return new WorldGenerator(worldName); // Non hard coded world type
 		}
-		
-		
-		
 	}
 	
 	public int getHeight()
 	{
 		return 256;
-	}
-	
-	public static int maxHeight(World world, int size)
-	{
-		if (world.getMaxHeight() < size)
-		{
-			return world.getMaxHeight();
-		}
-		else
-		{
-			return size;
-		}
 	}
 	
 	/**

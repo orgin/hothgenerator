@@ -486,6 +486,11 @@ public class ConfigManager
 		return plugin.getRegionManager().getBoolean("limitslime", location, ConfigManager.getConfigBoolean(plugin, location.getWorld(), "rules.limitslime", true));
 	}
 	
+	public static boolean isRulesVolcanoes(HothGeneratorPlugin plugin, Location location)
+	{
+		return plugin.getRegionManager().getBoolean("volcanoes", location, ConfigManager.getConfigBoolean(plugin, location.getWorld(), "rules.volcanoes", true));
+	}
+
 	public static boolean isRulesRFGEnable(HothGeneratorPlugin plugin, Location location)
 	{
 		return plugin.getRegionManager().getBoolean("rfg.enable", location, ConfigManager.getConfigBoolean(plugin, location.getWorld(), "rules.rfg.enable", true));
@@ -997,6 +1002,8 @@ public class ConfigManager
 
 			plugin.saveWorldConfig();
 			plugin.sendMessage(sender, "&b" + world + " set to " + worldType.toString());
+			plugin.sendMessage(sender, "&bYou need to unload and reload " + world + " or else it won't render properly with the new world type");
+
 		
 		}
 		catch(InvalidWorldTypeException e)
@@ -1093,23 +1100,6 @@ public class ConfigManager
 		}
 		
 		return false;
-	}
-	
-	public static void main(String[] args)
-	{
-		boolean result = false;
-		result = ConfigManager.isValidWorldFlagValue("world.surfaceoffset", "10");
-		System.out.println("Result: " + result);
-		result = ConfigManager.isValidWorldFlagValue("world.surfaceoffset", "");
-		System.out.println("Result: " + result);
-		result = ConfigManager.isValidWorldFlagValue("world.surfaceoffset", "sfdbjh kasfjh 10");
-		System.out.println("Result: " + result);
-		result = ConfigManager.isValidWorldFlagValue("world.surfaceoffset", "-1");
-		System.out.println("Result: " + result);
-		result = ConfigManager.isValidWorldFlagValue("world.surfaceoffset", "0");
-		System.out.println("Result: " + result);
-		result = ConfigManager.isValidWorldFlagValue("world.surfaceoffset", "5000");
-		System.out.println("Result: " + result);
 	}
 	
 	private static boolean addBoolean(boolean old, boolean add)

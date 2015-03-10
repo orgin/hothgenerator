@@ -16,16 +16,6 @@ import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
 
 public class MustafarBaseGenerator implements Serializable
 {
-	public static void main(String[] args)
-	{
-		System.out.println("Test");
-		MustafarBaseGenerator gen = new MustafarBaseGenerator();
-		
-		Base base = gen.getBase(new Random(), null, 0, 0);
-		
-		System.out.println(base);
-	}
-	
 	private static final long serialVersionUID = 3089690545731812260L;
 
 	private static LoadedSchematic landing = null;

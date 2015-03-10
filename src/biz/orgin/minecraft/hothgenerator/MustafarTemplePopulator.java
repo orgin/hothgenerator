@@ -99,8 +99,6 @@ public class MustafarTemplePopulator extends BlockPopulator
 		if(c7<min) min = c7;
 		if(c8<min) min = c8;
 		
-		System.out.println(center + "," + c1 + "," + c2 + "," + c3 + "," + c4 + "," + c5 + "," + c6 + "," + c7 + "," + c8 + " -> " + min);
-		
 		// Place The Schematic
 		int y = min + height + schematic.getYoffset();
 		int lootMin = schematic.getLootMin();

@@ -134,6 +134,7 @@ public class PlayerEnvironmentManager
 		 */
 		private void mosquito(World world)
 		{
+			
 			List<Player> players = world.getPlayers();
 			Iterator<Player> iterator = players.iterator();
 			
@@ -163,7 +164,6 @@ public class PlayerEnvironmentManager
 					
 					if(damage>0)
 					{
-						
 						String message1 = ConfigManager.getRulesMosquitoMessage1(this.plugin, location);
 						String message2 = ConfigManager.getRulesMosquitoMessage2(this.plugin, location);
 						String message3 = ConfigManager.getRulesMosquitoMessage3(this.plugin, location);
@@ -193,6 +193,7 @@ public class PlayerEnvironmentManager
 								if(block3.getType().equals(Material.GRASS))
 								{
 									int rand = this.random.nextInt(20*rarity); // attacks are completely random
+									
 									if(rand==1)
 									{
 										mosquito.stage = 1;

@@ -7,12 +7,11 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 
-public class MustafarGenerator extends HothGenerator
+public class MustafarGenerator extends WorldGenerator
 {
 	public MustafarGenerator(String worldName)
 	{
-		super();
-		super.forceWorldType(worldName, WorldType.MUSTAFAR);
+		super(worldName, WorldType.MUSTAFAR);
 	}
 
 	@Override

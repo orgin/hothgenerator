@@ -7,12 +7,11 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 
-public class DagobahGenerator extends HothGenerator
+public class DagobahGenerator extends WorldGenerator
 {
 	public DagobahGenerator(String worldName)
 	{
-		super();
-		super.forceWorldType(worldName, WorldType.DAGOBAH);
+		super(worldName, WorldType.DAGOBAH);
 	}
 	
 	@Override

@@ -195,6 +195,9 @@ hoth:
 # rules.snowgravity - true/false. Whether gravity is applied to snow blocks.
   rules.snowgravity: false
 #
+# rules.volcanoes - true/false. Whether volcanoes should be generated in mustafar worlds
+  rules.volcanoes: true
+#
 # rules.rfg.enable - true/false. Whether it's possible to use a Repulsor Field Generator
   rules.rfg.coal: 5
 #

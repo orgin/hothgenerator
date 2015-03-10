@@ -7,12 +7,11 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 
-public class TatooineGenerator extends HothGenerator
+public class TatooineGenerator extends WorldGenerator
 {
 	public TatooineGenerator(String worldName)
 	{
-		super();
-		super.forceWorldType(worldName, WorldType.TATOOINE);
+		super(worldName, WorldType.TATOOINE);
 	}
 
 	@Override

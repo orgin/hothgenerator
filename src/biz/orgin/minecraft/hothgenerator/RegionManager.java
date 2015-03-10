@@ -31,6 +31,7 @@ public abstract class RegionManager
 			new FlagValue("stopmelt",             new String[]{"allow","deny", "[blank]"}),	
 			new FlagValue("limitslime",           new String[]{"allow","deny", "[blank]"}),	
 			new FlagValue("snowgravity",          new String[]{"allow","deny", "[blank]"}),	
+			new FlagValue("volcanoes",            new String[]{"allow","deny", "[blank]"}),	
 			new FlagValue("rfg.enable",           new String[]{"allow","deny", "[blank]"}),	
 			new FlagValue("rfg.coal",             new String[]{"[integer]", "[blank]"}),	
 			new FlagValue("rfg.redstone",         new String[]{"[integer]", "[blank]"}),	

@@ -93,26 +93,16 @@ public class VolcanoManager
 						for(int j=0;j<players.size();j++)
 						{
 							Player player = players.get(j);
-							for(int k=0;k<1;k++) // More attempts?
+							int x = player.getLocation().getBlockX() + this.random.nextInt(80)-40;
+							int z = player.getLocation().getBlockZ() + this.random.nextInt(80)-40;
+							
+							Block block = world.getHighestBlockAt(x, z);
+							
+							Location loc = this.findVolcanoLocation(block);
+							
+							if(loc!=null)
 							{
-								int x = player.getLocation().getBlockX() + this.random.nextInt(50)-25;
-								int z = player.getLocation().getBlockZ() + this.random.nextInt(50)-25;
-								
-								Block block = world.getHighestBlockAt(x, z);
-								
-								System.out.println("Attempting to find new volcano at " + x + ", " + z);
-								
-								Location loc = this.findVolcanoLocation(block);
-								
-								if(loc!=null)
-								{
-									System.out.println("Found volcano at " + block.getLocation());
-									this.addVolcano(loc);
-								}
-								else
-								{
-									System.out.println("Did not find volcano at " + block.getLocation());
-								}
+								this.addVolcano(loc);
 							}
 						}
 					}
@@ -123,7 +113,6 @@ public class VolcanoManager
 			
 			for(int i=0;i<vols.length;i++)
 			{
-				System.out.println("Executing volcano " + i);
 				this.executeVolcano(vols[i]);
 			}
 		}
@@ -132,10 +121,8 @@ public class VolcanoManager
 		{
 			int n=10;
 			int level = volcano.getLevel();
-			System.out.println("Volcano level: " + level);
-			if(volcano.getLevel()>n+6)
+			if(volcano.getLevel()>n+6 +140)
 			{
-				System.out.println("Removing volcano");
 				this.removeVolcano(volcano);
 			}
 			else
@@ -193,74 +180,106 @@ public class VolcanoManager
 		
 		private Location findVolcanoLocation(Block block)
 		{
-			boolean found = false;
-			
-			@SuppressWarnings("unused")
 			HashSet<Block> blockList = new HashSet<Block>(); // To prevent checking the same block twice
 			
 			Block curr = block;
 			int ctr = 0;
 			
-			while(!found)
+			int worldSurfaceOffset = ConfigManager.getWorldSurfaceoffset(this.plugin, block.getWorld());
+			
+			while(ctr<500) // Don't try forever
 			{
-				System.out.println("findVolcano() iteration: " + ctr);
-				System.out.println("Coords: " + curr.getX() + "," + curr.getY() + "," + curr.getZ());
-				if(ctr>500) // Stop searching after a while
-				{
-					return null;
-				}
-				
 				Block up = curr.getRelative(BlockFace.UP);
-				if(!up.getType().equals(Material.STONE))
+				if(!up.getType().equals(Material.STONE)) // move up?
 				{
 					Block north = curr.getRelative(BlockFace.NORTH);
-					if(!north.getType().equals(Material.STONE))
+					Block east = curr.getRelative(BlockFace.EAST);
+					Block south = curr.getRelative(BlockFace.SOUTH);
+					Block west = curr.getRelative(BlockFace.WEST);
+					
+					// Check all horizontal directions
+					if(north.getType().equals(Material.STONE) && !blockList.contains(north))
 					{
-						Block east = curr.getRelative(BlockFace.EAST);
-						if(!east.getType().equals(Material.STONE))
+						curr = north;
+						blockList.add(curr);
+					}
+					else if(east.getType().equals(Material.STONE) && !blockList.contains(east))
+					{
+						curr = east;
+						blockList.add(curr);
+					}
+					else if(south.getType().equals(Material.STONE) && !blockList.contains(south))
+					{
+						curr = south;
+						blockList.add(curr);
+					}
+					else if(west.getType().equals(Material.STONE) && !blockList.contains(west))
+					{
+						curr = west;
+						blockList.add(curr);
+					}
+					else
+					{
+						// Seems we can go any further. Attempt to create volcano at current location.
+						Location loc = curr.getLocation();
+						if(loc.getBlockY()>(120 + worldSurfaceOffset)) // High enough?
 						{
-							Block south = curr.getRelative(BlockFace.SOUTH);
-							if(!south.getType().equals(Material.STONE))
+							double lx = loc.getX();
+							double lz = loc.getZ();
+							
+							// Make sure that there are no nearby active volcanos
+							for(int i=0;i<this.volcanoes.size();i++)
 							{
-								Block west = curr.getRelative(BlockFace.WEST);
-								if(!west.getType().equals(Material.STONE))
+								Volcano volcano = this.volcanoes.elementAt(i);
+								Location loc2 = volcano.getLocation();
+								
+								if(loc.getWorld().equals(loc2.getWorld()))
 								{
-									Location loc = curr.getLocation();
-									if(loc.getBlockY()>120)
-									{
-										return loc;
-									}
-									else
+									double lx2 = loc2.getX();
+									double lz2 = loc2.getZ();
+									
+									double d = Math.sqrt((lx2-lx)*(lx2-lx) + (lz2-lz)*(lz2-lz));
+									
+									if(d<40) // Can't be too close to existing volcano
 									{
 										return null;
 									}
+									
+								}
+							}
+							
+							if(curr.getRelative(BlockFace.UP).getType().equals(Material.AIR)) // Must be air above
+							{
+								if(ConfigManager.isRulesVolcanoes(plugin, loc)) // Must be allowed to create volcano at location
+								{
+									return loc;
 								}
 								else
 								{
-									curr = west;
+									return null;
 								}
 							}
 							else
 							{
-								curr = south;
+								return null;
 							}
 						}
 						else
 						{
-							curr = east;
+							return null;
 						}
-					}
-					else
-					{
-						curr = north;
 					}
 				}
 				else
 				{
-					curr = up;
+					// We're going up
+					curr=up;
+					blockList.clear(); // To keep the list short at isolate it to the same "y". We never go down anyway.
+					blockList.add(curr);
 				}
 				
 				ctr++;
+				
 			}
 			
 			return null;
