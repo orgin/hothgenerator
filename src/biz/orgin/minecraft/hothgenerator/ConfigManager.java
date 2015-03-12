@@ -103,7 +103,12 @@ public class ConfigManager
 	{
 		return plugin.getConfig().getBoolean("hoth.smoothlava", true);
 	}
-	
+
+	public static boolean isWorldEditSelection(HothGeneratorPlugin plugin)
+	{
+		return plugin.getConfig().getBoolean("hoth.worldeditselection", false);
+	}
+
 	private static int getConfigInt(HothGeneratorPlugin plugin, World world, String tag, int def)
 	{
 		String name = world.getName();

@@ -22,8 +22,15 @@ import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
  */
 public class ExportManager
 {
-	
 	public static void export(HothGeneratorPlugin plugin, World world, CuboidSelection cSelection, CommandSender sender, String filename, int maskid)
+	{
+		Location pos1 = cSelection.getMinimumPoint();
+		Location pos2 = cSelection.getMaximumPoint();
+
+		ExportManager.export(plugin, world, pos1, pos2, sender, filename, maskid);
+	}
+	
+	public static void export(HothGeneratorPlugin plugin, World world, Location pos1, Location pos2, CommandSender sender, String filename, int maskid)
 	{
 		File dataFolder = plugin.getDataFolder();
 		String path = dataFolder.getAbsolutePath() + "/custom";
@@ -36,7 +43,6 @@ public class ExportManager
 		
 		File file = new File(path);
 		
-		
 		try
 		{
 			if(file.exists())
@@ -46,9 +52,6 @@ public class ExportManager
 			file.createNewFile();
 
 			FileWriter writer = new FileWriter(file);
-			
-			Location pos1 = cSelection.getMinimumPoint();
-			Location pos2 = cSelection.getMaximumPoint();
 
 			int t = 0;
 

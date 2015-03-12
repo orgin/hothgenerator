@@ -1,5 +1,7 @@
 package biz.orgin.minecraft.hothgenerator;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -17,6 +19,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Mushroom;
+import java.util.UUID;
+
 
 /**
  * Listens to player interaction events, specifically using a
@@ -28,6 +32,8 @@ import org.bukkit.material.Mushroom;
  */
 public class ToolUseManager implements Listener
 {
+	private Map<UUID, PlayerSelection> playerSelections = new HashMap<UUID, PlayerSelection>();
+	
 	HothGeneratorPlugin plugin;
 	
 	public ToolUseManager(HothGeneratorPlugin plugin)
@@ -38,18 +44,94 @@ public class ToolUseManager implements Listener
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerInteract(PlayerInteractEvent event)
 	{
+		Action action = event.getAction();
+
+		// Hothexport primary position
+		if(action.equals(Action.LEFT_CLICK_BLOCK))
+		{
+			Player player = event.getPlayer();
+			ItemStack item = player.getItemInHand();
+
+			if(player.hasPermission("hothgenerator.hothexport") && !ConfigManager.isWorldEditSelection(this.plugin) && item.getType().equals(Material.WOOD_AXE))
+			{
+				UUID uuid = player.getUniqueId();
+				Block block = event.getClickedBlock();
+				
+				PlayerSelection ps = this.playerSelections.get(uuid);
+				if(ps==null)
+				{
+					ps = new PlayerSelection(block.getLocation(), null);
+					this.playerSelections.put(uuid, ps);
+				}
+				else
+				{
+					ps.setPos1(block.getLocation());
+				}
+				
+				this.plugin.sendMessage(player, "&b" + ps.getPrimaryPosition());
+				event.setCancelled(true);
+			}
+		}
+		
+		// Hothexport secondary position
+		if(action.equals(Action.RIGHT_CLICK_BLOCK))
+		{
+
+			Player player = event.getPlayer();
+			ItemStack item = player.getItemInHand();
+
+			if(player.hasPermission("hothgenerator.hothexport") && !ConfigManager.isWorldEditSelection(this.plugin) && item.getType().equals(Material.WOOD_AXE))
+			{
+				UUID uuid = player.getUniqueId();
+				Block block = event.getClickedBlock();
+				
+				PlayerSelection ps = this.playerSelections.get(uuid);
+				if(ps==null)
+				{
+					ps = new PlayerSelection(null, block.getLocation());
+					this.playerSelections.put(uuid, ps);
+				}
+				else
+				{
+					ps.setPos2(block.getLocation());
+				}
+				
+				this.plugin.sendMessage(player, "&b" + ps.getSecondaryPosition());
+			}
+		}
+
+		
 		if(!event.isCancelled())
 		{
 			World world = event.getPlayer().getWorld();
 	
-			Action action = event.getAction();
 	
+
 			if(action.equals(Action.RIGHT_CLICK_BLOCK))
 			{
 	
 				Player player = event.getPlayer();
 				ItemStack item = player.getItemInHand();
 				WorldType worldtype = this.plugin.getWorldType(world);
+
+				if(ConfigManager.isItemInfoTool(this.plugin) && item.getType().equals(Material.WOOD_AXE))
+				{
+					UUID uuid = player.getUniqueId();
+					Block block = event.getClickedBlock();
+					
+					PlayerSelection ps = this.playerSelections.get(uuid);
+					if(ps==null)
+					{
+						this.playerSelections.put(uuid, new PlayerSelection(null, block.getLocation()));
+					}
+					else
+					{
+						ps.setPos2(block.getLocation());
+					}
+					
+					this.plugin.sendMessage(player, ps.getSecondaryPosition());
+				}
+
 				
 				if(ConfigManager.isItemInfoTool(this.plugin) && item.getType().equals(Material.CLAY_BALL))
 				{
@@ -166,6 +248,119 @@ public class ToolUseManager implements Listener
 				}
 			}
 		}
+	}
+
+	public Location getPrimaryPosition(Player player)
+	{
+		PlayerSelection ps = this.playerSelections.get(player.getUniqueId());
+		if(ps==null)
+		{
+			return null;
+		}
+		
+		return ps.getPos1();
+	}
+
+	public Location getSecondaryPosition(Player player)
+	{
+		PlayerSelection ps = this.playerSelections.get(player.getUniqueId());
+		if(ps==null)
+		{
+			return null;
+		}
+		
+		return ps.getPos2();
+	}
+
+	private class PlayerSelection
+	{
+		private Location pos1;
+		private Location pos2;
+		
+		public PlayerSelection(Location pos1, Location pos2)
+		{
+			this.pos1 = pos1;
+			this.pos2 = pos2;
+		}
+
+		public Location getPos1()
+		{
+			return pos1;
+		}
+		
+		public void setPos1(Location pos1)
+		{
+			this.pos1 = pos1;
+			if(this.pos2!=null && !this.pos1.getWorld().equals(this.pos2.getWorld()))
+			{
+				this.pos2 = null;
+			}
+		}
+
+		public Location getPos2()
+		{
+			return pos2;
+		}
+
+		public void setPos2(Location pos2)
+		{
+			this.pos2 = pos2;
+			if(this.pos2!=null && !this.pos1.getWorld().equals(this.pos2.getWorld()))
+			{
+				this.pos1 = null;
+			}
+		}
+		
+		public String getPrimaryPosition()
+		{
+			int cnt = this.getBlockCnt();
+			
+			if(cnt>0)
+			{
+				return "First position set to " + this.locToString(this.pos1) + ". ("  + this.getBlockCnt() + ")";
+			}
+			else
+			{
+				return "First position set to " + this.locToString(this.pos1) + ".";
+			}
+		}
+
+		public String getSecondaryPosition()
+		{
+			int cnt = this.getBlockCnt();
+			if(cnt>0)
+			{
+				return "Second position set to " + this.locToString(this.pos2) + ". ("  + this.getBlockCnt() + ")";
+			}
+			else
+			{
+				return "Second position set to " + this.locToString(this.pos2) + ".";
+			}
+		}
+		
+		private String locToString(Location location)
+		{
+			int x = location.getBlockX();
+			int y = location.getBlockY();
+			int z = location.getBlockZ();
+			
+			return x + ", " + y + ", " + z;
+		}
+		
+		private int getBlockCnt()
+		{
+			if(pos1==null || pos2==null)
+			{
+				return -1;
+			}
+			
+			int dx = Math.abs(pos1.getBlockX() - pos2.getBlockX()) + 1;
+			int dy = Math.abs(pos1.getBlockY() - pos2.getBlockY()) + 1;
+			int dz = Math.abs(pos1.getBlockZ() - pos2.getBlockZ()) + 1;
+			
+			return dx*dy*dz;
+		}
+
 	}
 	
 	private class WaterPlacerThread implements Runnable

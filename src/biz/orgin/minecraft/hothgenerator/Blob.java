@@ -23,7 +23,7 @@ public class Blob
 			59,31,63,65,66,96,69,77,78,106,83,115,
 			93,94,111,127,131,132,140,141,142,143,171,78,64});
 	
-	private static int blocksPerInteration = 500;
+	private static int blocksPerInteration = 2000;
 	
 	public Blob(HothGeneratorPlugin plugin, World world, String parentName)
 	{

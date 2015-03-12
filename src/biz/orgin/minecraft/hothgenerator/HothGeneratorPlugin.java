@@ -23,14 +23,14 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
+import com.sk89q.worldedit.bukkit.selections.Selection;
+
 import biz.orgin.minecraft.hothgenerator.WorldType.InvalidWorldTypeException;
 import biz.orgin.minecraft.hothgenerator.schematic.LoadedSchematic;
 import biz.orgin.minecraft.hothgenerator.schematic.Schematic;
 import biz.orgin.minecraft.hothgenerator.HothGenerator;
-
-import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
-import com.sk89q.worldedit.bukkit.selections.Selection;
 
 /**
  * Main plugin class
@@ -274,28 +274,57 @@ public class HothGeneratorPlugin extends JavaPlugin
     			
 	       		if(sender instanceof Player)
 	       		{
-	       			World world = ((Player) sender).getWorld();
-	       			Plugin plugin = getServer().getPluginManager().getPlugin("WorldEdit");
-	       			if(plugin!=null && plugin instanceof WorldEditPlugin)
+	       			Player player = (Player)sender;
+	       			World world = player.getWorld();
+	       			
+	       			if(ConfigManager.isWorldEditSelection(this))  // use worldedit cuboid region selection to export
 	       			{
-	       				WorldEditPlugin wePlugin = (WorldEditPlugin)plugin;
-	       				Selection selection = wePlugin.getSelection((Player)sender);
-	       				if(selection!=null && selection instanceof CuboidSelection)
-	       				{
-	       					CuboidSelection cSelection = (CuboidSelection)selection;
-	        				
-       						ExportManager.export(this, world, cSelection, sender, args[0], maskid);
-       						CustomGenerator.load(this);
-						}
-						else
-						{
-							this.sendMessage(sender, "&cERROR: Selected region is not cuboid");
-						}
+		       			Plugin plugin = getServer().getPluginManager().getPlugin("WorldEdit");
+		       			if(plugin!=null && plugin instanceof WorldEditPlugin)
+		       			{
+		       				WorldEditPlugin wePlugin = (WorldEditPlugin)plugin;
+		       				Selection selection = wePlugin.getSelection((Player)sender);
+		       				if(selection!=null && selection instanceof CuboidSelection)
+		       				{
+		       					CuboidSelection cSelection = (CuboidSelection)selection;
+		        				
+	       						ExportManager.export(this, world, cSelection, sender, args[0], maskid);
+	       						CustomGenerator.load(this);
+							}
+							else
+							{
+								this.sendMessage(sender, "&cERROR: Selected region is not cuboid");
+							}
+		       			}
+		       			else
+		       			{
+		       				this.sendMessage(sender, "&cERROR: WorldEdit plugin not installed");
+		       			}
 	       			}
-	       			else
+	       			else // Use hothgenerator cuboid region selection to export
 	       			{
-	       				this.sendMessage(sender, "&cERROR: WorldEdit plugin not installed");
+		       			Location pos1 = this.toolUseManager.getPrimaryPosition(player);
+		       			Location pos2 = this.toolUseManager.getSecondaryPosition(player);
+		       			
+		       			if(pos1!=null && pos2!=null)
+		       			{
+			       			if(pos1.getWorld().equals(world) && pos2.getWorld().equals(world))
+			       			{
+				       			ExportManager.export(this, world, pos1, pos2, sender, args[0], maskid);
+								CustomGenerator.load(this);
+			       			}
+			       			else
+			       			{
+			       				this.sendMessage(sender, "&bThere's no valid selection. Try selecting again.");
+			       			}
+		       				
+		       			}
+		       			else
+		       			{
+		       				this.sendMessage(sender, "&bThere's no valid selection. Try selecting again.");
+		       			}
 	       			}
+	       			
 		       	}
 				return true;
     		}
@@ -703,6 +732,11 @@ public class HothGeneratorPlugin extends JavaPlugin
  	
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id)
 	{
+		if(id==null)
+		{
+			return new WorldGenerator(worldName); // Non hard coded world type
+		}
+		
 		try
 		{
 			// See if we can make a world with a hardcoded type
