@@ -62,6 +62,9 @@ hoth:
 # smoothlava - true/false. Set to false to turn off the smooth lava cover.
   smoothlava: true
 #
+# worldeditselection - true/false. Set to true to use world edit cuboid region selections when using hothexport. 
+  worldeditselection: false
+#
 # world.surfaceoffset - 0 or a positive value. Offsets the surface upward from the default of 64 by adding more stone layers.
   world.surfaceoffset: 0
 #
