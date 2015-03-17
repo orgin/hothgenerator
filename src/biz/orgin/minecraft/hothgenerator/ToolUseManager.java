@@ -113,26 +113,7 @@ public class ToolUseManager implements Listener
 				Player player = event.getPlayer();
 				ItemStack item = player.getItemInHand();
 				WorldType worldtype = this.plugin.getWorldType(world);
-
-				if(ConfigManager.isItemInfoTool(this.plugin) && item.getType().equals(Material.WOOD_AXE))
-				{
-					UUID uuid = player.getUniqueId();
-					Block block = event.getClickedBlock();
-					
-					PlayerSelection ps = this.playerSelections.get(uuid);
-					if(ps==null)
-					{
-						this.playerSelections.put(uuid, new PlayerSelection(null, block.getLocation()));
-					}
-					else
-					{
-						ps.setPos2(block.getLocation());
-					}
-					
-					this.plugin.sendMessage(player, ps.getSecondaryPosition());
-				}
-
-				
+	
 				if(ConfigManager.isItemInfoTool(this.plugin) && item.getType().equals(Material.CLAY_BALL))
 				{
 					Block block = event.getClickedBlock();
