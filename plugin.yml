@@ -1,5 +1,5 @@
 name: HothGenerator
-version: "2.1"
+version: "2.2"
 main: biz.orgin.minecraft.hothgenerator.HothGeneratorPlugin
 load: STARTUP
 description: Generates a really icy world.
@@ -48,7 +48,7 @@ commands:
       permission-message: You don't have permission to use the hothinfo command
    hothaddworld:
       description: Add a new world to the configuration
-      usage: /hothaddworld worldname [hoth|tatooine|dagobah|mustafar]
+      usage: /hothaddworld worldname [hoth|tatooine|dagobah|mustafar|kashyyyk]
       permission: hothgenerator.hothaddworld
       permission-message: You don't have permission to use the hothaddworld command
    hothdelworld:

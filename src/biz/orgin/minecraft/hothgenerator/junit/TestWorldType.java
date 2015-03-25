@@ -24,6 +24,8 @@ public class TestWorldType
 		{
 			fail("dagobah is not an invalid WorldType");
 		}
+		
+		System.out.println("End of line.");
 	}
 	
 	@Test
@@ -53,6 +55,8 @@ public class TestWorldType
 		catch(InvalidWorldTypeException e)
 		{
 		}
+		
+		System.out.println("End of line.");
 	}
 
 }

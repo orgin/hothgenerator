@@ -1,6 +1,10 @@
 package biz.orgin.minecraft.hothgenerator;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Location;
@@ -944,6 +948,13 @@ public class HothUtils
 		}
 
 		return false;
+	}
+	
+	public static <T extends Comparable<? super T>> List<T> toSortedList(Collection<T> c)
+	{
+	  List<T> list = new ArrayList<T>(c);
+	  Collections.sort(list);
+	  return list;
 	}
 
 

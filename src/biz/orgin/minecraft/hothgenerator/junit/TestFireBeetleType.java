@@ -15,6 +15,7 @@ public class TestFireBeetleType {
 		assertTrue(FireBeetle.getFireBeetleType(FireBeetleType.PRIME.getName())==FireBeetleType.PRIME);
 		assertTrue(FireBeetle.getFireBeetleType(FireBeetleType.REGULAR.getName())==FireBeetleType.REGULAR);
 		assertTrue(FireBeetle.getFireBeetleType("__fakename__")==null);
+		System.out.println("End of line.");
 	}
 
 }

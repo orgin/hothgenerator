@@ -10,7 +10,7 @@ import org.bukkit.block.BlockState;
  * @author orgin
  *
  */
-public class Position implements Serializable
+public class Position implements Serializable, Comparable<Position>
 {
 	private static final long serialVersionUID = 8446813743059526736L;
 	public int x,y,z;
@@ -101,5 +101,27 @@ public class Position implements Serializable
 			return false;
 		}
 		return true;
+	}
+	
+	public String toString()
+	{
+		StringBuffer mySB = new StringBuffer();
+		
+		if(this.blockState==null)
+		{
+			mySB.append(this.x).append(',').append(this.y).append(',').append(this.z).append(" - ").append(this.type).append(',').append(this.data);
+		}
+		else
+		{
+			mySB.append(this.x).append(',').append(this.y).append(',').append(this.z).append(" - ").append(this.blockState.getType());
+		}
+		
+		return mySB.toString();
+	}
+
+	@Override
+	public int compareTo(Position other)
+	{
+		return this.toString().compareTo(other.toString());
 	}
 }

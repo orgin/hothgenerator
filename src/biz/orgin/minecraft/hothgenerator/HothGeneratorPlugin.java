@@ -751,6 +751,8 @@ public class HothGeneratorPlugin extends JavaPlugin
 					return new MustafarGenerator(worldName);
 				case HOTH:
 					return new HothGenerator(worldName);
+				case KASHYYYK:
+					return new KashyyykGenerator(worldName);
 				default:
 					return new WorldGenerator(worldName); // Non hard coded world type
 			}

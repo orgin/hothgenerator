@@ -17,6 +17,7 @@ public class TestConfigManager {
 		assertFalse(ConfigManager.isValidWorldFlagValue("world.surfaceoffset", "-1"));
 		assertTrue(ConfigManager.isValidWorldFlagValue("world.surfaceoffset", "0"));
 		assertFalse(ConfigManager.isValidWorldFlagValue("world.surfaceoffset", "5000"));
+		System.out.println("End of line.");
 	}
 
 }
