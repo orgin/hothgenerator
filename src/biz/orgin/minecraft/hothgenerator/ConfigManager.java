@@ -3,6 +3,7 @@ package biz.orgin.minecraft.hothgenerator;
 import java.util.List;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -108,6 +109,21 @@ public class ConfigManager
 	{
 		return plugin.getConfig().getBoolean("hoth.worldeditselection", false);
 	}
+	
+	public static Material getSelectionToolMaterial(HothGeneratorPlugin plugin)
+	{
+		int id = plugin.getConfig().getInt("hoth.selectiontoolid", 271);
+		
+		Material material = MaterialManager.toMaterial(id);
+		
+		if(material==null)
+		{
+			material = Material.WOOD_AXE;
+		}
+		
+		return material;
+	}
+
 
 	private static int getConfigInt(HothGeneratorPlugin plugin, World world, String tag, int def)
 	{

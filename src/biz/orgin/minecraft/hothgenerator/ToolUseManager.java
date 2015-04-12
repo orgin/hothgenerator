@@ -52,7 +52,7 @@ public class ToolUseManager implements Listener
 			Player player = event.getPlayer();
 			ItemStack item = player.getItemInHand();
 
-			if(player.hasPermission("hothgenerator.hothexport") && !ConfigManager.isWorldEditSelection(this.plugin) && item.getType().equals(Material.WOOD_AXE))
+			if(player.hasPermission("hothgenerator.hothexport") && !ConfigManager.isWorldEditSelection(this.plugin) && item.getType().equals(ConfigManager.getSelectionToolMaterial(plugin)))
 			{
 				UUID uuid = player.getUniqueId();
 				Block block = event.getClickedBlock();
@@ -80,7 +80,7 @@ public class ToolUseManager implements Listener
 			Player player = event.getPlayer();
 			ItemStack item = player.getItemInHand();
 
-			if(player.hasPermission("hothgenerator.hothexport") && !ConfigManager.isWorldEditSelection(this.plugin) && item.getType().equals(Material.WOOD_AXE))
+			if(player.hasPermission("hothgenerator.hothexport") && !ConfigManager.isWorldEditSelection(this.plugin) && item.getType().equals(ConfigManager.getSelectionToolMaterial(plugin)))
 			{
 				UUID uuid = player.getUniqueId();
 				Block block = event.getClickedBlock();

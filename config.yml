@@ -65,6 +65,9 @@ hoth:
 # worldeditselection - true/false. Set to true to use world edit cuboid region selections when using hothexport. 
   worldeditselection: false
 #
+# selectiontoolid - Tool to use for making region selections. Does not affect world edit selection. 
+  selectiontoolid: 271
+#
 # world.surfaceoffset - 0 or a positive value. Offsets the surface upward from the default of 64 by adding more stone layers.
   world.surfaceoffset: 0
 #
