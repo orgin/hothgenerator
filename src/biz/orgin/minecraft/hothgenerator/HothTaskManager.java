@@ -71,6 +71,7 @@ public class HothTaskManager
 	@SuppressWarnings("unchecked")
 	public void resume()
 	{
+	
 		// Load all tasks and remove from storage
 		try
 		{
@@ -117,6 +118,7 @@ public class HothTaskManager
 		@Override
 		public void run()
 		{
+			
 			if(taskList.size()>0)
 			{
 				boolean isEmpty = false;
@@ -147,6 +149,8 @@ public class HothTaskManager
 		
 		private void executeTask(HothRunnable task)
 		{
+			System.out.println("Executing task: " + task.getName() + " with parameters: " + task.getParameterString());
+
 			task.setPlugin(this.plugin);
 			if(task.getWorld()!=null)
 			{

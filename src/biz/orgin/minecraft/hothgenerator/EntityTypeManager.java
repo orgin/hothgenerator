@@ -151,6 +151,26 @@ public class EntityTypeManager
 		{
 			return 22;
 		}
+		else if(entityType.equals(EntityType.TIPPED_ARROW))
+		{
+			return 23;
+		}
+		else if(entityType.equals(EntityType.SPECTRAL_ARROW))
+		{
+			return 24;
+		}
+		else if(entityType.equals(EntityType.SHULKER_BULLET))
+		{
+			return 25;
+		}
+		else if(entityType.equals(EntityType.DRAGON_FIREBALL))
+		{
+			return 26;
+		}
+		else if(entityType.equals(EntityType.ARMOR_STAND))
+		{
+			return 30;
+		}
 		else if(entityType.equals(EntityType.MINECART_COMMAND))
 		{
 			return 40;
@@ -251,6 +271,18 @@ public class EntityTypeManager
 		{
 			return 66;
 		}
+		else if(entityType.equals(EntityType.ENDERMITE))
+		{
+			return 67;
+		}
+		else if(entityType.equals(EntityType.GUARDIAN))
+		{
+			return 68;
+		}
+		else if(entityType.equals(EntityType.SHULKER))
+		{
+			return 69;
+		}
 		else if(entityType.equals(EntityType.PIG))
 		{
 			return 90;
@@ -294,6 +326,10 @@ public class EntityTypeManager
 		else if(entityType.equals(EntityType.HORSE))
 		{
 			return 100;
+		}
+		else if(entityType.equals(EntityType.RABBIT))
+		{
+			return 101;
 		}
 		else if(entityType.equals(EntityType.VILLAGER))
 		{
@@ -375,6 +411,26 @@ public class EntityTypeManager
 		else if(id==22)
 		{
 			return EntityType.FIREWORK;
+		}
+		else if(id==23)
+		{
+			return EntityType.TIPPED_ARROW;
+		}
+		else if(id==24)
+		{
+			return EntityType.SPECTRAL_ARROW;
+		}
+		else if(id==25)
+		{
+			return EntityType.SHULKER_BULLET;
+		}
+		else if(id==26)
+		{
+			return EntityType.DRAGON_FIREBALL;
+		}
+		else if(id==30)
+		{
+			return EntityType.ARMOR_STAND;
 		}
 		else if(id==40)
 		{
@@ -476,6 +532,18 @@ public class EntityTypeManager
 		{
 			return EntityType.WITCH;
 		}
+		else if(id==67)
+		{
+			return EntityType.ENDERMITE;
+		}
+		else if(id==68)
+		{
+			return EntityType.GUARDIAN;
+		}
+		else if(id==69)
+		{
+			return EntityType.SHULKER;
+		}
 		else if(id==90)
 		{
 			return EntityType.PIG;
@@ -520,6 +588,10 @@ public class EntityTypeManager
 		{
 			return EntityType.HORSE;
 		}
+		else if(id==101)
+		{
+			return EntityType.RABBIT;
+		}
 		else if(id==120)
 		{
 			return EntityType.VILLAGER;
@@ -530,6 +602,7 @@ public class EntityTypeManager
 		}
 		return EntityType.fromId(id);
 	}
+
 
 
 }

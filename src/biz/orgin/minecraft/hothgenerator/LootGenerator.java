@@ -331,8 +331,15 @@ public class LootGenerator implements Serializable
 					MaterialData mdata = new MaterialData(randLoot.material);
 					DataManager.setData(mdata, randLoot.data);
 					ItemStack stack = mdata.toItemStack(cnt);
-
-					inv.addItem(stack);
+					
+					// @ToDo: Spawn eggs don't store the type via the data value any more
+					// currently there's no bukkit/spigot method for handling this
+					// therefore spawn eggs are no longer added to loot chests
+					
+					if(!randLoot.material.equals(Material.MONSTER_EGG))
+					{
+					 inv.addItem(stack);
+					}
 					
 					found = true;
 				}

@@ -29,6 +29,7 @@ public class MustafarBaseGenerator implements Serializable
 
 	public static void generateBase(World world, HothGeneratorPlugin plugin, Random random, int chunkx, int chunkz)
 	{
+		
 		int rarity = ConfigManager.getStructureMustafarBaseRarity(plugin, world);
 
 		
@@ -105,10 +106,9 @@ public class MustafarBaseGenerator implements Serializable
 				walkways[0xf][0] = nesw1;
 				walkways[0xf][1] = nesw2;
 			}
-			
 
 			int doit = random.nextInt(1001*rarity);
-
+			
 			if(chunkx==0 && chunkz==0 ||
 					(rarity!=0 && doit == 426)
 					)

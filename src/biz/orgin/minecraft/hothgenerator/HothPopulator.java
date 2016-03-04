@@ -84,6 +84,19 @@ public class HothPopulator extends BlockPopulator
 		return result;
 	}
 	
+	private Material getMaterialForSpecies(TreeSpecies species)
+	{
+		if(species.equals(TreeSpecies.DARK_OAK)
+				|| species.equals(TreeSpecies.ACACIA))
+		{
+			return Material.LOG_2;
+		}
+		else
+		{
+			return Material.LOG;
+		}
+	}
+	
 	private void placeLogs(World world, int rx, int rz, Random random)
 	{
 		int surfaceOffset = ConfigManager.getWorldSurfaceoffset(this.plugin, world);
@@ -102,44 +115,44 @@ public class HothPopulator extends BlockPopulator
 			
 			if(biome.equals(Biome.EXTREME_HILLS))
 			{
-				material = Material.LOG;
 				species = TreeSpecies.GENERIC;
+				material = this.getMaterialForSpecies(species);
 				addLog = prob<64;
 			}
 			else if(biome.equals(Biome.FOREST) || biome.equals(Biome.FOREST_HILLS))
 			{
-				material = Material.LOG;
 				species = this.getRandomSpecies(random);
+				material = this.getMaterialForSpecies(species);
 				addLog = prob<128;
 			}
 			else if(biome.equals(Biome.PLAINS))
 			{
-				material = Material.LOG;
 				species = this.getRandomSpecies(random);
+				material = this.getMaterialForSpecies(species);
 				addLog = prob<32;
 			}
 			else if(biome.equals(Biome.JUNGLE) || biome.equals(Biome.JUNGLE_HILLS))
 			{
-				material = Material.LOG;
 				species = TreeSpecies.JUNGLE;
+				material = this.getMaterialForSpecies(species);
 				addLog = prob<128;
 			}
 			else if(biome.equals(Biome.SWAMPLAND))
 			{
-				material = Material.LOG;
 				species = TreeSpecies.GENERIC;
+				material = this.getMaterialForSpecies(species);
 				addLog = prob<128;
 			}
 			else if(biome.equals(Biome.TAIGA) || biome.equals(Biome.TAIGA_HILLS))
 			{
-				material = Material.LOG;
 				species = TreeSpecies.GENERIC;
+				material = this.getMaterialForSpecies(species);
 				addLog = prob<32;
 			}
 			else if(biome.equals(Biome.ROOFED_FOREST) || biome.equals(Biome.MUTATED_ROOFED_FOREST))
 			{
-				material = Material.LOG;
 				species = TreeSpecies.DARK_OAK;
+				material = this.getMaterialForSpecies(species);
 				addLog = prob<32;
 			}
 			
@@ -162,8 +175,17 @@ public class HothPopulator extends BlockPopulator
 						{
 							block.setType(material);
 							BlockState state = block.getState();
+							state.setType(material);
 							Tree tree = (Tree)state.getData();
-							tree.setSpecies(species);
+							try
+							{
+								tree.setSpecies(species);
+							}
+							catch(Exception e)
+							{
+								System.out.println("Exception when trying to set species(" + species + ") on (" + tree + ")");
+								e.printStackTrace();
+							}
 							tree.setDirection(BlockFace.DOWN);
 							state.update(true, false);
 						}
@@ -177,8 +199,18 @@ public class HothPopulator extends BlockPopulator
 						{
 							block.setType(material);
 							BlockState state = block.getState();
+							state.setType(material);
+							
 							Tree tree = (Tree)state.getData();
-							tree.setSpecies(species);
+							try
+							{
+								tree.setSpecies(species);
+							}
+							catch(Exception e)
+							{
+								System.out.println("Exception when trying to set species(" + species + ") on (" + tree + ")");
+								e.printStackTrace();
+							}
 							tree.setDirection(BlockFace.EAST);
 							state.update(true, false);
 						}
@@ -192,8 +224,17 @@ public class HothPopulator extends BlockPopulator
 						{
 							block.setType(material);
 							BlockState state = block.getState();
+							state.setType(material);
 							Tree tree = (Tree)state.getData();
-							tree.setSpecies(species);
+							try
+							{
+								tree.setSpecies(species);
+							}
+							catch(Exception e)
+							{
+								System.out.println("Exception when trying to set species(" + species + ") on (" + tree + ")");
+								e.printStackTrace();
+							}
 							tree.setDirection(BlockFace.NORTH);
 							state.update(true, false);
 						}

@@ -79,7 +79,7 @@ public class MaterialManager
 	/*
 	 * Returns a classic block type id related to the material
 	 */
-		@SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public static int toID(Material material)
 	{
 		if(material.equals(Material.AIR))
@@ -742,6 +742,26 @@ public class MaterialManager
 		{
 			return 164;
 		}
+		else if(material.equals(Material.SLIME_BLOCK))
+		{
+			return 165;
+		}
+		else if(material.equals(Material.BARRIER))
+		{
+			return 166;
+		}
+		else if(material.equals(Material.IRON_TRAPDOOR))
+		{
+			return 167;
+		}
+		else if(material.equals(Material.PRISMARINE))
+		{
+			return 168;
+		}
+		else if(material.equals(Material.SEA_LANTERN))
+		{
+			return 169;
+		}
 		else if(material.equals(Material.HAY_BLOCK))
 		{
 			return 170;
@@ -765,6 +785,158 @@ public class MaterialManager
 		else if(material.equals(Material.DOUBLE_PLANT))
 		{
 			return 175;
+		}
+		else if(material.equals(Material.STANDING_BANNER))
+		{
+			return 176;
+		}
+		else if(material.equals(Material.WALL_BANNER))
+		{
+			return 177;
+		}
+		else if(material.equals(Material.DAYLIGHT_DETECTOR_INVERTED))
+		{
+			return 178;
+		}
+		else if(material.equals(Material.RED_SANDSTONE))
+		{
+			return 179;
+		}
+		else if(material.equals(Material.RED_SANDSTONE_STAIRS))
+		{
+			return 180;
+		}
+		else if(material.equals(Material.DOUBLE_STONE_SLAB2))
+		{
+			return 181;
+		}
+		else if(material.equals(Material.STONE_SLAB2))
+		{
+			return 182;
+		}
+		else if(material.equals(Material.SPRUCE_FENCE_GATE))
+		{
+			return 183;
+		}
+		else if(material.equals(Material.BIRCH_FENCE_GATE))
+		{
+			return 184;
+		}
+		else if(material.equals(Material.JUNGLE_FENCE_GATE))
+		{
+			return 185;
+		}
+		else if(material.equals(Material.DARK_OAK_FENCE_GATE))
+		{
+			return 186;
+		}
+		else if(material.equals(Material.ACACIA_FENCE_GATE))
+		{
+			return 187;
+		}
+		else if(material.equals(Material.SPRUCE_FENCE))
+		{
+			return 188;
+		}
+		else if(material.equals(Material.BIRCH_FENCE))
+		{
+			return 189;
+		}
+		else if(material.equals(Material.JUNGLE_FENCE))
+		{
+			return 190;
+		}
+		else if(material.equals(Material.DARK_OAK_FENCE))
+		{
+			return 191;
+		}
+		else if(material.equals(Material.ACACIA_FENCE))
+		{
+			return 192;
+		}
+		else if(material.equals(Material.SPRUCE_DOOR))
+		{
+			return 193;
+		}
+		else if(material.equals(Material.BIRCH_DOOR))
+		{
+			return 194;
+		}
+		else if(material.equals(Material.JUNGLE_DOOR))
+		{
+			return 195;
+		}
+		else if(material.equals(Material.ACACIA_DOOR))
+		{
+			return 196;
+		}
+		else if(material.equals(Material.DARK_OAK_DOOR))
+		{
+			return 197;
+		}
+		else if(material.equals(Material.END_ROD))
+		{
+			return 198;
+		}
+		else if(material.equals(Material.CHORUS_PLANT))
+		{
+			return 199;
+		}
+		else if(material.equals(Material.CHORUS_FLOWER))
+		{
+			return 200;
+		}
+		else if(material.equals(Material.PURPUR_BLOCK))
+		{
+			return 201;
+		}
+		else if(material.equals(Material.PURPUR_PILLAR))
+		{
+			return 202;
+		}
+		else if(material.equals(Material.PURPUR_STAIRS))
+		{
+			return 203;
+		}
+		else if(material.equals(Material.PURPUR_DOUBLE_SLAB))
+		{
+			return 204;
+		}
+		else if(material.equals(Material.PURPUR_SLAB))
+		{
+			return 205;
+		}
+		else if(material.equals(Material.END_BRICKS))
+		{
+			return 206;
+		}
+		else if(material.equals(Material.BEETROOT_BLOCK))
+		{
+			return 207;
+		}
+		else if(material.equals(Material.GRASS_PATH))
+		{
+			return 208;
+		}
+		else if(material.equals(Material.END_GATEWAY))
+		{
+			return 209;
+		}
+		else if(material.equals(Material.COMMAND_REPEATING))
+		{
+			return 210;
+		}
+		else if(material.equals(Material.COMMAND_CHAIN))
+		{
+			return 211;
+		}
+		else if(material.equals(Material.FROSTED_ICE))
+		{
+			return 212;
+		}
+		else if(material.equals(Material.STRUCTURE_BLOCK))
+		{
+			return 255;
 		}
 		else if(material.equals(Material.IRON_SPADE))
 		{
@@ -1378,6 +1550,38 @@ public class MaterialManager
 		{
 			return 408;
 		}
+		else if(material.equals(Material.PRISMARINE_SHARD))
+		{
+			return 409;
+		}
+		else if(material.equals(Material.PRISMARINE_CRYSTALS))
+		{
+			return 410;
+		}
+		else if(material.equals(Material.RABBIT))
+		{
+			return 411;
+		}
+		else if(material.equals(Material.COOKED_RABBIT))
+		{
+			return 412;
+		}
+		else if(material.equals(Material.RABBIT_STEW))
+		{
+			return 413;
+		}
+		else if(material.equals(Material.RABBIT_FOOT))
+		{
+			return 414;
+		}
+		else if(material.equals(Material.RABBIT_HIDE))
+		{
+			return 415;
+		}
+		else if(material.equals(Material.ARMOR_STAND))
+		{
+			return 416;
+		}
 		else if(material.equals(Material.IRON_BARDING))
 		{
 			return 417;
@@ -1401,6 +1605,110 @@ public class MaterialManager
 		else if(material.equals(Material.COMMAND_MINECART))
 		{
 			return 422;
+		}
+		else if(material.equals(Material.MUTTON))
+		{
+			return 423;
+		}
+		else if(material.equals(Material.COOKED_MUTTON))
+		{
+			return 424;
+		}
+		else if(material.equals(Material.BANNER))
+		{
+			return 425;
+		}
+		else if(material.equals(Material.END_CRYSTAL))
+		{
+			return 426;
+		}
+		else if(material.equals(Material.SPRUCE_DOOR_ITEM))
+		{
+			return 427;
+		}
+		else if(material.equals(Material.BIRCH_DOOR_ITEM))
+		{
+			return 428;
+		}
+		else if(material.equals(Material.JUNGLE_DOOR_ITEM))
+		{
+			return 429;
+		}
+		else if(material.equals(Material.ACACIA_DOOR_ITEM))
+		{
+			return 430;
+		}
+		else if(material.equals(Material.DARK_OAK_DOOR_ITEM))
+		{
+			return 431;
+		}
+		else if(material.equals(Material.CHORUS_FRUIT))
+		{
+			return 432;
+		}
+		else if(material.equals(Material.CHORUS_FRUIT_POPPED))
+		{
+			return 433;
+		}
+		else if(material.equals(Material.BEETROOT))
+		{
+			return 434;
+		}
+		else if(material.equals(Material.BEETROOT_SEEDS))
+		{
+			return 435;
+		}
+		else if(material.equals(Material.BEETROOT_SOUP))
+		{
+			return 436;
+		}
+		else if(material.equals(Material.DRAGONS_BREATH))
+		{
+			return 437;
+		}
+		else if(material.equals(Material.SPLASH_POTION))
+		{
+			return 438;
+		}
+		else if(material.equals(Material.SPECTRAL_ARROW))
+		{
+			return 439;
+		}
+		else if(material.equals(Material.TIPPED_ARROW))
+		{
+			return 440;
+		}
+		else if(material.equals(Material.LINGERING_POTION))
+		{
+			return 441;
+		}
+		else if(material.equals(Material.SHIELD))
+		{
+			return 442;
+		}
+		else if(material.equals(Material.ELYTRA))
+		{
+			return 443;
+		}
+		else if(material.equals(Material.BOAT_SPRUCE))
+		{
+			return 444;
+		}
+		else if(material.equals(Material.BOAT_BIRCH))
+		{
+			return 445;
+		}
+		else if(material.equals(Material.BOAT_JUNGLE))
+		{
+			return 446;
+		}
+		else if(material.equals(Material.BOAT_ACACIA))
+		{
+			return 447;
+		}
+		else if(material.equals(Material.BOAT_DARK_OAK))
+		{
+			return 448;
 		}
 		return material.getId();
 	}
@@ -2071,6 +2379,26 @@ public class MaterialManager
 		{
 			return Material.DARK_OAK_STAIRS;
 		}
+		else if(id==165)
+		{
+			return Material.SLIME_BLOCK;
+		}
+		else if(id==166)
+		{
+			return Material.BARRIER;
+		}
+		else if(id==167)
+		{
+			return Material.IRON_TRAPDOOR;
+		}
+		else if(id==168)
+		{
+			return Material.PRISMARINE;
+		}
+		else if(id==169)
+		{
+			return Material.SEA_LANTERN;
+		}
 		else if(id==170)
 		{
 			return Material.HAY_BLOCK;
@@ -2094,6 +2422,158 @@ public class MaterialManager
 		else if(id==175)
 		{
 			return Material.DOUBLE_PLANT;
+		}
+		else if(id==176)
+		{
+			return Material.STANDING_BANNER;
+		}
+		else if(id==177)
+		{
+			return Material.WALL_BANNER;
+		}
+		else if(id==178)
+		{
+			return Material.DAYLIGHT_DETECTOR_INVERTED;
+		}
+		else if(id==179)
+		{
+			return Material.RED_SANDSTONE;
+		}
+		else if(id==180)
+		{
+			return Material.RED_SANDSTONE_STAIRS;
+		}
+		else if(id==181)
+		{
+			return Material.DOUBLE_STONE_SLAB2;
+		}
+		else if(id==182)
+		{
+			return Material.STONE_SLAB2;
+		}
+		else if(id==183)
+		{
+			return Material.SPRUCE_FENCE_GATE;
+		}
+		else if(id==184)
+		{
+			return Material.BIRCH_FENCE_GATE;
+		}
+		else if(id==185)
+		{
+			return Material.JUNGLE_FENCE_GATE;
+		}
+		else if(id==186)
+		{
+			return Material.DARK_OAK_FENCE_GATE;
+		}
+		else if(id==187)
+		{
+			return Material.ACACIA_FENCE_GATE;
+		}
+		else if(id==188)
+		{
+			return Material.SPRUCE_FENCE;
+		}
+		else if(id==189)
+		{
+			return Material.BIRCH_FENCE;
+		}
+		else if(id==190)
+		{
+			return Material.JUNGLE_FENCE;
+		}
+		else if(id==191)
+		{
+			return Material.DARK_OAK_FENCE;
+		}
+		else if(id==192)
+		{
+			return Material.ACACIA_FENCE;
+		}
+		else if(id==193)
+		{
+			return Material.SPRUCE_DOOR;
+		}
+		else if(id==194)
+		{
+			return Material.BIRCH_DOOR;
+		}
+		else if(id==195)
+		{
+			return Material.JUNGLE_DOOR;
+		}
+		else if(id==196)
+		{
+			return Material.ACACIA_DOOR;
+		}
+		else if(id==197)
+		{
+			return Material.DARK_OAK_DOOR;
+		}
+		else if(id==198)
+		{
+			return Material.END_ROD;
+		}
+		else if(id==199)
+		{
+			return Material.CHORUS_PLANT;
+		}
+		else if(id==200)
+		{
+			return Material.CHORUS_FLOWER;
+		}
+		else if(id==201)
+		{
+			return Material.PURPUR_BLOCK;
+		}
+		else if(id==202)
+		{
+			return Material.PURPUR_PILLAR;
+		}
+		else if(id==203)
+		{
+			return Material.PURPUR_STAIRS;
+		}
+		else if(id==204)
+		{
+			return Material.PURPUR_DOUBLE_SLAB;
+		}
+		else if(id==205)
+		{
+			return Material.PURPUR_SLAB;
+		}
+		else if(id==206)
+		{
+			return Material.END_BRICKS;
+		}
+		else if(id==207)
+		{
+			return Material.BEETROOT_BLOCK;
+		}
+		else if(id==208)
+		{
+			return Material.GRASS_PATH;
+		}
+		else if(id==209)
+		{
+			return Material.END_GATEWAY;
+		}
+		else if(id==210)
+		{
+			return Material.COMMAND_REPEATING;
+		}
+		else if(id==211)
+		{
+			return Material.COMMAND_CHAIN;
+		}
+		else if(id==212)
+		{
+			return Material.FROSTED_ICE;
+		}
+		else if(id==255)
+		{
+			return Material.STRUCTURE_BLOCK;
 		}
 		else if(id==256)
 		{
@@ -2707,6 +3187,38 @@ public class MaterialManager
 		{
 			return Material.HOPPER_MINECART;
 		}
+		else if(id==409)
+		{
+			return Material.PRISMARINE_SHARD;
+		}
+		else if(id==410)
+		{
+			return Material.PRISMARINE_CRYSTALS;
+		}
+		else if(id==411)
+		{
+			return Material.RABBIT;
+		}
+		else if(id==412)
+		{
+			return Material.COOKED_RABBIT;
+		}
+		else if(id==413)
+		{
+			return Material.RABBIT_STEW;
+		}
+		else if(id==414)
+		{
+			return Material.RABBIT_FOOT;
+		}
+		else if(id==415)
+		{
+			return Material.RABBIT_HIDE;
+		}
+		else if(id==416)
+		{
+			return Material.ARMOR_STAND;
+		}
 		else if(id==417)
 		{
 			return Material.IRON_BARDING;
@@ -2731,8 +3243,113 @@ public class MaterialManager
 		{
 			return Material.COMMAND_MINECART;
 		}
+		else if(id==423)
+		{
+			return Material.MUTTON;
+		}
+		else if(id==424)
+		{
+			return Material.COOKED_MUTTON;
+		}
+		else if(id==425)
+		{
+			return Material.BANNER;
+		}
+		else if(id==426)
+		{
+			return Material.END_CRYSTAL;
+		}
+		else if(id==427)
+		{
+			return Material.SPRUCE_DOOR_ITEM;
+		}
+		else if(id==428)
+		{
+			return Material.BIRCH_DOOR_ITEM;
+		}
+		else if(id==429)
+		{
+			return Material.JUNGLE_DOOR_ITEM;
+		}
+		else if(id==430)
+		{
+			return Material.ACACIA_DOOR_ITEM;
+		}
+		else if(id==431)
+		{
+			return Material.DARK_OAK_DOOR_ITEM;
+		}
+		else if(id==432)
+		{
+			return Material.CHORUS_FRUIT;
+		}
+		else if(id==433)
+		{
+			return Material.CHORUS_FRUIT_POPPED;
+		}
+		else if(id==434)
+		{
+			return Material.BEETROOT;
+		}
+		else if(id==435)
+		{
+			return Material.BEETROOT_SEEDS;
+		}
+		else if(id==436)
+		{
+			return Material.BEETROOT_SOUP;
+		}
+		else if(id==437)
+		{
+			return Material.DRAGONS_BREATH;
+		}
+		else if(id==438)
+		{
+			return Material.SPLASH_POTION;
+		}
+		else if(id==439)
+		{
+			return Material.SPECTRAL_ARROW;
+		}
+		else if(id==440)
+		{
+			return Material.TIPPED_ARROW;
+		}
+		else if(id==441)
+		{
+			return Material.LINGERING_POTION;
+		}
+		else if(id==442)
+		{
+			return Material.SHIELD;
+		}
+		else if(id==443)
+		{
+			return Material.ELYTRA;
+		}
+		else if(id==444)
+		{
+			return Material.BOAT_SPRUCE;
+		}
+		else if(id==445)
+		{
+			return Material.BOAT_BIRCH;
+		}
+		else if(id==446)
+		{
+			return Material.BOAT_JUNGLE;
+		}
+		else if(id==447)
+		{
+			return Material.BOAT_ACACIA;
+		}
+		else if(id==448)
+		{
+			return Material.BOAT_DARK_OAK;
+		}
 		return Material.getMaterial(id);
 	}
+
 
 
 }
