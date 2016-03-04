@@ -50,7 +50,7 @@ public class ToolUseManager implements Listener
 		if(action.equals(Action.LEFT_CLICK_BLOCK))
 		{
 			Player player = event.getPlayer();
-			ItemStack item = player.getItemInHand();
+			ItemStack item = player.getInventory().getItemInMainHand();
 
 			if(player.hasPermission("hothgenerator.hothexport") && !ConfigManager.isWorldEditSelection(this.plugin) && item.getType().equals(ConfigManager.getSelectionToolMaterial(plugin)))
 			{
@@ -78,7 +78,7 @@ public class ToolUseManager implements Listener
 		{
 
 			Player player = event.getPlayer();
-			ItemStack item = player.getItemInHand();
+			ItemStack item = player.getInventory().getItemInMainHand();
 
 			if(player.hasPermission("hothgenerator.hothexport") && !ConfigManager.isWorldEditSelection(this.plugin) && item.getType().equals(ConfigManager.getSelectionToolMaterial(plugin)))
 			{
@@ -111,7 +111,7 @@ public class ToolUseManager implements Listener
 			{
 	
 				Player player = event.getPlayer();
-				ItemStack item = player.getItemInHand();
+				ItemStack item = player.getInventory().getItemInMainHand();
 				WorldType worldtype = this.plugin.getWorldType(world);
 	
 				if(ConfigManager.isItemInfoTool(this.plugin) && item.getType().equals(Material.CLAY_BALL))
