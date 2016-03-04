@@ -753,6 +753,8 @@ public class HothGeneratorPlugin extends JavaPlugin
 					return new HothGenerator(worldName);
 				case KASHYYYK:
 					return new KashyyykGenerator(worldName);
+				case KAMINO:
+					return new KaminoGenerator(worldName);
 				default:
 					return new WorldGenerator(worldName); // Non hard coded world type
 			}

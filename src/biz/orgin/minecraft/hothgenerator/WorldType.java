@@ -5,7 +5,8 @@ public enum WorldType {
  TATOOINE ("tatooine"),
  DAGOBAH ("dagobah"),
  MUSTAFAR ("mustafar"),
- KASHYYYK("kashyyyk");
+ KASHYYYK("kashyyyk"),
+ KAMINO("kamino");
  
  private final String name;
  

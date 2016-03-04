@@ -181,7 +181,7 @@ public class ToolUseManager implements Listener
 							}
 							catch(Exception e)
 							{
-								this.plugin.logMessage("Exception while trying to register WaterPlacerThread. You probably need to restart yoru server.", true);
+								this.plugin.logMessage("Exception while trying to register WaterPlacerThread. You probably need to restart your server.", true);
 							}
 						}
 					}

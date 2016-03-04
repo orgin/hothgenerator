@@ -86,7 +86,7 @@ public class WorldGenerator extends ChunkGenerator
 			return this.worldType;
 		}
 	}
-
+	
 	@Override
 	public short[][] generateExtBlockSections(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
 	{
@@ -146,7 +146,7 @@ public class WorldGenerator extends ChunkGenerator
 				{
 					factor = 5.0f;
 				}
-				else if(biome.equals(Biome.ICE_PLAINS))
+				else if(biome.equals(Biome.ICE_FLATS))
 				{
 					factor = 0.5f;
 				}
@@ -174,7 +174,7 @@ public class WorldGenerator extends ChunkGenerator
 				{
 					factor = 0.3f;
 				}
-				else if(biome.equals(Biome.SMALL_MOUNTAINS))
+				else if(biome.equals(Biome.SMALLER_EXTREME_HILLS))
 				{
 					factor = 5.0f;
 				}
@@ -440,7 +440,7 @@ public class WorldGenerator extends ChunkGenerator
 				{
 					factor = 5.0f;
 				}
-				else if(biome.equals(Biome.ICE_PLAINS))
+				else if(biome.equals(Biome.ICE_FLATS))
 				{
 					factor = 0.5f;
 				}
@@ -468,7 +468,7 @@ public class WorldGenerator extends ChunkGenerator
 				{
 					factor = 0.3f;
 				}
-				else if(biome.equals(Biome.SMALL_MOUNTAINS))
+				else if(biome.equals(Biome.SMALLER_EXTREME_HILLS))
 				{
 					factor = 5.0f;
 				}
@@ -769,7 +769,7 @@ public class WorldGenerator extends ChunkGenerator
 				{
 					factor = 3.0f;
 				}
-				else if(biome.equals(Biome.ICE_PLAINS))
+				else if(biome.equals(Biome.ICE_FLATS))
 				{
 					factor = 0.5f;
 				}
@@ -789,7 +789,7 @@ public class WorldGenerator extends ChunkGenerator
 				{
 					factor = 2.0f;
 				}
-				else if(biome.equals(Biome.MUSHROOM_SHORE))
+				else if(biome.equals(Biome.MUSHROOM_ISLAND_SHORE))
 				{
 					factor = 1.0f;
 				}
@@ -801,7 +801,7 @@ public class WorldGenerator extends ChunkGenerator
 				{
 					factor = 0.1f;
 				}
-				else if(biome.equals(Biome.SMALL_MOUNTAINS))
+				else if(biome.equals(Biome.SMALLER_EXTREME_HILLS ))
 				{
 					factor = 2.8f;
 				}
@@ -948,7 +948,7 @@ public class WorldGenerator extends ChunkGenerator
 				{
 					if(i==(int)(snowblocks + (dicey - (int)dicey))-1)
 					{
-						if(biome.equals(Biome.MUSHROOM_ISLAND) || biome.equals(Biome.MUSHROOM_SHORE))
+						if(biome.equals(Biome.MUSHROOM_ISLAND) || biome.equals(Biome.MUSHROOM_ISLAND_SHORE))
 						{
 							HothUtils.setPos(chunk, x,y,z, Material.MYCEL);
 						}
@@ -1370,7 +1370,7 @@ public class WorldGenerator extends ChunkGenerator
 				{
 					factor = 3.0f;
 				}
-				else if(biome.equals(Biome.ICE_PLAINS))
+				else if(biome.equals(Biome.ICE_FLATS))
 				{
 					factor = 0.5f;
 				}
@@ -1390,7 +1390,7 @@ public class WorldGenerator extends ChunkGenerator
 				{
 					factor = 2.0f;
 				}
-				else if(biome.equals(Biome.MUSHROOM_SHORE))
+				else if(biome.equals(Biome.MUSHROOM_ISLAND_SHORE))
 				{
 					factor = 1.0f;
 				}
@@ -1402,7 +1402,7 @@ public class WorldGenerator extends ChunkGenerator
 				{
 					factor = 0.1f;
 				}
-				else if(biome.equals(Biome.SMALL_MOUNTAINS))
+				else if(biome.equals(Biome.SMALLER_EXTREME_HILLS))
 				{
 					factor = 2.8f;
 				}
@@ -1426,6 +1426,111 @@ public class WorldGenerator extends ChunkGenerator
 		return chunk;
 	}
 
+	public short[][] generateExtBlockSectionsKamino(World world, Random random, int chunkx, int chunkz, BiomeGrid biomes)
+	{
+		DagobahOrePopulator orePopulator = new DagobahOrePopulator(WorldGenerator.plugin.getHeight());
+		
+		/*
+		int mSTONE_id = MaterialManager.toID(Material.STONE);
+		int mDIRT_id = MaterialManager.toID(Material.DIRT);
+		int mGRASS_id = MaterialManager.toID(Material.GRASS);
+		int mAIR_id = MaterialManager.toID(Material.AIR);
+		Material mAIR = Material.AIR;
+		Material mLAVA = Material.LAVA;
+		*/
+		
+		if(this.noiseGenerator==null)
+		{
+			this.noiseGenerator = new NoiseGenerator(world);
+		}
+		
+		int surfaceOffset = ConfigManager.getWorldSurfaceoffset(WorldGenerator.plugin, world);
+		
+		Random localRand = new Random(chunkx*chunkz);
+		
+		int vsegs = WorldGenerator.plugin.getHeight() / 16;
+		short[][] chunk = new short[vsegs][];
+		
+		for(int z=0;z<16;z++)
+		{
+			for(int x=0;x<16;x++)
+			{
+				int rx = chunkx*16 + x;
+				int rz = chunkz*16 + z;
+				
+				Biome biome = biomes.getBiome(x, z);
+				float factor = 1.0f;
+				if(biome.equals(Biome.DESERT_HILLS))
+				{
+					factor = 2.0f;
+				}
+				else if(biome.equals(Biome.EXTREME_HILLS))
+				{
+					factor = 3.0f;
+				}
+				else if(biome.equals(Biome.FOREST_HILLS))
+				{
+					factor = 2.5f;
+				}
+				else if(biome.equals(Biome.ICE_MOUNTAINS))
+				{
+					factor = 3.0f;
+				}
+				else if(biome.equals(Biome.ICE_FLATS))
+				{
+					factor = 0.5f;
+				}
+				else if(biome.equals(Biome.FROZEN_OCEAN))
+				{
+					factor = 1.3f;
+				}
+				else if(biome.equals(Biome.FROZEN_RIVER))
+				{
+					factor = 0.3f;
+				}
+				else if(biome.equals(Biome.JUNGLE_HILLS))
+				{
+					factor = 1.6f;
+				}
+				else if(biome.equals(Biome.MUSHROOM_ISLAND))
+				{
+					factor = 2.0f;
+				}
+				else if(biome.equals(Biome.MUSHROOM_ISLAND_SHORE))
+				{
+					factor = 1.0f;
+				}
+				else if(biome.equals(Biome.PLAINS))
+				{
+					factor = 0.5f;
+				}
+				else if(biome.equals(Biome.RIVER))
+				{
+					factor = 0.1f;
+				}
+				else if(biome.equals(Biome.SMALLER_EXTREME_HILLS))
+				{
+					factor = 2.8f;
+				}
+				else if(biome.equals(Biome.TAIGA_HILLS))
+				{
+					factor = 2.0f;
+				}
+				// BEDROCK Layer
+				int y = 0;
+				HothUtils.setPos(chunk, x,y,z,Material.BEDROCK);
+				HothUtils.setPos(chunk, x,y+1,z, getBedrockMaterial(localRand, (int)(256*0.9f))); // 90%
+				HothUtils.setPos(chunk, x,y+2,z, getBedrockMaterial(localRand, (int)(256*0.7f))); // 70%
+				HothUtils.setPos(chunk, x,y+3,z, getBedrockMaterial(localRand, (int)(256*0.5f))); // 50%
+				HothUtils.setPos(chunk, x,y+4,z, getBedrockMaterial(localRand, (int)(256*0.3f))); // 30%
+				HothUtils.setPos(chunk, x,y+5,z, getBedrockMaterial(localRand, (int)(256*0.2f))); // 20%
+			}
+		}
+		
+		orePopulator.populateWater(new Random(random.nextLong()), chunk, surfaceOffset);
+
+		return chunk;
+	}
 
 	private Material getBedrockMaterial(Random localRand, int limit)
 	{

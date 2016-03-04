@@ -136,7 +136,7 @@ public class HothPopulator extends BlockPopulator
 				species = TreeSpecies.GENERIC;
 				addLog = prob<32;
 			}
-			else if(biome.equals(Biome.ROOFED_FOREST) || biome.equals(Biome.ROOFED_FOREST_MOUNTAINS))
+			else if(biome.equals(Biome.ROOFED_FOREST) || biome.equals(Biome.MUTATED_ROOFED_FOREST))
 			{
 				material = Material.LOG;
 				species = TreeSpecies.DARK_OAK;

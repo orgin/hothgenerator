@@ -42,7 +42,7 @@ public class DagobahPopulator extends BlockPopulator
 				if(!biome.equals(Biome.RIVER)
 						&& !biome.equals(Biome.FROZEN_RIVER)
 						&& !biome.equals(Biome.MUSHROOM_ISLAND)
-						&& !biome.equals(Biome.MUSHROOM_SHORE))
+						&& !biome.equals(Biome.MUSHROOM_ISLAND_SHORE))
 				{
 					world.setBiome(rx+j, rz+i, Biome.SWAMPLAND);
 				}

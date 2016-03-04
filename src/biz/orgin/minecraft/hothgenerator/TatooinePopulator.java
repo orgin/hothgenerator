@@ -87,7 +87,7 @@ public class TatooinePopulator extends BlockPopulator
 			{
 				ran = random.nextInt(20);
 			}
-			else if(biome.equals(Biome.ROOFED_FOREST) || biome.equals(Biome.ROOFED_FOREST_MOUNTAINS))
+			else if(biome.equals(Biome.ROOFED_FOREST) || biome.equals(Biome.MUTATED_ROOFED_FOREST))
 			{
 				ran = random.nextInt(6);
 			}			
@@ -148,7 +148,7 @@ public class TatooinePopulator extends BlockPopulator
 			{
 				ran = random.nextInt(12);
 			}
-			else if(biome.equals(Biome.ROOFED_FOREST) || biome.equals(Biome.ROOFED_FOREST_MOUNTAINS))
+			else if(biome.equals(Biome.ROOFED_FOREST) || biome.equals(Biome.MUTATED_ROOFED_FOREST))
 			{
 				ran = random.nextInt(7);
 			}			

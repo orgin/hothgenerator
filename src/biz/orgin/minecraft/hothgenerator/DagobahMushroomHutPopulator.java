@@ -96,7 +96,7 @@ public class DagobahMushroomHutPopulator extends BlockPopulator
 
 		Biome biome = world.getBiome(x, z);
 
-		if(biome.equals(Biome.MUSHROOM_ISLAND) || biome.equals(Biome.MUSHROOM_SHORE))  // Only in the correct biomes
+		if(biome.equals(Biome.MUSHROOM_ISLAND) || biome.equals(Biome.MUSHROOM_ISLAND_SHORE))  // Only in the correct biomes
 		{
 
 			// Some kind of bug makes the server throw an exception if you spawn an entity (creature) during world load in a

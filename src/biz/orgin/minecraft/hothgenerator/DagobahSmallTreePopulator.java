@@ -47,7 +47,7 @@ public class DagobahSmallTreePopulator extends BlockPopulator
 		
 		Biome biome = world.getBiome(x, z);
 		
-		if(!biome.equals(Biome.MUSHROOM_ISLAND) && !biome.equals(Biome.MUSHROOM_SHORE))
+		if(!biome.equals(Biome.MUSHROOM_ISLAND) && !biome.equals(Biome.MUSHROOM_ISLAND_SHORE))
 		{
 		
 			Block block = world.getHighestBlockAt(x, z);
