@@ -45,6 +45,33 @@ public class ToolUseManager implements Listener
 	public void onPlayerInteract(PlayerInteractEvent event)
 	{
 		Action action = event.getAction();
+		
+		/*
+		{
+			Player player = event.getPlayer();
+			ItemStack item = player.getInventory().getItemInMainHand();
+			ItemMeta itemMeta = item.getItemMeta();
+			Set<ItemFlag> flags = itemMeta.getItemFlags();
+
+			MaterialData materialData = item.getData();
+			int data = materialData.getData();
+
+			this.plugin.sendMessage(event.getPlayer(), "data = " + data);
+
+			this.plugin.sendMessage(event.getPlayer(), "class = " + itemMeta.getClass().getName());
+
+			this.plugin.sendMessage(event.getPlayer(), "displayname = " + itemMeta.getDisplayName());
+
+
+			for(ItemFlag flag: flags)
+			{
+				this.plugin.sendMessage(event.getPlayer(), "Flag " + flag.name());
+			}
+			
+
+		}
+		*/
+
 
 		// Hothexport primary position
 		if(action.equals(Action.LEFT_CLICK_BLOCK))

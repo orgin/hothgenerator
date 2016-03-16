@@ -149,8 +149,6 @@ public class HothTaskManager
 		
 		private void executeTask(HothRunnable task)
 		{
-			System.out.println("Executing task: " + task.getName() + " with parameters: " + task.getParameterString());
-
 			task.setPlugin(this.plugin);
 			if(task.getWorld()!=null)
 			{
