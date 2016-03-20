@@ -156,13 +156,15 @@ public class BuckitUseManager implements Listener
 					&& (block.getType().equals(Material.STATIONARY_LAVA)
 							|| block.getType().equals(Material.LAVA)) ) // Did player try to get some lava?
 			{
-				int coalProb = ConfigManager.getRulesRFGCoal(this.plugin, block.getLocation());
-				int redstoneProb = ConfigManager.getRulesRFGCoal(this.plugin, block.getLocation());
-				String rfgName = ConfigManager.getRulesRFGName(this.plugin, block.getLocation());
 
 
 				if(this.plugin.isHothWorld(world) && worldType == WorldType.MUSTAFAR) // And if in mustafar
 				{
+					int coalProb = ConfigManager.getRulesRFGCoal(this.plugin, block.getLocation());
+					int redstoneProb = ConfigManager.getRulesRFGCoal(this.plugin, block.getLocation());
+					String rfgName = ConfigManager.getRulesRFGName(this.plugin, block.getLocation());
+					
+					System.out.println("rfgName = " + rfgName);
 
 					Player player = event.getPlayer();
 
@@ -186,7 +188,7 @@ public class BuckitUseManager implements Listener
 										if(meta.hasDisplayName())
 										{
 											String displayName = meta.getDisplayName();
-											if(displayName.equals(rfgName)); // "Repulsor Field Generator"
+											if(displayName.equals(rfgName)) // "Repulsor Field Generator"
 											{
 												found = true;
 												break;

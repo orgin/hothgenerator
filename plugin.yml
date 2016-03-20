@@ -1,5 +1,5 @@
 name: HothGenerator
-version: "2.3"
+version: "2.4"
 main: biz.orgin.minecraft.hothgenerator.HothGeneratorPlugin
 load: STARTUP
 description: Generates a really icy world.
