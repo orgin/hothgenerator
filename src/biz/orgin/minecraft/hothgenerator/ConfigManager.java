@@ -536,6 +536,11 @@ public class ConfigManager
 	    }
 	    return damage;
 	}
+
+	public static String getRulesRFGName(HothGeneratorPlugin plugin, Location location)
+	{
+		return plugin.getRegionManager().get("rfg.name", location, ConfigManager.getConfigString(plugin, location.getWorld(), "rules.rfg.name", "Repulsor Field Generator"));
+	}
 	
 	public static String getRulesRFGMessage1(HothGeneratorPlugin plugin, Location location)
 	{

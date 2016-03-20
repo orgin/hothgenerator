@@ -205,13 +205,16 @@ hoth:
   rules.volcanoes: true
 #
 # rules.rfg.enable - true/false. Whether it's possible to use a Repulsor Field Generator
-  rules.rfg.coal: 5
+  rules.rfg.enable: true
 #
 # rules.rfg.coal - 0-4096. Number of usages of a Repulsor Field Generator per Coal. 0 = infinite
   rules.rfg.coal: 5
 #
 # rules.rfg.coal - 0-4096. Number of usages of a Repulsor Field Generator per Redstone. 0 = infinite
   rules.rfg.coal: 10
+#
+# rules.rfg.name - Name of the Repulsor Field Generator
+  rules.rfg.name: Repulsor Field Generator
 #
 # rules.rfg.message1 - Message sent when using an empty bucket on lava in mustafar world without a rfg.
   rules.rfg.message1: "&cYou need a Repulsor Field Generator piston to extract ore from lava."

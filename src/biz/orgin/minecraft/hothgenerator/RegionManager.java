@@ -39,6 +39,7 @@ public abstract class RegionManager
 			new FlagValue("rfg.message2",         new String[]{"[text]", "[blank]"}),	
 			new FlagValue("rfg.message3",         new String[]{"[text]", "[blank]"}),	
 			new FlagValue("rfg.message4",         new String[]{"[text]", "[blank]"}),	
+			new FlagValue("rfg.name",             new String[]{"[text]", "[blank]"}),	
 			new FlagValue("lavaburn",             new String[]{"allow","deny", "[blank]"}),	
 			new FlagValue("placewater",           new String[]{"allow","deny", "[blank]"}),	
 			new FlagValue("lessstone",            new String[]{"allow","deny", "[blank]"}),	
