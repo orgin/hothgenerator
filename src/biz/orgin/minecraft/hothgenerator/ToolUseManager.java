@@ -313,7 +313,7 @@ public class ToolUseManager implements Listener
 		public void setPos2(Location pos2)
 		{
 			this.pos2 = pos2;
-			if(this.pos2!=null && !this.pos1.getWorld().equals(this.pos2.getWorld()))
+			if(this.pos1!=null && !this.pos1.getWorld().equals(this.pos2.getWorld()))
 			{
 				this.pos1 = null;
 			}
